@@ -13,7 +13,9 @@ export function create(mode,course){const p=course.route[0],q=course.route[3];re
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s,hot=false){s.boost=0;s.charge=0;s.straight=0;s.releaseAt=-100;s.cool=hot?TUNE.overheatCooldown:TUNE.cooldown;s.overheated=hot;if(hot)say(s,'Overheated · recharge locked',3);}
 export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
-export function recover(s,course){const p=s.mode==='trial'?s.returnPoint??s.lastSafe:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;if(s.boost)stopBoost(s);s.offroute=false;s.turnaround=false;s.straight=0;s.charge=0;s.returnPoint=null;say(s,'Rover recovered · timer keeps running');}
+export function inSampleZone(s){return s.mode!=='trial'&&samples.some(p=>distance(s,p)<32);}
+export function reverseAvailable(s){return s.v<=.5&&!inSampleZone(s)&&!s.air&&!s.turnaround;}
+export function recover(s,course){const p=s.mode==='trial'?s.returnPoint??s.lastSafe:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;s.collectTime=0;if(s.boost)stopBoost(s);s.offroute=false;s.turnaround=false;s.straight=0;s.charge=0;s.returnPoint=null;say(s,'Rover recovered · timer keeps running');}
 export function update(s,input,dt,course){s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);s.lastDrive=false;return;}
  if(s.mode==='trial')s.time+=dt;
@@ -37,14 +39,23 @@ export function update(s,input,dt,course){s.t+=dt;s.impact=Math.max(0,s.impact-d
  }
  s.lastDrive=drive;
  const near=sampleNear(s);
- if(input.sample&&s.mode!=='trial'&&near>=0&&Math.abs(s.v)<5&&!s.air&&s.collecting<0){s.collecting=near;s.collectTime=0;}
- if(s.collecting>=0){s.v=0;s.collectTime+=dt;if(s.collectTime>=1.4){const id=s.collecting;s.collected.push(id);s.collecting=-1;say(s,samples[id].copy,6);if(s.collected.length===3){s.done=true;say(s,'All three samples secured.');}}return;}
+ // Collect only after a continuous stationary dwell; driving away cancels immediately.
+ const dwelling=near>=0&&s.mode!=='trial'&&Math.abs(s.v)<=.5&&!s.air&&!drive&&steer===0&&!s.turnaround;
+ if(dwelling){
+  if(s.collecting!==near){s.collecting=near;s.collectTime=0;}
+  s.v=0;s.collectTime+=dt;
+  if(s.collectTime>=1.4){const id=s.collecting;s.collected.push(id);s.collecting=-1;s.collectTime=0;say(s,samples[id].copy,6);if(s.collected.length===3){s.done=true;say(s,'All three samples secured.');}}
+  return;
+ }
+ s.collecting=-1;s.collectTime=0;
  const prev={x:s.x,y:s.y};
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?.3:1);
  const max=s.boost?TUNE.boostSpeed:TUNE.speed,acc=s.boost?TUNE.acceleration*2.5:TUNE.acceleration;
  const slope=(ground(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-ground(s.x,s.y))/3;
- if(brake)s.v*=Math.exp(-dt*7);else if(drive)s.v+=acc*dt;else if(input.reverse)s.v-=acc*.6*dt;else s.v*=Math.exp(-dt*.65);
+ const reversing=brake&&!drive&&reverseAvailable(s);
+ if(reversing)s.v-=acc*.6*dt;else if(brake)s.v*=Math.exp(-dt*7);else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
  if(!s.air)s.v-=slope*dt*12;
+ if(!drive&&!reversing&&inSampleZone(s)&&Math.abs(s.v)<=.5)s.v=0;
  if(s.turnaround)s.v=Math.min(s.v,50);s.v=clamp(s.v,-25,max);if(Math.abs(s.v)<.08)s.v=0;
  s.x+=Math.sin(s.heading)*s.v*dt;s.y-=Math.cos(s.heading)*s.v*dt;
  if(inside(s.x,s.y)||rocks.some(([x,y,r])=>Math.hypot(s.x-x,s.y-y)<r+7)){s.x=prev.x;s.y=prev.y;s.v*=.15;s.impact=1;say(s,'Rocky ground · steer around',1);}
