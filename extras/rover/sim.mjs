@@ -1,3 +1,4 @@
+import {moveWithContact} from './contact.mjs';
 // Standalone prototype values only. No production physics or save imports.
 export const TUNE={speed:76,boostSpeed:190,acceleration:100,straightSeconds:2,chargeSeconds:1.1,boostSeconds:4.5,cooldown:2.2,overheatCooldown:6,heatRate:16.5,triggerWindow:.7};
 export const samples=[{x:616,y:491,name:'Mesa layers',copy:'Layered rocks preserve clues to how a landscape changed. Sample secured.'},{x:352,y:459,name:'Channel sediment',copy:'Sediment can carry a record of transport and deposition. Sample secured.'},{x:979,y:161,name:'Outer overlook',copy:'Comparing samples from different settings helps tell a fuller geological story. Sample secured.'}];
@@ -38,16 +39,6 @@ export function update(s,input,dt,course){s.t+=dt;s.impact=Math.max(0,s.impact-d
   else if(!drive&&(s.charge<1||s.t-s.releaseAt>=TUNE.triggerWindow)){s.straight=0;s.charge=0;s.releaseAt=-100;}
  }
  s.lastDrive=drive;
- const near=sampleNear(s);
- // Collect only after a continuous stationary dwell; driving away cancels immediately.
- const dwelling=near>=0&&s.mode!=='trial'&&Math.abs(s.v)<=.5&&!s.air&&!drive&&steer===0&&!s.turnaround;
- if(dwelling){
-  if(s.collecting!==near){s.collecting=near;s.collectTime=0;}
-  s.v=0;s.collectTime+=dt;
-  if(s.collectTime>=1.4){const id=s.collecting;s.collected.push(id);s.collecting=-1;s.collectTime=0;say(s,samples[id].copy,6);if(s.collected.length===3){s.done=true;say(s,'All three samples secured.');}}
-  return;
- }
- s.collecting=-1;s.collectTime=0;
  const prev={x:s.x,y:s.y};
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?.3:1);
  const max=s.boost?TUNE.boostSpeed:TUNE.speed,acc=s.boost?TUNE.acceleration*2.5:TUNE.acceleration;
@@ -57,11 +48,16 @@ export function update(s,input,dt,course){s.t+=dt;s.impact=Math.max(0,s.impact-d
  if(!s.air)s.v-=slope*dt*12;
  if(!drive&&!reversing&&inSampleZone(s)&&Math.abs(s.v)<=.5)s.v=0;
  if(s.turnaround)s.v=Math.min(s.v,50);s.v=clamp(s.v,-25,max);if(Math.abs(s.v)<.08)s.v=0;
- s.x+=Math.sin(s.heading)*s.v*dt;s.y-=Math.cos(s.heading)*s.v*dt;
- if(inside(s.x,s.y)||rocks.some(([x,y,r])=>Math.hypot(s.x-x,s.y-y)<r+7)){s.x=prev.x;s.y=prev.y;s.v*=.15;s.impact=1;say(s,'Rocky ground · steer around',1);}
+ const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
+ const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks);s.x=contact.x;s.y=contact.y;
+ if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;s.charge=0;s.straight=0;if(s.boost)stopBoost(s);}
  const g=ground(s.x,s.y),oldG=ground(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
  if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
+ // Scan continuously inside a zone; motion and steering are allowed.
+ const near=sampleNear(s);
+ if(near>=0&&s.mode!=='trial'&&!s.air&&!s.turnaround){if(s.collecting!==near){s.collecting=near;s.collectTime=0;}s.collectTime+=dt;if(s.collectTime>=1.4){s.collected.push(near);s.collecting=-1;s.collectTime=0;say(s,samples[near].copy,6);if(s.collected.length===3){s.done=true;say(s,'All three samples secured.');}}}
+ else{s.collecting=-1;s.collectTime=0;}
  if(!s.found&&Math.hypot(s.x-767,s.y-567)<24){s.found=true;say(s,'Found: a lost ASTRA test instrument',5);}
  if(s.mode!=='trial')return;
  const n=nearest(course.route,s.x,s.y);let delta=n.i-s.routeI;const count=course.route.length;if(delta>count/2)delta-=count;if(delta<-count/2)delta+=count;
