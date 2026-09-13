@@ -5,7 +5,7 @@ export const noise=(x,y)=>fract(Math.sin(x*127.1+y*311.7)*43758.5453);
 export const rgb=(base,k=1)=>`rgb(${base.map(v=>Math.round(Math.max(0,Math.min(255,v*k))))})`;
 export function buildScenery(){
  const faces=[],stains=[];
- const face=(vertices,base)=>{const [a,b,c]=vertices,u=b.map((v,i)=>v-a[i]),v=c.map((v,i)=>v-a[i]);let n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const len=Math.hypot(...n)||1;n=n.map(v=>v/len);const light=.83+Math.max(0,n[0]*-.45+n[1]*-.6+n[2]*.66)*.35;faces.push({vertices,color:rgb(base,light),x:vertices.reduce((s,p)=>s+p[0],0)/vertices.length,y:vertices.reduce((s,p)=>s+p[1],0)/vertices.length});};
+ const face=(vertices,base)=>{const [a,b,c]=vertices,u=b.map((v,i)=>v-a[i]),v=c.map((v,i)=>v-a[i]);let n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const len=Math.hypot(...n)||1;n=n.map(v=>v/len);if(vertices.length>4)n=[0,0,1];const light=.83+Math.max(0,n[0]*-.45+n[1]*-.6+n[2]*.66)*.35;faces.push({vertices,base,normal:n,color:rgb(base,light),x:vertices.reduce((s,p)=>s+p[0],0)/vertices.length,y:vertices.reduce((s,p)=>s+p[1],0)/vertices.length});};
  // Irregular edges, sediment bands and eroded shoulders, on the approved central obstacle.
  const edge=[];mesa.forEach((a,i)=>{const b=mesa[(i+1)%mesa.length];for(let j=0;j<4;j++){const t=j/4;edge.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}});
  const rings=Array.from({length:10},(_,layer)=>edge.map(([x,y],i)=>{const k=layer===0?1:1-layer*.035-noise(i,layer)*.016;const z=[0,1.2,3.7,4.5,8.1,9.7,13.3,16,17.4,22.5][layer]+(layer===0?0:Math.sin(i*.9)*1.1+noise(i,4)*1.4);return [565+(x-565)*k,403+(y-403)*k,ground(x,y)+z];}));
