@@ -7,4 +7,4 @@ export function loadDelta(){
  request=fetch('delta.json').then(r=>{if(!r.ok)throw Error('Delta unavailable');return r.json();}).then(data=>{delta=data;loadState='ready';return data;}).catch(e=>{loadState='error';request=null;throw e;});
  return request;
 }
-export const regionAt=x=>x<1120?'Basin':x<2040?'East passage':'Delta channels';
+export {regionAt} from './landscape.mjs';

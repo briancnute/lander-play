@@ -6,6 +6,9 @@ export const noise=(x,y)=>fract(Math.sin(x*127.1+y*311.7)*43758.5453);
 export const rgb=(base,k=1)=>`rgb(${base.map(v=>Math.round(Math.max(0,Math.min(255,v*k))))})`;
 // Broad, soft-edged geological regions. Color only: elevation/contact stay in sim.mjs.
 export function sedimentColor(x,y){
+ const blend=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);
+ if(x>3180){const wave=Math.sin((x+y*.8)/55)*4,dune=[112+wave,88+wave,72+wave],butte=[176+wave,120+wave,83+wave];
+  return x<3450?blend([164,103,66],dune,(x-3180)/270):x<4460?dune:x<4840?blend(dune,butte,(x-4460)/380):butte;}
  if(x>1900){const channel=420+Math.sin((x-2100)*.006)*60,k=Math.exp(-(((y-channel)/52)**2)),n=Math.sin(x*.023+y*.017)*3;return [164+n+k*12,103+n+k*14,66+n+k*10];}
 
  const patch=(cx,cy,rx,ry)=>Math.exp(-(((x-cx)/rx)**2+((y-cy)/ry)**2)*2);
@@ -82,7 +85,7 @@ export function buildScenery(){
  if(delta){
   for(const [index,poly] of delta.mesas.entries()){
    const cx=poly.reduce((a,p)=>a+p[0],0)/poly.length,cy=poly.reduce((a,p)=>a+p[1],0)/poly.length;
-   const rings=Array.from({length:7},(_,j)=>poly.map(([x,y])=>[cx+(x-cx)*(1-j*.045),cy+(y-cy)*(1-j*.045),ground(x,y)+j*(index===0?5:4)]));
+   const rings=Array.from({length:7},(_,j)=>poly.map(([x,y])=>[cx+(x-cx)*(1-j*.045),cy+(y-cy)*(1-j*.045),ground(x,y)+j*(index>=3?10:index===0?5:4)]));
    for(let j=0;j<6;j++)for(let i=0;i<poly.length;i++){const k=(i+1)%poly.length;face([rings[j][i],rings[j][k],rings[j+1][k],rings[j+1][i]],[170+j%2*15,112+j%2*13,76+j%2*12]);}face(rings[6].slice().reverse(),[193,143,99]);
   }
   for(let branch=0;branch<5;branch++)for(let i=0;i<100;i++){
@@ -90,6 +93,10 @@ export function buildScenery(){
    strip([[x,curve(x)],[x+11,curve(x+11)]],1.2,'#e2bc8c18');
    strip([[x,curve(x)+5],[x+11,curve(x+11)+5]],.4,'#71533c18');
   }
+  // Sparse wind ripples and exposed sediment fragments, with no road edges.
+  for(let j=0;j<35;j++){const x=3330+j*33;const points=Array.from({length:22},(_,i)=>[x+Math.sin(i*.4+j)*11,110+i*31]);strip(points,.6,'#d9bd9828');}
+  for(let i=0;i<260;i++){const x=4800+noise(i,33)*1500,y=80+noise(i,44)*740;
+   if(!delta.mesas.some(poly=>inside(x,y,poly)))plate(x,y,2+noise(i,9)*7,'#dcbd9735',i+600);}
   for(const [x,y,r]of delta.rocks){const ring=Array.from({length:7},(_,i)=>{const a=i*Math.PI*2/7;return [x+Math.cos(a)*r*.9,y+Math.sin(a)*r*.9,ground(x,y)]});const top=ring.map(p=>[x+(p[0]-x)*.55,y+(p[1]-y)*.55,p[2]+r*.65]);for(let i=0;i<7;i++)face([ring[i],ring[(i+1)%7],top[(i+1)%7],top[i]],[138,98,71]);face(top.slice().reverse(),[171,128,90]);}
  }
  return {faces,stains};
