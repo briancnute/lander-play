@@ -12,13 +12,13 @@ export const angle=(v)=>Math.atan2(Math.sin(v),Math.cos(v));
 export function inside(x,y,poly=mesa){let yes=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])yes=!yes;}return yes;}
 export function ground(x,y){return 1.1*Math.sin(x*.018)*Math.sin(y*.015)+2.6*Math.exp(-((x-650)**2+(y-270)**2)/12000)+4.5*Math.exp(-((x-943)**2/3400+(y-604)**2/650))+4*Math.exp(-((x-228)**2/4200+(y-164)**2/550));}
 export function nearest(route,x,y){let best={d:Infinity,i:0};for(let i=0;i<route.length;i++){const p=route[i],d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,i};}return best;}
-export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,routeI:0,travel:0,offroute:false,returnPoint:null,lastSafe:{...p},collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Find three samples. Explore in any order.',messageUntil:5,jumpBest:0,jumpStart:null,found:false,impact:0};}
+export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Find three samples. Explore in any order.',messageUntil:5,jumpBest:0,jumpStart:null,found:false,impact:0};}
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s,hot=false){const tune=s.tune??TUNE;s.boost=0;s.charge=0;s.straight=0;s.releaseAt=-100;s.cool=hot?tune.overheatCooldown:tune.cooldown;s.overheated=hot;if(hot)say(s,'Overheated · recharge locked',3);}
 export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
 export function inSampleZone(s){return s.mode!=='trial'&&samples.some(p=>distance(s,p)<32);}
 export function reverseAvailable(s){return s.v<=.5&&!inSampleZone(s)&&!s.air&&!s.turnaround;}
-export function recover(s,course){const p=s.mode==='trial'?s.returnPoint??s.lastSafe:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;s.collectTime=0;if(s.boost)stopBoost(s);s.offroute=false;s.turnaround=false;s.straight=0;s.charge=0;s.returnPoint=null;say(s,'Rover recovered · timer keeps running');}
+export function recover(s,course){const p=s.mode==='trial'&&s.nextGate>0?course.gates[s.nextGate-1]:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;s.collectTime=0;if(s.boost)stopBoost(s);s.turnaround=false;s.straight=0;s.charge=0;say(s,'Rover recovered · timer keeps running');}
 export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);s.lastDrive=false;return;}
  if(s.mode==='trial')s.time+=dt;
@@ -62,12 +62,13 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
  else{s.collecting=-1;s.collectTime=0;}
  if(!s.found&&Math.hypot(s.x-767,s.y-567)<24){s.found=true;say(s,'Found: a lost ASTRA test instrument',5);}
  if(s.mode!=='trial')return;
- const n=nearest(course.route,s.x,s.y);let delta=n.i-s.routeI;const count=course.route.length;if(delta>count/2)delta-=count;if(delta<-count/2)delta+=count;
- if(!s.offroute&&(n.d>48||Math.abs(delta)>18)){s.offroute=true;s.returnPoint={...s.lastSafe};say(s,'Return to the marker · timer continues',4);}
- if(s.offroute){if(distance(s,s.returnPoint)<20){s.offroute=false;s.returnPoint=null;say(s,'Back on route',1);}else return;}
- s.routeI=n.i;s.travel+=delta;s.lastSafe={x:course.route[n.i].x,y:course.route[n.i].y};
- const gate=s.nextGate<6?course.gates[s.nextGate]:course.finish;
- const before=(prev.x-gate.x)*gate.dx+(prev.y-gate.y)*gate.dy,after=(s.x-gate.x)*gate.dx+(s.y-gate.y)*gate.dy;
- const lateral=Math.abs((s.x-gate.x)*-gate.dy+(s.y-gate.y)*gate.dx);
- if(before<=0&&after>0&&lateral<45&&!s.air&&s.travel>gate.i-18){if(s.nextGate<6){s.nextGate++;say(s,s.nextGate===6?'All gates · finish ahead':`Gate ${s.nextGate} / 6`,1.4);}else if(s.travel>count-20){s.done=true;say(s,'Lap complete');}}
+ const gate=s.nextGate<course.gates.length?course.gates[s.nextGate]:course.finish;
+ // Swept circular checkpoint area accepts every approach, including reverse and airborne.
+ // Only the next gate is eligible; route-corridor and directional-crossing restrictions are retired.
+ const vx=s.x-prev.x,vy=s.y-prev.y,len=vx*vx+vy*vy;
+ const t=len?clamp(((gate.x-prev.x)*vx+(gate.y-prev.y)*vy)/len,0,1):0;
+ if(Math.hypot(prev.x+vx*t-gate.x,prev.y+vy*t-gate.y)<=42){
+  if(s.nextGate<course.gates.length){s.nextGate++;say(s,s.nextGate===course.gates.length?'All gates · finish ahead':`Gate ${s.nextGate} / ${course.gates.length}`,1.4);}
+  else{s.done=true;say(s,'Lap complete');}
+ }
 }

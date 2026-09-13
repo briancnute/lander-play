@@ -7,5 +7,5 @@ export const VEHICLES=Object.freeze([
  {id:'perseverance',name:'Perseverance',year:2021,site:'Jezero Crater',family:'large',style:'Fastest boost',source:'https://science.nasa.gov/mission/mars-2020-perseverance/',tuning:{speed:84,boostSpeed:204,chargeSeconds:2.4,boostSeconds:5.5,cooldown:3.8,overheatCooldown:8}},
 ].map(v=>Object.freeze({...v,tuning:Object.freeze(v.tuning)})));
 export const vehicle=id=>VEHICLES.find(v=>v.id===id)??VEHICLES[0];
-// Retain the approved Sojourner lap history; other kits get separate bests.
-export const bestLapKey=id=>'astra.rover.prototype.best.v2'+(vehicle(id).id==='sojourner'?'':'.'+vehicle(id).id);
+// Any-angle checkpoint rules use a fresh record namespace. Previous v2 laps stay stored.
+export const bestLapKey=id=>'astra.rover.prototype.best.v3'+(vehicle(id).id==='sojourner'?'':'.'+vehicle(id).id);
