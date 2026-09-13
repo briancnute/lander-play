@@ -4,7 +4,7 @@ import {buildScenery,noise,sedimentColor} from './scenery.js';
 import {mesa,rocks,samples,ground,angle} from './sim.mjs';
 export class Renderer {
  constructor(canvas,terrain){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.terrain=terrain;this.camera=null;this.dust=[];this.tracks=[];this.scenery=buildScenery();}
- reset(s){this.camera={x:s.x,y:s.y,h:s.heading};this.dust=[];this.tracks=[];}
+ reset(s){this.camera={x:s.x,y:s.y,h:s.heading};this.dust=[];this.tracks=[];this.gateFlash=null;}
  draw(s,course,dt){const c=this.canvas,ctx=this.ctx,w=c.clientWidth,h=c.clientHeight,dpr=Math.min(devicePixelRatio,1.5);if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);if(!this.camera)this.reset(s);const cam=this.camera;const {back,lift}=updateCamera(cam,s,dt);
  const focal=Math.min(w*.95,h*.9),co=Math.cos(cam.h),si=Math.sin(cam.h),cx=w/2;
  const eye=23+ground(s.x,s.y)+lift;
@@ -38,6 +38,8 @@ export class Renderer {
  for(const ribbon of this.paths){const q=project(...ribbon[0]);if(q.depth<5||q.depth>650||q.x< -160||q.x>w+160)continue;poly(ribbon.map(p=>project(...p)),'#dcaa7509');}
  const litFace=face=>{if(!face.base)return face.color;const n=face.normal;const direct=Math.max(0,n[0]*sunlight[0]+n[1]*sunlight[1]+n[2]*sunlight[2]);return rgb(face.base.map(v=>v*(ambient*.77+(litSun?.36*direct:0))));};
  const objects=[];
+ if(this.gateFlash){const g=this.gateFlash;g.life=Math.max(0,g.life-dt);const q=project(g.x,g.y);if(g.life>0&&q.depth>4)objects.push({depth:q.depth,draw:()=>{ctx.strokeStyle=`rgba(224,239,176,${g.life/.7})`;ctx.lineWidth=4;for(const side of [-1,1]){const x=g.x-g.dy*42*side,y=g.y+g.dx*42*side,a=project(x,y,ground(x,y)),b=project(x,y,ground(x,y)+10);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}});if(g.life===0)this.gateFlash=null;}
+
  if(night){const sh=Math.sin(s.heading),ch=Math.cos(s.heading),origin=project(s.x+sh*8,s.y-ch*8,s.z+1);for(let band=5;band>=1;band--){const spread=25+band*9;const points=[origin,project(s.x+sh*155-ch*spread,s.y-ch*155-sh*spread,ground(s.x+sh*155-ch*spread,s.y-ch*155-sh*spread)),project(s.x+sh*155+ch*spread,s.y-ch*155+sh*spread,ground(s.x+sh*155+ch*spread,s.y-ch*155+sh*spread))];poly(points,'#f3d5a907');}}
 
 
@@ -63,7 +65,7 @@ export class Renderer {
   poly(base.map(([x,y])=>project(x,y,z+3)),s.found?'#8cd6c2':'#c2b696');
   poly([project(764,569,z),project(770,569,z),project(770,569,z+3),project(764,569,z+3)],'#88745c');
   const a=project(767,567,z+3),b=project(768,567,z+9);ctx.strokeStyle='#cfccb4';ctx.lineWidth=Math.max(.6,focal/iq.depth*.35);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}});
- if(Math.abs(s.v)>15&&!s.air){this.dust.push({x:s.x-Math.sin(s.heading)*12,y:s.y+Math.cos(s.heading)*12,life:1});}this.dust=this.dust.filter(p=>(p.life-=dt*.9)>0).slice(-60);for(const d of this.dust){const q=project(d.x,d.y);if(q.depth<4)continue;ctx.fillStyle=`rgba(215,180,130,${d.life*.12})`;ctx.beginPath();ctx.ellipse(q.x,q.y,(1-d.life)*25+4,(1-d.life)*10+2,0,0,Math.PI*2);ctx.fill();}
+ if(Math.abs(s.v)>15&&!s.air){for(let i=0;i<(s.boost?2:1);i++)this.dust.push({x:s.x-Math.sin(s.heading)*12+Math.cos(s.heading)*i*5,y:s.y+Math.cos(s.heading)*12+Math.sin(s.heading)*i*5,life:1,boost:!!s.boost});}this.dust=this.dust.filter(p=>(p.life-=dt*.9)>0).slice(-60);for(const d of this.dust){const q=project(d.x,d.y);if(q.depth<4)continue;ctx.fillStyle=`rgba(215,180,130,${d.life*(d.boost?.15:.12)})`;ctx.beginPath();ctx.ellipse(q.x,q.y,(1-d.life)*(d.boost?35:25)+4,(1-d.life)*(d.boost?15:10)+2,0,0,Math.PI*2);ctx.fill();}
  const rover=project(s.x,s.y,s.z);objects.push({depth:rover.depth,draw:()=>{const model=vehicle(s.roverId),large=model.family==='large',wing=model.family==='solar';const bodyScale=large?.6:wing?.55:.4,wheelScale=scale*bodyScale/.6;const ch=Math.cos(s.heading),sh=Math.sin(s.heading);const at=(x,y,z=0)=>project(s.x+(x*ch+y*sh)*bodyScale,s.y+(x*sh-y*ch)*bodyScale,s.z+z*bodyScale);const body=(corners,z,color)=>poly(corners.map(([x,y])=>at(x,y,z)),color,'#c9ba90');const shadow=project(s.x,s.y,ground(s.x,s.y));ctx.fillStyle='#322f2a55';ctx.beginPath();ctx.ellipse(shadow.x,shadow.y,13*wheelScale,7*wheelScale,0,0,Math.PI*2);ctx.fill();for(const y of [-10,0,10]){const a=at(-9,y,1),b=at(9,y,1);ctx.strokeStyle='#bdb59b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();for(const x of [-9,9]){const v=at(x,y,1);ctx.fillStyle='#293433';ctx.strokeStyle='#9b9d89';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(v.x,v.y,2.8*wheelScale,4*wheelScale,angle(s.heading-cam.h)*.5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#8b8977';ctx.lineWidth=.8;ctx.beginPath();for(let j=0;j<4;j++){const phase=(s.x+s.y)*.12+j*Math.PI/2;ctx.moveTo(v.x,v.y);ctx.lineTo(v.x+Math.cos(phase)*2.3*wheelScale,v.y+Math.sin(phase)*3.4*wheelScale);}ctx.stroke();}}
  body([[-7,-11],[7,-11],[7,11],[-7,11]],3,large?'#d4ccae':'#b7a175');
  const deck=large?[[-8,-9],[8,-9],[8,10],[-8,10]]:wing?[[-15,-3],[-10,-10],[10,-10],[15,-3],[15,3],[10,10],[-10,10],[-15,3]]:[[-10,-8],[10,-8],[10,9],[-10,9]];
