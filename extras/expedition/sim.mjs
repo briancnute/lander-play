@@ -1,3 +1,4 @@
+import {landmarkParts,scanDiscoveries} from './discoveries.mjs';
 import {WORLD,expansionGround} from './landscape.mjs';
 import {delta} from './regions.mjs';
 import {vehicle} from './vehicles.mjs';
@@ -26,7 +27,7 @@ export function ground(x,y){
  return basinGround(x,y)*(1-blend)+z*blend+expansionGround(x,y);
 }
 export function nearest(route,x,y){let best={d:Infinity,i:0};for(let i=0;i<route.length;i++){const p=route[i],d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,i};}return best;}
-export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Four regions',messageUntil:5,jumpBest:0,jumpStart:null,found:false,impact:0};}
+export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Four regions',messageUntil:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s,hot=false){const tune=s.tune??TUNE;s.boost=0;s.charge=0;s.straight=0;s.releaseAt=-100;s.cool=hot?tune.overheatCooldown:tune.cooldown;s.overheated=hot;if(hot)say(s,'Overheated · recharge locked',3);}
 export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
@@ -65,7 +66,7 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
  if(!drive&&!reversing&&inSampleZone(s)&&Math.abs(s.v)<=.5)s.v=0;
  if(s.turnaround)s.v=Math.min(s.v,50);s.v=clamp(s.v,-25,max);if(Math.abs(s.v)<.08)s.v=0;
  const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
- const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks);if(delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}s.x=contact.x;s.y=contact.y;
+ const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks);if(delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[]);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
  if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;s.charge=0;s.straight=0;if(s.boost)stopBoost(s);}
  const g=ground(s.x,s.y),oldG=ground(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
@@ -74,7 +75,7 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
  const near=sampleNear(s);
  if(near>=0&&s.mode!=='trial'&&!s.air&&!s.turnaround){if(s.collecting!==near){s.collecting=near;s.collectTime=0;}s.collectTime+=dt;if(s.collectTime>=1.4){s.collected.push(near);s.collecting=-1;s.collectTime=0;say(s,samples[near].copy,6);if(s.collected.length===samples.length){s.done=true;say(s,'All samples secured.');}}}
  else{s.collecting=-1;s.collectTime=0;}
- if(!s.found&&Math.hypot(s.x-767,s.y-567)<24){s.found=true;say(s,'Found: a lost ASTRA test instrument',5);}
+ const discovery=scanDiscoveries(s,dt);if(discovery)say(s,discovery.name+' · '+discovery.fact,7);
  if(s.mode!=='trial')return;
  const gate=s.nextGate<course.gates.length?course.gates[s.nextGate]:course.finish;
  // Swept circular checkpoint area accepts every approach, including reverse and airborne.

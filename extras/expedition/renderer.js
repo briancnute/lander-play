@@ -1,3 +1,4 @@
+import {discoveries,landmarks} from './discoveries.mjs';
 import {WORLD,mountainFaces} from './landscape.mjs';
 import {delta} from './regions.mjs';
 import {vehicle} from './vehicles.mjs';
@@ -62,6 +63,11 @@ export class Renderer {
  shadowRing(mesa,22.5);
  for(const [x,y,r]of rocks){const q=project(x,y);if(q.depth>3&&q.depth<600)shadowRing(Array.from({length:9},(_,i)=>[x+Math.cos(i*6.283/9)*r,y+Math.sin(i*6.283/9)*r]),r*.65);}
  for(const face of this.scenery.faces){const points=face.vertices.map(p=>project(...p)),depth=points.reduce((a,p)=>a+p.depth,0)/points.length;if(depth< -30||depth>1200)continue;objects.push({depth,draw:()=>poly(points,litFace(face))});}
+ // Local cues only: hidden discoveries do not become a distant checklist of beacons.
+ if(s.mode!=='trial')for(const d of discoveries){const distance=Math.hypot(d.x-s.x,d.y-s.y);if(distance>95||s.discoveries?.includes(d.id))continue;
+  const q=project(d.x,d.y,ground(d.x,d.y)+3);if(q.depth<4)continue;objects.push({depth:q.depth,draw:()=>{ctx.fillStyle='#f4d591';ctx.beginPath();ctx.moveTo(q.x,q.y-5);ctx.lineTo(q.x+4,q.y);ctx.lineTo(q.x,q.y+5);ctx.lineTo(q.x-4,q.y);ctx.closePath();ctx.fill();}});
+ }
+ for(const l of landmarks){if(Math.hypot(l.x-s.x,l.y-s.y)>240)continue;const q=project(l.x,l.y,ground(l.x,l.y)+Math.max(...l.parts.map(p=>p.height))+9);if(q.depth<5)continue;objects.push({depth:q.depth,draw:()=>{ctx.fillStyle='#f0dcb7';ctx.font='12px Public';ctx.textAlign='center';ctx.fillText(l.name,q.x,q.y);}});}
  // Twin wheel prints record the actual route taken, including free exploration.
  const lastTrack=this.tracks.at(-1);if(!s.air&&Math.abs(s.v)>2&&(!lastTrack||Math.hypot(s.x-lastTrack.x,s.y-lastTrack.y)>2.6))this.tracks.push({x:s.x,y:s.y,h:s.heading});if(this.tracks.length>450)this.tracks.shift();
  for(let i=1;i<this.tracks.length;i++){const a=this.tracks[i-1],b=this.tracks[i];if(Math.hypot(a.x-b.x,a.y-b.y)>9)continue;const q=project(b.x,b.y);if(q.depth<4||q.depth>400)continue;for(const side of [-1,1]){const ribbon=[];for(const [p,k] of [[a,-.7],[b,-.7],[b,.7],[a,.7]]){const offset=side*5.4+k,x=p.x+Math.cos(p.h)*offset,y=p.y+Math.sin(p.h)*offset;ribbon.push(project(x,y,ground(x,y)+.05));}poly(ribbon,`rgba(83,48,31,${.13*Math.min(1,i/60)})`);}}

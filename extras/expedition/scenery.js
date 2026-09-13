@@ -1,3 +1,4 @@
+import {landmarks,discoveries} from './discoveries.mjs';
 import {delta} from './regions.mjs';
 // Presentation only. Geometry stays inside the simulation's existing obstacle footprints.
 import {mesa,rocks,samples,ground,inside} from './sim.mjs';
@@ -98,6 +99,18 @@ export function buildScenery(){
   for(let i=0;i<260;i++){const x=4800+noise(i,33)*1500,y=80+noise(i,44)*740;
    if(!delta.mesas.some(poly=>inside(x,y,poly)))plate(x,y,2+noise(i,9)*7,'#dcbd9735',i+600);}
   for(const [x,y,r]of delta.rocks){const ring=Array.from({length:7},(_,i)=>{const a=i*Math.PI*2/7;return [x+Math.cos(a)*r*.9,y+Math.sin(a)*r*.9,ground(x,y)]});const top=ring.map(p=>[x+(p[0]-x)*.55,y+(p[1]-y)*.55,p[2]+r*.65]);for(let i=0;i<7;i++)face([ring[i],ring[(i+1)%7],top[(i+1)%7],top[i]],[138,98,71]);face(top.slice().reverse(),[171,128,90]);}
+ }
+ for(const landmark of landmarks)for(const part of landmark.parts){
+  const poly=part.poly,cx=poly.reduce((a,p)=>a+p[0],0)/poly.length,cy=poly.reduce((a,p)=>a+p[1],0)/poly.length;
+  const rings=Array.from({length:6},(_,j)=>poly.map(([x,y],i)=>{const scale=(1-(1-part.taper)*j/5)*(1-(j?noise(i,part.height)*.08:0));return [cx+(x-cx)*scale,cy+(y-cy)*scale,ground(x,y)+part.height*j/5+(j?Math.sin(i*2.1+part.height)*2.8:0)];}));
+  for(let j=0;j<5;j++)for(let i=0;i<poly.length;i++){const k=(i+1)%poly.length;face([rings[j][i],rings[j][k],rings[j+1][k],rings[j+1][i]],[164+j%2*12,104+j%2*12,70+j%2*8]);}
+  face(rings[5].slice().reverse(),[191,140,98]);
+ }
+ for(const [id,d]of discoveries.entries()){if(d.id==='instrument')continue;
+  for(let i=0;i<24;i++){const a=i*2.4,r=3+noise(i,id)*10,x=d.x+Math.cos(a)*r,y=d.y+Math.sin(a)*r,size=d.id==='berries'?.6:1.4;
+   const base=Array.from({length:6},(_,k)=>[x+Math.cos(k*Math.PI/3)*size,y+Math.sin(k*Math.PI/3)*size,ground(x,y)+.15]);
+   face(base,[d.id==='berries'?105:180,d.id==='berries'?103:135,d.id==='berries'?100:95]);
+  }
  }
  return {faces,stains};
 }

@@ -1,3 +1,4 @@
+import {landmarkParts} from './discoveries.mjs';
 import {delta} from './regions.mjs';
 import {clearance} from './contact.mjs';
 import {mesa,angle} from './sim.mjs';
@@ -7,7 +8,7 @@ export function updateCamera(cam,s,dt){
  cam.h+=angle(s.heading-cam.h)*Math.min(1,step*3);
  cam.x+=(s.x-cam.x)*Math.min(1,step*8);cam.y+=(s.y-cam.y)*Math.min(1,step*8);
  let lift=0;
- for(let d=12;d<=74;d+=3){for(const [i,poly] of [mesa,...(delta?.mesas??[])].entries()){
+ for(let d=12;d<=74;d+=3){for(const [i,poly] of [mesa,...(delta?.mesas??[]),...landmarkParts.map(p=>p.poly)].entries()){
   const gap=clearance(cam.x-Math.sin(cam.h)*d,cam.y+Math.cos(cam.h)*d,poly,[]);
   lift=Math.max(lift,(i>=4?48:18)*Math.max(0,Math.min(1,(20-gap)/20)));
  }}
