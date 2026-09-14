@@ -4,9 +4,9 @@ import {clearance} from './contact.mjs';
 import {mesa,rocks,ground,angle} from './sim.mjs';
 let cachedDelta,occluders;
 export function cameraSurface(x,y){
- if(!occluders||cachedDelta!==delta){cachedDelta=delta;occluders=[{poly:mesa,height:25},...(delta?.mesas??[]).map((poly,i)=>({poly,height:i>=3?63:i===0?33:27})),...landmarkParts.map(p=>({poly:p.poly,height:p.height+4}))].map(p=>({...p,roof:Math.max(...p.poly.map(v=>ground(...v)))+p.height}));}
+ if(!occluders||cachedDelta!==delta){cachedDelta=delta;occluders=[{poly:mesa,height:25},...(delta?.mesas??[]).map((poly,i)=>({poly,height:i>=3?63:i===0?33:27})),...landmarkParts.map(p=>({poly:p.poly,height:p.height+4}))].map(p=>({...p,roof:Math.max(...p.poly.map(v=>ground(...v)))+p.height,minX:Math.min(...p.poly.map(v=>v[0])),maxX:Math.max(...p.poly.map(v=>v[0])),minY:Math.min(...p.poly.map(v=>v[1])),maxY:Math.max(...p.poly.map(v=>v[1]))}));}
  let z=ground(x,y);
- for(const p of occluders)if(clearance(x,y,p.poly,[])<=0)z=Math.max(z,p.roof);
+ for(const p of occluders)if(x>=p.minX&&x<=p.maxX&&y>=p.minY&&y<=p.maxY&&clearance(x,y,p.poly,[])<=0)z=Math.max(z,p.roof);
  for(const [rx,ry,r]of [...rocks,...(delta?.rocks??[])])if(Math.hypot(x-rx,y-ry)<r+2)z=Math.max(z,ground(rx,ry)+r*.7);
  return z;
 }
