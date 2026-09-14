@@ -87,8 +87,9 @@ export function buildScenery(){
  if(delta){
   for(const [index,poly] of delta.mesas.entries()){
    const cx=poly.reduce((a,p)=>a+p[0],0)/poly.length,cy=poly.reduce((a,p)=>a+p[1],0)/poly.length;
-   const rings=Array.from({length:7},(_,j)=>poly.map(([x,y])=>[cx+(x-cx)*(1-j*.045),cy+(y-cy)*(1-j*.045),ground(x,y)+j*(index>=3?10:index===0?5:4)]));
-   for(let j=0;j<6;j++)for(let i=0;i<poly.length;i++){const k=(i+1)%poly.length;face([rings[j][i],rings[j][k],rings[j+1][k],rings[j+1][i]],[170+j%2*15,112+j%2*13,76+j%2*12]);}face(rings[6].slice().reverse(),[193,143,99]);
+   const edge=poly.flatMap((p,i)=>{const q=poly[(i+1)%poly.length];return [0,.33,.67].map(t=>[p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t]);});
+   const rings=Array.from({length:7},(_,j)=>edge.map(([x,y],i)=>{const inset=j===0?1:1-j*.045-noise(i,index+80)*.07;return [cx+(x-cx)*inset,cy+(y-cy)*inset,ground(x,y)+[0,.12,.29,.44,.63,.82,1][j]*(index>=3?60:index===0?30:24)+(j?Math.sin(i*.9+index)*1.3:0)];}));
+   for(let j=0;j<6;j++)for(let i=0;i<edge.length;i++){const k=(i+1)%edge.length;face([rings[j][i],rings[j][k],rings[j+1][k],rings[j+1][i]],[170+j%2*7,112+j%2*6,76+j%2*5]);}face(rings[6].slice().reverse(),[193,143,99]);
   }
   for(let branch=0;branch<5;branch++)for(let i=0;i<100;i++){
    const x=2040+i*11,curve=x=>420+Math.sin((x-2100)*.006+branch*.23)*60+(branch-2)*Math.max(0,x-2250)*.22+Math.sin(x*.025+branch)*7;
