@@ -36,7 +36,7 @@ export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.inclu
 export function inSampleZone(s){return s.mode!=='trial'&&samples.some(p=>distance(s,p)<32);}
 export function reverseAvailable(s){return s.v<=.5&&!inSampleZone(s)&&!s.air&&!s.turnaround;}
 export function recover(s,course){const p=s.mode==='trial'&&s.nextGate>0?course.gates[s.nextGate-1]:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;s.collectTime=0;if(s.boost)stopBoost(s);s.turnaround=false;say(s,'Rover recovered · timer keeps running');}
-export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
+export function update(s,input,dt,course,contactRadius,surface=ground){const tune=s.tune??TUNE;s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);return;}
  if(s.mode==='trial')s.time+=dt;
  let drive=!!input.drive,brake=!!input.brake,steer=clamp(input.steer||0,-1,1);
@@ -49,7 +49,7 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
  const prev={x:s.x,y:s.y};
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?.3:1);
  const max=s.boost?tune.boostSpeed:tune.speed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
- const slope=(ground(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-ground(s.x,s.y))/3;
+ const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;
  const reversing=brake&&!drive&&reverseAvailable(s);
  // Pedals, normal speed caps and ground drag cannot change airborne momentum.
  if(!s.air){
@@ -62,9 +62,9 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
   s.v=Math.max(s.boost?-max:-25,s.v);if(Math.abs(s.v)<.08)s.v=0;
  }
  const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
- const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks);if(delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[]);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
+ const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks,contactRadius);if(delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
  if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
- const g=ground(s.x,s.y),oldG=ground(prev.x,prev.y),up=(g-oldG)/dt;
+ const g=surface(s.x,s.y),oldG=surface(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
  if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
  // Swept pickup contact avoids missing a cell at boost speed; airborne passes do not collect.
