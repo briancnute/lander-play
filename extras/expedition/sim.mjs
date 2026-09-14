@@ -1,5 +1,5 @@
 import {landmarkParts,scanDiscoveries} from './discoveries.mjs';
-import {WORLD,expansionGround} from './landscape.mjs';
+import {WORLD,expansionGround,northSouthGround} from './landscape.mjs';
 import {delta} from './regions.mjs';
 import {vehicle} from './vehicles.mjs';
 import {moveWithContact} from './contact.mjs';
@@ -17,17 +17,17 @@ export const angle=(v)=>Math.atan2(Math.sin(v),Math.cos(v));
 export function inside(x,y,poly=mesa){let yes=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])yes=!yes;}return yes;}
 function basinGround(x,y){return 1.1*Math.sin(x*.018)*Math.sin(y*.015)+2.6*Math.exp(-((x-650)**2+(y-270)**2)/12000)+4.5*Math.exp(-((x-943)**2/3400+(y-604)**2/650))+4*Math.exp(-((x-228)**2/4200+(y-164)**2/550));}
 export function ground(x,y){
- if(x<=1000)return basinGround(x,y);
+ if(x<=1000)return basinGround(x,y)+northSouthGround(x,y);
  const t=clamp((x-1000)/240,0,1),blend=t*t*(3-2*t);
  let z=.45*Math.sin(x*.012)*Math.cos(y*.011);
  if(delta&&x>1850){const k=clamp((x-1850)/200,0,1);let relief=0;
   for(const [cx,cy,rx,ry,h] of delta.hills)relief+=h*Math.exp(-(((x-cx)/rx)**2+((y-cy)/ry)**2));
   const channel=420+Math.sin((x-2100)*.006)*60;relief-=1.8*Math.exp(-(((y-channel)/35)**2));z+=relief*k*k*(3-2*k);
  }
- return basinGround(x,y)*(1-blend)+z*blend+expansionGround(x,y);
+ return basinGround(x,y)*(1-blend)+z*blend+expansionGround(x,y)+northSouthGround(x,y);
 }
 export function nearest(route,x,y){let best={d:Infinity,i:0};for(let i=0;i<route.length;i++){const p=route[i],d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,i};}return best;}
-export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Four regions',messageUntil:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
+export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,straight:0,boundary:false,turnaround:false,charge:0,boost:0,heat:0,cool:0,overheated:false,releaseAt:-100,lastDrive:false,t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Explore Mars',messageUntil:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s,hot=false){const tune=s.tune??TUNE;s.boost=0;s.charge=0;s.straight=0;s.releaseAt=-100;s.cool=hot?tune.overheatCooldown:tune.cooldown;s.overheated=hot;if(hot)say(s,'Overheated · recharge locked',3);}
 export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
@@ -38,10 +38,10 @@ export function update(s,input,dt,course){const tune=s.tune??TUNE;s.t+=dt;s.impa
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);s.lastDrive=false;return;}
  if(s.mode==='trial')s.time+=dt;
  let drive=!!input.drive,brake=!!input.brake,steer=clamp(input.steer||0,-1,1);
- const edge=Math.min(s.x,WORLD.width-s.x,s.y,WORLD.height-s.y);
+ const edge=Math.min(s.x,WORLD.width-s.x,s.y-WORLD.minY,WORLD.maxY-s.y);
  s.boundary=edge<40;
  if(edge< -75&&!s.turnaround){s.turnaround=true;if(s.boost)stopBoost(s);s.charge=0;s.straight=0;say(s,'Auto-return · turning toward the basin',3);}
- if(s.turnaround){const error=angle(Math.atan2((s.x>4700?5500:s.x>3200?4000:s.x>1900?2640:s.x>1080?1600:540)-s.x,-((s.x>1080?470:380)-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65){s.turnaround=false;say(s,'Your controls',2);}}
+ if(s.turnaround){const error=angle(Math.atan2(clamp(s.x,250,WORLD.width-250)-s.x,-(clamp(s.y,WORLD.minY+250,WORLD.maxY-250)-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65){s.turnaround=false;say(s,'Your controls',2);}}
 
  if(s.cool>0){s.cool=Math.max(0,s.cool-dt);if(s.cool===0)s.overheated=false;}
  if(s.boost>0){s.heat=Math.min(100,s.heat+tune.heatRate*dt);s.boost=Math.max(.00001,s.boost-dt);if(s.heat>=100)stopBoost(s,true);else if(!drive||brake||s.boost<=.00002)stopBoost(s);}

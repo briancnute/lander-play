@@ -7,6 +7,7 @@ export const noise=(x,y)=>fract(Math.sin(x*127.1+y*311.7)*43758.5453);
 export const rgb=(base,k=1)=>`rgb(${base.map(v=>Math.round(Math.max(0,Math.min(255,v*k))))})`;
 // Broad, soft-edged geological regions. Color only: elevation/contact stay in sim.mjs.
 export function sedimentColor(x,y){
+ if(y< -200||y>1150){const z=ground(x,y),v=Math.min(1,Math.max(0,z/180)),n=Math.sin(x*.014+y*.018)*3;return [151+v*32+n,94+v*36+n,64+v*25+n];}
  const blend=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);
  if(x>3180){const wave=Math.sin((x+y*.8)/55)*4,dune=[112+wave,88+wave,72+wave],butte=[176+wave,120+wave,83+wave];
   return x<3450?blend([164,103,66],dune,(x-3180)/270):x<4460?dune:x<4840?blend(dune,butte,(x-4460)/380):butte;}
