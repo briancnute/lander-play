@@ -48,7 +48,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
 
  s.boost=Math.max(0,s.boost-dt);
  const prev={x:s.x,y:s.y};
- s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
+ s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(area?.roverHandling?(tune.handling??1):1)*(s.v< -1&&!(s.air&&area?.boostKit)?-1:1)*(s.air?(airControl?.3:0):1);
  const max=s.boost?tune.boostSpeed:tune.speed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
  const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;
  const reversing=brake&&!drive&&reverseAvailable(s,sites);
@@ -62,12 +62,15 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
   if(s.v>max)s.v=previousSpeed>max?Math.min(s.v,Math.max(max,previousSpeed-tune.acceleration*dt)):max;
   s.v=Math.max(s.boost?-max:-25,s.v);if(Math.abs(s.v)<.08)s.v=0;
  }
- const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
+ let dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;s.thrust=0;s.launchJet=Math.max(0,(s.launchJet||0)-dt);
+ if(s.air&&area?.boostKit){const fx=Math.sin(s.heading),fy=-Math.cos(s.heading);s.airVX??=fx*s.v;s.airVY??=fy*s.v;const thrust=drive?1:brake?-1:0;s.thrust=thrust;const force=(brake?800:260)/(tune.massFactor??1);s.airVX+=fx*thrust*force*dt;s.airVY+=fy*thrust*force*dt;const sideForce=120/(tune.massFactor??1)*steer*dt;s.airVX+=Math.cos(s.heading)*sideForce;s.airVY+=Math.sin(s.heading)*sideForce;dx=s.airVX*dt;dy=s.airVY*dt;s.v=s.airVX*fx+s.airVY*fy;if(drive)s.vz+=5/(tune.massFactor??1)*dt;}
+ else if(area?.boostKit){s.thrust=drive?1:brake?-1:0;}
+
  const contact=moveWithContact(s.x,s.y,dx,dy,area?.mesa??mesa,area?.rocks??rocks,contactRadius);if(!area&&delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of area?.parts??landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
- if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
+ if(contact.hit){if(s.air&&area?.boostKit){s.airVX=(s.x-prev.x)/dt;s.airVY=(s.y-prev.y)/dt;}const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
  const g=surface(s.x,s.y),oldG=surface(prev.x,prev.y),up=(g-oldG)/dt;
- if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
- if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
+ if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};if(area?.boostKit){s.launchJet=.18;s.airVX=dx/dt;s.airVY=dy/dt;s.vz+=(12+Math.abs(s.v)*.03)/(tune.massFactor??1);}}else{s.z=g;s.vz=up;}}
+ if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;delete s.airVX;delete s.airVY;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
  // Swept pickup contact avoids missing a cell at boost speed; airborne passes do not collect.
  s.pickupSpent=s.pickupSpent.filter(id=>pickups[id]&&distance(s,pickups[id])<120);
  if(!s.air&&!s.turnaround&&Math.abs(s.v)>1){const vx=s.x-prev.x,vy=s.y-prev.y,len=vx*vx+vy*vy;
