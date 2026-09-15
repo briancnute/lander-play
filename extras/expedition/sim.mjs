@@ -32,53 +32,53 @@ export function nearest(route,x,y){let best={d:Infinity,i:0};for(let i=0;i<route
 export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,boundary:false,turnaround:false,boost:0,pickupSpent:[],t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Explore Mars',messageUntil:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s){s.boost=0;}
-export function sampleNear(s){return samples.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
-export function inSampleZone(s){return s.mode!=='trial'&&samples.some(p=>distance(s,p)<32);}
-export function reverseAvailable(s){return s.v<=.5&&!inSampleZone(s)&&!s.air&&!s.turnaround;}
+export function sampleNear(s,sites=samples){return sites.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
+export function inSampleZone(s,sites=samples){return s.mode!=='trial'&&sites.some(p=>distance(s,p)<32);}
+export function reverseAvailable(s,sites=samples){return s.v<=.5&&!inSampleZone(s,sites)&&!s.air&&!s.turnaround;}
 export function recover(s,course){const p=s.mode==='trial'&&s.nextGate>0?course.gates[s.nextGate-1]:course.route[0];s.x=p.x;s.y=p.y;s.v=0;s.z=ground(s.x,s.y);s.vz=0;s.air=false;s.collecting=-1;s.collectTime=0;if(s.boost)stopBoost(s);s.turnaround=false;say(s,'Rover recovered · timer keeps running');}
-export function update(s,input,dt,course,contactRadius,surface=ground){const tune=s.tune??TUNE;s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
+export function update(s,input,dt,course,contactRadius,surface=ground,airControl=true,area=null){const bounds=area?.bounds??WORLD,sites=area?.samples??samples,pickups=area?.pickups??boostPickups;const tune=s.tune??TUNE;s.t+=dt;s.impact=Math.max(0,s.impact-dt*2);if(s.done){s.v*=Math.exp(-dt*6);return;}
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);return;}
  if(s.mode==='trial')s.time+=dt;
  let drive=!!input.drive,brake=!!input.brake,steer=clamp(input.steer||0,-1,1);
- const edge=Math.min(s.x,WORLD.width-s.x,s.y-WORLD.minY,WORLD.maxY-s.y);
+ const edge=Math.min(s.x-(bounds.minX??0),bounds.width-s.x,s.y-bounds.minY,bounds.maxY-s.y);
  s.boundary=edge<40;
  if(edge< -75&&!s.turnaround){s.turnaround=true;if(s.boost)stopBoost(s);say(s,'Auto-return · turning toward the basin',3);}
- if(s.turnaround){const error=angle(Math.atan2(clamp(s.x,250,WORLD.width-250)-s.x,-(clamp(s.y,WORLD.minY+250,WORLD.maxY-250)-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65){s.turnaround=false;say(s,'Your controls',2);}}
+ if(s.turnaround){const error=angle(Math.atan2(clamp(s.x,(bounds.minX??0)+250,bounds.width-250)-s.x,-(clamp(s.y,bounds.minY+250,bounds.maxY-250)-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65){s.turnaround=false;say(s,'Your controls',2);}}
 
  s.boost=Math.max(0,s.boost-dt);
  const prev={x:s.x,y:s.y};
- s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?.3:1);
+ s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
  const max=s.boost?tune.boostSpeed:tune.speed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
  const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;
- const reversing=brake&&!drive&&reverseAvailable(s);
+ const reversing=brake&&!drive&&reverseAvailable(s,sites);
  // Pedals, normal speed caps and ground drag cannot change airborne momentum.
  if(!s.air){
   const previousSpeed=s.v;
   if(reversing)s.v-=acc*.6*dt;else if(brake)s.v*=Math.exp(-dt*7);else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
   s.v-=slope*dt*12;
-  if(!drive&&!reversing&&inSampleZone(s)&&Math.abs(s.v)<=.5)s.v=0;
+  if(!drive&&!reversing&&inSampleZone(s,sites)&&Math.abs(s.v)<=.5)s.v=0;
   if(s.turnaround)s.v=Math.min(s.v,50);
   if(s.v>max)s.v=previousSpeed>max?Math.min(s.v,Math.max(max,previousSpeed-tune.acceleration*dt)):max;
   s.v=Math.max(s.boost?-max:-25,s.v);if(Math.abs(s.v)<.08)s.v=0;
  }
  const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
- const contact=moveWithContact(s.x,s.y,dx,dy,mesa,rocks,contactRadius);if(delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
+ const contact=moveWithContact(s.x,s.y,dx,dy,area?.mesa??mesa,area?.rocks??rocks,contactRadius);if(!area&&delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of area?.parts??landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
  if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
  const g=surface(s.x,s.y),oldG=surface(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
  if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
  // Swept pickup contact avoids missing a cell at boost speed; airborne passes do not collect.
- s.pickupSpent=s.pickupSpent.filter(id=>distance(s,boostPickups[id])<120);
+ s.pickupSpent=s.pickupSpent.filter(id=>pickups[id]&&distance(s,pickups[id])<120);
  if(!s.air&&!s.turnaround&&Math.abs(s.v)>1){const vx=s.x-prev.x,vy=s.y-prev.y,len=vx*vx+vy*vy;
-  for(const p of boostPickups){if(s.pickupSpent.includes(p.id))continue;const t=len?clamp(((p.x-prev.x)*vx+(p.y-prev.y)*vy)/len,0,1):0;
+  for(const p of pickups){if(s.pickupSpent.includes(p.id))continue;const t=len?clamp(((p.x-prev.x)*vx+(p.y-prev.y)*vy)/len,0,1):0;
    if(Math.hypot(prev.x+vx*t-p.x,prev.y+vy*t-p.y)<18){s.pickupSpent.push(p.id);s.boost=tune.boostSeconds;s.v=(s.v<0?-1:1)*tune.boostSpeed;}
   }
  }
  // Scan continuously inside a zone; motion and steering are allowed.
- const near=sampleNear(s);
- if(near>=0&&s.mode!=='trial'&&!s.air&&!s.turnaround){if(s.collecting!==near){s.collecting=near;s.collectTime=0;}s.collectTime+=dt;if(s.collectTime>=1.4){s.collected.push(near);s.collecting=-1;s.collectTime=0;say(s,samples[near].copy,6);if(s.collected.length===samples.length){s.done=true;say(s,'All samples secured.');}}}
+ const near=sampleNear(s,sites);
+ if(near>=0&&s.mode!=='trial'&&!s.air&&!s.turnaround){if(s.collecting!==near){s.collecting=near;s.collectTime=0;}s.collectTime+=dt;if(s.collectTime>=1.4){s.collected.push(near);s.collecting=-1;s.collectTime=0;say(s,sites[near].copy,6);if(!area?.keepExploring&&s.collected.length===sites.length){s.done=true;say(s,'All samples secured.');}}}
  else{s.collecting=-1;s.collectTime=0;}
- const discovery=scanDiscoveries(s,dt);if(discovery)say(s,discovery.name+' · '+discovery.fact,7);
+ const discovery=area?null:scanDiscoveries(s,dt);if(discovery)say(s,discovery.name+' · '+discovery.fact,7);
  if(s.mode!=='trial')return;
  const gate=s.nextGate<course.gates.length?course.gates[s.nextGate]:course.finish;
  // Swept circular checkpoint area accepts every approach, including reverse and airborne.
