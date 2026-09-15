@@ -1,0 +1,89 @@
+# Three Forks / delta front — first playable area
+
+## Exploration refinement — 2026-09-15
+
+Three Forks now hides the course, gates, race legend, shortcut label and lap-record text from the maps outside active time trials. Newly collected observations open paused photo cards; Field Notes can reopen them with correct nested return. Images are explicitly regional references, not registered viewpoint matches. Existing driving, camera, lighting and terrain are preserved. Kodiak/landmark-label integration and the balanced-rock reconstruction remain pending.
+
+**2026-09-15:** a persistent north-up minimap now tracks the rover, discoveries and race route while driving. Tap it for the full labeled map. It redraws at 5 Hz and leaves controls/physics unchanged.
+
+
+**Public mobile playtest:** this study is now packaged through the public PLAYTEST menu. See `docs/PLAYTEST.md` and newest STATUS for release verification. Older source-only notes below describe earlier checkpoints; campaign integration remains separate.
+
+2026-09-14. Source-only, **not deployed or added to Extras**. Brian approved the Three Forks direction and requested a cohesive first playable pass before further refinement.
+
+Open `/tools/prototypes/jezero/preview.html` on the Vite server for laptop/iPad/iPhone and rotation controls. `/tools/prototypes/jezero/index.html` is the direct game. The original approved study remains at `../mars-renderer/preview.html`.
+
+## What is here
+
+A geographically registered, approximately **1.56 × 1.37 km** exploration area, with a larger 3 × 3 km measured backdrop. Three observations introduce sediment deposition, delta erosion and modern wind-shaped sand. They add short facts without interrupting driving; Map → Field notes holds the optional NASA context. Observations remain after all three are found and free exploration continues.
+
+An optional approximately **3.15 km** circuit uses the same terrain: eight ordered, any-angle gates and a finish; next gate in-world and next/following highlighted on the north-up map. A wide first line passes around two authored outcrops; a shorter **4.5 m clear gap** fits the approved rover enclosure. A separate rounded jump has a clear approach from its north, a boost cell, and landing space. Neither jump nor shortcut is required. No audio was added.
+
+Choose rover reuses the five approved kits, lightweight driving models and detailed gallery with image fallback/retry. Changing rover during a lap ends that lap, preventing mixed-rover records. Day/dusk/night, spatial storms, dissipating haze, headlights, steering, camera, suspension, tracks and boosts use the approved study's modules and values. Brian's approved preview combination is now **Light only + Hold the light**: soft terrain illumination, no headlight-cast shadows, and the lab's slower airborne transition with retained lower-beam fill. The original GPU study keeps its defaults. This is source-only, not a public deployment.
+
+Progress is local to `astra.jezero.three-forks-v1`: three observation IDs, separate best lap per rover, last grounded exploration position, selected kit and graphics/light choices. It does not read or migrate campaign/Extras saves. Refresh returns to a paused session. Races restart rather than restoring partially completed times. Invalid saves fall back safely; unavailable storage leaves driving usable. A graphics-context loss offers reload instead of the old expensive renderer fallback.
+
+## Terrain provenance and scale
+
+**Source:** USGS Mars 2020 Terrain Relative Navigation HiRISE DTM Mosaic, `JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif`. [USGS catalogue](https://astrogeology.usgs.gov/search/map/Mars/Mars2020/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40), [public raster](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif).
+
+- Scientific raster: 21,400 × 21,488, Float32, 1 metre projected pixels, equirectangular Mars 2000 sphere (radius 3,396,190 m), standard parallel / central meridian 0. The source identifies its height product as MOLA topography / DeltaGeoid. Heights retain that datum; they are not an Earth sea-level model.
+- Context center: **77.405° E, 18.461° N**. Longitude distances are corrected by cos(18.461°) to physical east-west distances; north is negative game Y. The context extends 1,500 m in each direction. Playable east −624…936 m and north −900…468 m relative to center.
+- 4 game units = 1 metre in X, Y **and Z**; no vertical exaggeration. Heights are offset by −2,565 m for rendering. The same game scale agrees with the inherited jump-distance display, but fictional rover speeds remain fictional.
+- Input is bilinearly resampled to 601 × 601 (~4.99 m samples). The compact connected export has **59,262 vertices / 117,552 triangles**, generally 8 m spacing inside the first area, up to 60 m in the distant margin. Extra 2 m axis samples resolve the single authored jump; these do not invent higher-resolution scientific measurements.
+- Source crop elevation range: **−2,562.32 to −2,424.74 m**. `assets/terrain.json` records the exported mesh range, projection details and axes. No missing-data pixels were accepted in the crop.
+- Anchor check: Williams et al. (2023) give the proposed Three Forks **landing-site** center as 18.45369687° N / 77.41359752° E and −2,548.673 m. Extracted elevation there is **−2,548.739 m**, a 0.066 m difference. This is an alignment sanity check, **not a claim of centimetre terrain accuracy**. The actual sample depot is separate, west of that proposed landing circle. [JPL team paper, LPSC 2618](https://www.hou.usra.edu/meetings/lpsc2023/pdf/2618.pdf).
+
+`extract-terrain.py` documents the extraction and fails on missing data. It requires rasterio, numpy and Pillow as **authoring tools only**; no project dependencies were added. The scientific crop cache stays at `/private/tmp/astra-jezero-dem.npz`. Exported elevations are little-endian Float32, 237,048 bytes; `terrain.json` describes their layout. The in-game relief map is derived from these measurements, not the planning board's SVG. No scientific raster is required at runtime.
+
+The terrain mesh's exact triangle interpolation drives wheel heights, launch/contact checks, camera clearance, tracks and map registration. Small traversable rubble and larger collidable stones are authored, deterministic art. Larger stone contact is a conservative circular footprint, including the shortcut's outcrops; it is not a detailed rover/rock solid-body solver.
+
+## Authored liberties
+
+The racing line, gates, energy cells, observation points and small rocks are fictional. Material colors, strata emphasis and sand ripples illustrate landform differences; they do not identify specific minerals. No cached NASA sample tubes can be collected. The only added terrain relief is a **3.5 m high rounded bump** at local east 600 m / north −700 m, with the approved prototype's 38/22-game-unit Gaussian widths. Mesh geometry includes the bump, so there is no invisible launch ramp. Dates do not control this study's light or stars.
+
+The schematic Jezero planning board remains a design reference. Its drawn coordinates were not imported. This crop does not include a fully built Hawksbill Gap campaign, Ingenuity activity, Neretva corridor, Gale, inter-crater travel or the full western rim.
+
+## Validation and remaining review
+
+`node tools/prototypes/jezero/check.mjs` (Vite on port 5502) checks connected mesh edges, exact vertex contact heights, reference elevation, full laps in slowest/fastest kits, no broad-crest launches on that line, deliberate jump, all-kit shortcut clearance, ordered/reverse gates, airborne scan exclusion, discovery persistence, continued exploration, race records/replay, map/notes return, paused weather, nonmutating rendering and five layouts in Chromium/WebKit. Screenshots go to `/private/tmp`.
+
+`performance.mjs` measures a short moving terrain-render workload in day/night/storm at laptop/phone viewport sizes under Chromium 4× CPU throttling. Set `BROWSER=webkit` for an unthrottled Apple-GPU comparison. It is a diagnostic, not a real-phone or complete-route performance guarantee. `interaction-check.mjs` additionally verifies simultaneous real Chromium touches, WebKit pointer/keyboard controls, rover-gallery return, lamp toggling and rejection of mixed-rover laps.
+
+Required next producer review: drive a lap on Brian's Mac, explore the cliff base, cross the narrow shortcut, approach the jump from its north and repeat in night/storm; then test a real phone. Validate total frame time, sustained controls and thermal behavior before choosing integration or expanding the terrain. The proposed low-detail target remains sustained 30 fps on a real lower-end device. Campaign/production save integration, a production graphics fallback, final educational target identifications, broader geography and a full scientific-resolution art pass remain open.
+
+### Recorded performance — 2026-09-14
+
+After indexing nearby rock roofs (identical camera-clearance results), Chromium / SwiftShader with 4× CPU throttling, Performance resolution, and a short 199.5-game-unit/s route replay measured p95 frame intervals of **36 / 49 / 74 ms** at 1180×820 and **20 / 31 / 43 ms** at 390×844 for day/night/storm respectively. This renderer-only diagnostic draws without the game's 30 fps cap; it does not time the full driving/UI loop. These numbers **do not establish the proposed 30 fps real-device target**; storms remain the clearest performance risk. JavaScript heap reported ~19.3 MB, excluding GPU/process memory and the unopened detailed model gallery; terrain vertex/index arrays total 2,838,744 bytes each on CPU and GPU. Browser emulation and software GPU costs differ from a real phone.
+
+Unthrottled WebKit reported **Apple GPU** and ~17 ms median / 18 ms p95 frame intervals across all six day/night/storm × laptop/phone-size runs. This is a short headless test on this Mac, not thermal-soak testing or a physical-phone result.
+
+### Discovery image provenance
+
+`assets/delta-reference.jpg` is NASA’s sol-428 Navcam image `NRF_0428_0704946794_901ECM_N0241970NCAM02428_04_195J01_1200.jpg`, byte-verified against the image embedded in [Next Stop: Hawksbill Gap](https://science.nasa.gov/blog/next-stop-hawksbill-gap/) (SHA-1 `101d61eb57f2ece481ce562491a4bbf744b58141`). `assets/delta-panorama.jpg` is the existing PIA25212 regional reference from [Jezero Crater’s Delta Is Getting Closer](https://science.nasa.gov/photojournal/jezero-craters-delta-is-getting-closer/). Both are packaged with the runtime for public photo cards.
+
+## Kodiak landmark layer — 2026-09-15
+
+Pause → Landmark labels defaults On and remembers the preference in the existing browser save. Kodiak is the first named distant feature; tap its visible label to pause and read the shared photo card. Read landmarks appear separately in Field Notes and never award a collectible. Labels hide behind terrain/rock roofs, outside the viewport, over controls, in dense local dust and when the distant feature is unlit at night. The drivable boundary, terrain mesh, physics, camera and lighting remain unchanged.
+
+### Registration and source limits
+
+The isolated southern butte in the existing USGS relief matches the Kodiak feature in NASA's [PIA24814 orbital locator](https://science.nasa.gov/photojournal/jezero-craters-kodiak-and-scarps/), using the neighboring delta scarps and the distinctive detached butte footprint. The label is anchored to the northern summit sample at **east +196 m, north −1260 m** relative to the terrain's existing center (77.405° E, 18.461° N). On the 601-pixel, 3 km relief image this is approximately pixel (340,553). The corresponding terrain sample is −2477.60 m in the supplied elevation reference. It lies beyond the current south driving boundary at north −900 m.
+
+This is a manual correspondence to the registered terrain, not a new published survey coordinate. North/south mesh spacing in this backdrop is 60 m, so the anchor and silhouette should not be described as centimetre-accurate or a detailed reconstruction of photographed strata. The label rise is 12 game units (3 m) above the sample to avoid attachment inside the surface. No new butte geometry was fabricated.
+
+`assets/kodiak.jpg` is the original [PIA24802](https://www.jpl.nasa.gov/images/pia24802-perseverance-captures-image-of-kodiak/) photograph downloaded from `https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA24802.jpg`: Mastcam-Z, 18 April 2021, NASA/JPL-Caltech/ASU/MSSS. It is enhanced color, taken from a different camera position than the game's northern approach. Its caption documents roughly 250 m width and 2.2 km distance from the rover at that observation; that distance is not the game's current range.
+
+Validation command: `node tools/prototypes/jezero/landmark-check.mjs`; set `JEZERO_URL` for the published versioned runtime. Existing discovery/map and interaction suites also apply. The balanced-rock reconstruction remains a separate task.
+
+## Western skyline and Kodiak detail — 2026-09-15
+
+Brian’s reference standard: iconic landforms should closely match real silhouettes, proportions and geographic surroundings. Photo comparisons must distinguish camera position from landmark identity; small rock detail need not be exact. The 2021 Kodiak cover view remains the default; an official sol-415 / 20 April 2022 natural-color mosaic is selectable in the same paused card. Black mosaic margins are source coverage gaps. Cover attribution: [Mastcam-Z / Jim Bell](https://mastcamz.asu.edu/galleries/the-science-of-kodiak/), 5 November 2021 issue of Science. Second view: [Mastcam-Z sol 415](https://mastcamz.asu.edu/galleries/sol-0415-kodiak-long-baseline-stereo-part1-01-mastcam-z-mosaic/), original preview JPEG `CZCAM_SOL0415_ZCAM08430_Z110_L0_NN_SCI_CYL_KODIAK_LONG_BASELINE_STEREO_PART1_01_10x.jpg`. Neither is a registered recreation of the player’s camera.
+
+`extract-backdrop.py` exports a **20 × 20 km scenery envelope** centered on the existing Three Forks origin, from the USGS Mars 2020 Science Investigation CTX DEM Mosaic. This is western Jezero context, **not the full crater or a new playable map**. Original 20 m pixels are sampled at 100 m (201 × 201, 161,604 bytes). All samples valid; range −2683.157…−1654.264 m. Source URL and projection metadata ship in `assets/backdrop.json`. The source’s 18.4663° standard parallel is converted to the existing local east/north axes using the same Mars sphere radius. Distances/heights retain 1:1 geographic scale, with the existing four game units per metre. No rim-height exaggeration or travel compression.
+
+The CTX/HiRISE overlap differs at the expected resolution scale: on a 31 × 31 comparison grid, median CTX-minus-HiRISE is +1.15 m and 90th-percentile absolute difference is 6.94 m (approximate grid comparison, not an accuracy certification). A 300 m collar outside the old crop blends their boundary difference; no global elevation shift. Downward edge skirts close sub-grid rendering cracks. A distant-only haze treatment keeps the skyline legible; local lighting, headlight and airborne-light formulas are unchanged. Three Forks uses a longer depth range so the backdrop and local surface occlude correctly; the original GPU study retains its previous range.
+
+Kodiak’s inaccessible rectangle (east −100…500 m, north −1500…−1020 m) replaces the coarse visual mesh with a **5 m sampled HiRISE patch** from the same cached scientific crop, with shared edge samples and a 15 m edge blend. This supersedes the earlier 60 m north/south visual detail limitation. The original physical/camera mesh and all drivable heights are untouched; the landmark label uses the refined visible elevation. This improves the gross silhouette; undercuts, fine cliff strata and exact photo-camera reconstruction remain unbuilt. There is no imported photogrammetry model or claimed 1:1 photographic replica.
+
+Validation entry points: `backdrop-check.mjs` (finite/index limits, unchanged drivable heights/bounds, visual patch replacement, cardinal screenshots/night/depth), updated `landmark-check.mjs` (two photos and pause), existing `check.mjs` / `refinement-check.mjs`, and original Mars GPU `check.mjs`. Real-phone performance and the producer’s visual comparison remain required.
