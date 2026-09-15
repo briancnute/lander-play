@@ -49,17 +49,17 @@ function renderNotes(){
  if(progress.collected.includes(i)){const img=document.createElement('img');img.src=new URL(p.image,import.meta.url).href;img.alt='NASA view of Jezero’s delta front';img.loading='lazy';a.prepend(img);const d=document.createElement('details'),s=document.createElement('summary'),body=document.createElement('p'),link=document.createElement('a');s.textContent='The story';body.textContent=p.detail;link.href=p.source;link.target='_blank';link.rel='noopener noreferrer';link.textContent='NASA / JPL-Caltech · source ↗';d.append(s,body,link);a.append(d);}else a.classList.add('locked');return a;}));
 }
 function mapPoint(p,w,h){const b=area.bounds;return {x:(p.x-b.minX)/(b.width-b.minX)*w,y:(p.y-b.minY)/(b.maxY-b.minY)*h};}
-function drawMap(){
- const c=$('#map'),rect=c.getBoundingClientRect(),w=Math.max(300,rect.width),h=Math.max(270,rect.height),dpr=Math.min(2,devicePixelRatio);c.width=w*dpr;c.height=h*dpr;const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+function drawMap(c=$('#map'),mini=false){
+ const rect=c.getBoundingClientRect(),w=Math.max(mini?100:300,rect.width),h=Math.max(mini?90:270,rect.height),dpr=Math.min(2,devicePixelRatio);c.width=w*dpr;c.height=h*dpr;const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
  const b=area.bounds;ctx.fillStyle='#8a6346';ctx.fillRect(0,0,w,h);if(relief.complete&&relief.naturalWidth)ctx.drawImage(relief,b.minX/12000*601,b.minY/12000*601,(b.width-b.minX)/12000*601,(b.maxY-b.minY)/12000*601,0,0,w,h);
  ctx.fillStyle='#1e242233';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#efddaf91';ctx.lineWidth=1.5;ctx.setLineDash([4,5]);ctx.beginPath();area.course.route.forEach((p,i)=>{const q=mapPoint(p,w,h);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.stroke();ctx.setLineDash([]);
- const gates=[...area.course.gates,area.course.finish];gates.forEach((p,i)=>{const q=mapPoint(p,w,h),next=state.mode==='trial'&&i===state.nextGate,following=state.mode==='trial'&&i===state.nextGate+1;ctx.beginPath();ctx.arc(q.x,q.y,next?9:5,0,Math.PI*2);ctx.fillStyle=next?'#c2f1cb':following?'#edd9a4':'#23382bd0';ctx.fill();ctx.strokeStyle='#eddcb4';ctx.stroke();if(next||following){ctx.fillStyle='#fff4d6';ctx.font='bold 12px system-ui';ctx.fillText(i===area.course.gates.length?'Finish':String(i+1),q.x+12,q.y+4);}});
- ctx.font='12px system-ui';ctx.textAlign='center';for(const [i,p]of discoveries.entries()){const q=mapPoint(p,w,h);ctx.fillStyle=progress.collected.includes(i)?'#bde5b8':'#f4da9c';ctx.beginPath();ctx.moveTo(q.x,q.y-6);ctx.lineTo(q.x+6,q.y);ctx.lineTo(q.x,q.y+6);ctx.lineTo(q.x-6,q.y);ctx.closePath();ctx.fill();const width=ctx.measureText(p.name).width,labelX=Math.max(width/2+6,Math.min(w-width/2-6,q.x));ctx.fillStyle='#18302de0';ctx.fillRect(labelX-width/2-5,q.y+10,width+10,21);ctx.fillStyle='#f1e4c9';ctx.fillText(p.name,labelX,q.y+25);}
- const shortcut=mapPoint(toGame(350,-495),w,h);ctx.fillStyle='#e1d6b6';ctx.fillText('Shortcut',shortcut.x,shortcut.y-13);const jump=mapPoint(area.jump,w,h);ctx.fillStyle='#d5d7c1';ctx.fillText('↟ Jump',jump.x,jump.y+4);
- const p=mapPoint(state,w,h);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(state.heading);ctx.fillStyle='#e2ffe3';ctx.strokeStyle='#16332d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(7,7);ctx.lineTo(0,3);ctx.lineTo(-7,7);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+ const gates=[...area.course.gates,area.course.finish];gates.forEach((p,i)=>{const q=mapPoint(p,w,h),next=state.mode==='trial'&&i===state.nextGate,following=state.mode==='trial'&&i===state.nextGate+1;ctx.beginPath();ctx.arc(q.x,q.y,mini?(next?4:2):next?9:5,0,Math.PI*2);ctx.fillStyle=next?'#c2f1cb':following?'#edd9a4':'#23382bd0';ctx.fill();ctx.strokeStyle='#eddcb4';ctx.stroke();if(!mini&&(next||following)){ctx.fillStyle='#fff4d6';ctx.font='bold 12px system-ui';ctx.fillText(i===area.course.gates.length?'Finish':String(i+1),q.x+12,q.y+4);}});
+ ctx.font='12px system-ui';ctx.textAlign='center';for(const [i,p]of discoveries.entries()){const q=mapPoint(p,w,h);ctx.fillStyle=progress.collected.includes(i)?'#bde5b8':'#f4da9c';ctx.beginPath();ctx.moveTo(q.x,q.y-6);ctx.lineTo(q.x+6,q.y);ctx.lineTo(q.x,q.y+6);ctx.lineTo(q.x-6,q.y);ctx.closePath();ctx.fill();if(mini)continue;const width=ctx.measureText(p.name).width,labelX=Math.max(width/2+6,Math.min(w-width/2-6,q.x));ctx.fillStyle='#18302de0';ctx.fillRect(labelX-width/2-5,q.y+10,width+10,21);ctx.fillStyle='#f1e4c9';ctx.fillText(p.name,labelX,q.y+25);}
+ ctx.font=mini?'9px system-ui':'12px system-ui';const shortcut=mapPoint(toGame(350,-495),w,h);ctx.fillStyle='#e1d6b6';if(!mini)ctx.fillText('Shortcut',shortcut.x,shortcut.y-13);const jump=mapPoint(area.jump,w,h);ctx.fillStyle='#d5d7c1';ctx.fillText(mini?'↟':'↟ Jump',jump.x,jump.y+4);
+ const p=mapPoint(state,w,h);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(state.heading);if(mini)ctx.scale(.65,.65);ctx.fillStyle='#e2ffe3';ctx.strokeStyle='#16332d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(7,7);ctx.lineTo(0,3);ctx.lineTo(-7,7);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
  // Physical scale comes from the terrain's 4 game units per metre.
  const metres=200,pixels=metres*4/(b.width-b.minX)*w;ctx.strokeStyle='#f1e4c9';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(18,h-25);ctx.lineTo(18+pixels,h-25);ctx.stroke();ctx.textAlign='left';ctx.fillStyle='#f1e4c9';ctx.fillText('200 m',18,h-33);
- $('#best-lap').textContent=progress.bests[selected]?`${KITS[selected].name} · best lap ${clock(progress.bests[selected])}`:'Your lap records will appear here.';
+ if(!mini)$('#best-lap').textContent=progress.bests[selected]?`${KITS[selected].name} · best lap ${clock(progress.bests[selected])}`:'Your lap records will appear here.';
 }
 function gateGeometry(){const v=[];for(const side of [-1,1]){box(v,side*46-1,-1,0,2,2,25,[.63,.83,.67]);triangle(v,[side*46,0,25],[side*46+side*10,0,21],[side*46,0,17],[.76,.91,.7]);}return gpu.upload(new Float32Array(v));}
 let posts;
@@ -81,10 +81,10 @@ function step(dt){previous=capturePose(state,area.ground(state.x,state.y));const
  if(state.mode==='trial'&&state.done)finishLap();
 }
 function frame(t){const dt=Math.min(.05,(t-last)/1000||0);last=t;if(ready){if(!paused){acc+=dt;while(acc>=1/60&&!paused){step(1/60);acc-=1/60;}if(t-lastDraw>=(quality==='performance'?32:0)){draw(Math.min(.05,(t-lastDraw)/1000));lastDraw=t;}if(t-lastSave>3000){save();lastSave=t;}}else if(dirty){draw(0);dirty=false;}
- if(t-lastHud>100){updateHud();lastHud=t;}if($('#map-dialog').open&&t-lastMap>300){drawMap();lastMap=t;}}
+ if(t-lastHud>100){updateHud();lastHud=t;}if(t-lastMap>200){drawMap($('#mini-map'),true);if($('#map-dialog').open)drawMap();lastMap=t;}}
  requestAnimationFrame(frame);}
 $('#explore').onclick=explore;$('#welcome-lap').onclick=startLap;$('#start-lap').onclick=startLap;$('#map-lap').onclick=startLap;$('#race-again').onclick=startLap;$('#result-explore').onclick=explore;
-$('#pause-button').onclick=()=>openDialog('#pause-dialog');$('#map-button').onclick=()=>openDialog('#map-dialog');$('#resume').onclick=()=>{closeDialogs();exploreOrResume();};
+$('#pause-button').onclick=()=>openDialog('#pause-dialog');$('#map-button').onclick=$('#mini-map-button').onclick=()=>openDialog('#map-dialog');$('#resume').onclick=()=>{closeDialogs();exploreOrResume();};
 function exploreOrResume(){if(welcome)explore();else setPause(false);}
 $('#end-lap').onclick=endLap;
 $('#return-start').onclick=()=>{resetAt(area.start);explore();};

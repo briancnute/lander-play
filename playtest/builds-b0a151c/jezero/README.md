@@ -1,5 +1,8 @@
 # Three Forks / delta front — first playable area
 
+**2026-09-15:** a persistent north-up minimap now tracks the rover, discoveries and race route while driving. Tap it for the full labeled map. It redraws at 5 Hz and leaves controls/physics unchanged.
+
+
 **Public mobile playtest:** this study is now packaged through the public PLAYTEST menu. See `docs/PLAYTEST.md` and newest STATUS for release verification. Older source-only notes below describe earlier checkpoints; campaign integration remains separate.
 
 2026-09-14. Source-only, **not deployed or added to Extras**. Brian approved the Three Forks direction and requested a cohesive first playable pass before further refinement.
