@@ -1,5 +1,9 @@
 # Three Forks / delta front — first playable area
 
+## Exploration refinement — 2026-09-15
+
+Three Forks now hides the course, gates, race legend, shortcut label and lap-record text from the maps outside active time trials. Newly collected observations open paused photo cards; Field Notes can reopen them with correct nested return. Images are explicitly regional references, not registered viewpoint matches. Existing driving, camera, lighting and terrain are preserved. Kodiak/landmark-label integration and the balanced-rock reconstruction remain pending.
+
 **2026-09-15:** a persistent north-up minimap now tracks the rover, discoveries and race route while driving. Tap it for the full labeled map. It redraws at 5 Hz and leaves controls/physics unchanged.
 
 
