@@ -62,6 +62,7 @@ export async function loadArea(){
   ...regions.map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
   ...detailIndices.filter(i=>(s.regions??[]).includes(regionIdForDetail(i))).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),
  ];
+ area.turboSurfaceSpeed=1+lineBonus;
  area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
  // Index the same conservative rock roofs, so each camera sample only checks
  // nearby stones. Geometry, clearance and the approved camera response are identical.

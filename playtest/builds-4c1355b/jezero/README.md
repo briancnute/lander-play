@@ -1,5 +1,13 @@
 # Three Forks / delta front — first playable area
 
+## 2026-09-16 — 2.5× tuning and current-area finish pass
+
+Brian confirmed the terrain-color road fix and requested 2.5× kit speed after driving a lap. This supersedes 2× in exploration and racing. Active turbo uses the same 7% cap allowance on every ground surface and ignores slope speed penalties, so a player can take shortcuts between ordered checkpoints. Normal road advantage resumes when turbo ends; rocks, terrain contact, airborne coasting and braking remain intact. Records move to smooth-2_5x-v5; older times are archived and prior activity completion is retained.
+
+Field Notes now reports regions, subordinate discoveries and the race separately, then explicitly marks Three Forks complete when all requirements are met. Discovery details use player-facing educational language; camera-registration and modeling notes remain as researchDetail metadata. The race chooser correctly says rover. The next terrain block remains landing/crater floor plus Séítah, following a final physical-device check; exact-photo reconstruction and detailed rover art are optional future polish, not prerequisites for the next terrain survey.
+
+Validation: 2,562 unit tests passed / 2 skipped; production build passes with existing warnings. Chromium/WebKit cover cards, map navigation, race selection/restoration, journal completion and v4-record migration. All five powered rovers completed eight-gate automated laps with zero collisions (about 40–43 seconds). Physics checks cover identical turbo behavior on road/dirt/uphill, normal-cap restoration after expiry and airborne coasting. Remaining optional image replacements and physical-device performance remain tracked below; this pass does not claim new terrain is built.
+
 ## 2026-09-16 — Road surface intersection fix
 
 The previous loop correction did not resolve the reported road glitches. Diagnosis measured 2,266 road sample points below the actual terrain: the separate road triangles crossed terrain triangle boundaries and exposed dark patches. The road now colors the existing terrain through a world-space mask; its separate mesh and depth-offset draw are removed. Width, route, 2× kit, road bonus and physics are unchanged. Road color is enabled only during racing. Earlier claims that route smoothing eliminated the rendering defect are superseded.

@@ -6,12 +6,12 @@ const region=(id,name,east,north,copy)=>({id,name,...toGame(east,north),kind:'re
 export const regions=[
  region('western-delta','Western delta',-430,200,{
   fact:'Jezero’s western delta formed where an ancient river slowed as it entered a crater lake, dropping layers of sand, mud and rock.',
-  detail:'This is why the western delta matters: moving water sorted and buried material here. The broad region card reveals the smaller rock workspaces inside it.',
+  detail:'This is why the western delta matters: moving water sorted and buried material here. Explore the smaller rock workspaces revealed on your map to see parts of that story.',
   image:'./assets/wildcat-skinner-photo.png',imageAlt:'Rover view across varied sedimentary rocks in Jezero’s western delta',imageCredit:'NASA/JPL-Caltech/ASU/MSSS · Producer-selected crop',source:'https://science.nasa.gov/mission/mars-2020-perseverance/science/exploring-jezero-crater/'
  }),
  region('delta-front','Delta front',-220,-440,{
   fact:'The delta front preserves sediment laid down where flowing water met the ancient lake. Changes in grain size and layering record changes in that water.',
-  detail:'Collecting this regional overview reveals the detailed sampling sites and sediment stories clustered around the front of the delta.',
+  detail:'Follow the newly revealed markers to compare sampling sites and the sediment stories along the delta front.',
   image:'./assets/hidden-harbor-photo.png',imageAlt:'Layered and fractured rocks along Jezero’s delta front',imageCredit:'NASA/JPL-Caltech/ASU/MSSS · Producer-selected natural-color crop',source:'https://science.nasa.gov/mission/mars-2020-perseverance/science/exploring-jezero-crater/'
  }),
  region('crater-floor','Crater floor',750,-650,{
@@ -21,7 +21,7 @@ export const regions=[
  }),
  {...landmarks[0],id:'kodiak-region',regionId:'kodiak',name:'Kodiak',...toGame(80,-880),kind:'region',
   fact:'Kodiak is an isolated remnant of Jezero’s ancient river delta. Its exposed layers helped scientists read the sequence of water and sediment in the crater lake.',
-  detail:'This accessible overlook represents the Kodiak region. The butte itself remains beyond the driving boundary; the compact-world viewpoint preserves its recognizable layered form and bearing.'},
+  detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. You can visit this overlook; Kodiak itself lies beyond the driving boundary.'},
 ];
 
 export const regionById=Object.fromEntries(regions.map(r=>[r.regionId??r.id,r]));

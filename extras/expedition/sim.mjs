@@ -52,7 +52,8 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  // A world may offer a modest ground-surface advantage (for example, the
  // compacted line through a time trial). It changes the cap, never thrust,
  // and cannot affect a rover while airborne.
- const surfaceSpeed=!s.air&&typeof area?.speedMultiplier==='function'?clamp(area.speedMultiplier(s),1,1.2):1;
+ const terrainTurbo=s.boost>0&&Number.isFinite(area?.turboSurfaceSpeed);
+ const surfaceSpeed=s.air?1:terrainTurbo?clamp(area.turboSurfaceSpeed,1,1.2):typeof area?.speedMultiplier==='function'?clamp(area.speedMultiplier(s),1,1.2):1;
  const max=(s.boost?tune.boostSpeed:tune.speed)*surfaceSpeed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
  const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;
  const reversing=brake&&!drive&&reverseAvailable(s,sites);
@@ -60,7 +61,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  if(!s.air){
   const previousSpeed=s.v;
   if(reversing)s.v-=acc*.6*dt;else if(brake)s.v*=Math.exp(-dt*7);else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
-  s.v-=slope*dt*12;
+  if(!terrainTurbo)s.v-=slope*dt*12;
   if(!drive&&!reversing&&inSampleZone(s,sites)&&Math.abs(s.v)<=.5)s.v=0;
   if(s.turnaround)s.v=Math.min(s.v,50);
   if(s.v>max)s.v=previousSpeed>max?Math.min(s.v,Math.max(max,previousSpeed-tune.acceleration*dt)):max;
