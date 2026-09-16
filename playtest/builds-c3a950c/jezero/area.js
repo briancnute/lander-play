@@ -4,6 +4,7 @@ import {landmarks} from './landmarks.js';
 import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
+import {triangle} from '../mars-renderer/geometry.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
@@ -11,9 +12,33 @@ const kodiak=landmarks[0];
 // The accessible overlook keeps the documented 23_824 → Kodiak bearing while
 // shortening its roughly 602 m real range to about 397 m in the compact world.
 export const discoveries=[byId.pair,byId.hidden,byId.observation,{...kodiak,...toGame(80,-880),kind:'site',focus:{x:kodiak.x,y:kodiak.y},copy:kodiak.fact,cameraReference:'23_824',authoredRangeMetres:397},byId.depot,byId.amalik,byId.landing];
+export function distanceToRoute(route,x,y){
+ let best=Infinity;
+ for(let i=1;i<route.length;i++){
+  const a=route[i-1],b=route[i],dx=b.x-a.x,dy=b.y-a.y,length=dx*dx+dy*dy;
+  const t=length?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/length)):0;
+  best=Math.min(best,Math.hypot(x-(a.x+dx*t),y-(a.y+dy*t)));
+ }
+ return best;
+}
+function raceLine(route,height){
+ const out=[],color=[.535,.355,.24],last=route.length-1;
+ // Paired wheel-worn ruts suggest compacted ground without painting an arcade
+ // road across Mars. Averaged point normals keep the closed line continuous.
+ const normals=route.map((p,i)=>{const before=route[i===0?last-1:i-1],after=route[i===last?1:i+1],dx=after.x-before.x,dy=after.y-before.y,length=Math.hypot(dx,dy)||1;return {x:-dy/length,y:dx/length};});
+ const point=(q,n,offset)=>{const x=q.x+n.x*offset,y=q.y+n.y*offset;return [x,y,height(x,y)+.12];};
+ for(const center of [-4,4])for(let i=1;i<route.length;i++){
+  const a=route[i-1],b=route[i],an=normals[i-1],bn=normals[i],al=point(a,an,center-.9),ar=point(a,an,center+.9),bl=point(b,bn,center-.9),br=point(b,bn,center+.9);
+  triangle(out,al,bl,ar,color);triangle(out,ar,bl,br,color);
+ }
+ return new Float32Array(out);
+}
 export async function loadArea(){
  const mesh=await loadTerrain(),response=await fetch(new URL('./assets/route.json',import.meta.url));if(!response.ok)throw Error('The delta route could not be loaded.');const data=await response.json();
  const route=data.route.map(([e,n])=>toGame(e,n)),points=data.points.map(([e,n])=>toGame(e,n));
+ // Close the authored centerline exactly. The lap is one continuous circuit,
+ // not an open course with a finish trigger placed near its first point.
+ if(Math.hypot(route.at(-1).x-route[0].x,route.at(-1).y-route[0].y)>.01)route.push({...route[0]});
  const gate=(p,i)=>{const before=points[(i+points.length-1)%points.length],after=points[(i+1)%points.length];return {...p,heading:Math.atan2(after.x-before.x,-(after.y-before.y)),i};};
  const course={route,gates:points.slice(1).map((p,i)=>gate(p,i+1)),finish:gate(points[0],0)};
  const start={...points[0],heading:Math.atan2(points[1].x-points[0].x,-(points[1].y-points[0].y))};
@@ -24,10 +49,13 @@ export async function loadArea(){
  const jump=toGame(600,-700);
  // Clear the jump run-up and landing corridor of authored obstacles.
  const filtered=[...rocks.filter(([x,y])=>Math.abs(x-jump.x)>55||Math.abs(y-jump.y)>600),...fidelity.rocks];
- const pickups=[...points.filter((_,i)=>i%2===0),toGame(600,-650)].map((p,id)=>({...p,id}));
+ // Boosts reward choices around the circuit; none occupies the start/finish.
+ const pickups=[...points.filter((_,i)=>i>0&&i%2===0),toGame(600,-650)].map((p,id)=>({...p,id}));
  const scenery=await loadBackdrop(mesh);
  const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);
- const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,fidelity,rockStats,samples:discoveries,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ const lineWidth=8,lineBonus=.07;
+ const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceLine:raceLine(route,mesh.height),fidelity,rockStats,samples:discoveries,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
  // Index the same conservative rock roofs, so each camera sample only checks
  // nearby stones. Geometry, clearance and the approved camera response are identical.
  const buckets=new Map(),cellSize=64;

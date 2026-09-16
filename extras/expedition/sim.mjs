@@ -49,7 +49,11 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  s.boost=Math.max(0,s.boost-dt);
  const prev={x:s.x,y:s.y};
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(area?.roverHandling?(tune.handling??1):1)*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
- const max=s.boost?tune.boostSpeed:tune.speed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
+ // A world may offer a modest ground-surface advantage (for example, the
+ // compacted line through a time trial). It changes the cap, never thrust,
+ // and cannot affect a rover while airborne.
+ const surfaceSpeed=!s.air&&typeof area?.speedMultiplier==='function'?clamp(area.speedMultiplier(s),1,1.2):1;
+ const max=(s.boost?tune.boostSpeed:tune.speed)*surfaceSpeed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
  const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;
  const reversing=brake&&!drive&&reverseAvailable(s,sites);
  // Pedals, normal speed caps and ground drag cannot change airborne momentum.

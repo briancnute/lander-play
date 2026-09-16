@@ -1,5 +1,11 @@
 # Three Forks / delta front — first playable area
 
+## Completion and circuit amendment — 2026-09-16
+
+Future-world access requires every discovery plus every required activity: currently seven discovery IDs and the `delta-trial`. Saves persist stable completed-activity IDs; a compatible existing best lap migrates as proof of race completion. No unbuilt destination UI is implied.
+
+The 3.15 km time-trial centerline is explicitly closed. Subtle paired wheel-worn ruts mark its 5 m-wide compacted driving corridor, which raises only the active trial's grounded top-speed cap by 7%; it supplies no thrust, exploration bonus or airborne effect. The start/finish Boost was removed. Race exit restores the player's original exploration rover with its optional Boost kit Off.
+
 ## Playable-map V2 — 2026-09-16
 
 The measured terrain now carries a deterministic, variable-density field of boulders, flush pavers, long slabs, standing eroded fins and layered blocks. Larger anchor objects are dispersed across the delta; the crater floor remains quieter. The race line, jump corridor and five-rover shortcut have explicit clearance. This is a generalized terrain vocabulary, not a claim that random props reproduce surveyed rocks.

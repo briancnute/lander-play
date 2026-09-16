@@ -1,7 +1,7 @@
 import {WORLD_SCALE,MAP_SIZE} from './scale.js';
 import {photos,latestVisual,photoDate,orderedNotes} from './photos.js';
 import {MiniMap} from './minimap.js';
-import {mapBounds,geology,raceSite,mapTarget,advanceEntry,CLOSE_RANGE,regionAt,reachableTarget} from './navigation.js';
+import {mapBounds,geology,raceSite,mapTarget,advanceEntry,CLOSE_RANGE,regionAt,reachableTarget,worldUnlocked} from './navigation.js';
 import {loadArea,discoveries,SITE_VERSION} from './area.js';
 import {landmarks} from './landmarks.js';
 import {toGame,toMetres} from './terrain.js';
@@ -21,7 +21,7 @@ let area,gpu,state,previous,paused=true,ready=false,welcome=true,last=0,acc=0,la
 const mods={kit:false};let stormsEnabled=true,raceExplorer=null;
 const nav={target:null,labels:false};let cardSite=null,mapReturn=null;let entryTime=0,entryArmed=true;const observedInside=new Set();
 const input={drive:false,brake:false,steer:0},keys=new Set(),pointers=new Map();
-const progress={seenLandmarks:[],collected:[],legacyBests:{},bests:{},rover:'perseverance',position:null};
+const progress={seenLandmarks:[],collected:[],completedActivities:[],legacyBests:{},bests:{},rover:'perseverance',position:null};
 const minimap=new MiniMap($('#mini-map-button'),$('#map-return'),()=>{mapReturn=null;openDialog('#map-dialog');},()=>save());
 const storm=new StormFront(),sky=new NightSky($('#night-sky')),relief=new Image();relief.src=new URL('./assets/relief.webp',import.meta.url).href;
 function readSave(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(!s||s.version!==SITE_VERSION)return;
@@ -29,6 +29,9 @@ function readSave(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if
  progress.collected=Array.isArray(s.collected)?[...new Set(s.collected.filter(i=>(s.siteCatalog===2||i===3)&&Number.isInteger(i)&&i>=0&&i<discoveries.length))]:[];
  progress.legacyBests={...s.legacyBests,...(s.raceVersion==='compact-v3'?{}:Object.fromEntries(Object.entries(s.bests??{}).map(([id,time])=>[(s.raceVersion??'original')+':'+id,time])))};
  if(s.raceVersion==='compact-v3'&&s.bests&&typeof s.bests==='object')for(const id of Object.keys(KITS))if(Number.isFinite(s.bests[id])&&s.bests[id]>0)progress.bests[id]=s.bests[id];
+ progress.completedActivities=Array.isArray(s.completedActivities)?[...new Set(s.completedActivities.filter(id=>id===raceSite.id))]:[];
+ // A saved record proves completion for players upgrading from the previous save shape.
+ if(Object.keys(progress.bests).length&&!progress.completedActivities.includes(raceSite.id))progress.completedActivities.push(raceSite.id);
  if(s.navigation?.target){const t=s.navigation.target;if(Number.isFinite(t.x)&&Number.isFinite(t.y)&&t.x>=0&&t.x<=MAP_SIZE&&t.y>=0&&t.y<=MAP_SIZE)nav.target=reachableTarget(t,area.bounds);}
  mods.kit=s.mods?.kit===true||s.mods?.speed===true||s.mods?.air===true;stormsEnabled=s.stormsEnabled!==false;minimap.restore(s.minimap);nav.labels=s.navigation?.labels===true;
  progress.seenLandmarks=Array.isArray(s.seenLandmarks)?[...new Set(s.seenLandmarks.filter(id=>landmarks.some(p=>p.id===id)))]:[];
@@ -37,7 +40,7 @@ function readSave(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if
  if(s.position&&['x','y','heading'].every(k=>Number.isFinite(s.position[k]))){const p=s.position,b=area.bounds;if(p.x>b.minX+100&&p.x<b.width-100&&p.y>b.minY+100&&p.y<b.maxY-100)progress.position=p;}
  }catch{/* Corrupt or unavailable storage cannot prevent exploration. */}}
 function save(){if(!ready)return;const position=state.mode==='free'&&!state.air&&!state.turnaround?{x:state.x,y:state.y,heading:state.heading}:progress.position;
- try{localStorage.setItem(KEY,JSON.stringify({version:SITE_VERSION,worldScale:WORLD_SCALE,siteCatalog:2,collected:progress.collected,bests:progress.bests,legacyBests:progress.legacyBests,raceVersion:'compact-v3',rover:raceExplorer??selected,position,quality,light,seenLandmarks:progress.seenLandmarks,navigation:nav,mods,stormsEnabled,minimap:minimap.state}));progress.position=position;}catch{if(!saveWarned){saveWarned=true;notify('Progress cannot be saved in this browser.');}}}
+ try{localStorage.setItem(KEY,JSON.stringify({version:SITE_VERSION,worldScale:WORLD_SCALE,siteCatalog:2,collected:progress.collected,completedActivities:progress.completedActivities,bests:progress.bests,legacyBests:progress.legacyBests,raceVersion:'compact-v3',rover:raceExplorer??selected,position,quality,light,seenLandmarks:progress.seenLandmarks,navigation:nav,mods,stormsEnabled,minimap:minimap.state}));progress.position=position;}catch{if(!saveWarned){saveWarned=true;notify('Progress cannot be saved in this browser.');}}}
 function notify(text,seconds=5){state.message=text;state.messageUntil=state.t+seconds;dirty=true;}
 function sync(){const held=new Set(pointers.values());input.drive=keys.has('w')||keys.has('arrowup')||held.has('drive');input.brake=keys.has(' ')||keys.has('arrowdown')||keys.has('s')||held.has('brake');input.steer=(keys.has('d')||keys.has('arrowright')||held.has('right')?1:0)-(keys.has('a')||keys.has('arrowleft')||held.has('left')?1:0);}
 function clearInput(){keys.clear();pointers.clear();sync();document.querySelectorAll('.controls .active').forEach(b=>b.classList.remove('active'));}
@@ -50,11 +53,11 @@ function closeDialogs(){for(const d of document.querySelectorAll('dialog[open]')
 function setPause(value){paused=value;clearInput();acc=0;if(state)previous=capturePose(state,area.ground(state.x,state.y));$('#lamps').hidden=true;dirty=true;if(value)save();else if(document.activeElement instanceof HTMLElement)document.activeElement.blur();}
 function openDialog(id,caller=null){closeDialogs();backTo=caller;setPause(true);$(id).showModal();if(id==='#pause-dialog')$('#resume').textContent='RESUME';if(id==='#map-dialog'){$('#site-labels').checked=nav.labels;drawMap();}if(id==='#notes-dialog')renderNotes();}
 function closeSheet(){const back=backTo;if($('#map-dialog').open&&mapReturn){const r=mapReturn;mapReturn=null;showCard(r.site,r.caller,r.site.kind);notesReturn=r.notes;return;}closeDialogs();if(back)openDialog(back,back==='#notes-dialog'?notesReturn:back==='#map-dialog'&&mapReturn?'#discovery-dialog':null);else setPause(false);}
-function restoreExplorer(){if(raceExplorer){selected=raceExplorer;raceExplorer=null;state.roverId=selected;state.tune=explorationKit(selected,mods);state.v=state.vz=0;state.air=false;state.z=area.ground(state.x,state.y);previous=capturePose(state,state.z);gpu.reset(state);}}
+function restoreExplorer(){if(raceExplorer){selected=raceExplorer;raceExplorer=null;mods.kit=false;state.roverId=selected;state.tune=explorationKit(selected,mods);state.v=state.vz=0;state.air=false;state.z=area.ground(state.x,state.y);previous=capturePose(state,state.z);gpu.reset(state);}}
 function explore(){restoreExplorer();welcome=false;$('#welcome').hidden=true;closeDialogs();state.mode='free';state.done=false;state.countdown=0;setPause(false);updateHud();save();}
 function startLap(){raceExplorer??=selected;entryTime=0;entryArmed=false;$('#scene').classList.remove('race-transition');void $('#scene').offsetWidth;$('#scene').classList.add('race-transition');welcome=false;$('#welcome').hidden=true;closeDialogs();resetAt(area.start,'trial');setPause(false);notify('Delta circuit',2);}
 function endLap(){restoreExplorer();state.mode='free';state.tune=explorationKit(selected,mods);state.done=false;state.countdown=0;state.time=0;notify('Explore freely');updateHud();save();}
-function finishLap(){const time=state.time,old=progress.bests[selected];if(!old||time<old)progress.bests[selected]=time;
+function finishLap(){const time=state.time,old=progress.bests[selected];if(!old||time<old)progress.bests[selected]=time;if(!progress.completedActivities.includes(raceSite.id))progress.completedActivities.push(raceSite.id);mods.kit=false;
  $('#result-time').textContent=clock(time);$('#result-best').textContent=!old||time<old?'Your best in this rover':`Best · ${clock(old)}`;
  state.mode='free';state.done=false;state.countdown=0;state.v=0;openDialog('#result-dialog');updateHud();save();}
 let currentRegion='';
@@ -173,5 +176,5 @@ try{
  area=await loadArea();readSave();gpu=new GPURenderer($('#world'),area);gpu.shadowMode='none';gpu.softSurfaceLighting=true;gpu.flightLighting=1;posts=gateGeometry();storm.southBoundary=area.bounds.maxY+1600;resetAt(progress.position??{...area.start,heading:-.4});for(const i of progress.collected)if(Math.hypot(state.x-discoveries[i].x,state.y-discoveries[i].y)<CLOSE_RANGE)observedInside.add(i);entryArmed=Math.hypot(state.x-raceSite.x,state.y-raceSite.y)>=raceSite.radius;ready=true;minimap.layout();$('#map-enabled').checked=minimap.state.enabled;$('#storms-enabled').checked=stormsEnabled;$('#quality').value=quality;$('#light').value=light;for(const b of document.querySelectorAll('[data-light]'))b.setAttribute('aria-pressed',String(b.dataset.light===light));$('#loading').hidden=true;
  if(progress.position||progress.collected.length){welcome=false;$('#welcome').hidden=true;openDialog('#pause-dialog');}
  $('#world').addEventListener('webglcontextlost',e=>{e.preventDefault();setPause(true);ready=false;$('#loading').hidden=false;$('#loading h2').textContent='The graphics paused.';$('#loading p').textContent='Your saved discoveries are safe.';const b=document.createElement('button');b.textContent='Reload terrain';b.onclick=()=>location.reload();$('#loading').append(b);});
- window.__jezero={get state(){return state},area,gpu,storm,progress,get paused(){return paused},get input(){return input},landmarks,nav,raceSite,get entryTime(){return entryTime},mods,minimap,get stormsEnabled(){return stormsEnabled},resetAt,step,draw,startLap,chooseRace,explore,setPause,save,openDialog};requestAnimationFrame(frame);
+ window.__jezero={get state(){return state},area,gpu,storm,progress,get worldUnlocked(){return worldUnlocked(progress,discoveries.length)},get paused(){return paused},get input(){return input},landmarks,nav,raceSite,get entryTime(){return entryTime},mods,minimap,get stormsEnabled(){return stormsEnabled},resetAt,step,draw,startLap,chooseRace,explore,setPause,save,openDialog};requestAnimationFrame(frame);
 }catch(e){console.error(e);$('#loading h2').textContent='Could not prepare Three Forks';$('#loading p').textContent=e.message;const b=document.createElement('button');b.textContent='Try again';b.onclick=()=>location.reload();$('#loading').append(b);}
