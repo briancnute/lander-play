@@ -108,10 +108,10 @@ export const approvedSites=[
     "east": 820,
     "north": -700,
     "kind": "history",
-    "locationNote": "History stop · actual touchdown is outside this playable map",
-    "fact": "Perseverance touched down at the true landing site on 18 February 2021, east of this playable map. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
-    "copy": "Perseverance touched down at the true landing site on 18 February 2021, east of this playable map. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
-    "detail": "This accessible orb is a clearly labeled mission-history stop, not the landing site. The actual touchdown lies outside the playable terrain, about 1.65 km beyond its eastern edge. The route diagram traces NASA’s recorded drive through sol 692 without relocating the landing site.",
+    "locationNote": "History stop · actual touchdown is in the landing-plain expansion",
+    "fact": "Perseverance touched down on 18 February 2021, east of Three Forks. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
+    "copy": "Perseverance touched down on 18 February 2021, east of Three Forks. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
+    "detail": "This is a mission-history stop, not the landing site. Finish the Three Forks discoveries and Delta circuit to open the landing plain and visit the actual touchdown reference. The route diagram traces NASA’s recorded drive through sol 692; its dashed box shows the original Three Forks crop.",
     "image": "./assets/first-panorama.jpg",
     "imageAlt": "Perseverance’s first Mastcam-Z panorama, showing the landing-site terrain and distant rim",
     "imageCredit": "NASA/JPL-Caltech/MSSS/ASU · 21 February 2021 · sol 3 · Stitched 360° panorama; this is not a single forward view.",
@@ -123,7 +123,7 @@ export const approvedSites=[
         "image": "./assets/landing.jpg",
         "imageAlt": "Orbital locator of Octavia E. Butler Landing",
         "imageCredit": "NASA/JPL-Caltech/University of Arizona · PIA24483 · orbital locator, not a surface photograph",
-        "imageDescription": "The actual landing site is east of this playtest boundary. This history stop does not mark the touchdown location.",
+        "imageDescription": "The actual landing site is east of the original Three Forks boundary, in the landing-plain expansion. This history stop does not mark the touchdown location.",
         "source": "https://science.nasa.gov/resource/welcome-to-octavia-e-butler-landing/"
       }
     ],

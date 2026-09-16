@@ -1,4 +1,12 @@
-# Three Forks / delta front — first playable area
+# Jezero — Three Forks, landing plain and Séítah
+
+## 2026-09-16 — Landing plain and Séítah expansion
+
+Validation: 2,562 unit tests passed / 2 skipped; production build passes with existing warnings. Chromium/WebKit pass expansion unlocking, original-race preservation, terrain seams, stock-rover tour, new discoveries, save/reload and phone layout. Physical-device performance and editorial hero photographs still need review.
+
+The next terrain block is implemented for producer review: measured USGS HiRISE ground adjoining Three Forks, a quieter landing plain, and a more rock-rich Séítah area. Finish the original four regions, six discoveries and Delta circuit to open it. Field Notes → Target the landing plain sets GPS; two new regional overviews reveal an actual touchdown-reference stop and a representative igneous-rock stop. Old discoveries, position migration, 2.5× kit and race records are preserved; the original race surface is unchanged.
+
+The current 80% spacing remains; 60% feature-aware compression is still a proposal. New objects are representative, not photo-matched. New cards use explicitly labeled supporting maps, with conventional hero photographs still awaiting editorial selection. The expanded southern footprint includes ground around Kodiak but adds no summit activity. This is not the full western Jezero world. See [landing-plain implementation and evidence](../../../docs/JEZERO_LANDING_PLAIN.md) for coverage, provenance, limitations and exact review steps. Next unbuilt block: upper delta / Belva, after this area's drive/readability review.
 
 ## 2026-09-16 — 2.5× tuning and current-area finish pass
 

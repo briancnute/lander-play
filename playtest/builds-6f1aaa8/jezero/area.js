@@ -5,13 +5,15 @@ import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
 import {regions,detailIndices,regionIdForDetail} from './regions.js';
+import {loadFloor,floorRocks,floorBounds} from './floor.js';
+import {floorDiscoveries,floorRegions} from './floor-sites.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
 const kodiak=landmarks[0];
 // The accessible overlook keeps the documented 23_824 → Kodiak bearing while
 // shortening its roughly 602 m real range to about 397 m in the compact world.
-export const discoveries=[byId.pair,byId.hidden,byId.observation,{...kodiak,...toGame(80,-880),kind:'site',focus:{x:kodiak.x,y:kodiak.y},copy:kodiak.fact,cameraReference:'23_824',authoredRangeMetres:397},byId.depot,byId.amalik,byId.landing];
+export const discoveries=[byId.pair,byId.hidden,byId.observation,{...kodiak,...toGame(80,-880),kind:'site',focus:{x:kodiak.x,y:kodiak.y},copy:kodiak.fact,cameraReference:'23_824',authoredRangeMetres:397},byId.depot,byId.amalik,byId.landing,...floorDiscoveries];
 export function distanceToRoute(route,x,y){
  let best=Infinity;
  for(let i=1;i<route.length;i++){
@@ -54,8 +56,16 @@ export async function loadArea(){
  const filtered=[...rocks.filter(([x,y])=>Math.abs(x-jump.x)>55||Math.abs(y-jump.y)>600),...fidelity.rocks];
  // Boosts reward choices around the circuit; none occupies the start/finish.
  const pickups=[...course.gates.filter((_,i)=>i%2===1),toGame(600,-650)].map((p,id)=>({...p,id}));
- const scenery=await loadBackdrop(mesh);
- const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);
+ const extension=await loadFloor(mesh),extra=floorRocks(extension.height,[...floorDiscoveries,...floorRegions]);
+ const scenery=await loadBackdrop(mesh,extension);
+ // Keep the old mesh data intact; only its sampler gains the adjoining tiles.
+ scenery.details.push(...extension.tiles);
+ const oldVisualGround=scenery.visualGround;scenery.visualGround=(x,y)=>x>9600||y>9600?extension.height(x,y):oldVisualGround(x,y);
+ // The newly reachable southern ground must meet the detailed Kodiak mesh,
+ // not the lower-resolution context surface hidden underneath that mesh.
+ mesh.height=extension.height;
+ const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length+extra.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);sceneryVertices.set(extra.vertices,vertices.length+fidelity.vertices.length);
+ filtered.push(...extra.rocks);
  const lineWidth=58,lineBonus=.07;
  const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
  area.sampleRows=s=>[
@@ -63,12 +73,15 @@ export async function loadArea(){
   ...detailIndices.filter(i=>(s.regions??[]).includes(regionIdForDetail(i))).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),
  ];
  area.turboSurfaceSpeed=1+lineBonus;
+ area.ground=scenery.visualGround;
+ area.extension={info:extension.info,stats:extra.stats,spine:extra.spine,unlocked:false};
+ area.unlockFloor=()=>{Object.assign(area.bounds,floorBounds);area.extension.unlocked=true;};
  area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
  // Index the same conservative rock roofs, so each camera sample only checks
  // nearby stones. Geometry, clearance and the approved camera response are identical.
  const buckets=new Map(),cellSize=64;
  for(const rock of filtered){const [x,y,r]=rock;for(let iy=Math.floor((y-r-2)/cellSize);iy<=Math.floor((y+r+2)/cellSize);iy++)for(let ix=Math.floor((x-r-2)/cellSize);ix<=Math.floor((x+r+2)/cellSize);ix++){const key=ix+','+iy;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(rock);}}
- area.cameraSurface=(x,y)=>{let h=mesh.height(x,y);for(const [rx,ry,r]of buckets.get(Math.floor(x/cellSize)+','+Math.floor(y/cellSize))??[])if(Math.hypot(x-rx,y-ry)<r+2)h=Math.max(h,mesh.height(rx,ry)+r*1.1);return h;};
+ area.cameraSurface=(x,y)=>{let h=area.ground(x,y);for(const [rx,ry,r]of buckets.get(Math.floor(x/cellSize)+','+Math.floor(y/cellSize))??[])if(Math.hypot(x-rx,y-ry)<r+2)h=Math.max(h,area.ground(rx,ry)+r*1.1);return h;};
  area.driveArea={...area,samples:[],releaseAfterTurn:true,airBrake:true};
  return area;
 }

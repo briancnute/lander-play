@@ -1,5 +1,6 @@
 import {toGame} from './terrain.js';
 import {landmarks} from './landmarks.js';
+import {floorRegions} from './floor-sites.js';
 
 const region=(id,name,east,north,copy)=>({id,name,...toGame(east,north),kind:'region',...copy});
 
@@ -21,10 +22,17 @@ export const regions=[
  }),
  {...landmarks[0],id:'kodiak-region',regionId:'kodiak',name:'Kodiak',...toGame(80,-880),kind:'region',
   fact:'Kodiak is an isolated remnant of Jezero’s ancient river delta. Its exposed layers helped scientists read the sequence of water and sediment in the crater lake.',
-  detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. You can visit this overlook; Kodiak itself lies beyond the driving boundary.'},
+  detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. This discovery is an overlook, not a summit activity; the broader southern plain opens after Three Forks is complete.'},
 ];
 
 export const regionById=Object.fromEntries(regions.map(r=>[r.regionId??r.id,r]));
 export const detailRegion={0:'western-delta',1:'delta-front',2:'delta-front',4:'delta-front',5:'delta-front',6:'crater-floor'};
 export const detailIndices=Object.keys(detailRegion).map(Number);
 export const regionIdForDetail=index=>detailRegion[index];
+export const coreRegionIds=regions.map(r=>r.regionId??r.id);
+export const coreDetailIndices=[...detailIndices];
+export function revealFloorRegions(){
+ if(regions.some(r=>r.id==='landing-plain'))return;
+ regions.push(...floorRegions);Object.assign(regionById,Object.fromEntries(floorRegions.map(r=>[r.id,r])));
+ Object.assign(detailRegion,{7:'landing-plain',8:'seitah'});detailIndices.push(7,8);
+}

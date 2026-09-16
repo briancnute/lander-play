@@ -10,17 +10,18 @@ function grid(xs,ns,height,include=()=>true,color=()=>[.65,.405,.265]){
  for(let j=0;j<ns.length-1;j++)for(let i=0;i<xs.length-1;i++){if(!include((xs[i]+xs[i+1])/2,(ns[j]+ns[j+1])/2))continue;const a=j*xs.length+i,b=a+1,c=a+xs.length,d=c+1;indices.push(a,b,c,b,d,c);}
  return {vertices,indices:new Uint16Array(indices)};
 }
-export async function loadBackdrop(local){
+export async function loadBackdrop(local,extension=null){
  const paths=['backdrop.json','backdrop.f32','kodiak-relief.f32'];
  const responses=await Promise.all(paths.map(p=>fetch(new URL('./assets/'+p,import.meta.url))));
  if(responses.some(r=>!r.ok))throw Error('The Jezero skyline could not load. Reload to try again.');
  const info=await responses[0].json(),rim=new Float32Array(await responses[1].arrayBuffer()),kodiak=new Float32Array(await responses[2].arrayBuffer());
  if(rim.length!==201*201||kodiak.length!==121*97||!rim.every(v=>Number.isFinite(v)&&v>-10000)||!kodiak.every(v=>Number.isFinite(v)&&v>-10000))throw Error('Invalid Jezero scenery data');
- const localHeight=(e,n)=>{const p=toGame(e,n);return local.height(p.x,p.y)/4-2565;};
+ const localSampler=local.height;
+ const localHeight=(e,n)=>{const p=toGame(e,n);return localSampler(p.x,p.y)/4-2565;};
  const rimHeight=(e,n)=>sample(rim,201,(e+10000)/100,(10000-n)/100);
  // Blend the two measured products only in a 300 m collar outside the old crop.
  // No global height offset or invented mountain; horizontal compression is applied by toGame.
- const joinedHeight=(e,n)=>{const radius=Math.max(Math.abs(e),Math.abs(n));if(radius<=1500)return localHeight(e,n);const be=e*1500/radius,bn=n*1500/radius,t=Math.max(0,Math.min(1,(radius-1500)/300));return rimHeight(e,n)+(localHeight(be,bn)-rimHeight(be,bn))*(1-t);};
+ const joinedHeight=(e,n)=>{if(extension){const be=Math.max(-1500,Math.min(3500,e)),bn=Math.max(-2700,Math.min(1500,n)),p=toGame(be,bn),t=Math.min(1,Math.hypot(e-be,n-bn)/300);return rimHeight(e,n)+(extension.height(p.x,p.y)/4-2565-rimHeight(be,bn))*(1-t);}const radius=Math.max(Math.abs(e),Math.abs(n));if(radius<=1500)return localHeight(e,n);const be=e*1500/radius,bn=n*1500/radius,t=Math.max(0,Math.min(1,(radius-1500)/300));return rimHeight(e,n)+(localHeight(be,bn)-rimHeight(be,bn))*(1-t);};
  const axis=Array.from({length:201},(_,i)=>-10000+i*100);
  
  const inKodiak=(e,n)=>e>=-100&&e<=500&&n<=-1020&&n>=-1500;
@@ -31,7 +32,7 @@ export async function loadBackdrop(local){
  // the compressed overlook distance without changing silhouette or collision.
  const detail=grid(xs,ns,detailHeight,()=>true,(e,n,z,slope)=>{const strata=.035*Math.sin((z+2500)*5.1),face=Math.min(.08,slope*.018),cap=Math.max(0,1-Math.abs(z+2478)/5)*.035;return [.63+strata+cap,.405+strata*.72-face,.27+strata*.42-face*.55];});
  // The local crop fills the hole; all scenery shares the same depth range.
- const backdrop=grid(axis,[...axis].reverse(),joinedHeight,(e,n)=>Math.max(Math.abs(e),Math.abs(n))>1500);
+ const backdrop=grid(axis,[...axis].reverse(),joinedHeight,(e,n)=>extension?(e< -1500||e>3500||n< -2700||n>1500):Math.max(Math.abs(e),Math.abs(n))>1500);
  // Replace only the inaccessible Kodiak rectangle in the visual mesh.
  const visualIndices=[];for(let i=0;i<local.indices.length;i+=3){const ids=[local.indices[i],local.indices[i+1],local.indices[i+2]],e=ids.reduce((s,k)=>s+local.vertices[k*9]/HORIZONTAL_UNITS-1500,0)/3,n=ids.reduce((s,k)=>s+1500-local.vertices[k*9+1]/HORIZONTAL_UNITS,0)/3;if(!inKodiak(e,n))visualIndices.push(...ids);}
  // Edge skirts close sub-grid cracks between the coarse distant and local meshes.
