@@ -76,6 +76,7 @@ void main(){
  dustColor+=grainDust;
  if(kind>4.5&&kind<5.5){gl_FragColor=vec4(dustColor,dustFog);return;}
  vec3 base=kind>2.5&&kind<3.5?vec3(.16,.115,.08):vColor;float grain=0.;
+ if(kind>7.5)base+=vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);
  if(kind<.5){float broad=sin(vWorld.x*.0018+sin(vWorld.y*.002))*sin(vWorld.y*.0013);base+=vec3(.035,.027,.019)*broad;grain=(texture2D(grit,vWorld.xy*.005).r-.5)*.018;}
  // Optional Jezero surface art; the original study retains its approved materials.
  if(kind<.5&&areaMaterial>.5){
@@ -121,7 +122,8 @@ void main(){
  if(kind>3.5&&kind<4.5)lit=vec3(1.,.055,.02);
  if(roverPart>.5)lit=max(lit,base*(.20+.09*roverLamp.w));
  if(kind>5.5&&kind<6.5)lit=mix(base,vec3(1.,.92,.68),roverLamp.w);
- if(kind>6.5)lit=base;
+ if(kind>7.5)lit=base*(.18+.82*daylight);
+ else if(kind>6.5)lit=base;
  float fog=1.-exp(-pow(max(0.,vDepth)/3100.,1.7));
  if(backdropPass>.5)fog=.68+.24*(1.-exp(-max(0.,vDepth)/40000.));
  float alpha=kind>2.5&&kind<3.5?.17*clamp((vColor.x-(trackInfo.x-trackInfo.y))/128.,0.,1.)*(1.-localDust):kind>1.5&&kind<2.5?(1.-smoothstep(.15,1.,length(vLocal.xy/vec2(6.,8.))))*.24:1.;
@@ -152,7 +154,7 @@ export class GPURenderer{
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
- this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);if(this.raceLine&&s.mode==='trial'){gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);this.mesh(this.raceLine,[0,0,0,100],1);gl.disable(gl.POLYGON_OFFSET_FILL);}this.mesh(this.rocks);
+ this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);if(this.raceLine&&s.mode==='trial'){gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);this.mesh(this.raceLine,[0,0,0,100],8);gl.disable(gl.POLYGON_OFFSET_FILL);}this.mesh(this.rocks);
  this.tracks.add(s,(offset,data)=>{gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferSubData(gl.ARRAY_BUFFER,offset*4,data);});this.trackMesh.count=this.tracks.vertexCount;gl.uniform2f(this.locations.trackInfo,this.tracks.count,this.tracks.capacity);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ZERO,gl.ONE);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);if(this.trackMesh.count)this.mesh(this.trackMesh,[0,0,0,100],3);gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.disable(gl.BLEND);
  // Match the connected mesh under the wheels without writing simulation height.
  const z=this.height(s.x,s.y),sx=(this.height(s.x+3,s.y)-this.height(s.x-3,s.y))/6,sy=(this.height(s.x,s.y+3)-this.height(s.x,s.y-3))/6;
@@ -165,7 +167,7 @@ export class GPURenderer{
  for(const row of sampleRows){const {p,index:i,known}=row;if(Math.hypot(p.x-s.x,p.y-s.y)>850)continue;const q=this.project(p.x,p.y,ground(p.x,p.y)+8);if(q.depth<4||q.x<20||q.x>w-20||q.y<65||q.y>h-130)continue;
  // Test the sight line against terrain so labels do not show through hills.
  let blocked=false;for(let j=1;j<20;j++){const t=j/20,x=cam.x+(p.x-cam.x)*t,y=cam.y+(p.y-cam.y)*t;if(ground(x,y)>cam.eye+(ground(p.x,p.y)+8-cam.eye)*t){blocked=true;break;}}if(blocked)continue;
- ctx.globalAlpha=1-(this.storm?.density(p.x,p.y)||0);ctx.fillStyle=row.region?'#d8f0ca':'#edd7a9';ctx.beginPath();ctx.arc(q.x,q.y,row.region?5:3,0,Math.PI*2);ctx.fill();if(this.area?.quietDiscoveries){const near=Math.hypot(p.x-s.x,p.y-s.y)<=(this.area.collectibleLabelRange??18);if(near){ctx.fillStyle='#f6e9ce';ctx.font='12px system-ui';ctx.fillText(known?p.name:'???',q.x,q.y-11);}continue;}
+ ctx.globalAlpha=1-(this.storm?.density(p.x,p.y)||0);ctx.fillStyle=row.region?'#d5edc1':p.kind==='site'?'#8fd5df':p.kind==='history'?'#efc786':'#e8a58e';ctx.beginPath();ctx.arc(q.x,q.y,row.region?5:3.5,0,Math.PI*2);ctx.fill();if(this.area?.quietDiscoveries){const near=Math.hypot(p.x-s.x,p.y-s.y)<=(this.area.collectibleLabelRange??18);if(near){ctx.fillStyle='#f6e9ce';ctx.font='12px system-ui';ctx.fillText(known?p.name:'???',q.x,q.y-11);}continue;}
  const text=(known?'✓ ':'')+p.name,tw=ctx.measureText(text).width;ctx.fillStyle='#182c30dd';ctx.fillRect(q.x-tw/2-7,q.y-30,tw+14,23);ctx.fillStyle='#e9ead6';ctx.fillText(text,q.x,q.y-14);}
  }
 }
