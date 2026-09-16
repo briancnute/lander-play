@@ -1,5 +1,29 @@
 # Three Forks / delta front — first playable area
 
+## Playable-map V2 — 2026-09-16
+
+The measured terrain now carries a deterministic, variable-density field of boulders, flush pavers, long slabs, standing eroded fins and layered blocks. Larger anchor objects are dispersed across the delta; the crater floor remains quieter. The race line, jump corridor and five-rover shortcut have explicit clearance. This is a generalized terrain vocabulary, not a claim that random props reproduce surveyed rocks.
+
+The science basis is deliberately broad: NASA describes Jezero's delta as diverse sedimentary rock contrasting with the igneous crater floor, with fine mudstone, sandstone and transported fragments; the delta top also contains boulders and debris carried into Jezero by the ancient river. Sources: [JPL delta results](https://www.jpl.nasa.gov/news/nasas-perseverance-rover-investigates-geologically-rich-mars-terrain/), [JPL delta-top campaign](https://www.jpl.nasa.gov/news/nasas-perseverance-rover-to-begin-building-martian-sample-depot/), and [Mastcam-Z morphology summary](https://ntrs.nasa.gov/citations/20230016428). These sources support variety and regional contrast, not exact prop placement.
+
+Balanced rock is isolated at an authored 67.3 m from known rover reference `26_756`; the prior 16.85 m assumption is superseded. Octavia E. Butler Landing is an accessible **history stop**, not a relocated site: its card category, square map mark, label and location note say the true touchdown is east of the playable map. Existing discovery order and saves remain compatible. `v2-check.mjs` validates rock-family counts, portable vertex limits, balanced-rock isolation and landing-stop semantics in Chromium/WebKit, while capturing four regional review views.
+
+## Topography-first world rule — 2026-09-16
+
+Measured orbital terrain and true overhead geography define the world. Rover photographs guide surface character, recognizable accents and educational cards; they are not promises of exact lens/viewpoint reconstruction. The rejected procedural Wildcat/Skinner ridge has been removed in favor of measured relief, fractured pavement and a few discrete rock objects. Balanced rock is a small easter egg on a broad, slightly sloped slab, with larger rocks placed as foreground ground objects rather than replacement hills. Kodiak's measured silhouette is the fidelity standard: recognizable and geographically grounded without becoming a forensic replica.
+
+Rocks and mesa outlines are ground obstacles. They stop a grounded rover but do not create invisible horizontal walls while the rover is airborne; terrain elevation still controls landing.
+
+## Discovery-photo replacement queue — 2026-09-16
+
+Player-facing discovery images should read as conventional framed photographs, not scientific panorama strips or visibly blocky composites. Brian's approved crops now replace `pair.jpg`, `hogwallow.jpg` and `hidden.jpg` in the live gallery: Wildcat/Skinner has a clean ridge frame, Hogwallow shows its fine-grained sedimentary ground, and Hidden Harbor has a conventional outcrop view. Remaining replacements are `first-panorama.jpg`, `kodiak-sol415.jpg` and `amalik-rock.png`. Two soft landing excerpts and an extra-wide Hidden Harbor crop remain in `assets/inbox/` as review references, not runtime images. Do not delete provenance or silently substitute an unrelated attractive view. `kodiak.jpg`, `balanced.jpg`, `observation.jpg` and `depot.jpg` fit the intended presentation. Orbital and route maps remain labeled support rather than photographs.
+
+## Site-26 rocky workspace — 2026-09-16
+
+Known NASA rover references provide geographic context: Hogwallow `26_630`, balanced rock `26_756`, and Wildcat/Skinner `26_1222`. The paired discovery opens near `26_1222`, but no longer invents a photo-matched ridge. Published sample coordinates and measured terrain remain intact; low fractured pavement suggests the workspace's material character. Balanced rock's current authored range is recorded in the V2 section above; its true target range/bearing remain unresolved and are not required for the easter egg.
+
+Kodiak remains the measured 5 m HiRISE visual patch. Its color treatment uses restrained elevation bands and slope contrast to reveal the real flat cap and exposed faces; no replacement butte, collision surface or height exaggeration was added. The overlook moved to east +80 m / north −880 m: it preserves the documented sol-415 `23_824` camera-to-Kodiak bearing while compressing roughly 602 m of real separation to about 397 m. The iconic 2021 hero was photographed from a different, much more distant position. `fidelity-check.mjs` validates camera anchors, authored ranges/focus, finite geometry and Chromium/WebKit comparison screenshots. Producer review on a physical device is still required.
+
 ## 2026-09-15 — 80% horizontal spacing / 3× Boost kit
 
 Brian requested 20% less spacing while retaining the map layout, and a 3× rather than 5× kit. Jezero now projects original geographic coordinates at 3.2 game units per source metre (previously 4). Terrain, distant rim/Kodiak, discoveries, route/gates, boundaries and map targeting share that transform. Map size is 9600; normalized landmark/map positions are unchanged. Raw USGS/NASA source data remains in real geographic coordinates. Horizontal playable span is now about 1.248 × 1.094 km in game-distance terms; elevation stays unchanged, so slopes are 25% steeper. Rover dimensions, collision clearance, nearby labels/GPS arrival radii, gravity, lighting and camera are unchanged. Small authored props retain their dimensions.
@@ -118,6 +142,10 @@ The schematic Jezero planning board remains a design reference. Its drawn coordi
 `performance.mjs` measures a short moving terrain-render workload in day/night/storm at laptop/phone viewport sizes under Chromium 4× CPU throttling. Set `BROWSER=webkit` for an unthrottled Apple-GPU comparison. It is a diagnostic, not a real-phone or complete-route performance guarantee. `interaction-check.mjs` additionally verifies simultaneous real Chromium touches, WebKit pointer/keyboard controls, rover-gallery return, lamp toggling and rejection of mixed-rover laps.
 
 Required next producer review: drive a lap on Brian's Mac, explore the cliff base, cross the narrow shortcut, approach the jump from its north and repeat in night/storm; then test a real phone. Validate total frame time, sustained controls and thermal behavior before choosing integration or expanding the terrain. The proposed low-detail target remains sustained 30 fps on a real lower-end device. Campaign/production save integration, a production graphics fallback, final educational target identifications, broader geography and a full scientific-resolution art pass remain open.
+
+### V2 rock-field diagnostic — 2026-09-16
+
+The same throttled Chromium diagnostic after the V2 rock pass measured p95 frame intervals of **58 / 49 / 82 ms** at 1180×820 and **27 / 28 / 37 ms** at 390×844 for day/night/storm. Heap reported about 35.1 MB; GL errors remained zero. Laptop-size day/storm results are slower than the older short run, while phone-size night/storm are faster. This is variable software-GPU evidence, not a regression verdict or real-device guarantee; physical iPad/phone review remains necessary.
 
 ### Recorded performance — 2026-09-14
 

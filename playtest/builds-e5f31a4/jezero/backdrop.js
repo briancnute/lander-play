@@ -3,10 +3,10 @@ import {WORLD_SCALE,HORIZONTAL_UNITS,MAP_SIZE} from './scale.js';
 import {toGame,toMetres} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
 function sample(a,size,x,y){x=Math.max(0,Math.min(size-1.000001,x));y=Math.max(0,Math.min(a.length/size-1.000001,y));const i=Math.floor(x),j=Math.floor(y),u=x-i,v=y-j,k=j*size+i;return (a[k]*(1-u)+a[k+1]*u)*(1-v)+(a[k+size]*(1-u)+a[k+size+1]*u)*v;}
-function grid(xs,ns,height,include=()=>true){
+function grid(xs,ns,height,include=()=>true,color=()=>[.65,.405,.265]){
  const vertices=new Float32Array(xs.length*ns.length*9),indices=[];
  if(vertices.length/9>65535)throw Error('Scenery mesh exceeds portable index limit');
- for(let j=0;j<ns.length;j++)for(let i=0;i<xs.length;i++){const e=xs[i],n=ns[j],p=toGame(e,n),dx=height(e-2,n)-height(e+2,n),dy=height(e,n+2)-height(e,n-2),l=Math.hypot(dx,dy,4*WORLD_SCALE);vertices.set([p.x,p.y,(height(e,n)+2565)*4,dx/l,dy/l,4*WORLD_SCALE/l,.65,.405,.265],(j*xs.length+i)*9);}
+ for(let j=0;j<ns.length;j++)for(let i=0;i<xs.length;i++){const e=xs[i],n=ns[j],p=toGame(e,n),z=height(e,n),dx=height(e-2,n)-height(e+2,n),dy=height(e,n+2)-height(e,n-2),l=Math.hypot(dx,dy,4*WORLD_SCALE),c=color(e,n,z,Math.hypot(dx,dy)/4);vertices.set([p.x,p.y,(z+2565)*4,dx/l,dy/l,4*WORLD_SCALE/l,...c],(j*xs.length+i)*9);}
  for(let j=0;j<ns.length-1;j++)for(let i=0;i<xs.length-1;i++){if(!include((xs[i]+xs[i+1])/2,(ns[j]+ns[j+1])/2))continue;const a=j*xs.length+i,b=a+1,c=a+xs.length,d=c+1;indices.push(a,b,c,b,d,c);}
  return {vertices,indices:new Uint16Array(indices)};
 }
@@ -26,7 +26,10 @@ export async function loadBackdrop(local){
  const inKodiak=(e,n)=>e>=-100&&e<=500&&n<=-1020&&n>=-1500;
  const detailHeight=(e,n)=>{const edge=Math.min(e+100,500-e,-1020-n,n+1500),t=Math.max(0,Math.min(1,edge/15));return localHeight(e,n)*(1-t)+sample(kodiak,121,(e+100)/5,(-1020-n)/5)*t;};
  const xs=[...new Set([...Array.from({length:121},(_,i)=>-100+i*5),...local.info.eastMetres.filter(e=>e>=-100&&e<=500)])].sort((a,b)=>a-b),ns=Array.from({length:97},(_,i)=>-1020-i*5);
- const detail=grid(xs,ns,detailHeight);
+ // Kodiak remains the measured HiRISE surface. Restrained elevation bands and
+ // slope contrast make its real flat cap and exposed layered faces readable at
+ // the compressed overlook distance without changing silhouette or collision.
+ const detail=grid(xs,ns,detailHeight,()=>true,(e,n,z,slope)=>{const strata=.035*Math.sin((z+2500)*5.1),face=Math.min(.08,slope*.018),cap=Math.max(0,1-Math.abs(z+2478)/5)*.035;return [.63+strata+cap,.405+strata*.72-face,.27+strata*.42-face*.55];});
  // The local crop fills the hole; all scenery shares the same depth range.
  const backdrop=grid(axis,[...axis].reverse(),joinedHeight,(e,n)=>Math.max(Math.abs(e),Math.abs(n))>1500);
  // Replace only the inaccessible Kodiak rectangle in the visual mesh.

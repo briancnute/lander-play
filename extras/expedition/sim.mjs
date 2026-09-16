@@ -68,7 +68,9 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  else if(!s.air&&area?.boostKit)s.thrust=drive?1:brake?-1:0;
  const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
 
- const contact=moveWithContact(s.x,s.y,dx,dy,area?.mesa??mesa,area?.rocks??rocks,contactRadius);if(!area&&delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}for(const part of area?.parts??landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
+ // Rocks and mesa outlines are ground obstacles. Once airborne, horizontal
+ // motion passes above them; terrain height still determines the later landing.
+ const contact=s.air?{x:s.x+dx,y:s.y+dy,hit:false}:moveWithContact(s.x,s.y,dx,dy,area?.mesa??mesa,area?.rocks??rocks,contactRadius);if(!s.air&&!area&&delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}if(!s.air)for(const part of area?.parts??landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
  if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
  const g=surface(s.x,s.y),oldG=surface(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
