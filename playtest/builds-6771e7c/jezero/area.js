@@ -4,7 +4,6 @@ import {landmarks} from './landmarks.js';
 import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
-import {triangle} from '../mars-renderer/geometry.js';
 import {regions,detailIndices,regionIdForDetail} from './regions.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
@@ -33,22 +32,6 @@ export function smoothCircuit(points,iterations=3){
  route.push({...route[0]});
  return route;
 }
-function raceLine(route,height){
- const out=[],road=[.79,.56,.37],last=route.length-1;
- // The circuit is a broad, deliberately game-like change in surface color. It
- // exists only during the activity and has no raised curbs or edge shadows.
- const normals=route.map((p,i)=>{const before=route[i===0?last-1:i-1],after=route[i===last?1:i+1],dx=after.x-before.x,dy=after.y-before.y,length=Math.hypot(dx,dy)||1;return {x:-dy/length,y:dx/length};});
- const point=(q,n,offset)=>{const x=q.x+n.x*offset,y=q.y+n.y*offset;return [x,y,height(x,y)+.12];};
- for(let i=1;i<route.length;i++){
-  const a=route[i-1],b=route[i],an=normals[i-1],bn=normals[i];
-  // Sampling across the full width keeps the color layer attached to the
-  // measured terrain instead of spanning bumps as a few long flat triangles.
-  const steps=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/10));
-  const row=t=>{const q={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t},nx=an.x+(bn.x-an.x)*t,ny=an.y+(bn.y-an.y)*t,length=Math.hypot(nx,ny)||1;return {q,n:{x:nx/length,y:ny/length}};};
-  for(let step=0;step<steps;step++){const from=row(step/steps),to=row((step+1)/steps);for(let lane=0;lane<10;lane++){const left=-58+lane*11.6,right=left+11.6,al=point(from.q,from.n,left),ar=point(from.q,from.n,right),bl=point(to.q,to.n,left),br=point(to.q,to.n,right);triangle(out,al,bl,ar,road);triangle(out,ar,bl,br,road);}}
- }
- return new Float32Array(out);
-}
 export async function loadArea(){
  const mesh=await loadTerrain(),response=await fetch(new URL('./assets/route.json',import.meta.url));if(!response.ok)throw Error('The delta route could not be loaded.');const data=await response.json();
  const points=data.points.map(([e,n])=>toGame(e,n)),rawRoute=data.route.map(([e,n])=>toGame(e,n)),branch=rawRoute.reduce((best,p,i)=>Math.hypot(p.x-points.at(-2).x,p.y-points.at(-2).y)<best.d?{d:Math.hypot(p.x-points.at(-2).x,p.y-points.at(-2).y),i}:best,{d:Infinity,i:0});
@@ -74,7 +57,7 @@ export async function loadArea(){
  const scenery=await loadBackdrop(mesh);
  const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);
  const lineWidth=58,lineBonus=.07;
- const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceLine:raceLine(route,mesh.height),fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
  area.sampleRows=s=>[
   ...regions.map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
   ...detailIndices.filter(i=>(s.regions??[]).includes(regionIdForDetail(i))).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),

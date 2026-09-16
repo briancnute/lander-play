@@ -1,5 +1,11 @@
 # Three Forks / delta front — first playable area
 
+## 2026-09-16 — Road surface intersection fix
+
+The previous loop correction did not resolve the reported road glitches. Diagnosis measured 2,266 road sample points below the actual terrain: the separate road triangles crossed terrain triangle boundaries and exposed dark patches. The road now colors the existing terrain through a world-space mask; its separate mesh and depth-offset draw are removed. Width, route, 2× kit, road bonus and physics are unchanged. Road color is enabled only during racing. Earlier claims that route smoothing eliminated the rendering defect are superseded.
+
+Validation: 2,562 unit tests passed / 2 skipped; build passes with existing warnings. The formerly broken slope was captured before/after at the identical camera position; the dark cutouts are gone. Browser checks also verify the road uses terrain material without an overlay mesh.
+
 ## Smooth-loop race correction — 2026-09-16
 
 The time trial now has a broad eastern return sector that produces a true non-crossing loop: no retraced leg, self-crossing or final-gate hairpin. Three periodic rounding passes turn the authored line into smooth bends, and the temporary 116-unit-wide tan surface is generated once from that line, eliminating overlapping road polygons. The 7% advantage remains a grounded trial-only speed-cap change.
