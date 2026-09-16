@@ -1,0 +1,28 @@
+{
+  "seitah": {
+    "url": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/downloadable_items/4/6/46673_PIA24816.jpg?w=2400&fit=clip",
+    "sha256": "a946783142dd1b276e1abaea7c54847b91604fb2d5d1eb6b11cdcbb372af90b3",
+    "retrieved": "2026-09-15"
+  },
+  "bright": {
+    "url": "https://science.nasa.gov/wp-content/uploads/2024/07/pia26369-perseverance-views-a-360-degree-4000wide.jpg",
+    "sha256": "86786d73f73a680877cc7277c29c1bc650a03d0f173bb6cff9906ce642f33886",
+    "retrieved": "2026-09-15"
+  },
+  "rim": {
+    "url": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia26/pia26644/PIA26644.jpg?w=2400&fit=clip",
+    "sha256": "09bdf5c88ee34bc8ae0c4b9a19794866ee5440946b67053ddb72a558a75be8ca",
+    "retrieved": "2026-09-15"
+  },
+  "files": {
+    "tools/prototypes/jezero-site-audit/sources/M20_waypoints.json": "60999c157b1a73393e5cc5c36d3417984aa1de9ae3bacab93508d8e2c5783ca8",
+    "tools/prototypes/jezero-site-audit/sources/M20_traverse.json": "1150b546662e97125b94db5c590e4aac152ee879a76e4c88927f885c814ecad6",
+    "tools/prototypes/jezero/assets/backdrop.f32": "cea740a90055d52a952a1eefd8a7cf4adb08afe546f203fedc668b0540d40a0e",
+    "tools/prototypes/jezero-master-map/assets/bright.jpg": "86786d73f73a680877cc7277c29c1bc650a03d0f173bb6cff9906ce642f33886",
+    "tools/prototypes/jezero-master-map/assets/depot.jpg": "a07a63779f07fa862fc78a30e89f984ba3f43bf453e1c3fd55b2fd32b646cc22",
+    "tools/prototypes/jezero-master-map/assets/first-panorama.jpg": "ea5bd24f9e907e7452152b2952c32ad8746c22f5be148880c08d5aa289a2c6a7",
+    "tools/prototypes/jezero-master-map/assets/kodiak.jpg": "2430c09494b985010cc1fc5fa23cd48f29915c20d6486356c507accbc09c8bb6",
+    "tools/prototypes/jezero-master-map/assets/rim.jpg": "09bdf5c88ee34bc8ae0c4b9a19794866ee5440946b67053ddb72a558a75be8ca",
+    "tools/prototypes/jezero-master-map/assets/seitah.jpg": "a946783142dd1b276e1abaea7c54847b91604fb2d5d1eb6b11cdcbb372af90b3"
+  }
+}
