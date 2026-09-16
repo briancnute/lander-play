@@ -7,6 +7,7 @@ import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
 import {regions,detailIndices,regionIdForDetail,detailAvailable} from './regions.js';
 import {loadFloor,floorRocks,floorBounds} from './floor.js';
 import {floorDiscoveries,floorRegions} from './floor-sites.js';
+import {buildRockStructures,insideStructure} from './rock-structures.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
@@ -64,7 +65,8 @@ export async function loadArea(){
  // The newly reachable southern ground must meet the detailed Kodiak mesh,
  // not the lower-resolution context surface hidden underneath that mesh.
  mesh.height=extension.height;
- const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length+extra.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);sceneryVertices.set(extra.vertices,vertices.length+fidelity.vertices.length);
+ const photoRocks=buildRockStructures(scenery.visualGround);
+ const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length+extra.vertices.length+photoRocks.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);sceneryVertices.set(extra.vertices,vertices.length+fidelity.vertices.length);sceneryVertices.set(photoRocks.vertices,vertices.length+fidelity.vertices.length+extra.vertices.length);
  filtered.push(...extra.rocks);
  const lineWidth=58,lineBonus=.07;
  const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
@@ -74,6 +76,7 @@ export async function loadArea(){
  ];
  area.turboSurfaceSpeed=1+lineBonus;
  area.ground=scenery.visualGround;
+ area.parts=photoRocks.parts;area.rockStructures=photoRocks.structures;
  area.extension={info:extension.info,stats:extra.stats,spine:extra.spine,unlocked:false};
  area.unlockFloor=()=>{Object.assign(area.bounds,floorBounds);area.extension.unlocked=true;};
  area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
@@ -81,7 +84,7 @@ export async function loadArea(){
  // nearby stones. Geometry, clearance and the approved camera response are identical.
  const buckets=new Map(),cellSize=64;
  for(const rock of filtered){const [x,y,r]=rock;for(let iy=Math.floor((y-r-2)/cellSize);iy<=Math.floor((y+r+2)/cellSize);iy++)for(let ix=Math.floor((x-r-2)/cellSize);ix<=Math.floor((x+r+2)/cellSize);ix++){const key=ix+','+iy;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(rock);}}
- area.cameraSurface=(x,y)=>{let h=area.ground(x,y);for(const [rx,ry,r]of buckets.get(Math.floor(x/cellSize)+','+Math.floor(y/cellSize))??[])if(Math.hypot(x-rx,y-ry)<r+2)h=Math.max(h,area.ground(rx,ry)+r*1.1);return h;};
+ area.cameraSurface=(x,y)=>{let h=area.ground(x,y);for(const [rx,ry,r]of buckets.get(Math.floor(x/cellSize)+','+Math.floor(y/cellSize))??[])if(Math.hypot(x-rx,y-ry)<r+2)h=Math.max(h,area.ground(rx,ry)+r*1.1);for(const p of photoRocks.parts)if(insideStructure(x,y,p.poly))h=Math.max(h,p.roof);return h;};
  area.unlockFloor();
  area.driveArea={...area,samples:[],releaseAfterTurn:true,airBrake:true};
  return area;
