@@ -22,7 +22,7 @@ export const regions=[
  }),
  {...landmarks[0],id:'kodiak-region',regionId:'kodiak',name:'Kodiak',...toGame(80,-880),kind:'region',
   fact:'Kodiak is an isolated remnant of Jezero’s ancient river delta. Its exposed layers helped scientists read the sequence of water and sediment in the crater lake.',
-  detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. This discovery is an overlook, not a summit activity; the broader southern plain opens after Three Forks is complete.'},
+  detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. This discovery is an overlook, not a summit activity; the surrounding southern plain is open to exploration from the start.'},
 ];
 
 export const regionById=Object.fromEntries(regions.map(r=>[r.regionId??r.id,r]));
@@ -36,3 +36,10 @@ export function revealFloorRegions(){
  regions.push(...floorRegions);Object.assign(regionById,Object.fromEntries(floorRegions.map(r=>[r.id,r])));
  Object.assign(detailRegion,{7:'landing-plain',8:'seitah'});detailIndices.push(7,8);
 }
+// Geography is orientation, not a collection checklist. Stable old IDs remain
+// available for saved Field Notes, but only five meaningful stops spawn orbs.
+revealFloorRegions();
+for(const r of regions)r.ambient=!['kodiak','seitah'].includes(r.regionId??r.id);
+detailIndices.splice(0,detailIndices.length,0,4,7);
+export const retiredDetailIndices=[1,2,5,6,8];
+export const detailAvailable=(index,visited)=>regionById[regionIdForDetail(index)]?.ambient||visited.includes(regionIdForDetail(index));

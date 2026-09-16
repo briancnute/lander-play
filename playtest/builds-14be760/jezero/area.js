@@ -4,7 +4,7 @@ import {landmarks} from './landmarks.js';
 import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
-import {regions,detailIndices,regionIdForDetail} from './regions.js';
+import {regions,detailIndices,regionIdForDetail,detailAvailable} from './regions.js';
 import {loadFloor,floorRocks,floorBounds} from './floor.js';
 import {floorDiscoveries,floorRegions} from './floor-sites.js';
 export const SITE_VERSION='three-forks-v1';
@@ -69,8 +69,8 @@ export async function loadArea(){
  const lineWidth=58,lineBonus=.07;
  const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
  area.sampleRows=s=>[
-  ...regions.map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
-  ...detailIndices.filter(i=>(s.regions??[]).includes(regionIdForDetail(i))).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),
+  ...regions.filter(p=>!p.ambient).map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
+  ...detailIndices.filter(i=>detailAvailable(i,s.regions??[])).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),
  ];
  area.turboSurfaceSpeed=1+lineBonus;
  area.ground=scenery.visualGround;
@@ -82,6 +82,7 @@ export async function loadArea(){
  const buckets=new Map(),cellSize=64;
  for(const rock of filtered){const [x,y,r]=rock;for(let iy=Math.floor((y-r-2)/cellSize);iy<=Math.floor((y+r+2)/cellSize);iy++)for(let ix=Math.floor((x-r-2)/cellSize);ix<=Math.floor((x+r+2)/cellSize);ix++){const key=ix+','+iy;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(rock);}}
  area.cameraSurface=(x,y)=>{let h=area.ground(x,y);for(const [rx,ry,r]of buckets.get(Math.floor(x/cellSize)+','+Math.floor(y/cellSize))??[])if(Math.hypot(x-rx,y-ry)<r+2)h=Math.max(h,area.ground(rx,ry)+r*1.1);return h;};
+ area.unlockFloor();
  area.driveArea={...area,samples:[],releaseAfterTurn:true,airBrake:true};
  return area;
 }

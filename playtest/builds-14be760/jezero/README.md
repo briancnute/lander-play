@@ -1,5 +1,11 @@
 # Jezero — Three Forks, landing plain and Séítah
 
+## 2026-09-16 — Open exploration and fewer stops
+
+All currently built Jezero terrain is available from a fresh save, with no discovery or race requirement. Five live discoveries remain: Kodiak, Wildcat/Skinner, the Three Forks depot, actual touchdown, and Séítah. Other region names orient the player without collectible overview orbs. Hidden Harbor, Observation Mountain, Amalik, duplicate landing history and the Séítah crystal stop no longer spawn; previously collected cards remain under Earlier field notes. Stable IDs and progress are preserved. Racing is optional; Jump To remains visited-only and confirmed. Unbuilt western Jezero is not implied.
+
+Visual double-click no longer toggles Step/Time lapse. Single clicks respond immediately; the date dialog and long-press shortcut retain mode selection. Reset keeps a fixed invisible slot while live, and a fixed-width responsive date field prevents arrow movement.
+
 ## 2026-09-16 — Landing plain and Séítah expansion
 
 Validation: 2,562 unit tests passed / 2 skipped; production build passes with existing warnings. Chromium/WebKit pass expansion unlocking, original-race preservation, terrain seams, stock-rover tour, new discoveries, save/reload and phone layout. Physical-device performance and editorial hero photographs still need review.

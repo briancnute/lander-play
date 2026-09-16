@@ -111,7 +111,7 @@ export const approvedSites=[
     "locationNote": "History stop · actual touchdown is in the landing-plain expansion",
     "fact": "Perseverance touched down on 18 February 2021, east of Three Forks. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
     "copy": "Perseverance touched down on 18 February 2021, east of Three Forks. Its first Mastcam-Z panorama revealed the terrain that became the starting point of its exploration.",
-    "detail": "This is a mission-history stop, not the landing site. Finish the Three Forks discoveries and Delta circuit to open the landing plain and visit the actual touchdown reference. The route diagram traces NASA’s recorded drive through sol 692; its dashed box shows the original Three Forks crop.",
+    "detail": "This is a mission-history stop, not the landing site. The landing plain is open from the start; visit the actual touchdown reference there. The route diagram traces NASA’s recorded drive through sol 692; its dashed box shows the original Three Forks crop.",
     "image": "./assets/first-panorama.jpg",
     "imageAlt": "Perseverance’s first Mastcam-Z panorama, showing the landing-site terrain and distant rim",
     "imageCredit": "NASA/JPL-Caltech/MSSS/ASU · 21 February 2021 · sol 3 · Stitched 360° panorama; this is not a single forward view.",
