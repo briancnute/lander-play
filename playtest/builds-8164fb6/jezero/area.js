@@ -22,6 +22,17 @@ export function distanceToRoute(route,x,y){
  }
  return best;
 }
+// Round a closed authored centerline into a periodic curve.
+export function smoothCircuit(points,iterations=3){
+ let route=points.filter((p,i)=>!i||Math.hypot(p.x-points[i-1].x,p.y-points[i-1].y)>.01).filter((_,i,a)=>i%4===0||i===a.length-1);
+ for(let pass=0;pass<iterations;pass++){
+  const rounded=[];
+  for(let i=0;i<route.length;i++){const a=route[i],b=route[(i+1)%route.length];rounded.push({x:a.x*.75+b.x*.25,y:a.y*.75+b.y*.25},{x:a.x*.25+b.x*.75,y:a.y*.25+b.y*.75});}
+  route=rounded;
+ }
+ route.push({...route[0]});
+ return route;
+}
 function raceLine(route,height){
  const out=[],road=[.79,.56,.37],last=route.length-1;
  // The circuit is a broad, deliberately game-like change in surface color. It
@@ -40,13 +51,17 @@ function raceLine(route,height){
 }
 export async function loadArea(){
  const mesh=await loadTerrain(),response=await fetch(new URL('./assets/route.json',import.meta.url));if(!response.ok)throw Error('The delta route could not be loaded.');const data=await response.json();
- const route=data.route.map(([e,n])=>toGame(e,n)),points=data.points.map(([e,n])=>toGame(e,n));
- // Close the authored centerline exactly. The lap is one continuous circuit,
- // not an open course with a finish trigger placed near its first point.
- if(Math.hypot(route.at(-1).x-route[0].x,route.at(-1).y-route[0].y)>.01)route.push({...route[0]});
- const gate=(p,i)=>{const before=points[(i+points.length-1)%points.length],after=points[(i+1)%points.length];return {...p,heading:Math.atan2(after.x-before.x,-(after.y-before.y)),i};};
- const course={route,gates:points.slice(1).map((p,i)=>gate(p,i+1)),finish:gate(points[0],0)};
- const start={...points[0],heading:Math.atan2(points[1].x-points[0].x,-(points[1].y-points[0].y))};
+ const points=data.points.map(([e,n])=>toGame(e,n)),rawRoute=data.route.map(([e,n])=>toGame(e,n)),branch=rawRoute.reduce((best,p,i)=>Math.hypot(p.x-points.at(-2).x,p.y-points.at(-2).y)<best.d?{d:Math.hypot(p.x-points.at(-2).x,p.y-points.at(-2).y),i}:best,{d:Infinity,i:0});
+ // The source path retraced its last leg. Replace that return with a broad
+ // eastern bend, sampled at the same spacing, so the finish flows back into
+ // the opening heading instead of asking the player for a hairpin turn.
+ const open=rawRoute.slice(0,branch.i+1),bridge=[toGame(500,-180),toGame(680,-220),toGame(780,-330),toGame(800,-480),toGame(720,-600),toGame(620,-620),toGame(560,-560),toGame(600,-460),toGame(620,-360),toGame(560,-330),toGame(500,-390)];
+ for(const target of bridge){const from=open.at(-1),steps=Math.max(1,Math.ceil(Math.hypot(target.x-from.x,target.y-from.y)/(12*WORLD_SCALE)));for(let i=1;i<=steps;i++)open.push({x:from.x+(target.x-from.x)*i/steps,y:from.y+(target.y-from.y)*i/steps});}
+ let route=smoothCircuit(open);
+ const startAt=route.slice(0,-1).reduce((best,p,i)=>Math.hypot(p.x-points[0].x,p.y-points[0].y)<best.d?{d:Math.hypot(p.x-points[0].x,p.y-points[0].y),i}:best,{d:Infinity,i:0}).i;route=[...route.slice(startAt,-1),...route.slice(0,startAt),{...route[startAt]}];
+ const gate=(p,i)=>{let at=0,d=Infinity;for(let j=0;j<route.length-1;j++){const q=Math.hypot(route[j].x-p.x,route[j].y-p.y);if(q<d){d=q;at=j;}}const before=route[(at+route.length-4)%(route.length-1)],after=route[(at+3)%(route.length-1)];return {...route[at],heading:Math.atan2(after.x-before.x,-(after.y-before.y)),i};};
+ const gateTargets=[...points.slice(1,-1),toGame(780,-430)],course={route,gates:gateTargets.map((p,i)=>gate(p,i+1)),finish:gate(points[0],0)};
+ const start={...course.finish,heading:course.finish.heading};
  const {vertices,rocks,stats:rockStats}=buildRocks(mesh.height,route,discoveries),fidelity=buildRidgeCluster(mesh.height);
  // The discovery opens from the known 26_1222 rover area and faces the paired
  // outcrops. Existing save identity/order is unchanged.
@@ -55,7 +70,7 @@ export async function loadArea(){
  // Clear the jump run-up and landing corridor of authored obstacles.
  const filtered=[...rocks.filter(([x,y])=>Math.abs(x-jump.x)>55||Math.abs(y-jump.y)>600),...fidelity.rocks];
  // Boosts reward choices around the circuit; none occupies the start/finish.
- const pickups=[...points.filter((_,i)=>i>0&&i%2===0),toGame(600,-650)].map((p,id)=>({...p,id}));
+ const pickups=[...course.gates.filter((_,i)=>i%2===1),toGame(600,-650)].map((p,id)=>({...p,id}));
  const scenery=await loadBackdrop(mesh);
  const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);
  const lineWidth=58,lineBonus=.07;

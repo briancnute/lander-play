@@ -1,5 +1,11 @@
 # Three Forks / delta front — first playable area
 
+## Smooth-loop race correction — 2026-09-16
+
+The time trial now has a broad eastern return sector that produces a true non-crossing loop: no retraced leg, self-crossing or final-gate hairpin. Three periodic rounding passes turn the authored line into smooth bends, and the temporary 116-unit-wide tan surface is generated once from that line, eliminating overlapping road polygons. The 7% advantage remains a grounded trial-only speed-cap change.
+
+Boost is now **2×** stock top speed in exploration and racing. Records move to `smooth-2x-v4`; incompatible times are archived while any older best still preserves `delta-trial` completion. The start presents a large centered 3–2–1, followed by the small corner elapsed timer. Checkpoint flags remain physical world objects, but Gate numbers, distance/progress text and racing arrows are removed. Feature source: `cd84cb5`. Validation: 2,562 passed / 2 skipped; production build and Chromium/WebKit focused checks pass.
+
 ## Completion and circuit amendment — 2026-09-16
 
 Future-world access requires every discovery plus every required activity: currently seven discovery IDs and the `delta-trial`. Saves persist stable completed-activity IDs; a compatible existing best lap migrates as proof of race completion. No unbuilt destination UI is implied.

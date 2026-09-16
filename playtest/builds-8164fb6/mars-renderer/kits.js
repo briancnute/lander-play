@@ -16,6 +16,6 @@ export function easeBoostExit(s,previous,dt,input){
 export const MASS={sojourner:10.5,spirit:185,opportunity:185,curiosity:899,perseverance:1025};
 export const HANDLING={sojourner:1,spirit:.98,opportunity:.96,curiosity:.94,perseverance:.92};
 // Compressed game mass avoids a 100-fold performance gap while retaining the mass ordering.
-export function raceKit(id,powered=false){const k=kit(id);k.handling=HANDLING[id]??1;k.massFactor=.7+.6*Math.sqrt((MASS[id]??1025)/1025);k.boostKit=powered;if(powered){k.speed*=3;k.boostSpeed=k.speed;k.acceleration/=k.massFactor;}return k;}
+export function raceKit(id,powered=false){const k=kit(id);k.handling=HANDLING[id]??1;k.massFactor=.7+.6*Math.sqrt((MASS[id]??1025)/1025);k.boostKit=powered;if(powered){k.speed*=2;k.boostSpeed=k.speed;k.acceleration/=k.massFactor;}return k;}
 export function explorationKit(id,mods={}){return raceKit(id,id==='perseverance'&&!!mods.kit);}
-export function ratings(id,{tuned=false,powered=false,boostScale=false}={}){const k=tuned?raceKit(id,powered):kit(id);return [['Top speed',k.speed/(boostScale?399:133)],['Acceleration',k.acceleration/(boostScale?raceKit('sojourner',true).acceleration:130)],['Handling',tuned?k.handling:1],['Weight',tuned?k.massFactor/1.3:Math.max(.04,MASS[id]/1025)]];}
+export function ratings(id,{tuned=false,powered=false,boostScale=false}={}){const k=tuned?raceKit(id,powered):kit(id);return [['Top speed',k.speed/(boostScale?266:133)],['Acceleration',k.acceleration/(boostScale?raceKit('sojourner',true).acceleration:130)],['Handling',tuned?k.handling:1],['Weight',tuned?k.massFactor/1.3:Math.max(.04,MASS[id]/1025)]];}

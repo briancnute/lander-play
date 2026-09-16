@@ -16,6 +16,7 @@ import {openCraft} from '../mars-renderer/craft.js';
 import {box,triangle} from '../mars-renderer/geometry.js';
 import {create,reverseAvailable} from '../mars-renderer/simulation.js';
 const $=s=>document.querySelector(s),KEY='astra.jezero.'+SITE_VERSION;
+const RACE_VERSION='smooth-2x-v4';
 const kindLabel=(kind,long=false)=>kind==='region'?(long?'JEZERO / REGION':'REGION'):kind==='site'?(long?'JEZERO / VIEWPOINT':'VIEWPOINT'):kind==='history'?(long?'JEZERO / HISTORY STOP':'HISTORY STOP'):(long?'JEZERO / FACT':'FACT');
 const SITE_COLORS={region:'#d5edc1',site:'#8fd5df',history:'#efc786',fact:'#e8a58e'};
 const siteColor=p=>SITE_COLORS[p.kind]??SITE_COLORS.fact;
@@ -32,11 +33,11 @@ function readSave(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if
  progress.collected=Array.isArray(s.collected)?[...new Set(s.collected.filter(i=>(s.siteCatalog>=2||i===3)&&Number.isInteger(i)&&i>=0&&i<discoveries.length))]:[];
  progress.regions=Array.isArray(s.regions)?[...new Set(s.regions.filter(id=>regions.some(r=>(r.regionId??r.id)===id)))]:[];
  for(const i of progress.collected){const id=i===3?'kodiak':regionIdForDetail(i);if(id&&!progress.regions.includes(id))progress.regions.push(id);}
- progress.legacyBests={...s.legacyBests,...(s.raceVersion==='compact-v3'?{}:Object.fromEntries(Object.entries(s.bests??{}).map(([id,time])=>[(s.raceVersion??'original')+':'+id,time])))};
- if(s.raceVersion==='compact-v3'&&s.bests&&typeof s.bests==='object')for(const id of Object.keys(KITS))if(Number.isFinite(s.bests[id])&&s.bests[id]>0)progress.bests[id]=s.bests[id];
+ progress.legacyBests={...s.legacyBests,...(s.raceVersion===RACE_VERSION?{}:Object.fromEntries(Object.entries(s.bests??{}).map(([id,time])=>[(s.raceVersion??'original')+':'+id,time])))};
+ if(s.raceVersion===RACE_VERSION&&s.bests&&typeof s.bests==='object')for(const id of Object.keys(KITS))if(Number.isFinite(s.bests[id])&&s.bests[id]>0)progress.bests[id]=s.bests[id];
  progress.completedActivities=Array.isArray(s.completedActivities)?[...new Set(s.completedActivities.filter(id=>id===raceSite.id))]:[];
  // A saved record proves completion for players upgrading from the previous save shape.
- if(Object.keys(progress.bests).length&&!progress.completedActivities.includes(raceSite.id))progress.completedActivities.push(raceSite.id);
+ if((Object.keys(progress.bests).length||Object.keys(s.bests??{}).length)&&!progress.completedActivities.includes(raceSite.id))progress.completedActivities.push(raceSite.id);
  if(s.navigation?.target){const t=s.navigation.target;if(Number.isFinite(t.x)&&Number.isFinite(t.y)&&t.x>=0&&t.x<=MAP_SIZE&&t.y>=0&&t.y<=MAP_SIZE)nav.target=reachableTarget(t,area.bounds);}
  mods.kit=s.mods?.kit===true||s.mods?.speed===true||s.mods?.air===true;stormsEnabled=s.stormsEnabled!==false;minimap.restore(s.minimap);nav.labels=s.navigation?.labels===true;
  progress.seenLandmarks=Array.isArray(s.seenLandmarks)?[...new Set(s.seenLandmarks.filter(id=>landmarks.some(p=>p.id===id)))]:[];
@@ -45,7 +46,7 @@ function readSave(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if
  if(s.position&&['x','y','heading'].every(k=>Number.isFinite(s.position[k]))){const p=s.position,b=area.bounds;if(p.x>b.minX+100&&p.x<b.width-100&&p.y>b.minY+100&&p.y<b.maxY-100)progress.position=p;}
  }catch{/* Corrupt or unavailable storage cannot prevent exploration. */}}
 function save(){if(!ready)return;const position=state.mode==='free'&&!state.air&&!state.turnaround?{x:state.x,y:state.y,heading:state.heading}:progress.position;
- try{localStorage.setItem(KEY,JSON.stringify({version:SITE_VERSION,worldScale:WORLD_SCALE,siteCatalog:3,collected:progress.collected,regions:progress.regions,completedActivities:progress.completedActivities,bests:progress.bests,legacyBests:progress.legacyBests,raceVersion:'compact-v3',rover:raceExplorer??selected,position,quality,light,seenLandmarks:progress.seenLandmarks,navigation:nav,mods,stormsEnabled,minimap:minimap.state}));progress.position=position;}catch{if(!saveWarned){saveWarned=true;notify('Progress cannot be saved in this browser.');}}}
+ try{localStorage.setItem(KEY,JSON.stringify({version:SITE_VERSION,worldScale:WORLD_SCALE,siteCatalog:3,collected:progress.collected,regions:progress.regions,completedActivities:progress.completedActivities,bests:progress.bests,legacyBests:progress.legacyBests,raceVersion:RACE_VERSION,rover:raceExplorer??selected,position,quality,light,seenLandmarks:progress.seenLandmarks,navigation:nav,mods,stormsEnabled,minimap:minimap.state}));progress.position=position;}catch{if(!saveWarned){saveWarned=true;notify('Progress cannot be saved in this browser.');}}}
 function notify(text,seconds=5){state.message=text;state.messageUntil=state.t+seconds;dirty=true;}
 function sync(){const held=new Set(pointers.values());input.drive=keys.has('w')||keys.has('arrowup')||held.has('drive');input.brake=keys.has(' ')||keys.has('arrowdown')||keys.has('s')||held.has('brake');input.steer=(keys.has('d')||keys.has('arrowright')||held.has('right')?1:0)-(keys.has('a')||keys.has('arrowleft')||held.has('left')?1:0);}
 function clearInput(){keys.clear();pointers.clear();sync();document.querySelectorAll('.controls .active').forEach(b=>b.classList.remove('active'));}
@@ -60,13 +61,13 @@ function openDialog(id,caller=null){closeDialogs();backTo=caller;setPause(true);
 function closeSheet(){const back=backTo;if($('#map-dialog').open&&mapReturn){const r=mapReturn;mapReturn=null;showCard(r.site,r.caller,r.site.kind);notesReturn=r.notes;return;}closeDialogs();if(back)openDialog(back,back==='#notes-dialog'?notesReturn:back==='#map-dialog'&&mapReturn?'#discovery-dialog':null);else setPause(false);}
 function restoreExplorer(){if(raceExplorer){selected=raceExplorer;raceExplorer=null;mods.kit=false;state.roverId=selected;state.tune=explorationKit(selected,mods);state.v=state.vz=0;state.air=false;state.z=area.ground(state.x,state.y);previous=capturePose(state,state.z);gpu.reset(state);}}
 function explore(){restoreExplorer();welcome=false;$('#welcome').hidden=true;closeDialogs();state.mode='free';state.done=false;state.countdown=0;setPause(false);updateHud();save();}
-function startLap(){raceExplorer??=selected;entryTime=0;entryArmed=false;$('#scene').classList.remove('race-transition');void $('#scene').offsetWidth;$('#scene').classList.add('race-transition');welcome=false;$('#welcome').hidden=true;closeDialogs();resetAt(area.start,'trial');setPause(false);notify('Delta circuit',2);}
+function startLap(){raceExplorer??=selected;entryTime=0;entryArmed=false;$('#scene').classList.remove('race-transition');void $('#scene').offsetWidth;$('#scene').classList.add('race-transition');welcome=false;$('#welcome').hidden=true;closeDialogs();resetAt(area.start,'trial');setPause(false);}
 function endLap(){restoreExplorer();state.mode='free';state.tune=explorationKit(selected,mods);state.done=false;state.countdown=0;state.time=0;notify('Explore freely');updateHud();save();}
 function finishLap(){const time=state.time,old=progress.bests[selected];if(!old||time<old)progress.bests[selected]=time;if(!progress.completedActivities.includes(raceSite.id))progress.completedActivities.push(raceSite.id);mods.kit=false;
  $('#result-time').textContent=clock(time);$('#result-best').textContent=!old||time<old?'Your best in this rover':`Best · ${clock(old)}`;
  state.mode='free';state.done=false;state.countdown=0;state.v=0;openDialog('#result-dialog');updateHud();save();}
 let currentRegion='';
-function updateHud(){if(!state)return;const region=regionAt(state);if(region!==currentRegion){currentRegion=region;$('#region-name').textContent=region;}$('#race-hud').hidden=state.mode!=='trial';$('#gate-count').textContent=state.nextGate<area.course.gates.length?`Gate ${state.nextGate+1} / ${area.course.gates.length}`:'Finish';$('#timer').textContent=state.countdown>0?String(Math.ceil(state.countdown)):clock(state.time);$('#brake').textContent=!state.air&&reverseAvailable(state,[])?'Reverse':'Brake';$('#entry-loading').hidden=paused||entryTime<=0;$('#entry-loading progress').value=entryTime;$('#toast').textContent=welcome?'':state.boundary?'Return toward Three Forks':state.messageUntil>state.t?state.message:'';}
+function updateHud(){if(!state)return;const region=regionAt(state);if(region!==currentRegion){currentRegion=region;$('#region-name').textContent=region;}const racing=state.mode==='trial',counting=racing&&state.countdown>0,count=String(Math.ceil(state.countdown));$('#race-hud').hidden=!racing||counting;$('#timer').textContent=clock(state.time);const countdown=$('#race-countdown');countdown.hidden=!counting;if(counting&&countdown.textContent!==count)countdown.textContent=count;$('#brake').textContent=!state.air&&reverseAvailable(state,[])?'Reverse':'Brake';$('#entry-loading').hidden=paused||entryTime<=0;$('#entry-loading progress').value=entryTime;$('#toast').textContent=welcome?'':state.boundary?'Return toward Three Forks':state.messageUntil>state.t?state.message:'';}
 
 let notesReturn=null;
 function inspectPhoto(site,photo){$('#photo-title').textContent=site.name;$('#photo-image').src=new URL(photo.image,import.meta.url).href;$('#photo-image').alt=photo.imageAlt;$('#photo-date').textContent=photoDate(photo.capturedAt);$('#photo-description').textContent=photo.imageDescription??photo.imageAlt;$('#photo-credit').textContent=photo.imageCredit;$('#photo-source').href=photo.source;$('#photo-dialog').showModal();}
@@ -119,14 +120,14 @@ function wayfinding(){
  const c=$('#wayfinding'),w=c.clientWidth,h=c.clientHeight;c.width=w;c.height=h;const ctx=c.getContext('2d');
  if(state.mode==='free'&&Math.hypot(state.x-raceSite.x,state.y-raceSite.y)<1000){ctx.strokeStyle='#cfe8b377';ctx.lineWidth=1;ctx.beginPath();let pen=false;for(let i=0;i<=48;i++){const a=i/48*Math.PI*2,x=raceSite.x+Math.cos(a)*raceSite.radius,y=raceSite.y+Math.sin(a)*raceSite.radius,q=gpu.project(x,y,area.ground(x,y)+.5);if(q.depth<=4){pen=false;continue;}if(pen)ctx.lineTo(q.x,q.y);else ctx.moveTo(q.x,q.y);pen=true;}ctx.stroke();}
  const racing=state.mode==='trial';c.dataset.direction='none';if(!racing){if(!nav.target||paused||welcome)return;const a=Math.atan2(nav.target.x-state.x,-(nav.target.y-state.y))-gpu.camera.h,angle=Math.atan2(Math.sin(a),Math.cos(a)),halfView=Math.atan(w/(2*Math.min(w*.95,h*.9)));if(Math.abs(angle)<=halfView)return;const right=angle>0,x=right?w-22:22,y=h*.44;c.dataset.direction=right?'right':'left';ctx.strokeStyle='#ddedd1';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+(right?-4:4),y-7);ctx.lineTo(x+(right?3:-3),y);ctx.lineTo(x+(right?-4:4),y+7);ctx.stroke();return;}
- const target=racing?(area.course.gates[state.nextGate]??area.course.finish):nav.target,ground=(area.visualGround??area.ground)(target.x,target.y),q=gpu.project(target.x,target.y,ground+32);
- // Only the next gate is shown in-world; the following gate is retained on the map.
- if(racing)gpu.mesh(posts,[target.x,target.y,ground,target.heading],7);
- const onscreen=racing&&q.depth>4&&q.x>35&&q.x<w-35&&q.y>145&&q.y<h-140;const meters=Math.round(Math.hypot(target.x-state.x,target.y-state.y)/4);
+ const target=racing?(area.course.gates[state.nextGate]??area.course.finish):nav.target,ground=(area.visualGround??area.ground)(target.x,target.y);
+ // The active checkpoint is a physical-looking pair of flags. The course
+ // surface—not floating text, distance counters or arrows—guides the player.
+ if(racing){gpu.mesh(posts,[target.x,target.y,ground,target.heading],7);return;}
+ const meters=Math.round(Math.hypot(target.x-state.x,target.y-state.y)/4);
  ctx.font='600 14px system-ui';ctx.textAlign='center';ctx.fillStyle='#e6f2cc';ctx.strokeStyle='#182f2b';ctx.lineWidth=4;
- const label=(racing?(state.nextGate<area.course.gates.length?`Gate ${state.nextGate+1}`:'Finish'):target.name)+` · ${meters} m`;
- if(onscreen){ctx.strokeText(label,q.x,q.y-8);ctx.fillText(label,q.x,q.y-8);ctx.beginPath();ctx.arc(q.x,q.y+10,7,0,Math.PI*2);ctx.stroke();ctx.fill();}
- else{const angle=Math.atan2(target.x-state.x,-(target.y-state.y))-gpu.camera.h,dx=Math.sin(angle),dy=-Math.cos(angle),cx=w/2,cy=h/2,r=Math.min(w*.35,h*.29),x=cx+dx*r,y=cy+dy*r;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(8,7);ctx.lineTo(-8,7);ctx.closePath();ctx.stroke();ctx.fill();ctx.restore();ctx.strokeText(label,w/2,h>500?155:87);ctx.fillText(label,w/2,h>500?155:87);}
+ const label=target.name+` · ${meters} m`;
+ const angle=Math.atan2(target.x-state.x,-(target.y-state.y))-gpu.camera.h,dx=Math.sin(angle),dy=-Math.cos(angle),cx=w/2,cy=h/2,r=Math.min(w*.35,h*.29),x=cx+dx*r,y=cy+dy*r;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(8,7);ctx.lineTo(-8,7);ctx.closePath();ctx.stroke();ctx.fill();ctx.restore();ctx.strokeText(label,w/2,h>500?155:87);ctx.fillText(label,w/2,h>500?155:87);
 }
 function placeLamps(){const r=gpu.roverScreenBounds,b=$('#lamps');b.hidden=paused||welcome||!r;if(b.hidden)return;const w=Math.max(44,r.right-r.left),h=Math.max(44,r.bottom-r.top);b.style.left=(r.left+r.right-w)/2+'px';b.style.top=(r.top+r.bottom-h)/2+'px';b.style.width=w+'px';b.style.height=h+'px';b.setAttribute('aria-pressed',String(gpu.lampStrength>0));}
 function draw(dt){gpu.quality=quality;gpu.storm=storm;const shown=paused?state:displayState(previous,state,acc*60,area.ground(state.x,state.y));gpu.draw(shown,dt,$('#labels'));sky.draw(gpu,shown);wayfinding();placeLamps();}

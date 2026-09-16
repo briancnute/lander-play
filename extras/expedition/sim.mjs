@@ -29,7 +29,7 @@ export function ground(x,y){
  return basinGround(x,y)*(1-blend)+z*blend+expansionGround(x,y)+northSouthGround(x,y);
 }
 export function nearest(route,x,y){let best={d:Infinity,i:0};for(let i=0;i<route.length;i++){const p=route[i],d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,i};}return best;}
-export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,boundary:false,turnaround:false,boost:0,pickupSpent:[],t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'Follow gates 1–6, then finish.':'Eight samples · Explore Mars',messageUntil:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
+export function create(mode,course,roverId='sojourner'){const p=course.route[0],q=course.route[3];return {mode,roverId:vehicle(roverId).id,tune:tuningFor(roverId),x:p.x,y:p.y,heading:mode==='trial'?Math.atan2(q.x-p.x,-(q.y-p.y)):Math.atan2(samples[1].x-p.x,-(samples[1].y-p.y)),v:0,z:ground(p.x,p.y),vz:0,air:false,boundary:false,turnaround:false,boost:0,pickupSpent:[],t:0,time:0,countdown:mode==='trial'?3:0,started:false,done:false,nextGate:0,collected:[],collecting:-1,collectTime:0,message:mode==='trial'?'':'Eight samples · Explore Mars',messageUntil:mode==='trial'?0:5,jumpBest:0,jumpStart:null,found:false,discoveries:[],discoveryTarget:null,discoveryTime:0,impact:0};}
 export function say(s,text,duration=3){s.message=text;s.messageUntil=s.t+duration;}
 export function stopBoost(s){s.boost=0;}
 export function sampleNear(s,sites=samples){return sites.findIndex((p,i)=>!s.collected.includes(i)&&distance(s,p)<32);}
@@ -98,7 +98,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  const vx=s.x-prev.x,vy=s.y-prev.y,len=vx*vx+vy*vy;
  const t=len?clamp(((gate.x-prev.x)*vx+(gate.y-prev.y)*vy)/len,0,1):0;
  if(Math.hypot(prev.x+vx*t-gate.x,prev.y+vy*t-gate.y)<=42){
-  if(s.nextGate<course.gates.length){s.nextGate++;say(s,s.nextGate===course.gates.length?'All gates · finish ahead':`Gate ${s.nextGate} / ${course.gates.length}`,1.4);}
+  if(s.nextGate<course.gates.length)s.nextGate++;
   else{s.done=true;say(s,'Lap complete');}
  }
 }
