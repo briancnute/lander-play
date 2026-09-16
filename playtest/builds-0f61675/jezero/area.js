@@ -5,6 +5,7 @@ import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
+import {regions,detailIndices,regionIdForDetail} from './regions.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
@@ -22,14 +23,15 @@ export function distanceToRoute(route,x,y){
  return best;
 }
 function raceLine(route,height){
- const out=[],color=[.535,.355,.24],last=route.length-1;
- // Paired wheel-worn ruts suggest compacted ground without painting an arcade
- // road across Mars. Averaged point normals keep the closed line continuous.
+ const out=[],road=[.29,.19,.14],edge=[.78,.61,.39],last=route.length-1;
+ // The road is an intentionally game-like race surface. It exists only during
+ // the activity, like the gates, and is wide enough to read as a circuit.
  const normals=route.map((p,i)=>{const before=route[i===0?last-1:i-1],after=route[i===last?1:i+1],dx=after.x-before.x,dy=after.y-before.y,length=Math.hypot(dx,dy)||1;return {x:-dy/length,y:dx/length};});
  const point=(q,n,offset)=>{const x=q.x+n.x*offset,y=q.y+n.y*offset;return [x,y,height(x,y)+.12];};
- for(const center of [-4,4])for(let i=1;i<route.length;i++){
-  const a=route[i-1],b=route[i],an=normals[i-1],bn=normals[i],al=point(a,an,center-.9),ar=point(a,an,center+.9),bl=point(b,bn,center-.9),br=point(b,bn,center+.9);
-  triangle(out,al,bl,ar,color);triangle(out,ar,bl,br,color);
+ for(let i=1;i<route.length;i++){
+  const a=route[i-1],b=route[i],an=normals[i-1],bn=normals[i],al=point(a,an,-22),ar=point(a,an,22),bl=point(b,bn,-22),br=point(b,bn,22);
+  triangle(out,al,bl,ar,road);triangle(out,ar,bl,br,road);
+  for(const side of [-1,1]){const inner=side*19,outer=side*22,ail=point(a,an,inner),aol=point(a,an,outer),bil=point(b,bn,inner),bol=point(b,bn,outer);triangle(out,ail,bil,aol,edge);triangle(out,aol,bil,bol,edge);}
  }
  return new Float32Array(out);
 }
@@ -53,8 +55,12 @@ export async function loadArea(){
  const pickups=[...points.filter((_,i)=>i>0&&i%2===0),toGame(600,-650)].map((p,id)=>({...p,id}));
  const scenery=await loadBackdrop(mesh);
  const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);
- const lineWidth=8,lineBonus=.07;
- const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceLine:raceLine(route,mesh.height),fidelity,rockStats,samples:discoveries,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ const lineWidth=22,lineBonus=.07;
+ const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceLine:raceLine(route,mesh.height),fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ area.sampleRows=s=>[
+  ...regions.map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
+  ...detailIndices.filter(i=>(s.regions??[]).includes(regionIdForDetail(i))).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),
+ ];
  area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
  // Index the same conservative rock roofs, so each camera sample only checks
  // nearby stones. Geometry, clearance and the approved camera response are identical.
