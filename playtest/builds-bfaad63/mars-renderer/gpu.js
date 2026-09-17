@@ -1,4 +1,5 @@
 import {raceSurface} from './race-surface.js';
+import {dustCellGLSL} from './dust-cells.js';
 import {boosterPods,jet} from './boost-kit.js';
 import {drivingBody,drivingWheel,runningLights,tailLights} from './driving-models.js';
 import {HeadlightShadow} from './headlight-shadow.js';
@@ -21,6 +22,7 @@ uniform vec2 trackInfo;uniform sampler2D grit;uniform vec3 sun,haze;
 uniform vec4 camera,roverLamp;uniform vec3 lampOrigin;uniform sampler2D lampHeights;uniform vec2 weather;
 uniform float backdropPass,areaMaterial,shadowEnabled,softSurfaceLighting,airFill;
 uniform float daylight,kind,stormTime,roverPart,localDust,lampSlope,residualDust,airborne;
+${dustCellGLSL}
 float dust(vec3 target){
  if(weather.y<=0.&&residualDust<=0.)return 0.;
  vec3 ray=target-camera.xyz;float distance=length(ray),sum=0.;
@@ -28,7 +30,8 @@ float dust(vec3 target){
   vec3 p=camera.xyz+ray*((float(i)+.5)/12.);
   float edge=weather.x+55.*sin(p.x*.004)+25.*sin(p.x*.011),d=edge-p.y;
   float top=560.+100.*sin(p.x*.0017)+65.*sin(p.y*.0023+p.x*.001);
-  sum+=weather.y*smoothstep(0.,200.,d)*(1.-smoothstep(1150.,1500.,d))*(1.-smoothstep(top*.4,top,p.z));
+  if(dustCell.z>0.)sum+=weather.y*cellDensity(p.xy)*(1.-smoothstep(dustBase+100.,dustBase+420.,p.z));
+  else sum+=weather.y*smoothstep(0.,200.,d)*(1.-smoothstep(1150.,1500.,d))*(1.-smoothstep(top*.4,top,p.z));
  }
  return 1.-exp(-sum*distance*.022/12.-residualDust*min(distance,1000.)*.008);
 }
@@ -154,6 +157,9 @@ export class GPURenderer{
  if(this.lampStrength>0&&shadowMode!=='none'){this.headlightShadow.draw(lampOrigin,s.heading,lampSlope,shadowMode==='objects'?[this.rocks]:[this.land,this.rocks],shadowMode==='objects'?null:this.land);gl.viewport(0,0,c.width,c.height);gl.useProgram(this.program);}
  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.headlightShadow.texture);gl.uniform1i(this.locations.lampHeights,1);gl.activeTexture(gl.TEXTURE0);gl.uniform1f(this.locations.lampSlope,lampSlope);gl.uniform3fv(this.locations.lampOrigin,lampOrigin);
 
+ // Optional bounded Jezero weather; other rover studies retain their front.
+ for(const name of ['dustCell','dustShape','dustBase'])if(!(name in this.locations))this.locations[name]=gl.getUniformLocation(this.program,name);
+ gl.uniform4fv(this.locations.dustCell,this.storm?.cell??[0,0,0,0]);gl.uniform4fv(this.locations.dustShape,this.storm?.cell?this.storm.shape:[1,0,0,0]);gl.uniform1f(this.locations.dustBase,this.storm?.baseZ??0);
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}

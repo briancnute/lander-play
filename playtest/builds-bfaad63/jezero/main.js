@@ -11,7 +11,8 @@ import {GPURenderer} from '../mars-renderer/gpu.js';
 import {driveStep} from '../mars-renderer/driving.js';
 import {kit,KITS,explorationKit,raceKit} from '../mars-renderer/kits.js';
 import {capturePose,displayState} from '../mars-renderer/motion.js';
-import {StormFront} from '../mars-renderer/storm-front.js';
+import {DustCells} from '../mars-renderer/dust-cells.js';
+import {createStormMap} from './storm-map.js';
 import {NightSky} from '../mars-renderer/night-sky.js';
 import {openCraft} from '../mars-renderer/craft.js';
 import {box,triangle} from '../mars-renderer/geometry.js';
@@ -28,7 +29,7 @@ const nav={target:null,labels:false};let cardSite=null,mapReturn=null,pendingJum
 const input={drive:false,brake:false,steer:0},keys=new Set(),pointers=new Map();
 const progress={seenLandmarks:[],collected:[],regions:[],completedActivities:[],legacyBests:{},bests:{},rover:'perseverance',position:null};
 const minimap=new MiniMap($('#mini-map-button'),$('#map-return'),()=>{mapReturn=null;openDialog('#map-dialog');},()=>save());
-const storm=new StormFront(),sky=new NightSky($('#night-sky')),relief=new Image();relief.src=new URL('./assets/relief.webp',import.meta.url).href;
+const storm=new DustCells(),drawStormMap=createStormMap(),sky=new NightSky($('#night-sky')),relief=new Image();relief.src=new URL('./assets/relief.webp',import.meta.url).href;
 function syncFloor(){
  if(!area||mapBounds.width===floorMapBounds.width)return;
  revealFloorRegions();area.unlockFloor();Object.assign(mapBounds,floorMapBounds);
@@ -111,7 +112,7 @@ function drawMap(c=$('#map'),mini=false){
  const occupied=[];
  function mapLabel(text,q,offset){const tw=ctx.measureText(text).width;let chosen;for(const dy of [offset,...Array.from({length:10},(_,i)=>[(i+1)*14+offset,offset-(i+1)*14]).flat()]){const x=Math.max(tw/2+3,Math.min(w-tw/2-3,q.x)),y=Math.max(12,Math.min(h-4,q.y+dy)),r={x:x-tw/2-2,y:y-10,w:tw+4,h:13};if(!occupied.some(a=>r.x<a.x+a.w&&r.x+r.w>a.x&&r.y<a.y+a.h&&r.y+r.h>a.y)){chosen={x,y,r};break;}}if(!chosen)return;occupied.push(chosen.r);if(Math.abs(chosen.y-q.y)>18){ctx.strokeStyle='#e7dbb866';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(chosen.x,chosen.y-5);ctx.stroke();}ctx.fillText(text,chosen.x,chosen.y);}
  c.dataset.geologyVisible='false';c.dataset.sitesVisible='true';c.dataset.raceVisible=String(state.mode==='trial');c.dataset.targetVisible=String(!!nav.target);c.dataset.stormVisible=String(storm.age>=0);
- if(storm.age>=0){const cols=mini?22:36,rows=mini?20:32;for(let iy=0;iy<rows;iy++)for(let ix=0;ix<cols;ix++){const x=bounds.minX+(ix+.5)/cols*(bounds.width-bounds.minX),y=bounds.minY+(iy+.5)/rows*(bounds.maxY-bounds.minY),density=storm.density(x,y);if(density>.03){ctx.fillStyle=`rgba(91,65,49,${Math.min(.55,density*.5)})`;ctx.fillRect(ix*w/cols,iy*h/rows,w/cols+1,h/rows+1);}}}
+ drawStormMap(ctx,storm,bounds,w,h);
  if(state.mode==='trial'){ctx.strokeStyle='#ddb17a';ctx.lineWidth=mini?9:12;ctx.lineJoin='round';ctx.beginPath();area.course.route.forEach((p,i)=>{const q=mapPoint(p,w,h,bounds);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.stroke();for(const p of [...area.course.gates,area.course.finish]){const q=mapPoint(p,w,h,bounds);ctx.beginPath();ctx.arc(q.x,q.y,mini?2.5:3.5,0,Math.PI*2);ctx.fillStyle='#e6f0c8';ctx.fill();}}
  const flag=mapPoint(raceSite,w,h,bounds);ctx.font=`${mini?12:16}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#fff';ctx.fillText('🏁',flag.x,flag.y+5);
  if(!mini&&c.dataset.cursor){const cursor=JSON.parse(c.dataset.cursor);ctx.strokeStyle='#fff8';ctx.lineWidth=1;ctx.strokeRect(cursor.x*w-4,cursor.y*h-4,8,8);}
