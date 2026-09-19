@@ -1,4 +1,20 @@
-# Jezero — Three Forks, landing plain and Séítah
+# Jezero — Three Forks, landing plain, Séítah and Belva
+
+## 2026-09-19 — Upper delta / Belva playable review
+
+Jenkins Gap → upper fan → Echo Creek is built and open immediately. Belva is the
+sixth discovery; existing stops, archived notes and the optional Delta circuit retain
+their identities. The protected crater relief scales uniformly in three dimensions.
+New portable terrain tiles share their contact/render surface, negative coordinates
+work in maps and saves, and boundary recovery follows the joined playable footprint.
+Maps preserve geographic proportions; the new discovery uses a labeled supporting map.
+
+See [implementation and evidence](../../../docs/JEZERO_BELVA_IMPLEMENTATION.md).
+Run `node tools/prototypes/jezero/belva-check.mjs` with the local server at port 5506
+(or set `JEZERO_URL`) for Chromium/WebKit coverage. The stock-rover tour takes small
+detours around existing obstacles and passes in both directions without collisions
+or airtime. Physical-device performance, producer visual approval and the hero photo
+remain open. Older five-stop and survey-only statements below are historical.
 
 ## 2026-09-16 — Open exploration and fewer stops
 

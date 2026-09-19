@@ -1,6 +1,7 @@
 import {toGame} from './terrain.js';
 import {landmarks} from './landmarks.js';
 import {floorRegions} from './floor-sites.js';
+import {belvaDiscovery} from './belva.js';
 
 const region=(id,name,east,north,copy)=>({id,name,...toGame(east,north),kind:'region',...copy});
 
@@ -40,6 +41,8 @@ export function revealFloorRegions(){
 // available for saved Field Notes, but only five meaningful stops spawn orbs.
 revealFloorRegions();
 for(const r of regions)r.ambient=!['kodiak','seitah'].includes(r.regionId??r.id);
-detailIndices.splice(0,detailIndices.length,0,4,7);
+const upperRegion={...belvaDiscovery,id:'upper-delta',name:'Upper delta',kind:'region',ambient:true,groupOnly:true};
+regions.push(upperRegion);regionById[upperRegion.id]=upperRegion;detailRegion[9]=upperRegion.id;
+detailIndices.splice(0,detailIndices.length,0,4,7,9);
 export const retiredDetailIndices=[1,2,5,6,8];
 export const detailAvailable=(index,visited)=>regionById[regionIdForDetail(index)]?.ambient||visited.includes(regionIdForDetail(index));

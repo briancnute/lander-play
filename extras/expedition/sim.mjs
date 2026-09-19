@@ -40,11 +40,11 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  if(s.countdown>0){s.countdown=Math.max(0,s.countdown-dt);return;}
  if(s.mode==='trial')s.time+=dt;
  let drive=!!input.drive,brake=!!input.brake,steer=clamp(input.steer||0,-1,1);
- const edge=Math.min(s.x-(bounds.minX??0),bounds.width-s.x,s.y-bounds.minY,bounds.maxY-s.y);
+ const boundary=area?.boundaryAt?.(s),edge=boundary?.edge??Math.min(s.x-(bounds.minX??0),bounds.width-s.x,s.y-bounds.minY,bounds.maxY-s.y);
  s.boundary=edge<40;
  if(edge>65||(s.returnReleased&&edge<s.returnReleaseEdge-100))s.returnReleased=false;
  if(edge< -75&&!s.turnaround&&!s.returnReleased){s.turnaround=true;if(s.boost)stopBoost(s);say(s,'Auto-return · turning toward the basin',3);}
- if(s.turnaround){const error=angle(Math.atan2(clamp(s.x,(bounds.minX??0)+250,bounds.width-250)-s.x,-(clamp(s.y,bounds.minY+250,bounds.maxY-250)-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65||(area?.releaseAfterTurn&&Math.abs(error)<.12)){s.turnaround=false;s.returnReleased=!!area?.releaseAfterTurn;s.returnReleaseEdge=edge;if(area?.releaseAfterTurn){drive=!!input.drive;brake=!!input.brake;steer=clamp(input.steer||0,-1,1);}say(s,'Your controls',2);}}
+ if(s.turnaround){const target=boundary?.target??{x:clamp(s.x,(bounds.minX??0)+250,bounds.width-250),y:clamp(s.y,bounds.minY+250,bounds.maxY-250)},error=angle(Math.atan2(target.x-s.x,-(target.y-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65||(area?.releaseAfterTurn&&Math.abs(error)<.12)){s.turnaround=false;s.returnReleased=!!area?.releaseAfterTurn;s.returnReleaseEdge=edge;if(area?.releaseAfterTurn){drive=!!input.drive;brake=!!input.brake;steer=clamp(input.steer||0,-1,1);}say(s,'Your controls',2);}}
 
  s.boost=Math.max(0,s.boost-dt);
  const prev={x:s.x,y:s.y};

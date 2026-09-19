@@ -5,16 +5,18 @@ import {CLOSE_RANGE} from './navigation.js';
 import {loadBackdrop} from './backdrop.js';
 import {loadTerrain,toGame,buildRocks,buildRidgeCluster} from './terrain.js';
 import {regions,detailIndices,regionIdForDetail,detailAvailable} from './regions.js';
-import {loadFloor,floorRocks,floorBounds} from './floor.js';
+import {loadFloor,floorRocks} from './floor.js';
 import {floorDiscoveries,floorRegions} from './floor-sites.js';
 import {buildRockStructures,insideStructure} from './rock-structures.js';
+import {loadBelva,belvaDiscovery,upperSurface,upperRocks} from './belva.js';
+import {explorationBounds,boundaryAt} from './belva-bounds.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
 const kodiak=landmarks[0];
 // The accessible overlook keeps the documented 23_824 → Kodiak bearing while
 // shortening its roughly 602 m real range to about 397 m in the compact world.
-export const discoveries=[byId.pair,byId.hidden,byId.observation,{...kodiak,...toGame(80,-880),kind:'site',focus:{x:kodiak.x,y:kodiak.y},copy:kodiak.fact,cameraReference:'23_824',authoredRangeMetres:397},byId.depot,byId.amalik,byId.landing,...floorDiscoveries];
+export const discoveries=[byId.pair,byId.hidden,byId.observation,{...kodiak,...toGame(80,-880),kind:'site',focus:{x:kodiak.x,y:kodiak.y},copy:kodiak.fact,cameraReference:'23_824',authoredRangeMetres:397},byId.depot,byId.amalik,byId.landing,...floorDiscoveries,belvaDiscovery];
 export function distanceToRoute(route,x,y){
  let best=Infinity;
  for(let i=1;i<route.length;i++){
@@ -58,16 +60,18 @@ export async function loadArea(){
  // Boosts reward choices around the circuit; none occupies the start/finish.
  const pickups=[...course.gates.filter((_,i)=>i%2===1),toGame(600,-650)].map((p,id)=>({...p,id}));
  const extension=await loadFloor(mesh),extra=floorRocks(extension.height,[...floorDiscoveries,...floorRegions]);
- const scenery=await loadBackdrop(mesh,extension);
+ const upper=await loadBelva(mesh,extension.height);
+ const scenery=await loadBackdrop(mesh,extension,upper);
  // Keep the old mesh data intact; only its sampler gains the adjoining tiles.
- scenery.details.push(...extension.tiles);
- const oldVisualGround=scenery.visualGround;scenery.visualGround=(x,y)=>x>9600||y>9600?extension.height(x,y):oldVisualGround(x,y);
+ scenery.details.push(...extension.tiles,...upper.tiles);
+ const oldVisualGround=scenery.visualGround;scenery.visualGround=(x,y)=>{const e=x/(4*WORLD_SCALE)-1500,n=1500-y/(4*WORLD_SCALE);return upperSurface(e,n)?upper.height(x,y):x>9600||y>9600?extension.height(x,y):oldVisualGround(x,y);};
  // The newly reachable southern ground must meet the detailed Kodiak mesh,
  // not the lower-resolution context surface hidden underneath that mesh.
  mesh.height=extension.height;
  const photoRocks=buildRockStructures(scenery.visualGround);
- const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length+extra.vertices.length+photoRocks.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);sceneryVertices.set(extra.vertices,vertices.length+fidelity.vertices.length);sceneryVertices.set(photoRocks.vertices,vertices.length+fidelity.vertices.length+extra.vertices.length);
- filtered.push(...extra.rocks);
+ const upperScenery=upperRocks(scenery.visualGround,upper.spine);
+ const sceneryVertices=new Float32Array(vertices.length+fidelity.vertices.length+extra.vertices.length+photoRocks.vertices.length+upperScenery.vertices.length);sceneryVertices.set(vertices);sceneryVertices.set(fidelity.vertices,vertices.length);sceneryVertices.set(extra.vertices,vertices.length+fidelity.vertices.length);sceneryVertices.set(photoRocks.vertices,vertices.length+fidelity.vertices.length+extra.vertices.length);sceneryVertices.set(upperScenery.vertices,vertices.length+fidelity.vertices.length+extra.vertices.length+photoRocks.vertices.length);
+ filtered.push(...extra.rocks,...upperScenery.rocks);
  const lineWidth=58,lineBonus=.07;
  const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
  area.sampleRows=s=>[
@@ -78,7 +82,8 @@ export async function loadArea(){
  area.ground=scenery.visualGround;
  area.parts=photoRocks.parts;area.rockStructures=photoRocks.structures;
  area.extension={info:extension.info,stats:extra.stats,spine:extra.spine,unlocked:false};
- area.unlockFloor=()=>{Object.assign(area.bounds,floorBounds);area.extension.unlocked=true;};
+ area.upper=upper;area.boundaryAt=boundaryAt;
+ area.unlockFloor=()=>{Object.assign(area.bounds,explorationBounds);area.extension.unlocked=true;};
  area.speedMultiplier=s=>s.mode==='trial'&&distanceToRoute(route,s.x,s.y)<=lineWidth?1+lineBonus:1;
  // Index the same conservative rock roofs, so each camera sample only checks
  // nearby stones. Geometry, clearance and the approved camera response are identical.
