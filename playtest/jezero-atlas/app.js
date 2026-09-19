@@ -1,12 +1,25 @@
-const {regions,legs}=window.ATLAS;
-const $=s=>document.querySelector(s);
-function select(id){const r=regions.find(r=>r.id===id);$('#selection').innerHTML=`<img src="assets/${r.image}" alt="${r.name} reference"><div><h3>${r.id}. ${r.name}</h3><p>${r.text}</p><p><b>${r.orb}</b></p></div>`;document.querySelectorAll('[data-region]').forEach(e=>{e.classList.toggle('active',+e.dataset.region===id);if(e.tagName==='BUTTON')e.setAttribute('aria-pressed',+e.dataset.region===id)});}
-$('#region-buttons').innerHTML=regions.map(r=>`<button data-region="${r.id}" aria-pressed="false">${r.id} / ${r.name}</button>`).join('');
-document.querySelectorAll('[data-region]').forEach(e=>{e.addEventListener('click',()=>select(+e.dataset.region));if(e.tagName.toLowerCase()==='g')e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(+e.dataset.region)}})});
-document.querySelectorAll('[data-toggle]').forEach(e=>e.addEventListener('change',()=>document.querySelector(`[data-layer="${e.dataset.toggle}"]`).style.display=e.checked?'':'none'));
-regions.forEach((r,i)=>{$(['#cards-a','#cards-b','#cards-c'][Math.floor(i/2)]).insertAdjacentHTML('beforeend',`<article class="photo-card"><p class="eyebrow">REGION ${r.id} / ${r.name}</p><a class="image" href="assets/${r.image}" target="_blank" aria-label="Open full panorama of ${r.name}"><img src="assets/${r.image}" alt="${r.name}: real rover photograph"></a><p class="photo-meta">${r.date} · preview cropped; click for full image</p><h3>${r.title}</h3><p>${r.text}</p><p><b>${r.orb}</b></p><p>${r.build}</p><p class="confidence">${r.confidence}</p><p class="photo-meta">${r.processing} <a href="${r.source}" target="_blank" rel="noreferrer">NASA source / full credits ↗</a></p></article>`)});
-const time=s=>`${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,'0')}`;
-$('#legs').innerHTML=legs.map(l=>`<tr><td>${l.name}</td><td>${(l.metres/1000).toFixed(2)} km</td><td>${time(l.normal)}</td><td>${time(l.boost)}</td></tr>`).join('');
-function pace(){const mode=$('#pace').value,metres=legs.reduce((n,l)=>n+l.metres,0)+legs[2].metres;$('#total-time').textContent=`Main journey + Kodiak return: ${(metres/1000).toFixed(1)} km · ~${time(metres/(mode==='normal'?20:60))} moving`;}
-$('#pace').addEventListener('change',pace);pace();select(3);
-$('#source-list').innerHTML=`<p><b>Pinned map evidence:</b> NASA Mars 2020 rover waypoints and traverse, retained in jezero-site-audit/sources. The line shown ends at sol 1516. Source-file hashes and photo downloads: assets/sources.json.</p><p><a href="https://science.nasa.gov/mission/mars-2020-perseverance/location-map/">NASA Perseverance location map</a> · <a href="https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif">USGS CTX elevation model</a></p><p><a href="https://www.nasa.gov/missions/mars-2020-perseverance/perseverance-rover/nasas-perseverance-rover-reaches-top-of-jezero-crater-rim/">Rim arrival, December 2024</a> · <a href="https://www.nasa.gov/solar-system/planets/mars/nasas-perseverance-curiosity-panoramas-capture-two-sides-of-mars/">2026 panorama context</a></p>`;
+const {regions,pockets,builtArea,odometerKm}=window.ATLAS;
+document.querySelector('#built-percent').textContent=`${(builtArea/160*100).toFixed(1)}%`;
+document.querySelector('#built-area').textContent=`${builtArea.toFixed(2)} km² on Mars / ${(builtArea*.64).toFixed(2)} km² in-game`;
+document.querySelector('#odometer').textContent=`${odometerKm.toFixed(2)} km`;
+document.querySelector('#game-route').textContent=`${(odometerKm*.8).toFixed(1)} km`;
+document.querySelector('#region-buttons').innerHTML=regions.map(r=>`<button data-region="${r.id}" aria-pressed="false"><span class="number ${r.status==='Built'?'live':''}">${r.id}</span>${r.name}</button>`).join('');
+document.querySelector('#pocket-list').innerHTML=pockets.map(p=>`<p><b>${p.id} / ${p.name}</b><br>${p.text}</p>`).join('');
+function select(id,pocket=false){
+ const r=(pocket?pockets:regions).find(r=>r.id===id);
+ document.querySelector('#selection').innerHTML=`<p class="eyebrow">${pocket?'CANDIDATE ACTIVITY':r.status.toUpperCase()}</p><h2>${r.id} / ${r.name}</h2><p>${r.text}</p>`;
+ document.querySelectorAll('[data-region]').forEach(e=>{e.classList.toggle('selected',!pocket&&e.dataset.region===id);if(e.tagName==='BUTTON')e.setAttribute('aria-pressed',String(!pocket&&e.dataset.region===id));});
+ document.querySelectorAll('[data-pocket]').forEach(e=>e.classList.toggle('selected',pocket&&e.dataset.pocket===id));
+}
+document.querySelectorAll('[data-region],[data-pocket]').forEach(e=>{
+ const activate=()=>select(e.dataset.region??e.dataset.pocket,!!e.dataset.pocket);
+ e.addEventListener('click',activate);
+ if(e.tagName!=='BUTTON')e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate();}});
+});
+document.querySelectorAll('[data-toggle]').forEach(e=>e.addEventListener('change',()=>document.querySelectorAll(`[data-layer="${e.dataset.toggle}"]`).forEach(layer=>{layer.style.display=e.checked?'':'none';layer.querySelectorAll('[tabindex]').forEach(pin=>pin.tabIndex=e.checked?0:-1);})));
+let zoom=1;
+function setZoom(value){zoom=Math.max(1,Math.min(4,value));document.querySelector('#world-map').style.width=`${zoom*100}%`;document.querySelector('#zoom-out').disabled=zoom===1;document.querySelector('#zoom-in').disabled=zoom===4;}
+document.querySelector('#zoom-in').onclick=()=>setZoom(zoom+1);
+document.querySelector('#zoom-out').onclick=()=>setZoom(zoom-1);
+document.querySelector('#fit').onclick=()=>{setZoom(1);document.querySelector('.map-scroll').scrollTo(0,0);};
+setZoom(1);select('5');

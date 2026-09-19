@@ -24,5 +24,6 @@
     "tools/prototypes/jezero-master-map/assets/kodiak.jpg": "2430c09494b985010cc1fc5fa23cd48f29915c20d6486356c507accbc09c8bb6",
     "tools/prototypes/jezero-master-map/assets/rim.jpg": "09bdf5c88ee34bc8ae0c4b9a19794866ee5440946b67053ddb72a558a75be8ca",
     "tools/prototypes/jezero-master-map/assets/seitah.jpg": "a946783142dd1b276e1abaea7c54847b91604fb2d5d1eb6b11cdcbb372af90b3"
-  }
+  },
+  "planningRevision": "2026-09-19: full saved route through sol 1980; 16 x 10 km rectangle"
 }
