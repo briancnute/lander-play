@@ -1,5 +1,15 @@
 # Jezero - full rectangular world
 
+## 2026-09-20 - Expedition and activities
+
+Start at the first recorded drive near touchdown; finish at the pinned sol-1980
+endpoint after retracing the route and completing three different activities. Pause
+offers photo/art/science/jumps/helicopter/race entries and an explicit route return.
+CTX satellite imagery shares the route's coordinates; dashed links are data gaps.
+See [implementation and QA limits](../../../docs/JEZERO_EXPEDITION_IMPLEMENTATION.md).
+Run `expedition-check.mjs`, `route-drive-check.mjs`, `activities-check.mjs` and existing
+regressions. These activities are playable first passes, not real mission operations.
+
 ## 2026-09-20 - Whole-world terrain pass
 
 The full 16 x 10 real km rectangle is open, enclosing the recorded journey through
