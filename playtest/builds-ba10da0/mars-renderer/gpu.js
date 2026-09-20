@@ -1,4 +1,5 @@
 import {raceSurface} from './race-surface.js';
+import {createWorldTerrain} from './world-terrain.js';
 import {dustCellGLSL} from './dust-cells.js';
 import {boosterPods,jet} from './boost-kit.js';
 import {drivingBody,drivingWheel,runningLights,tailLights} from './driving-models.js';
@@ -147,6 +148,7 @@ export class GPURenderer{
  mesh(m,actor=[0,0,0,100],kind=1){const gl=this.gl;gl.uniform4fv(this.locations.actor,actor);gl.uniform1f(this.locations.kind,kind);gl.bindBuffer(gl.ARRAY_BUFFER,m.b);for(let i=0;i<3;i++){gl.enableVertexAttribArray(this.attributes[i]);gl.vertexAttribPointer(this.attributes[i],3,gl.FLOAT,false,36,i*12);}if(m.index){gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,m.index);gl.drawElements(gl.TRIANGLES,m.count,gl.UNSIGNED_SHORT,0);}else gl.drawArrays(gl.TRIANGLES,0,m.count);this.calls++;}
  reset(s){this.camera={x:s.x,y:s.y,h:s.heading};this.suspension=new Suspension();this.bodySlope=null;this.steerAngle=0;this.tracks?.reset();}
  draw(s,dt,overlay){const ground=this.ground,boostPickups=this.area?.pickups??this.defaultPickups??[],samples=this.area?.samples??this.defaultSamples??[];if(!this.camera)this.reset(s);const gl=this.gl,c=this.canvas,w=c.clientWidth,h=c.clientHeight,dpr=Math.min(devicePixelRatio,this.quality==='performance'?.75:1);if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}gl.viewport(0,0,c.width,c.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.useProgram(this.program);gl.uniform1f(this.locations.wideDepth,this.backdrop?1:0);gl.uniform4f(this.locations.wheel,0,0,0,0);const focus=this.height(s.x,s.y)+(s.renderClearance??Math.max(0,s.z-ground(s.x,s.y)))+6;
+ if(!this.worldTerrain&&this.area?.worldTiles)this.worldTerrain=createWorldTerrain(this,this.area.worldTiles);
  const cam=chase(this.camera,s,dt,focus,(x,y)=>Math.max(this.height(x,y),(this.area?.cameraSurface??cameraSurface)(x,y)),this.height);this.lastCamera=cam;
  const focal=Math.min(w*.95,h*.9),pc=Math.cos(cam.pitch),ps=Math.sin(cam.pitch),sun=s.solar??{east:-.45,north:.6,up:.66};const daylight=Math.max(.02,Math.min(1,(sun.up+.03)/.3));this.calls=0;gl.uniform2f(this.locations.slope,0,0);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);gl.uniform1i(this.locations.grit,0);
  gl.uniform4fv(this.locations.camera,[cam.x,cam.y,cam.eye,this.camera.h]);gl.uniform4fv(this.locations.projection,[2*focal/w,2*focal/h,0,0]);gl.uniform2fv(this.locations.pitch,[pc,ps]);gl.uniform3fv(this.locations.sun,[sun.east,-sun.north,sun.up]);gl.uniform3fv(this.locations.haze,sun.up<-.15?[.045,.052,.07]:daylight<.5?[.39,.30,.32]:[.70,.49,.34]);gl.uniform1f(this.locations.daylight,daylight);gl.uniform1f(this.locations.areaMaterial,this.area?1:0);
@@ -164,7 +166,9 @@ export class GPURenderer{
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,this.road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,this.road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,this.road&&s.mode==='trial'?1:0);gl.activeTexture(gl.TEXTURE0);
- this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
+ this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);
+ this.worldTerrain?.draw(s);
+ gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
  this.tracks.add(s,(offset,data)=>{gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferSubData(gl.ARRAY_BUFFER,offset*4,data);});this.trackMesh.count=this.tracks.vertexCount;gl.uniform2f(this.locations.trackInfo,this.tracks.count,this.tracks.capacity);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ZERO,gl.ONE);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);if(this.trackMesh.count)this.mesh(this.trackMesh,[0,0,0,100],3);gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.disable(gl.BLEND);
  // Match the connected mesh under the wheels without writing simulation height.
  const z=this.height(s.x,s.y),sx=(this.height(s.x+3,s.y)-this.height(s.x-3,s.y))/6,sy=(this.height(s.x,s.y+3)-this.height(s.x,s.y-3))/6;

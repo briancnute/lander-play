@@ -1,4 +1,14 @@
-# Jezero — Three Forks, landing plain, Séítah and Belva
+# Jezero - full rectangular world
+
+## 2026-09-20 - Whole-world terrain pass
+
+The full 16 x 10 real km rectangle is open, enclosing the recorded journey through
+sol 1980. Existing detailed areas remain intact; measured 20 m CTX terrain and the
+10 m Bright Angel survey connect the western journey. Nine discoveries, more off-route
+turbo, full-world main map and local-following minimap. Optional activity pockets stay
+unbuilt. See [evidence and limits](../../../docs/JEZERO_WORLD_IMPLEMENTATION.md).
+Run `world-check.mjs` and `world-view-check.mjs` alongside regression checks below.
+Physical-device performance and detailed regional art still require review.
 
 ## 2026-09-19 — Upper delta / Belva playable review
 

@@ -2,6 +2,7 @@ import {toGame} from './terrain.js';
 import {landmarks} from './landmarks.js';
 import {floorRegions} from './floor-sites.js';
 import {belvaDiscovery} from './belva.js';
+import {worldDiscoveries} from './world-sites.js';
 
 const region=(id,name,east,north,copy)=>({id,name,...toGame(east,north),kind:'region',...copy});
 
@@ -44,5 +45,6 @@ for(const r of regions)r.ambient=!['kodiak','seitah'].includes(r.regionId??r.id)
 const upperRegion={...belvaDiscovery,id:'upper-delta',name:'Upper delta',kind:'region',ambient:true,groupOnly:true};
 regions.push(upperRegion);regionById[upperRegion.id]=upperRegion;detailRegion[9]=upperRegion.id;
 detailIndices.splice(0,detailIndices.length,0,4,7,9);
+worldDiscoveries.forEach((p,i)=>{const r={...p,id:p.id+'-region',kind:'region',ambient:true,groupOnly:true};regions.push(r);regionById[r.id]=r;detailRegion[10+i]=r.id;detailIndices.push(10+i);});
 export const retiredDetailIndices=[1,2,5,6,8];
 export const detailAvailable=(index,visited)=>regionById[regionIdForDetail(index)]?.ambient||visited.includes(regionIdForDetail(index));

@@ -23,7 +23,9 @@
     "tools/prototypes/jezero-master-map/assets/first-panorama.jpg": "ea5bd24f9e907e7452152b2952c32ad8746c22f5be148880c08d5aa289a2c6a7",
     "tools/prototypes/jezero-master-map/assets/kodiak.jpg": "2430c09494b985010cc1fc5fa23cd48f29915c20d6486356c507accbc09c8bb6",
     "tools/prototypes/jezero-master-map/assets/rim.jpg": "09bdf5c88ee34bc8ae0c4b9a19794866ee5440946b67053ddb72a558a75be8ca",
-    "tools/prototypes/jezero-master-map/assets/seitah.jpg": "a946783142dd1b276e1abaea7c54847b91604fb2d5d1eb6b11cdcbb372af90b3"
+    "tools/prototypes/jezero-master-map/assets/seitah.jpg": "a946783142dd1b276e1abaea7c54847b91604fb2d5d1eb6b11cdcbb372af90b3",
+    "tools/prototypes/jezero/assets/world-elevations.f32": "f2b3ae46561f9136dfac555f7bf5fa1aaa9194c2cf4150d4bce7740981f422c1",
+    "tools/prototypes/jezero/assets/world-terrain.json": "31b7416edaf3291c59b31836a9512741e4148986bd105cbf5b3c7f70928be6ba"
   },
-  "planningRevision": "2026-09-19: full saved route through sol 1980; 16 x 10 km rectangle"
+  "planningRevision": "2026-09-20: full rectangle playable; stronger teal preserves the original footprint; activities remain candidates"
 }

@@ -3,14 +3,16 @@ import {floorBounds} from './floor.js';
 
 const nw=toGame(-2450,2150),se=toGame(500,-650);
 export const upperBounds={minX:nw.x,minY:nw.y,width:se.x,maxY:se.y};
-export const explorationBounds={minX:nw.x,minY:nw.y,width:floorBounds.width,maxY:floorBounds.maxY,regions:[floorBounds,upperBounds]};
-const mapNW=toGame(-2700,2350),mapSE=toGame(3500,-2700);
+const worldNW=toGame(-12000,5000),worldSE=toGame(4000,-5000);
+export const explorationBounds={minX:worldNW.x,minY:worldNW.y,width:worldSE.x,maxY:worldSE.y};
+const mapNW=worldNW,mapSE=worldSE;
 export const explorationMapBounds={minX:mapNW.x,minY:mapNW.y,width:mapSE.x,maxY:mapSE.y};
-export const explorationOutline=[
+export const retainedOutline=[
  [nw.x,nw.y],[se.x,nw.y],[se.x,floorBounds.minY],
  [floorBounds.width,floorBounds.minY],[floorBounds.width,floorBounds.maxY],
  [floorBounds.minX,floorBounds.maxY],[floorBounds.minX,se.y],[nw.x,se.y],
 ].map(([x,y])=>({x,y}));
+export const explorationOutline=[worldNW,{x:worldSE.x,y:worldNW.y},worldSE,{x:worldNW.x,y:worldSE.y}];
 export function containsPosition(p,b=explorationBounds,margin=0){
  return (b.regions??[b]).some(r=>p.x>=r.minX+margin&&p.x<=r.width-margin&&p.y>=r.minY+margin&&p.y<=r.maxY-margin);
 }
