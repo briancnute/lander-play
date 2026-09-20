@@ -60,7 +60,7 @@ export function createActivities(api,journey,record,stored={}){
  $('#photo-album').onclick=album;$('#photo-album-close').onclick=()=>{clearURLs();openMenu();};
  $('#helicopter-exit').onclick=()=>{stopHelicopter();stop();openMenu();};
  for(const d of section.querySelectorAll('dialog'))d.addEventListener('cancel',e=>{e.preventDefault();if(d.id==='helicopter-dialog'){stopHelicopter();stop();}if(d.id==='photo-album-dialog')clearURLs();openMenu();});
- addEventListener('message',e=>{const frame=$('#helicopter-frame iframe');if(e.origin!==location.origin||e.source!==frame?.contentWindow||e.data?.type!=='astra-jezero-heli-complete'||e.data.token!==heliToken)return;stopHelicopter();complete('Five aerial survey photographs and a safe final landing.');});
+ addEventListener('message',e=>{const frame=$('#helicopter-frame iframe');if(e.origin!==location.origin||e.source!==frame?.contentWindow||e.data?.token!==heliToken)return;if(e.data.type==='astra-jezero-heli-ready'){frame.dataset.ready='true';return;}if(e.data.type!=='astra-jezero-heli-complete')return;stopHelicopter();complete('Five aerial survey photographs and a safe final landing.');});
 
  function snapshot(){return {results,art,artProtected};}
  function openMenu(){if(photo)closeCamera();api.openDialog('#expedition-dialog');renderMenu();}
