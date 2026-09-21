@@ -171,6 +171,7 @@ export class GPURenderer{
  this.worldTerrain?.draw(s);
  gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
  if(this.artMesh)this.mesh(this.artMesh,[0,0,0,100],0);
+ if(this.routeRibbon&&s.mode==='free'&&!this.photoView)this.routeRibbon.draw(s);
  this.tracks.add(s,(offset,data)=>{gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferSubData(gl.ARRAY_BUFFER,offset*4,data);});this.trackMesh.count=this.tracks.vertexCount;gl.uniform2f(this.locations.trackInfo,this.tracks.count,this.tracks.capacity);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ZERO,gl.ONE);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);if(this.trackMesh.count)this.mesh(this.trackMesh,[0,0,0,100],3);gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.disable(gl.BLEND);
  if(this.photoView){overlay.width=w;overlay.height=h;this.roverScreenBounds=null;return;}
  // Match the connected mesh under the wheels without writing simulation height.
