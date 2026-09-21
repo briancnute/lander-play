@@ -1,7 +1,7 @@
 import {activitySymbols} from './map-view.js';
 import {toGame} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
-import {advanceJourney,canFinish,creditActivity,REQUIRED_ACTIVITIES} from './expedition.js';
+import {advanceJourney,canFinish,reachFinish,creditActivity,REQUIRED_ACTIVITIES} from './expedition.js';
 import {storePhoto,readPhotos,deletePhoto} from './field-photos.js';
 
 const $=s=>document.querySelector(s),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -46,7 +46,7 @@ export function createActivities(api,journey,record,stored={}){
  document.body.append(section);
  $('#jump-activities').append(...$('#expedition-dialog .menu-scroll').children);$('#expedition-dialog').hidden=true;$('#open-expedition').addEventListener('click',renderMenu);
  $('#journey-hud').onclick=openMenu;$('#expedition-close').onclick=()=>{api.closeDialogs();api.resume();};
- $('#journey-start').onclick=()=>confirm('Start a new expedition?','Begin at Octavia E. Butler Landing. This resets only this expedition, not discoveries, photographs or activity records.',start,'Start expedition');
+ $('#journey-start').onclick=()=>confirm('Start a new expedition?','Retrace the recorded route and complete one activity. No score threshold. Begin at Octavia E. Butler Landing; only this expedition resets, not discoveries, photographs or activity records.',start,'Start expedition');
  $('#journey-return').onclick=returnToRoute;
  $('#journey-finish-explore').onclick=()=>{api.closeDialogs();api.resume();};$('#journey-finish-replay').onclick=()=>{api.closeDialogs();openMenu();};
  $('#activity-confirm-no').onclick=openMenu;
@@ -67,15 +67,15 @@ export function createActivities(api,journey,record,stored={}){
  function openMenu(){if(photo)closeCamera();api.openDialog('#jump-dialog');$('#expedition-category').open=true;renderMenu();$('#expedition-category').scrollIntoView({block:'start'});}
  function renderMenu(){
   const visited=record.next-1,total=journey.checkpoints.length-1;
-  $('#journey-status').textContent=record.status==='idle'?'Octavia E. Butler Landing → Western frontier':record.status==='finished'?'Expedition complete':`${Math.floor(visited/total*100)}% of route · ${record.activities.length}/${REQUIRED_ACTIVITIES} different activities`;
+  $('#journey-status').textContent=record.status==='idle'?'Octavia E. Butler Landing → Western frontier':record.status==='finished'?'Expedition complete':`${Math.floor(visited/total*100)}% of route · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/${REQUIRED_ACTIVITIES} required activity`;
   $('#journey-progress').value=record.status==='idle'?0:visited/total;
-  $('#journey-goal').textContent=record.status==='idle'?'Retrace the recorded journey and complete any three different activities. No score threshold.':record.next<journey.checkpoints.length?`Next route reference: sol ${journey.checkpoints[record.next].sol}`:record.activities.length<REQUIRED_ACTIVITIES?`Route complete. ${REQUIRED_ACTIVITIES-record.activities.length} more different activities before the finish.`:'Return to the western frontier to finish.';
+  $('#journey-goal').textContent=record.status==='idle'?'Retrace the recorded journey and complete one activity. No score threshold.':record.next<journey.checkpoints.length?`Next route reference: sol ${journey.checkpoints[record.next].sol}`:record.activities.length<REQUIRED_ACTIVITIES?'Route complete. Complete one activity to finish. Choose a site below: jump there or target it on your map. Your route progress is saved.':record.finishReached?'Route and activity complete. Continue exploring.':'Return to the western frontier to finish.';
   $('#journey-start').textContent=record.status==='idle'?'Start expedition':'Restart expedition';$('#journey-return').hidden=record.status!=='active';
   const list=$('#activity-list');list.replaceChildren();
-  for(const site of sites){const row=document.createElement('section'),title=document.createElement('h3'),small=document.createElement('small'),p=document.createElement('p'),button=document.createElement('button');title.textContent=activitySymbols[site.id]+' '+site.name;small.textContent=record.activities.includes(site.id)?'COMPLETE THIS EXPEDITION':results[site.id]?'PREVIOUSLY COMPLETED':site.category;p.textContent=site.goal;button.textContent='Jump to activity';button.dataset.activity=site.id;button.onclick=()=>confirm(site.name,site.goal+' Your expedition position is kept for your return.',()=>begin(site.id));const preview=api.sitePreview(site);row.append(preview,small,title,p,button);list.append(row);}
+  for(const site of sites){const row=document.createElement('section'),title=document.createElement('h3'),small=document.createElement('small'),p=document.createElement('p'),button=document.createElement('button'),target=document.createElement('button'),actions=document.createElement('div');title.textContent=activitySymbols[site.id]+' '+site.name;small.textContent=record.activities.includes(site.id)?'COMPLETE THIS EXPEDITION':results[site.id]?'PREVIOUSLY COMPLETED':site.category;p.textContent=site.goal;button.textContent='Jump to activity';button.dataset.activity=site.id;button.onclick=()=>confirm(site.name,site.goal+' Your expedition position is kept for your return.',()=>begin(site.id));target.textContent='Target on map';target.dataset.activityTarget=site.id;target.onclick=()=>api.targetSite({...site,activityId:site.id});actions.className='actions';actions.append(button,target);const preview=api.sitePreview(site);row.append(preview,small,title,p,actions);list.append(row);}
  }
  function confirm(title,copy,yes,label='Jump and begin'){api.openDialog('#activity-confirm');$('#activity-confirm-title').textContent=title;$('#activity-confirm-copy').textContent=copy;$('#activity-confirm-yes').textContent=label;$('#activity-confirm-yes').onclick=yes;}
- function start(){stop();record.status='active';record.next=1;record.activities=[];record.returnPoint=null;api.reset({...journey.start,heading:heading(journey.start,journey.checkpoints[1])});api.explore();guide();api.save();}
+ function start(){stop();record.status='active';record.next=1;record.activities=[];record.finishReached=false;record.returnPoint=null;returnPose=null;api.reset({...journey.start,heading:heading(journey.start,journey.checkpoints[1])});api.explore();guide();api.save();}
  function heading(a,b){return Math.atan2(b.x-a.x,-(b.y-a.y));}
  function guide(){if(record.status==='active'){const p=journey.checkpoints[record.next]??journey.finish;api.nav.target={...p,name:record.next===journey.checkpoints.length?'Finish':'Recorded route'};}}
  function returnToRoute(){stop();api.closeDialogs();const p=record.returnPoint??returnPose;if(p){api.restoreTravel(p);api.reset(p);}record.returnPoint=null;returnPose=null;api.explore();if(record.status==='active')guide();api.save();}
@@ -102,7 +102,7 @@ export function createActivities(api,journey,record,stored={}){
   if(active.id.includes('jump'))add('Retry run-up',()=>begin(active.id),'jump-retry');
   add('Leave',()=>{stop();openMenu();},'activity-leave');
  }
- function complete(copy){if(!active)return;const id=active.id;results[id]={date:new Date().toISOString(),summary:copy};creditActivity(record,id);api.save();api.openDialog('#activity-result');$('#activity-result-title').textContent=active.name;$('#activity-result-copy').textContent=copy+` · ${record.activities.length}/${REQUIRED_ACTIVITIES} expedition activities`;$('#science-result').hidden=id!=='radar'&&id!=='atmosphere';if(id==='radar')radarChart();if(id==='atmosphere')weatherChart();}
+ function complete(copy){if(!active)return;const id=active.id;results[id]={date:new Date().toISOString(),summary:copy};creditActivity(record,id);api.save();api.openDialog('#activity-result');$('#activity-result-title').textContent=active.name;$('#activity-result-copy').textContent=copy+(record.status==='active'?' · Required expedition activity complete.':'');$('#science-result').hidden=id!=='radar'&&id!=='atmosphere';if(id==='radar')radarChart();if(id==='atmosphere')weatherChart();}
  function camera(){if(!active||api.state.air)return;api.pause();api.closeDialogs();const overhead=active.id==='art';photo={heading:api.state.heading,camera:{...api.gpu.camera},overhead};api.gpu.photoView={heading:overhead?0:photo.heading,pitch:overhead?Math.PI/2:0,zoom:1};if(overhead){const c=api.gpu.canvas,focal=Math.min(c.clientWidth*.95,c.clientHeight*.9);Object.assign(api.gpu.photoView,{x:artSite.x,y:artSite.y,extent:artSize,eye:ground(artSite.x,artSite.y)+artSize*focal/Math.min(c.clientWidth*.42,c.clientHeight*.3)});}$('#camera-tools').hidden=false;$('#art-map').hidden=true;document.body.classList.add('camera-active');for(const id of ['pan','tilt']){$('#camera-'+id).value=0;$('#camera-'+id).closest('label').hidden=overhead;}$('#camera-zoom').value=1;$('#camera-status').textContent='';api.draw();}
  function closeCamera(){if(!photo)return;api.gpu.camera=photo.camera;photo=null;api.gpu.photoView=null;$('#camera-tools').hidden=true;document.body.classList.remove('camera-active');api.resume();}
  async function capture(){
@@ -132,9 +132,10 @@ export function createActivities(api,journey,record,stored={}){
  }
  function tick(dt,before){
   const s=api.state;
-  if(!active&&!record.returnPoint&&advanceJourney(journey,record,before,s,dt)){guide();api.save();if(record.next===journey.checkpoints.length&&record.activities.length<REQUIRED_ACTIVITIES){openMenu();return;}}
-  if(!active&&canFinish(journey,record,s)){record.status='finished';api.nav.target=null;api.save();api.openDialog('#journey-finish');$('#journey-finish-copy').textContent=`Recorded journey through sol ${journey.lastSol} retraced. ${record.activities.length} different activities completed. Your photographs and discoveries remain in your field records.`;return;}
-  if(!active)return;seconds+=dt;
+  if(!active&&!record.returnPoint&&advanceJourney(journey,record,before,s,dt)){if(!api.nav.target?.activityId)guide();api.save();}
+  if(!active&&reachFinish(journey,record,s)){api.save();if(record.activities.length<REQUIRED_ACTIVITIES){openMenu();return true;}}
+  if(!active&&canFinish(journey,record,s)){record.status='finished';api.nav.target=null;api.save();api.openDialog('#journey-finish');$('#journey-finish-copy').textContent=`Recorded journey through sol ${journey.lastSol} retraced. ${record.activities.length} ${record.activities.length===1?'activity':'different activities'} completed. Your photographs and discoveries remain in your field records.`;return true;}
+  if(!active){const site=sites.find(p=>p.id===api.nav.target?.activityId);if(site&&s.mode==='free'&&!s.air&&dist(s,site)<50){api.nav.target=null;api.save();confirm(site.name,site.goal,()=>begin(site.id),'Begin activity');return true;}return;}seconds+=dt;
   if(active.id==='art'&&performance.now()>eraseUntil&&Math.abs(s.x-artSite.x)<artSize&&Math.abs(s.y-artSite.y)<artSize&&!s.air&&(!art.length||dist(s,art.at(-1))>3)&&seconds-lastPaint>.05){art.push({x:s.x,y:s.y,h:s.heading});art=art.slice(-1400);artProtected=true;lastPaint=seconds;if(seconds-lastMesh>.3){rebuildArt();lastMesh=seconds;}}
   if(active.id==='radar')guideStation();
   if(active.id==='atmosphere'){if(seconds<.1){api.storm.start({...s,z:ground(s.x,s.y)});}api.storm.age=Math.min(35,seconds);}
@@ -146,7 +147,7 @@ export function createActivities(api,journey,record,stored={}){
   }
  }
  function update(){
-  $('#journey-hud').hidden=record.status!=='active'||!!photo;$('#journey-hud').textContent=`EXPEDITION ${Math.floor((record.next-1)/(journey.checkpoints.length-1)*100)}% · ${record.activities.length}/${REQUIRED_ACTIVITIES}`;
+  $('#journey-hud').hidden=record.status!=='active'||!!photo;$('#journey-hud').textContent=`EXPEDITION ${Math.floor((record.next-1)/(journey.checkpoints.length-1)*100)}% · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/${REQUIRED_ACTIVITIES}`;
   if(!active)return;let status=active.goal;
   if(active.id==='radar')status=survey.size===3?`Exposure search · signal ${Math.round(clamp(1-dist(api.state,sampleTarget)/400,0,1)*100)}% · ${dist(api.state,sampleTarget)<30?'Sample available when stopped':'Follow the strengthening signal'}`:`${survey.size}/3 profiles · ${Math.round(dist(api.state,transects.find(p=>!survey.has(p.id))??api.state)/4)} m to station`;
   if(active.id==='atmosphere')status=`${readings.length}/3 readings · ${readings.length&&seconds-readings.at(-1).t<5?'Instrument settling':'Ready when stopped'} · simulated`;

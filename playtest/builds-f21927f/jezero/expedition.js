@@ -2,7 +2,7 @@ import {HORIZONTAL_UNITS} from './scale.js';
 const toGame=(e,n)=>({x:(e+1500)*HORIZONTAL_UNITS,y:(1500-n)*HORIZONTAL_UNITS});
 
 export const ACTIVITY_IDS=['photo','art','radar','atmosphere','long-jump','target-jump','helicopter','delta-trial'];
-export const REQUIRED_ACTIVITIES=3;
+export const REQUIRED_ACTIVITIES=1;
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function buildJourney(data){
  const segments=data.segments.map(s=>({...s,points:s.points.map(p=>toGame(...p))}));
@@ -27,7 +27,7 @@ export function restoreExpedition(value,journey){
  const next=Number.isInteger(s.next)?Math.max(1,Math.min(journey.checkpoints.length,s.next)):1;
  const activities=Array.isArray(s.activities)?[...new Set(s.activities.filter(id=>ACTIVITY_IDS.includes(id)))]:[];
  const status=['active','finished'].includes(s.status)?s.status:'idle';
- return {version:1,status:status==='finished'&&(next<journey.checkpoints.length||activities.length<REQUIRED_ACTIVITIES)?'active':status,next,activities,returnPoint:validPose(s.returnPoint)?s.returnPoint:null};
+ return {version:1,status:status==='finished'&&(next<journey.checkpoints.length||activities.length<REQUIRED_ACTIVITIES)?'active':status,next,activities,finishReached:status!=='idle'&&next===journey.checkpoints.length&&s.finishReached===true,returnPoint:validPose(s.returnPoint)?s.returnPoint:null};
 }
 export const validPose=p=>p&&['x','y','heading'].every(k=>Number.isFinite(p[k]))&&p.x>=-33600&&p.x<=17600&&p.y>=-11200&&p.y<=20800;
 export function advanceJourney(journey,record,before,after,dt){
@@ -39,7 +39,11 @@ export function advanceJourney(journey,record,before,after,dt){
  if(!target||distance(target,after)>144)return false;
  record.next++;return true;
 }
-export const canFinish=(journey,record,pose)=>record.status==='active'&&record.next===journey.checkpoints.length&&record.activities.length>=REQUIRED_ACTIVITIES&&distance(pose,journey.finish)<144;
+export function reachFinish(journey,record,pose){
+ if(record.status!=='active'||record.next!==journey.checkpoints.length||record.finishReached||pose.mode!=='free'||pose.air||distance(pose,journey.finish)>=144)return false;
+ record.finishReached=true;return true;
+}
+export const canFinish=(journey,record,pose)=>record.status==='active'&&record.next===journey.checkpoints.length&&record.activities.length>=REQUIRED_ACTIVITIES&&(record.finishReached||distance(pose,journey.finish)<144);
 export function creditActivity(record,id){
  if(record.status==='active'&&ACTIVITY_IDS.includes(id)&&!record.activities.includes(id))record.activities.push(id);
 }

@@ -9,15 +9,16 @@ const locate=(a,v)=>{let lo=0,hi=a.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if
 export const upperSurface=(e,n)=>e>=-2700&&e<=600&&n>=-648&&n<=2350&&(e<=-660||n>=504);
 export const belvaDiscovery={
  id:'echo-creek-belva',name:'Belva from Echo Creek',kind:'site',...toGame(-2023.61,1299.86),
- focus:toGame(-1450,1400),cameraReference:'39_650',
+ focus:toGame(-1450,1400),cameraReference:'39_926',
  fact:'An impact opened Belva crater through older rocks of Jezero\u2019s delta. The exposed layers let scientists look inside deposits that were already here before the crater formed.',
- detail:'From Echo Creek, look east across the broken rim and broad bowl. Some dipping layers may preserve an ancient sandbar. Perseverance photographed this view on sol 772, in April 2023; the crater reveals part of the delta\u2019s history, rather than being the ancient lake itself.',
+ detail:'On sol 789, May 10, 2023, Perseverance began this view from Echo Creek, west of Belva. The 900-metre-wide crater exposes tilted sedimentary beds: possible remains of a sandbar built by a river flowing into ancient Lake Jezero. Look across the bowl and compare its dark sand with the pale, broken rock underfoot.',
  locationNote:'Echo Creek overlook on Belva\u2019s western rim',
- image:'./assets/belva-map.png',imageType:'map',imageAlt:'North-up elevation map of Belva with Echo Creek marked on its western side',
- imageDescription:'Elevation-derived relief map. The point marks the Echo Creek gameplay overlook; this is not a rover photograph.',
- imageCredit:'USGS Mars 2020 TRN HiRISE DTM soc_006; ASTRA relief map',
- source:'https://science.nasa.gov/resource/perseverance-takes-in-view-at-belva-crater/',
- researchDetail:'Camera-area anchor 39_650, sol 770, precedes the sol-772 mosaic. Gameplay placement and east-northeast focus are authored, not a recovered optical pose. Hero photograph remains unselected.',
+ image:'./assets/belva-sol789.jpg',capturedAt:'2023-05-10',imageAlt:'Pale fractured rock at Echo Creek overlooking the sandy bowl and layered rim of Belva crater',
+ imageDescription:'Framed perspective from Mastcam-Z panorama 25, beginning sol 789. The source mosaic spans sols 789-791 and uses enhanced color; the sky color is not a natural-color reference. This is a rover photograph, not a terrain rendering.',
+ imageCredit:'NASA/JPL-Caltech/ASU/MSSS; panorama via FU Berlin. Bell III et al. (2025), LPSC 1719.',
+ source:'https://maps.planet.fu-berlin.de/jezero/360/25',
+ views:[{image:'./assets/belva-map.png',imageType:'map',imageAlt:'North-up elevation map of Belva with Echo Creek marked on its western side',imageDescription:'Measured relief with the authored gameplay overlook marked, not a rover photograph.',imageCredit:'USGS Mars 2020 TRN HiRISE DTM soc_006; ASTRA relief map',source:'https://science.nasa.gov/resource/perseverance-takes-in-view-at-belva-crater/'}],
+ researchDetail:'Last pinned waypoint before sol 789 is 39_926, sol 784 (-2044.80 m east, 1287.84 m north). The existing reachable pickup remains 24.4 m away. Position and east-northeast focus are authored, not a solved optical pose. The crater terrain remains a measured approximation, not a matched photographic reconstruction.',
 };
 
 export async function loadBelva(local,oldGround){
