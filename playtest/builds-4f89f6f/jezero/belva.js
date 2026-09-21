@@ -61,7 +61,7 @@ export async function loadBelva(local,oldGround){
  return {info,tiles,height,source,measured,shapeWeight,spine:info.route.map(([e,n])=>toGame(e,n))};
 }
 
-export function upperRocks(height,route){
+export function upperRocks(height,route,reserved=[]){
  let seed=772;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const vertices=[],rocks=[];
  for(let k=0;k<1900;k++){
@@ -69,13 +69,14 @@ export function upperRocks(height,route){
   if(!upperSurface(e,n))continue;
   const p=toGame(e,n),size=1+random()**3*22,angle=random()*Math.PI,rise=size*(.1+random()*.25);
   if(route.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<85)||Math.hypot(p.x-belvaDiscovery.x,p.y-belvaDiscovery.y)<100)continue;
-  const lower=[],top=[],base=height(p.x,p.y);
+  const vertexStart=vertices.length,lower=[],top=[],base=height(p.x,p.y);
   for(let i=0;i<6;i++){
    const a=i*Math.PI/3,u=Math.cos(a)*size/2,v=Math.sin(a)*size*(.2+random()*.15),x=p.x+u*Math.cos(angle)-v*Math.sin(angle),y=p.y+u*Math.sin(angle)+v*Math.cos(angle);
    lower.push([x,y,height(x,y)-.3]);top.push([x,y,Math.max(base,height(x,y))+rise*(.8+random()*.2)]);
   }
   const shade=.53+random()*.07,color=[shade,shade-.15,shade-.26];
   for(let i=0;i<6;i++){const j=(i+1)%6;triangle(vertices,lower[i],lower[j],top[i],color);triangle(vertices,lower[j],top[j],top[i],color);if(i>0&&i<5)triangle(vertices,top[0],top[i],top[i+1],color.map(v=>v+.04));}
+  if(reserved.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<80)){vertices.length=vertexStart;continue;}
   if(size>5)rocks.push([p.x,p.y,size*.5]);
  }
  return {vertices:new Float32Array(vertices),rocks};

@@ -2,7 +2,7 @@ import {HORIZONTAL_UNITS} from './scale.js';
 const toGame=(e,n)=>({x:(e+1500)*HORIZONTAL_UNITS,y:(1500-n)*HORIZONTAL_UNITS});
 
 // Retired activities remain valid save credits, but are absent from the playable catalogue.
-export const ACTIVITY_IDS=['photo','art','radar','atmosphere','long-jump','target-jump','crater-jump','helicopter','delta-trial','landing-trial'];
+export const ACTIVITY_IDS=['photo','art','radar','atmosphere','long-jump','target-jump','crater-jump','neretva-jump','helicopter','delta-trial','landing-trial'];
 export const REQUIRED_ACTIVITIES=1;
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function buildJourney(data){

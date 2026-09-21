@@ -25,4 +25,4 @@ export function smoothRoute(segments,tolerance=64){
 }
 export function minimapSpan(current,speed,dt){const target=3200+6400*clamp(Math.abs(speed)/500,0,1);return current+(target-current)*(1-Math.exp(-Math.max(0,dt)/1.5));}
 export function labelLevel(zoom){return zoom<2?0:zoom<4?1:zoom<8?2:3;}
-export const activitySymbols={'photo':'◉','art':'✎','radar':'≋','atmosphere':'☀','long-jump':'↗','target-jump':'⊕','crater-jump':'⊕','helicopter':'✣','delta-trial':'⚑','landing-trial':'⚑'};
+export const activitySymbols={'neretva-jump':'↗','photo':'◉','art':'✎','radar':'≋','atmosphere':'☀','long-jump':'↗','target-jump':'⊕','crater-jump':'⊕','helicopter':'✣','delta-trial':'⚑','landing-trial':'⚑'};

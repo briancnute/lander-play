@@ -1,3 +1,6 @@
+import {landingCircuit} from './activity-courses.js';
+import {helicopterSites} from './helicopter-sites.js';
+import {jumpRamp} from './neretva-jump.js';
 import {WORLD_SCALE} from './scale.js';
 import {approvedSites} from './site-catalog.js';
 import {landmarks} from './landmarks.js';
@@ -68,18 +71,20 @@ export async function loadArea(){
  scenery.details.push(...extension.tiles,...upper.tiles);
  const oldVisualGround=scenery.visualGround;scenery.visualGround=(x,y)=>{const e=x/(4*WORLD_SCALE)-1500,n=1500-y/(4*WORLD_SCALE);return upperSurface(e,n)?upper.height(x,y):x>9600||y>9600?extension.height(x,y):oldVisualGround(x,y);};
  const world=await loadWorld(mesh,scenery.visualGround);
- scenery.visualGround=world.height;scenery.worldTiles=world.tiles;scenery.backdrop=world.backdrop;
+ const ramp=jumpRamp(world.height);scenery.visualGround=ramp.ground;scenery.worldTiles=world.tiles;scenery.backdrop=world.backdrop;
  pickups.push(...worldPickups(world,pickups.length));
  // The newly reachable southern ground must meet the detailed Kodiak mesh,
  // not the lower-resolution context surface hidden underneath that mesh.
  mesh.height=extension.height;
  const photoRocks=buildRockStructures(scenery.visualGround);
- const upperScenery=upperRocks(scenery.visualGround,upper.spine);
- const worldScenery=worldRocks(world,discoveries),chunks=[vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices];
+ const rally=landingCircuit();
+ const upperScenery=upperRocks(scenery.visualGround,upper.spine,rally.route);
+ const heli=await helicopterSites(scenery.visualGround);
+ const worldScenery=worldRocks(world,discoveries,rally.route),chunks=[heli.vertices,ramp.vertices,vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices];
  const sceneryVertices=new Float32Array(chunks.reduce((n,v)=>n+v.length,0));let offset=0;for(const chunk of chunks){sceneryVertices.set(chunk,offset);offset+=chunk.length;}
  filtered.push(...extra.rocks,...upperScenery.rocks,...worldScenery.rocks);
  const lineWidth=58,lineBonus=.07;
- const area={...scenery,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
+ const area={...scenery,heliEnds:heli.endpoints,quietDiscoveries:true,collectibleLabelRange:CLOSE_RANGE,mesh,ground:mesh.height,scenery:sceneryVertices,raceSurface:{halfWidth:58},fidelity,rockStats,samples:discoveries,regions,pickups,rocks:filtered,mesa:[],parts:[],keepExploring:true,bounds:{minX:3504*WORLD_SCALE,width:9744*WORLD_SCALE,minY:4128*WORLD_SCALE,maxY:9600*WORLD_SCALE},course,start,jump,info:mesh.info};
  area.sampleRows=s=>[
   ...regions.filter(p=>!p.ambient).map(p=>({p,known:(s.regions??[]).includes(p.regionId??p.id),region:true})),
   ...detailIndices.filter(i=>detailAvailable(i,s.regions??[])).map(i=>({p:discoveries[i],index:i,known:s.collected.includes(i)})),

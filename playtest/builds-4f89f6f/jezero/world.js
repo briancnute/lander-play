@@ -80,7 +80,7 @@ export function worldPickups(world,firstId){
  return result;
 }
 
-export function worldRocks(world,sites){
+export function worldRocks(world,sites,reserved=[]){
  let seed=20260920;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const route=world.segments.filter(s=>s.sol>770).flatMap(s=>s.points),buckets=new Map(),cell=120;
  for(const p of route){const key=Math.floor(p.x/cell)+','+Math.floor(p.y/cell);if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(p);}
@@ -90,11 +90,13 @@ export function worldRocks(world,sites){
   const q=route[Math.floor(random()*route.length)],a=random()*Math.PI*2,d=70+random()**.6*380;
   const p=k%4?{x:q.x+Math.cos(a)*d,y:q.y+Math.sin(a)*d}:toGame(-11800+random()*15600,-4800+random()*9600),{east:e,north:n}=toMetres(p.x,p.y);
   if(retainedGround(e,n)||nearRoute(p)||sites.some(s=>Math.hypot(p.x-s.x,p.y-s.y)<100))continue;
+  const vertexStart=vertices.length;
   const size=2+random()**3*25,angle=random()*Math.PI,rise=size*(.1+random()*.26),base=world.height(p.x,p.y),lower=[],upper=[];
   const light=e< -5450&&e> -5850&&n>1800&&n<2300;
   for(let i=0;i<6;i++){const a=i*Math.PI/3,u=Math.cos(a)*size*.5,v=Math.sin(a)*size*(.2+random()*.1),x=p.x+u*Math.cos(angle)-v*Math.sin(angle),y=p.y+u*Math.sin(angle)+v*Math.cos(angle);lower.push([x,y,world.height(x,y)-.4]);upper.push([x,y,Math.max(base,world.height(x,y))+rise*(.7+random()*.3)]);}
   const shade=(light?.65:.50)+random()*.08,color=[shade,shade-.14,shade-.25];
   for(let i=0;i<6;i++){const j=(i+1)%6;triangle(vertices,lower[i],lower[j],upper[i],color);triangle(vertices,lower[j],upper[j],upper[i],color);if(i>0&&i<5)triangle(vertices,upper[0],upper[i],upper[i+1],color.map(v=>v+.045));}
+  if(reserved.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<80)){vertices.length=vertexStart;continue;}
   if(size>6)rocks.push([p.x,p.y,size*.5]);
  }
  return {vertices:new Float32Array(vertices),rocks};
