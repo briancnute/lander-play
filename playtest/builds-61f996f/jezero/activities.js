@@ -1,3 +1,4 @@
+import {activitySymbols} from './map-view.js';
 import {toGame} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
 import {advanceJourney,canFinish,creditActivity,REQUIRED_ACTIVITIES} from './expedition.js';
@@ -7,7 +8,7 @@ const $=s=>document.querySelector(s),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),cla
 const pose=s=>({x:s.x,y:s.y,heading:s.heading});
 export const activityCatalog=[
  {id:'photo',name:'Kodiak photography',category:'OBSERVATION',goal:'Compose a photograph of Kodiak from the overlook.',...toGame(80,-880)},
- {id:'art',name:'Tracks in the dust',category:'CREATIVE',goal:'Draw a trail across the clearing, then photograph it from the lookout.',...toGame(1300,-600)},
+ {id:'art',name:'Tracks in the dust',category:'CREATIVE',goal:'Draw a trail across the clearing, then photograph it from above.',...toGame(1300,-600)},
  {id:'radar',name:'Beneath the delta',category:'SCIENCE SIMULATION',goal:'Survey three transects. Compare the hidden rock layers.',...toGame(-3200,500)},
  {id:'atmosphere',name:'Weather station',category:'SCIENCE SIMULATION',goal:'Record three observations as a local dust cloud passes.',...toGame(-2000,1600)},
  {id:'long-jump',name:'Long jump',category:'ARCADE CHALLENGE',goal:'Build speed, leave the ridge and land. Every measured landing counts.',...toGame(600,-700)},
@@ -43,7 +44,7 @@ export function createActivities(api,journey,record,stored={}){
  <dialog id="photo-album-dialog" aria-labelledby="photo-album-title"><div class="sheet-head"><h2 id="photo-album-title">Field photographs</h2><button id="photo-album-close" aria-label="Close photographs">×</button></div><div id="photo-album-images"></div></dialog>
  <dialog id="helicopter-dialog" aria-labelledby="helicopter-title"><div class="sheet-head"><h2 id="helicopter-title">Ingenuity / flight simulation</h2><button id="helicopter-exit" aria-label="Leave flight simulation">×</button></div><div id="helicopter-frame"></div></dialog>`;
  document.body.append(section);
- const pauseButton=document.createElement('button');pauseButton.id='open-expedition';pauseButton.textContent='EXPEDITION & ACTIVITIES';$('#resume').after(pauseButton);pauseButton.onclick=openMenu;
+ $('#jump-activities').append(...$('#expedition-dialog .menu-scroll').children);$('#expedition-dialog').hidden=true;$('#open-expedition').addEventListener('click',renderMenu);
  $('#journey-hud').onclick=openMenu;$('#expedition-close').onclick=()=>{api.closeDialogs();api.resume();};
  $('#journey-start').onclick=()=>confirm('Start a new expedition?','Begin at Octavia E. Butler Landing. This resets only this expedition, not discoveries, photographs or activity records.',start,'Start expedition');
  $('#journey-return').onclick=returnToRoute;
@@ -52,10 +53,10 @@ export function createActivities(api,journey,record,stored={}){
  $('#activity-keep').onclick=()=>{stop();api.closeDialogs();api.resume();};
  $('#activity-return').onclick=returnToRoute;$('#activity-retry').onclick=()=>{if(active)begin(active.id);};
  $('#camera-close').onclick=closeCamera;$('#camera-capture').onclick=capture;
- for(const id of ['zoom','pan','tilt'])$('#camera-'+id).oninput=()=>{if(!photo)return;api.gpu.photoView.zoom=+$('#camera-zoom').value;api.gpu.photoView.heading=photo.heading+(+$('#camera-pan').value)*Math.PI/180;api.gpu.photoView.pitch=(+$('#camera-tilt').value)*Math.PI/180;api.draw();};
+ for(const id of ['zoom','pan','tilt'])$('#camera-'+id).oninput=()=>{if(!photo)return;api.gpu.photoView.zoom=+$('#camera-zoom').value;if(!photo.overhead){api.gpu.photoView.heading=photo.heading+(+$('#camera-pan').value)*Math.PI/180;api.gpu.photoView.pitch=(+$('#camera-tilt').value)*Math.PI/180;}api.draw();};
  let drag=null;
- api.gpu.canvas.addEventListener('pointerdown',e=>{if(!photo)return;drag={x:e.clientX,y:e.clientY,h:+$('#camera-pan').value,p:+$('#camera-tilt').value};api.gpu.canvas.setPointerCapture(e.pointerId);});
- api.gpu.canvas.addEventListener('pointermove',e=>{if(!photo||!drag)return;$('#camera-pan').value=clamp(drag.h-(e.clientX-drag.x)*.15,-180,180);$('#camera-tilt').value=clamp(drag.p+(e.clientY-drag.y)*.12,-45,45);$('#camera-pan').oninput();});
+ api.gpu.canvas.addEventListener('pointerdown',e=>{if(!photo||photo.overhead)return;drag={x:e.clientX,y:e.clientY,h:+$('#camera-pan').value,p:+$('#camera-tilt').value};api.gpu.canvas.setPointerCapture(e.pointerId);});
+ api.gpu.canvas.addEventListener('pointermove',e=>{if(!photo||photo.overhead||!drag)return;$('#camera-pan').value=clamp(drag.h-(e.clientX-drag.x)*.15,-180,180);$('#camera-tilt').value=clamp(drag.p+(e.clientY-drag.y)*.12,-45,45);$('#camera-pan').oninput();});
  for(const name of ['pointerup','pointercancel','lostpointercapture'])api.gpu.canvas.addEventListener(name,()=>drag=null);
  $('#photo-album').onclick=album;$('#photo-album-close').onclick=()=>{clearURLs();openMenu();};
  $('#helicopter-exit').onclick=()=>{stopHelicopter();stop();openMenu();};
@@ -63,7 +64,7 @@ export function createActivities(api,journey,record,stored={}){
  addEventListener('message',e=>{const frame=$('#helicopter-frame iframe');if(e.origin!==location.origin||e.source!==frame?.contentWindow||e.data?.token!==heliToken)return;if(e.data.type==='astra-jezero-heli-ready'){frame.dataset.ready='true';return;}if(e.data.type!=='astra-jezero-heli-complete')return;stopHelicopter();complete('Five aerial survey photographs and a safe final landing.');});
 
  function snapshot(){return {results,art,artProtected};}
- function openMenu(){if(photo)closeCamera();api.openDialog('#expedition-dialog');renderMenu();}
+ function openMenu(){if(photo)closeCamera();api.openDialog('#jump-dialog');$('#expedition-category').open=true;renderMenu();$('#expedition-category').scrollIntoView({block:'start'});}
  function renderMenu(){
   const visited=record.next-1,total=journey.checkpoints.length-1;
   $('#journey-status').textContent=record.status==='idle'?'Octavia E. Butler Landing → Western frontier':record.status==='finished'?'Expedition complete':`${Math.floor(visited/total*100)}% of route · ${record.activities.length}/${REQUIRED_ACTIVITIES} different activities`;
@@ -71,7 +72,7 @@ export function createActivities(api,journey,record,stored={}){
   $('#journey-goal').textContent=record.status==='idle'?'Retrace the recorded journey and complete any three different activities. No score threshold.':record.next<journey.checkpoints.length?`Next route reference: sol ${journey.checkpoints[record.next].sol}`:record.activities.length<REQUIRED_ACTIVITIES?`Route complete. ${REQUIRED_ACTIVITIES-record.activities.length} more different activities before the finish.`:'Return to the western frontier to finish.';
   $('#journey-start').textContent=record.status==='idle'?'Start expedition':'Restart expedition';$('#journey-return').hidden=record.status!=='active';
   const list=$('#activity-list');list.replaceChildren();
-  for(const site of sites){const row=document.createElement('section'),title=document.createElement('h3'),small=document.createElement('small'),p=document.createElement('p'),button=document.createElement('button');title.textContent=site.name;small.textContent=record.activities.includes(site.id)?'COMPLETE THIS EXPEDITION':results[site.id]?'PREVIOUSLY COMPLETED':site.category;p.textContent=site.goal;button.textContent='Jump to activity';button.dataset.activity=site.id;button.onclick=()=>confirm(site.name,site.goal+' Your expedition position is kept for your return.',()=>begin(site.id));row.append(small,title,p,button);list.append(row);}
+  for(const site of sites){const row=document.createElement('section'),title=document.createElement('h3'),small=document.createElement('small'),p=document.createElement('p'),button=document.createElement('button');title.textContent=activitySymbols[site.id]+' '+site.name;small.textContent=record.activities.includes(site.id)?'COMPLETE THIS EXPEDITION':results[site.id]?'PREVIOUSLY COMPLETED':site.category;p.textContent=site.goal;button.textContent='Jump to activity';button.dataset.activity=site.id;button.onclick=()=>confirm(site.name,site.goal+' Your expedition position is kept for your return.',()=>begin(site.id));const preview=api.sitePreview(site);row.append(preview,small,title,p,button);list.append(row);}
  }
  function confirm(title,copy,yes,label='Jump and begin'){api.openDialog('#activity-confirm');$('#activity-confirm-title').textContent=title;$('#activity-confirm-copy').textContent=copy;$('#activity-confirm-yes').textContent=label;$('#activity-confirm-yes').onclick=yes;}
  function start(){stop();record.status='active';record.next=1;record.activities=[];record.returnPoint=null;api.reset({...journey.start,heading:heading(journey.start,journey.checkpoints[1])});api.explore();guide();api.save();}
@@ -95,23 +96,23 @@ export function createActivities(api,journey,record,stored={}){
  function stop(){if(photo)closeCamera();stopHelicopter();active=null;jump=null;for(let i=api.area.pickups.length-1;i>=0;i--)if(api.area.pickups[i].id>=100000)api.area.pickups.splice(i,1);$('#activity-hud').hidden=true;$('#art-map').hidden=true;api.gpu.activityMarkers=null;}
  function actions(){const out=$('#activity-actions');out.replaceChildren();const add=(label,fn,id)=>{const b=document.createElement('button');b.textContent=label;if(id)b.id=id;b.onclick=fn;out.append(b);};
   if(active.id==='photo')add('Camera',camera,'activity-camera');
-  if(active.id==='art'){add('Target lookout',()=>{api.nav.target={...lookout,name:'Drawing lookout'};api.save();},'art-lookout');add('Camera',()=>{api.state.heading=heading(api.state,artSite);camera();},'art-camera');add('Erase',()=>confirm('Erase this drawing?','A brief simulated dust sweep clears your tracks.',()=>{api.closeDialogs();api.resume();eraseUntil=performance.now()+1600;$('#art-erase').hidden=false;setTimeout(()=>{art=[];artProtected=false;rebuildArt();$('#art-erase').hidden=true;api.save();},1600);},'Erase'),'art-clear');}
+  if(active.id==='art'){add('Overhead camera',camera,'art-camera');add('Erase',()=>confirm('Erase this drawing?','A brief simulated dust sweep clears your tracks.',()=>{api.closeDialogs();api.resume();eraseUntil=performance.now()+1600;$('#art-erase').hidden=false;setTimeout(()=>{art=[];artProtected=false;rebuildArt();$('#art-erase').hidden=true;api.save();},1600);},'Erase'),'art-clear');}
   if(active.id==='radar')add('Scan',scan,'activity-scan');
   if(active.id==='atmosphere')add('Collect reading',reading,'activity-reading');
   if(active.id.includes('jump'))add('Retry run-up',()=>begin(active.id),'jump-retry');
   add('Leave',()=>{stop();openMenu();},'activity-leave');
  }
  function complete(copy){if(!active)return;const id=active.id;results[id]={date:new Date().toISOString(),summary:copy};creditActivity(record,id);api.save();api.openDialog('#activity-result');$('#activity-result-title').textContent=active.name;$('#activity-result-copy').textContent=copy+` · ${record.activities.length}/${REQUIRED_ACTIVITIES} expedition activities`;$('#science-result').hidden=id!=='radar'&&id!=='atmosphere';if(id==='radar')radarChart();if(id==='atmosphere')weatherChart();}
- function camera(){if(!active||api.state.air)return;api.pause();api.closeDialogs();photo={heading:api.state.heading,camera:{...api.gpu.camera}};api.gpu.photoView={heading:photo.heading,pitch:active.id==='art'?.25:0,zoom:1};$('#camera-tools').hidden=false;document.body.classList.add('camera-active');for(const id of ['pan','tilt'])$('#camera-'+id).value=0;$('#camera-tilt').value=active.id==='art'?14:0;$('#camera-zoom').value=1;$('#camera-status').textContent='';api.draw();}
+ function camera(){if(!active||api.state.air)return;api.pause();api.closeDialogs();const overhead=active.id==='art';photo={heading:api.state.heading,camera:{...api.gpu.camera},overhead};api.gpu.photoView={heading:overhead?0:photo.heading,pitch:overhead?Math.PI/2:0,zoom:1};if(overhead){const c=api.gpu.canvas,focal=Math.min(c.clientWidth*.95,c.clientHeight*.9);Object.assign(api.gpu.photoView,{x:artSite.x,y:artSite.y,extent:artSize,eye:ground(artSite.x,artSite.y)+artSize*focal/Math.min(c.clientWidth*.42,c.clientHeight*.3)});}$('#camera-tools').hidden=false;$('#art-map').hidden=true;document.body.classList.add('camera-active');for(const id of ['pan','tilt']){$('#camera-'+id).value=0;$('#camera-'+id).closest('label').hidden=overhead;}$('#camera-zoom').value=1;$('#camera-status').textContent='';api.draw();}
  function closeCamera(){if(!photo)return;api.gpu.camera=photo.camera;photo=null;api.gpu.photoView=null;$('#camera-tools').hidden=true;document.body.classList.remove('camera-active');api.resume();}
  async function capture(){
   if(!photo||photoBusy)return;const captureView=photo,captureActivity=active;photoBusy=true;$('#camera-capture').disabled=true;
   try{api.draw();const c=document.createElement('canvas');c.width=api.gpu.canvas.width;c.height=api.gpu.canvas.height;const ctx=c.getContext('2d'),gradient=ctx.createLinearGradient(0,0,0,c.height),colors=api.state.solar.up<0?['#03060c','#080c14','#151720']:api.state.solar.up<.1?['#211c2c','#775751','#745b51']:['#75482f','#be8b62','#b48059'];gradient.addColorStop(0,colors[0]);gradient.addColorStop(.53,colors[1]);gradient.addColorStop(1,colors[2]);ctx.fillStyle=gradient;ctx.fillRect(0,0,c.width,c.height);ctx.drawImage($('#night-sky'),0,0,c.width,c.height);ctx.drawImage(api.gpu.canvas,0,0);const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',.9));if(!blob)throw Error('Capture unavailable');await storePhoto(blob,active.name);
    if(photo!==captureView||active!==captureActivity)return;
    const isArt=active.id==='art',focus=isArt?artSite:api.area.samples[3].focus,q=api.gpu.project(focus.x,focus.y,ground(focus.x,focus.y)+6),visible=q.depth>4&&q.x>0&&q.x<api.gpu.canvas.clientWidth&&q.y>0&&q.y<api.gpu.canvas.clientHeight;
-   const qualifies=visible&&(!isArt||(art.length>=30&&dist(api.state,lookout)<100));
+   const qualifies=visible&&(!isArt||(art.length>=30&&photo.overhead));
    $('#camera-status').textContent=qualifies?'Photograph saved.':'Photograph saved. The subject is outside the frame.';
-   if(qualifies){if(isArt)artProtected=false;closeCamera();complete(isArt?'Your drawing is recorded from the lookout.':'Kodiak recorded from the rover-mounted camera.');}
+   if(qualifies){if(isArt)artProtected=false;closeCamera();complete(isArt?'Your drawing is recorded from above.':'Kodiak recorded from the rover-mounted camera.');}
   }catch(e){$('#camera-status').textContent=e?.message?.startsWith('Photo album full')?e.message:'Could not save photograph. Browser storage may be full. Try again.';console.warn(e);}finally{photoBusy=false;$('#camera-capture').disabled=false;}
  }
  function clearURLs(){for(const u of viewURLs)URL.revokeObjectURL(u);viewURLs=[];}
@@ -155,5 +156,5 @@ export function createActivities(api,journey,record,stored={}){
  }
  function raceComplete(){if(active?.id==='delta-trial'){results['delta-trial']={date:new Date().toISOString()};creditActivity(record,'delta-trial');api.save();}}
  rebuildArt();
- return {record,journey,sites,get active(){return active},get photo(){return photo},get protectsArt(){return artProtected},snapshot,openMenu,start,begin,stop,returnToRoute,tick,update,overlay,raceComplete,guide,complete,closeCamera,get art(){return art},lookout,transects,target,sampleTarget};
+ return {record,journey,sites,get active(){return active},get photo(){return photo},get protectsArt(){return artProtected},snapshot,openMenu,start,begin,stop,remember,returnToRoute,tick,update,overlay,raceComplete,guide,complete,closeCamera,get art(){return art},lookout,transects,target,sampleTarget};
 }

@@ -12,3 +12,23 @@
    driving differences matter here; a second interactive museum model does not. */
 #craft-dialog.compact-rover{width:min(680px,calc(100vw - 24px));height:min(650px,calc(100dvh - 24px))}#craft-dialog.compact-rover .craft-body{grid-template-columns:190px minmax(0,1fr);overflow:hidden}#craft-dialog.compact-rover .craft-stage{display:block;min-height:0;height:100%;background:#14242d}#craft-dialog.compact-rover .craft-stage model-viewer,#craft-dialog.compact-rover .craft-arrows,#craft-dialog.compact-rover .craft-zoom,#craft-dialog.compact-rover .craft-credit,#craft-dialog.compact-rover #craft-retry,#craft-dialog.compact-rover #craft-status{display:none!important}#craft-dialog.compact-rover #craft-fallback{display:block!important;padding:20px 14px;object-fit:contain}#craft-dialog.compact-rover .craft-details{min-height:0;overflow:auto;padding:16px 20px}#craft-dialog.compact-rover .craft-details>p{display:block;margin:8px 0;font-size:13px}#craft-dialog.compact-rover #craft-info{display:none}#craft-dialog.compact-rover .craft-carousel img{width:56px;height:34px}#craft-dialog.compact-rover .craft-bottom{padding:10px 16px 14px}#craft-dialog.compact-rover .craft-carousel{margin-bottom:8px}#craft-dialog.compact-rover #craft-tabs button{flex:1;min-width:0;padding:8px 3px}
 @media(max-width:650px){#craft-dialog.compact-rover{height:calc(100dvh - 16px)}#craft-dialog.compact-rover .craft-body{grid-template-columns:125px minmax(0,1fr)}#craft-dialog.compact-rover .craft-details{padding:11px 13px}#craft-dialog.compact-rover .craft-details>p{font-size:11px;line-height:1.35;margin:5px 0}#craft-dialog.compact-rover .craft-details h1{font-size:22px}#craft-dialog.compact-rover .craft-carousel img{width:44px;height:27px}#craft-dialog.compact-rover #craft-fallback{padding:12px 8px}}
+
+/* Jezero selection: one compact roster, a kit switch, and an apply action. */
+#craft-dialog.compact-rover{height:fit-content;max-height:calc(100dvh - 20px);border-radius:8px}
+#craft-dialog.compact-rover .craft-stage{display:none}
+#craft-dialog.compact-rover .craft-body{display:block;flex:0 1 auto;overflow:auto}
+#craft-dialog.compact-rover .craft-details{padding:12px 16px;overflow:visible}
+#craft-dialog.compact-rover .craft-details h1{font-size:20px;letter-spacing:0;margin:0}
+#craft-dialog.compact-rover .craft-details>.meta,#craft-dialog.compact-rover .craft-details>p,#craft-dialog.compact-rover .craft-details>h2,#craft-dialog.compact-rover #mission-rover,#craft-dialog.compact-rover #craft-stat-note,#craft-dialog.compact-rover #mod-note{display:none!important}
+#craft-dialog.compact-rover .craft-stats{grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:8px}
+#craft-dialog.compact-rover .craft-stats div{grid-template-columns:80px 1fr}
+#craft-dialog.compact-rover .craft-stats div:nth-child(n+3){display:none}
+#craft-dialog.compact-rover #craft-mods{border:0;padding:0;margin:8px 0 0}
+#craft-dialog.compact-rover #craft-mods legend{display:none}
+#craft-dialog.compact-rover .craft-bottom{padding:10px 16px}
+#craft-dialog.compact-rover .craft-carousel{grid-template-columns:repeat(5,minmax(80px,1fr));overflow-x:auto;padding-bottom:4px}
+#craft-dialog.compact-rover .craft-carousel button{border-radius:6px;white-space:nowrap;font-size:10px}
+#craft-dialog.compact-rover #craft-info{display:block}
+#craft-dialog.compact-rover .craft-actions button{width:100%;border-radius:6px}
+#craft-dialog.compact-rover .craft-actions span{display:none}
+@media(max-height:500px){#craft-dialog.compact-rover header{padding:5px 12px}#craft-dialog.compact-rover .craft-details{padding:6px 12px}#craft-dialog.compact-rover .craft-bottom{padding:6px 12px}#craft-dialog.compact-rover .craft-carousel{margin-bottom:5px}}

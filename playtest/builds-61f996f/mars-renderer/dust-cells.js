@@ -2,16 +2,17 @@ const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 // Authored gameplay weather, not a forecast. One bounded cloud at a time keeps
 // the mobile shader cheap; local patches are common, broad fronts uncommon.
 export class DustCells {
- constructor(random=Math.random){this.random=random;this.age=-1;this.wait=45;this.haze=0;this.front=0;this.cleared=false;}
+ constructor(random=Math.random,bounds=null){this.random=random;this.bounds=bounds;this.age=-1;this.wait=45;this.haze=0;this.front=0;this.cleared=false;}
  start(observer={x:0,y:0,z:0}){
   if(this.age>=0)return;
   const r=this.random,roll=r();this.size=roll<.72?'local':roll<.95?'medium':'large';
-  const scale=this.size==='local'?450:this.size==='medium'?1150:2800;
+  const scale=this.bounds?(this.size==='local'?1800:this.size==='medium'?5000:11000):(this.size==='local'?450:this.size==='medium'?1150:2800);
   this.rx=scale*(.8+r()*.6);this.ry=scale*(.55+r()*.4);
   const angle=(r()-.5)*1.8;this.cos=Math.cos(angle);this.sin=Math.sin(angle);
   this.seed=r()*Math.PI*2;this.speed=35+r()*25;this.drift=(r()-.5)*12;
   this.x=observer.x+(r()-.5)*this.rx*.7;this.y=observer.y-this.ry*1.5-250;
   this.baseZ=observer.z??0;this.life=(this.ry*3+650)/this.speed+20;
+  if(this.bounds&&roll>.99){const b=this.bounds;this.size='regional';this.x=(b.minX+b.width)/2;this.y=(b.minY+b.maxY)/2;this.rx=this.ry=Math.hypot(b.width-b.minX,b.maxY-b.minY)*1.8;this.speed=this.drift=0;this.life=180;}
   this.age=0;this.cleared=false;this.front=this.y+this.ry;
  }
  get cell(){return this.age<0?null:[this.x,this.y,this.rx,this.ry];}
