@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ASTRA · Landing lab</title>  <script type="module" crossorigin src="../assets/landingLab-CePMqiwj.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-Dezn_h7o.js">
+  <link rel="modulepreload" crossorigin href="../assets/landingLab-at2b4miJ.js">
+  <link rel="stylesheet" crossorigin href="../assets/landingLab-CFcbZ3O-.css">
+</head><body>
+<header><button id="tune">Tune</button><button id="retry">Retry</button><button id="toggle" disabled>LOW after zoom</button><button id="copy">Copy report</button></header>
+<div id="reading" role="status">Preparing a straight drop above the pad…</div><iframe id="flight" title="Landing tuning flight"></iframe>
+<dialog id="settings"><form id="form"><h1>Landing tuning lab</h1><p>Steady BASE power. Zoom unlocks LOW; switching is your choice. No down-thrust. Every drop starts above the pad.</p>
+<label>World<select name="world"><option value="mercury">Mercury · Caloris</option><option value="moon">Moon</option><option value="venus">Venus</option><option value="mars">Mars</option><option value="earth">Earth</option></select></label>
+<label>BASE power · × local gravity<input name="base" type="number" min="0.5" max="35" step="0.05" required></label>
+<label>LOW power · × local gravity<input name="low" type="number" min="0.1" max="35" step="0.05" required></label>
+<p class="hint">1.0 balances gravity when upright. Above 1.0 brakes a fall; below 1.0 lets descent build. Values below 1.0 cannot stop a fall in vacuum.</p>
+<label>Drop height · metres<input name="height" type="number" min="40" max="75" step="5" required></label>
+<label>Starting fuel · %<input name="fuel" type="number" min="10" max="100" step="5" required></label>
+<div class="actions"><button type="submit">Apply & drop</button><button type="button" id="cancel">Resume</button><button type="button" id="defaults">Reset values</button></div><p id="form-note"></p>
+</form></dialog><dialog id="report"><h2>Share your experiment</h2><textarea id="report-text" readonly aria-label="Experiment report"></textarea><button id="report-close">Close</button></dialog></body></html>
