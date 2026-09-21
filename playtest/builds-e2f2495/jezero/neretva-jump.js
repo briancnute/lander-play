@@ -1,6 +1,6 @@
 import {toGame} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
-export const jumpSite={id:'neretva-jump',name:'Neretva crossing / test run',category:'EXPERIMENTAL',goal:'Link three boost zones, choose your line over the bank, then hold Slow in flight to shorten the landing.',...toGame(-5200,100),start:{...toGame(-5200,100),heading:0},lip:toGame(-5200,1610)};
+export const jumpSite={id:'neretva-jump',name:'Neretva crossing',category:'LONG JUMP',goal:'Link all three boost zones and land to complete the crossing. Choose your launch line for distance; hold Slow in flight to shorten the landing. No minimum distance.',...toGame(-5200,100),start:{...toGame(-5200,100),heading:0},lip:toGame(-5200,1610)};
 export const boostRows=[450,950,1535].map(n=>[-95,0,95].map(e=>({...toGame(-5200+e,n),r:105})));
 // A local authored earthen crest, not a change to Neretva's surveyed channel.
 // Collision and rendering interpolate exactly the same triangles.

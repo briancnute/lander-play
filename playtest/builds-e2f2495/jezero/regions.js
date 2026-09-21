@@ -3,6 +3,7 @@ import {landmarks} from './landmarks.js';
 import {floorRegions} from './floor-sites.js';
 import {belvaDiscovery} from './belva.js';
 import {worldDiscoveries} from './world-sites.js';
+import {landingPhoto} from './tour-photos.js';
 
 const region=(id,name,east,north,copy)=>({id,name,...toGame(east,north),kind:'region',...copy});
 
@@ -27,6 +28,8 @@ export const regions=[
   detail:'Look across to the isolated butte and its flat cap. Its exposed layers are a window into the ancient delta. This discovery is an overlook, not a summit activity; the surrounding southern plain is open to exploration from the start.'},
 ];
 
+const floorOverview=regions.find(r=>r.id==='crater-floor');
+Object.assign(floorOverview,landingPhoto,{views:[{image:'./assets/landing.jpg',imageType:'map',imageAlt:'Orbital locator of the landing site',imageCredit:'NASA/JPL-Caltech/University of Arizona',source:'https://science.nasa.gov/resource/welcome-to-octavia-e-butler-landing/'}],locationNote:'Regional overview; photograph recorded at the landing site.'});
 export const regionById=Object.fromEntries(regions.map(r=>[r.regionId??r.id,r]));
 export const detailRegion={0:'western-delta',1:'delta-front',2:'delta-front',4:'delta-front',5:'delta-front',6:'crater-floor'};
 export const detailIndices=Object.keys(detailRegion).map(Number);

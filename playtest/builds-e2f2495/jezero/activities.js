@@ -58,7 +58,8 @@ export function createActivities(api,journey,record,stored={}){
  $('#journey-finish-explore').onclick=()=>{api.closeDialogs();api.resume();};$('#journey-finish-replay').onclick=()=>{api.closeDialogs();openMenu();};
  $('#activity-confirm-no').onclick=openMenu;
  $('#activity-keep').onclick=()=>{stop();api.closeDialogs();api.resume();};
- $('#activity-return').onclick=returnToRoute;$('#activity-retry').onclick=()=>{if(active)begin(active.id);};
+ $('#activity-return').onclick=returnToRoute;$('#activity-retry').onclick=()=>{if(active)begin(active.id,active.id==='helicopter'&&flightReverse);};
+ const resultSites=document.createElement('button');resultSites.id='activity-sites';resultSites.textContent='Site selection';resultSites.onclick=()=>{stop();openMenu();};$('#activity-keep').after(resultSites);
  $('#camera-close').onclick=closeCamera;$('#camera-capture').onclick=capture;
  for(const id of ['zoom','pan','tilt'])$('#camera-'+id).oninput=()=>{if(!photo)return;api.gpu.photoView.zoom=+$('#camera-zoom').value;api.gpu.photoView.heading=photo.heading+(+$('#camera-pan').value)*Math.PI/180;api.gpu.photoView.pitch=(+$('#camera-tilt').value)*Math.PI/180;api.draw();};
  $('#drawing-frame').onclick=()=>{if(!photo?.overhead)return;photo.navigating=false;document.body.classList.add('drawing-framing');$('#camera-tools').hidden=false;api.pause();};
@@ -71,7 +72,7 @@ export function createActivities(api,journey,record,stored={}){
  $('#photo-album').onclick=album;$('#photo-album-close').onclick=()=>{clearURLs();openMenu();};
  $('#helicopter-exit').onclick=()=>{stopHelicopter();stop();openMenu();};
  for(const d of section.querySelectorAll('dialog'))d.addEventListener('cancel',e=>{e.preventDefault();if(d.id==='helicopter-dialog'){stopHelicopter();stop();}if(d.id==='photo-album-dialog')clearURLs();openMenu();});
- addEventListener('message',e=>{const frame=$('#helicopter-frame iframe');if(e.origin!==location.origin||e.source!==frame?.contentWindow||e.data?.token!==heliToken)return;if(e.data.type==='astra-jezero-heli-ready'){frame.dataset.ready='true';return;}if(e.data.type!=='astra-jezero-heli-complete')return;stopHelicopter();api.reset({...api.area.heliEnds[flightReverse?0:1],heading:0});const saved=Number.isInteger(e.data.savedPhotos)&&e.data.savedPhotos>=0&&e.data.savedPhotos<=5?e.data.savedPhotos:null;complete((saved===null?'Photo storage could not be confirmed. ':`${saved} of 5 aerial survey photographs saved to your album. ${saved<5?'Some photographs could not be stored. ':''}`)+'Safe arrival at '+(flightReverse?'Wright Brothers Field.':'Valinor Hills.'));});
+ addEventListener('message',e=>{const frame=$('#helicopter-frame iframe');if(e.origin!==location.origin||e.source!==frame?.contentWindow||e.data?.token!==heliToken)return;if(e.data.type==='astra-jezero-heli-ready'){frame.dataset.ready='true';return;}if(e.data.type==='astra-jezero-heli-error'){stopHelicopter();api.openDialog('#activity-result');$('#activity-result-title').textContent='Flight unavailable';$('#activity-result-copy').textContent='The flight terrain could not load. Retry the flight or return to your saved expedition. No activity credit was used.';return;}if(e.data.type!=='astra-jezero-heli-complete')return;stopHelicopter();api.reset({...api.area.heliEnds[flightReverse?0:1],heading:0});const saved=Number.isInteger(e.data.savedPhotos)&&e.data.savedPhotos>=0&&e.data.savedPhotos<=5?e.data.savedPhotos:null;complete((saved===null?'Photo storage could not be confirmed. ':`${saved} of 5 aerial survey photographs saved to your album. ${saved<5?'Some photographs could not be stored. ':''}`)+'Safe arrival at '+(flightReverse?'Wright Brothers Field.':'Valinor Hills.'));});
 
  function snapshot(){return {results,art,artProtected};}
  function openMenu(){if(photo)closeCamera();api.openDialog('#jump-dialog');$('#expedition-category').open=true;renderMenu();$('#expedition-category').scrollIntoView({block:'start'});}
@@ -170,7 +171,7 @@ export function createActivities(api,journey,record,stored={}){
    }
    if(!jump&&s.air&&dist(s,active.lip)<500)jump={x:s.x,y:s.y,t:seconds,hit:false,boosts:boostStage};
    if(jump&&s.impact)jump.hit=true;
-   if(jump&&!s.air&&seconds-jump.t>.12){const length=dist(s,jump)/3.2;results['neretva-jump-best']=Math.max(Number(results['neretva-jump-best'])||0,length);complete(`Test landing: ${length.toFixed(0)} mapped m. ${jump.boosts}/3 boost zones. Best ${results['neretva-jump-best'].toFixed(0)} m.${jump.hit?' Rock contact.':''}`);jump=null;}
+   if(jump&&!s.air&&seconds-jump.t>.12){const length=dist(s,jump)/3.2;results['neretva-jump-best']=Math.max(Number(results['neretva-jump-best'])||0,length);complete(`Landing: ${length.toFixed(0)} mapped m. ${jump.boosts}/3 boost zones. Best ${results['neretva-jump-best'].toFixed(0)} m.${jump.hit?' Rock contact.':''}${jump.boosts<3?' Link all three boost zones to complete this activity.':''}`);jump=null;}
   }
  }
  function update(){

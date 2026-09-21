@@ -1,4 +1,6 @@
 import {ground} from './ground.js';
+import {triangle} from './triangle.js';
+export {triangle} from './triangle.js';
 const {buildScenery}=await import(/* @vite-ignore */ new URL('../../../extras/expedition/scenery.js',import.meta.url).href);
 // A single rectangular grid with gradually spaced axes: every edge is shared.
 // Dense over the delta study area; wider spacing outside it. No overlapping LOD layers.
@@ -9,7 +11,6 @@ export function terrain(){const xs=axis(2650,-1500,8000),ys=axis(300,-4500,5200)
  if(vertices.length/9>65535)throw Error('Terrain exceeds WebGL1 index budget');const data=new Float32Array(vertices);
  const height=(x,y)=>{const find=(a,v)=>{let lo=0,hi=a.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(a[m]<=v)lo=m;else hi=m;}return lo;},ix=find(xs,x),iy=find(ys,y),u=Math.max(0,Math.min(1,(x-xs[ix])/(xs[ix+1]-xs[ix]))),v=Math.max(0,Math.min(1,(y-ys[iy])/(ys[iy+1]-ys[iy]))),a=iy*xs.length+ix,z=i=>data[i*9+2],b=a+1,c=a+xs.length,d=c+1;return u+v<=1?z(a)+(z(b)-z(a))*u+(z(c)-z(a))*v:z(d)+(z(c)-z(d))*(1-u)+(z(b)-z(d))*(1-v);};
  return {vertices:data,indices:new Uint16Array(indices),xs,ys,height};}
-export function triangle(out,a,b,c,color,normal){if(!normal){const u=b.map((n,i)=>n-a[i]),v=c.map((n,i)=>n-a[i]);normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const l=Math.hypot(...normal)||1;normal=normal.map(n=>n/l);}for(const p of [a,b,c])out.push(...p,...normal,...color);}
 export function box(out,x,y,z,w,d,h,color){const p=[[x,y,z],[x+w,y,z],[x+w,y+d,z],[x,y+d,z],[x,y,z+h],[x+w,y,z+h],[x+w,y+d,z+h],[x,y+d,z+h]];for(const [a,b,c,d]of [[0,3,2,1],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]]){triangle(out,p[a],p[b],p[c],color);triangle(out,p[a],p[c],p[d],color);}}
 export function outcrops(){const out=[];for(const f of buildScenery().faces){const base=f.base??[164,109,74],color=base.map((v,i)=>((v*.25+[165,111,77][i]*.75)/255));for(let i=1;i<f.vertices.length-1;i++)triangle(out,f.vertices[0],f.vertices[i],f.vertices[i+1],color,f.normal);}return new Float32Array(out);}
 export function roverBody(){const out=[],metal=[.65,.64,.53],tire=[.12,.15,.14];box(out,-4.6,-6,2,9.2,12,3,metal);box(out,-6,-7,5,12,14,.35,[.12,.28,.34]);

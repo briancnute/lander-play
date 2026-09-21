@@ -15,6 +15,7 @@ import {loadBelva,belvaDiscovery,upperSurface,upperRocks} from './belva.js';
 import {explorationBounds,boundaryAt} from './belva-bounds.js';
 import {loadWorld,worldPickups,worldRocks} from './world.js';
 import {worldDiscoveries} from './world-sites.js';
+import {buildLookoutSurfaces} from './lookout-surfaces.js';
 export const SITE_VERSION='three-forks-v1';
 // Retain Kodiak at index 3 for existing saves; the retired generic cards are recollected.
 const byId=Object.fromEntries(approvedSites.map(p=>[p.id,{...p,...toGame(p.east,p.north)}]));
@@ -80,7 +81,8 @@ export async function loadArea(){
  const rally=landingCircuit();
  const upperScenery=upperRocks(scenery.visualGround,upper.spine,rally.route);
  const heli=await helicopterSites(scenery.visualGround);
- const worldScenery=worldRocks(world,discoveries,rally.route),chunks=[heli.vertices,ramp.vertices,vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices];
+ const lookoutDetail=buildLookoutSurfaces(scenery.visualGround,discoveries);
+ const worldScenery=worldRocks(world,discoveries,rally.route),chunks=[heli.vertices,ramp.vertices,vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices,lookoutDetail.vertices];
  const sceneryVertices=new Float32Array(chunks.reduce((n,v)=>n+v.length,0));let offset=0;for(const chunk of chunks){sceneryVertices.set(chunk,offset);offset+=chunk.length;}
  filtered.push(...extra.rocks,...upperScenery.rocks,...worldScenery.rocks);
  const lineWidth=58,lineBonus=.07;
@@ -91,7 +93,7 @@ export async function loadArea(){
  ];
  area.turboSurfaceSpeed=1+lineBonus;
  area.ground=scenery.visualGround;
- area.parts=photoRocks.parts;area.rockStructures=photoRocks.structures;
+ area.parts=photoRocks.parts;area.rockStructures=photoRocks.structures;area.lookoutSurfaces=lookoutDetail.patches;
  area.extension={info:extension.info,stats:extra.stats,spine:extra.spine,unlocked:false};
  area.upper=upper;area.world=world;area.boundaryAt=boundaryAt;
  area.unlockFloor=()=>{Object.assign(area.bounds,explorationBounds);area.extension.unlocked=true;};

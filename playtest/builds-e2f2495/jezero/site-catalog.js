@@ -1,4 +1,5 @@
 // Brian approved these review-board photographs on 2026-09-15. Camera/target limitations remain explicit.
+import {landingPhoto} from './tour-photos.js';
 export const approvedSites=[
   {
     "id": "pair",
@@ -131,3 +132,6 @@ export const approvedSites=[
     "routeMap": true
   }
 ];
+const landingHistory=approvedSites.find(p=>p.id==='landing');
+Object.assign(landingHistory,landingPhoto,{iconic:true});
+landingHistory.views[0].imageType='map';
