@@ -1,13 +1,16 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#11151a"><title>Tranquility · Lunar Golf</title>  <script type="module" crossorigin src="../assets/moonGolf-DmEQ28Dj.js"></script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#11151a"><title>Tranquility · Lunar Golf</title>  <script type="module" crossorigin src="../assets/moonGolf-CWvnFXte.js"></script>
   <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-Dezn_h7o.js">
   <link rel="modulepreload" crossorigin href="../assets/three.module-BtoR-BhC.js">
-  <link rel="stylesheet" crossorigin href="../assets/moonGolf-CmYk31ls.css">
+  <link rel="stylesheet" crossorigin href="../assets/moonGolf-DIri6c-D.css">
 </head><body>
 <canvas id="world" aria-label="3D lunar golf practice ground"></canvas>
-<header><div><small>PROJECT ASTRA / LUNAR FIELD CLUB</small><h1>Tranquility</h1></div><nav><button id="sound" aria-label="Toggle sound" aria-pressed="false">♪</button><button id="units">Yards</button><button id="help">?</button></nav></header>
+<header><h1>Tranquility</h1><nav><button id="menu" aria-label="Options">☰</button></nav></header>
+<canvas id="minimap" width="128" height="128" aria-label="Local map: flag, challenges, craters and heading"></canvas>
+<dialog id="options-dialog"><small>OPTIONS</small><h2>On the Moon</h2><div><button id="sound" aria-label="Toggle sound" aria-pressed="false">♪ Sound</button><button id="units">Yards</button><button id="help">Help</button></div><button id="recover">Return to base</button><button data-close>Back to game</button></dialog>
+
 <div id="title"><small id="chapter">01 / LEARN THE GROUND</small><h2 id="activity-title">Take the wheel.</h2><p id="subtitle">A small practice ground. A different kind of golf.</p></div>
 <div id="navigation"><div id="destinations"><button data-station="0" class="active">01 Putting</button><button data-station="1">02 Wedges</button><button data-station="2">03 Long drive</button></div><span id="guide"></span></div>
-<div id="drive-controls"><div id="joystick" aria-label="Drag left or right to steer"><i id="stick"></i></div><div class="drive-buttons"><button id="gas">Hold gas ↑</button><div><button id="brake">Brake</button> <button id="reverse">Reverse</button></div><button id="golf-here">Golf here →</button><button id="enter" disabled>Visit a challenge marker</button><button id="recover">Return to base</button></div><span id="drive-tip">W / ↑ gas · A/D steer · S reverse · Space brake · E golf here</span></div>
+<div id="drive-controls"><div id="joystick" aria-label="Drag left or right to steer"><i id="stick"></i></div><div class="drive-buttons"><button id="gas">Hold gas ↑</button><div><button id="brake">Brake</button> <button id="reverse">Reverse</button></div><button id="golf-here">Golf here →</button><button id="enter" disabled>Challenge</button></div><span id="drive-tip">W / ↑ gas · A/D steer · S reverse · Space brake · E golf here</span></div>
 <section id="shot-panel" hidden>
  <div class="panel-top"><strong id="distance"></strong><span id="record"></span><button id="leave">Buggy</button></div>
  <div class="selection"><div id="clubs"></div><select id="input-mode" aria-label="Swing controls"><option value="gesture">Gesture</option><option value="click">3-click</option></select></div>
