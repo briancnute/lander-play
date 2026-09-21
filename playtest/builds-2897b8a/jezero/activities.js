@@ -2,6 +2,7 @@ import {activitySymbols} from './map-view.js';
 import {toGame} from './terrain.js';
 import {triangle} from '../mars-renderer/geometry.js';
 import {advanceJourney,canFinish,reachFinish,creditActivity,REQUIRED_ACTIVITIES} from './expedition.js';
+import {tourStops,nextLookout,collectLookout,restoreTiming} from './photo-tour.js';
 import {storePhoto,readPhotos,deletePhoto} from './field-photos.js';
 import {startArtHop} from './art-hop.js';
 import {jumpSite,boostRows,advanceBoost} from './neretva-jump.js';
@@ -51,7 +52,8 @@ export function createActivities(api,journey,record,stored={}){
  const cameraErase=document.createElement('button');cameraErase.id='camera-erase';cameraErase.textContent='Erase';cameraErase.title='Erase all drawing tracks';cameraErase.onclick=eraseArt;$('#camera-capture').after(cameraErase);
  $('#jump-activities').append(...$('#expedition-dialog .menu-scroll').children);$('#expedition-dialog').hidden=true;$('#open-expedition').addEventListener('click',renderMenu);
  $('#journey-hud').onclick=openMenu;$('#expedition-close').onclick=()=>{api.closeDialogs();api.resume();};
- $('#journey-start').onclick=()=>confirm('Start a new expedition?','Retrace the recorded route and complete one activity. No score threshold. Begin at Octavia E. Butler Landing; only this expedition resets, not discoveries, photographs or activity records.',start,'Start expedition');
+ const tourList=document.createElement('div');tourList.id='tour-lookouts';$('#activity-list').previousElementSibling.before(tourList);
+ $('#journey-start').onclick=()=>confirm('Start a new expedition?',`Retrace the recorded route, collect ${journey.lookouts.length} photo lookouts in order, and complete one activity. No score threshold. The existing 2.5x kit is equipped for this expedition. Begin at Octavia E. Butler Landing; only this expedition resets, not discoveries, photographs or activity records.`,start,'Start expedition');
  $('#journey-return').onclick=returnToRoute;
  $('#journey-finish-explore').onclick=()=>{api.closeDialogs();api.resume();};$('#journey-finish-replay').onclick=()=>{api.closeDialogs();openMenu();};
  $('#activity-confirm-no').onclick=openMenu;
@@ -75,17 +77,30 @@ export function createActivities(api,journey,record,stored={}){
  function openMenu(){if(photo)closeCamera();api.openDialog('#jump-dialog');$('#expedition-category').open=true;renderMenu();$('#expedition-category').scrollIntoView({block:'start'});}
  function renderMenu(){
   const visited=record.next-1,total=journey.checkpoints.length-1;
+  const stops=tourStops(journey,record),pending=nextLookout(journey,record);
   $('#journey-status').textContent=record.status==='idle'?'Octavia E. Butler Landing → Western frontier':record.status==='finished'?'Expedition complete':`${Math.floor(visited/total*100)}% of route · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/${REQUIRED_ACTIVITIES} required activity`;
   $('#journey-progress').value=record.status==='idle'?0:visited/total;
   $('#journey-goal').textContent=record.status==='idle'?'Retrace the recorded journey and complete one activity. No score threshold.':record.next<journey.checkpoints.length?`Next route reference: sol ${journey.checkpoints[record.next].sol}`:record.activities.length<REQUIRED_ACTIVITIES?'Route complete. Complete one activity to finish. Choose a site below: jump there or target it on your map. Your route progress is saved.':record.finishReached?'Route and activity complete. Continue exploring.':'Return to the western frontier to finish.';
   $('#journey-start').textContent=record.status==='idle'?'Start expedition':'Restart expedition';$('#journey-return').hidden=record.status!=='active';
+  if(record.status==='idle')$('#journey-goal').textContent=`Retrace the route, collect ${journey.lookouts.length} photo lookouts in order, and complete one activity. No score threshold.`;
+  else if(pending)$('#journey-goal').textContent=`${record.lookouts.length}/${stops.length} photo lookouts. ${record.next>=pending.checkpoint?'Collect next: ':'Follow the route toward '}${pending.name}.`;
+  tourList.replaceChildren();
+  if(stops.length||record.status==='idle'){
+   const title=document.createElement('h3');title.textContent='Photo lookouts';tourList.append(title);
+   for(const [i,p]of (stops.length?stops:journey.lookouts).entries()){
+    const row=document.createElement('div'),label=document.createElement('span'),button=document.createElement('button');row.className='tour-stop';
+    label.textContent=`${i+1}. ${p.name} · ${record.lookouts.includes(p.id)?'Collected':p.id===pending?.id?'Next':'Ahead'}`;
+    button.textContent='View site';button.dataset.tourSite=p.id;button.onclick=()=>api.viewLookout(p.index);
+    row.append(label,button);tourList.append(row);
+   }
+  }
   const list=$('#activity-list');list.replaceChildren();
   for(const site of sites){const row=document.createElement('section'),title=document.createElement('h3'),small=document.createElement('small'),p=document.createElement('p'),button=document.createElement('button'),target=document.createElement('button'),actions=document.createElement('div');title.textContent=activitySymbols[site.id]+' '+site.name;small.textContent=record.activities.includes(site.id)?'COMPLETE THIS EXPEDITION':results[site.id]?'PREVIOUSLY COMPLETED':site.category;p.textContent=site.goal;button.textContent='Jump to activity';button.dataset.activity=site.id;button.onclick=()=>confirm(site.name,site.goal+' Your expedition position is kept for your return.',()=>begin(site.id));target.textContent='Target on map';target.dataset.activityTarget=site.id;target.onclick=()=>api.targetSite({...site,activityId:site.id});actions.className='actions';actions.append(button,target);const preview=api.sitePreview(site);row.append(preview,small,title,p,actions);list.append(row);}
  }
  function confirm(title,copy,yes,label='Jump and begin'){api.openDialog('#activity-confirm');$('#activity-confirm-title').textContent=title;$('#activity-confirm-copy').textContent=copy;$('#activity-confirm-yes').textContent=label;$('#activity-confirm-yes').onclick=yes;}
- function start(){stop();record.status='active';record.next=1;record.activities=[];record.finishReached=false;record.returnPoint=null;returnPose=null;api.reset({...journey.start,heading:heading(journey.start,journey.checkpoints[1])});api.explore();guide();api.save();}
+ function start(){stop();record.freeRoamSetup??=api.travelSetup();api.enableTourKit();record.version=2;record.tourVersion=1;record.lookouts=[];record.timing=restoreTiming();record.status='active';record.next=1;record.activities=[];record.finishReached=false;record.returnPoint=null;returnPose=null;api.reset({...journey.start,heading:heading(journey.start,journey.checkpoints[1])});api.explore();guide();api.save();}
  function heading(a,b){return Math.atan2(b.x-a.x,-(b.y-a.y));}
- function guide(){if(record.status==='active'){const p=journey.checkpoints[record.next]??journey.finish;api.nav.target={...p,name:record.next===journey.checkpoints.length?'Finish':'Recorded route'};}}
+ function guide(){if(record.status==='active'){const lookout=nextLookout(journey,record);if(lookout&&record.next>=lookout.checkpoint){api.nav.target={...lookout,tourLookout:true};return;}const p=journey.checkpoints[record.next]??journey.finish;api.nav.target={...p,name:record.next===journey.checkpoints.length?'Finish':'Recorded route'};}}
  function returnToRoute(){stop();api.closeDialogs();const p=record.returnPoint??returnPose;if(p){api.restoreTravel(p);api.reset(p);}record.returnPoint=null;returnPose=null;api.explore();if(record.status==='active')guide();api.save();}
  function remember(){const p={...pose(api.state),...api.travelSetup()};if(record.status==='active'&&!record.returnPoint)record.returnPoint=p;returnPose??=p;}
  function begin(id,reverse=false){
@@ -138,9 +153,10 @@ export function createActivities(api,journey,record,stored={}){
  }
  function tick(dt,before){
   const s=api.state;
+  if(!active){const p=collectLookout(journey,record,before,s,dt);if(p){guide();api.collectLookout(p.index);api.save();return true;}}
   if(!active&&!record.returnPoint&&advanceJourney(journey,record,before,s,dt)){if(!api.nav.target?.activityId)guide();api.save();}
-  if(!active&&reachFinish(journey,record,s)){api.save();if(record.activities.length<REQUIRED_ACTIVITIES){openMenu();return true;}}
-  if(!active&&canFinish(journey,record,s)){record.status='finished';api.nav.target=null;api.save();api.openDialog('#journey-finish');$('#journey-finish-copy').textContent=`Recorded journey through sol ${journey.lastSol} retraced. ${record.activities.length} ${record.activities.length===1?'activity':'different activities'} completed. Your photographs and discoveries remain in your field records.`;return true;}
+  if(!active&&reachFinish(journey,record,s)){api.save();if(nextLookout(journey,record)||record.activities.length<REQUIRED_ACTIVITIES){openMenu();return true;}}
+  if(!active&&canFinish(journey,record,s)){record.status='finished';if(record.freeRoamSetup){api.restoreTravel(record.freeRoamSetup);api.applyTravel();record.freeRoamSetup=null;record.returnPoint=null;returnPose=null;}api.nav.target=null;api.save();api.openDialog('#journey-finish');$('#journey-finish-copy').textContent=`Recorded journey through sol ${journey.lastSol} retraced. ${record.activities.length} ${record.activities.length===1?'activity':'different activities'} completed. Your photographs and discoveries remain in your field records.`;return true;}
   if(!active){const nearEnd=dist(s,heliEnd)<28,nearStart=dist(s,sites.find(p=>p.id==='helicopter'))<28;if(!nearEnd&&!nearStart)heliArmed=true;if(heliArmed&&(nearEnd||nearStart)&&!s.air&&s.mode==='free'){heliArmed=false;confirm('Ingenuity journey',nearEnd?'Return flight / fictional replay':'Wright Brothers Field to Valinor Hills / compressed flight journey',()=>begin('helicopter',nearEnd),'Begin flight');return true;}const site=sites.find(p=>p.id===api.nav.target?.activityId);if(site&&s.mode==='free'&&!s.air&&dist(s,site)<50){api.nav.target=null;api.save();confirm(site.name,site.goal,()=>begin(site.id),'Begin activity');return true;}return;}seconds+=dt;
   if(active.id==='art'&&Math.abs(s.x-artSite.x)<artSize&&Math.abs(s.y-artSite.y)<artSize&&!s.air&&Math.abs(s.v)>.5&&(!art.length||dist(s,art.at(-1))>3)&&seconds-lastPaint>.05){art.push({x:s.x,y:s.y,h:s.heading,stroke});art=art.slice(-1400);artProtected=true;lastPaint=seconds;if(seconds-lastMesh>.3){rebuildArt();lastMesh=seconds;}}
   if(active.id==='neretva-jump'){
@@ -156,6 +172,7 @@ export function createActivities(api,journey,record,stored={}){
  }
  function update(){
   $('#journey-hud').hidden=record.status!=='active'||!!photo;$('#journey-hud').textContent=`EXPEDITION ${Math.floor((record.next-1)/(journey.checkpoints.length-1)*100)}% · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/${REQUIRED_ACTIVITIES}`;
+  if(record.tourVersion===1)$('#journey-hud').textContent=`${Math.floor((record.next-1)/(journey.checkpoints.length-1)*100)}% route · ${record.lookouts.length}/${journey.lookouts.length} photos · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/1 activity`;
   if(!active)return;let status=active.goal;
   if(active.id==='art')status=`${art.length>=30?'Drawing ready for a photograph':'Leave a trail in the clearing'} · ${artProtected?'Art protected':'Photographed'}`;
   if(active.id==='neretva-jump')status=jump?'In flight · Hold Slow to shorten landing':`${boostStage}/3 boost zones · Neretva crossing`;
