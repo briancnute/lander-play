@@ -17,7 +17,7 @@ export const activityCatalog=[
 ];
 
 export function createActivities(api,journey,record,stored={}){
- let active=null,seconds=0,photo=null,photoBusy=false,jump=null,armed=false,lastPaint=0,lastMesh=0,returnPose=null,heliToken=null,flightReverse=false,viewURLs=[];
+ let active=null,seconds=0,photo=null,photoBusy=false,jump=null,armed=false,lastPaint=0,lastMesh=0,returnPose=null,heliToken=null,flightReverse=false,albumToken=null,viewURLs=[];
  const results=stored.results&&typeof stored.results==='object'?stored.results:{};
  let art=Array.isArray(stored.art)?stored.art.filter(p=>p&&['x','y','h'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x-8960)<500&&Math.abs(p.y-6720)<500).slice(-1400):[];
  let artProtected=art.length>1&&stored.artProtected!==false;
@@ -125,8 +125,8 @@ export function createActivities(api,journey,record,stored={}){
   }catch(e){$('#camera-status').textContent=e?.message?.startsWith('Photo album full')?e.message:'Could not save photograph. Browser storage may be full. Try again.';console.warn(e);}finally{photoBusy=false;$('#camera-capture').disabled=false;if(photo===captureView&&photo?.navigating)api.resume();}
  }
  function clearURLs(){for(const u of viewURLs)URL.revokeObjectURL(u);viewURLs=[];}
- function album(){api.openDialog('#photo-album-dialog');clearURLs();const frame=document.createElement('iframe');frame.title='Photo album';frame.src=new URL('../../../extras/album/index.html',import.meta.url).href;$('#photo-album-images').replaceChildren(frame);}
- addEventListener('message',e=>{if(e.origin===location.origin&&e.source===$('#photo-album-images iframe')?.contentWindow&&e.data?.type==='astra-album-close')openMenu();});
+ function album(){api.openDialog('#photo-album-dialog');clearURLs();const frame=document.createElement('iframe');frame.title='Photo album';albumToken=crypto.randomUUID();const url=new URL('../../../extras/album/index.html',import.meta.url);url.searchParams.set('albumToken',albumToken);frame.src=url.href;$('#photo-album-images').replaceChildren(frame);}
+ addEventListener('message',e=>{if(e.origin===location.origin&&albumToken&&e.data?.token===albumToken&&e.data?.type==='astra-album-close')openMenu();});
  function rebuildArt(){const vertices=[];for(let i=1;i<art.length;i++){const a=art[i-1],b=art[i];if(dist(a,b)>24||a.stroke!==b.stroke)continue;for(const side of [-1,1]){const point=(p,w)=>{const d=side*3.8+w*.65,x=p.x+Math.cos(p.h)*d,y=p.y+Math.sin(p.h)*d;return [x,y,ground(x,y)+.16];};const q=[point(a,-1),point(a,1),point(b,-1),point(b,1)];triangle(vertices,q[0],q[1],q[2],[.26,.20,.16]);triangle(vertices,q[1],q[3],q[2],[.26,.20,.16]);}}
   if(api.gpu.artMesh)api.gpu.gl.deleteBuffer(api.gpu.artMesh.b);api.gpu.artMesh=vertices.length?api.gpu.upload(new Float32Array(vertices)):null;
  }

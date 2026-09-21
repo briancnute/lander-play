@@ -1,6 +1,7 @@
 import {readPhotos,deletePhoto} from './store.js';
 let photos=[],urls=[];const $=s=>document.querySelector(s);
-$('#close').onclick=()=>parent!==window?parent.postMessage({type:'astra-album-close'},location.origin):history.back();
+$('#close').onclick=()=>parent!==window?parent.postMessage({type:'astra-album-close',token:new URLSearchParams(location.search).get('albumToken')},location.origin):history.back();
+addEventListener('keydown',e=>{if(e.key==='Escape')$('#close').click();});
 $('#planet').onchange=render;
 async function load(){try{photos=await readPhotos();const current=$('#planet').value;$('#planet').replaceChildren(new Option('All planets',''),...[...new Set(photos.map(p=>p.world??'Other'))].sort().map(w=>new Option(w,w)));$('#planet').value=current;render();}catch{$('#status').textContent='Photo storage is unavailable in this browser.';}}
 function render(){for(const u of urls)URL.revokeObjectURL(u);urls=[];$('#photos').replaceChildren();const visible=photos.filter(p=>!$('#planet').value||p.world===$('#planet').value);$('#status').textContent=visible.length?`${visible.length} saved photographs and postcards`:'No photographs yet.';
