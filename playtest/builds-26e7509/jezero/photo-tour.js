@@ -1,14 +1,14 @@
-// First playable sequence uses only existing photographic discoveries.
-// Add later story beats only after their images and pickup positions are approved.
-export const PHOTO_STOPS=[['pair',518],['echo-creek-belva',789],['neretva-vallis',1155]];
-export function attachPhotoTour(journey,samples){
- journey.lookouts=PHOTO_STOPS.map(([id,sol])=>{
+export const CURRENT_TOUR_VERSION=2;
+export const LEGACY_PHOTO_STOPS=[['pair',518],['echo-creek-belva',789],['neretva-vallis',1155]];
+export const PHOTO_STOPS=[['touchdown',3],['seitah-view',181],...LEGACY_PHOTO_STOPS,['western-rim',1356]];
+export function attachPhotoTour(journey,samples,roster=PHOTO_STOPS){
+ journey.lookouts=roster.map(([id,sol])=>{
   const index=samples.findIndex(p=>p.id===id),site=samples[index];
   if(!site)throw Error('Missing tour photograph: '+id);
-  let checkpoint=1,best=Infinity;
+  let checkpoint=0,best=id==='touchdown'?0:Infinity;
   journey.checkpoints.forEach((p,i)=>{
    // The route revisits the delta; match the appropriate historical visit.
-   if(i===0||Math.abs(p.sol-sol)>80)return;
+   if(id==='touchdown'||i===0||Math.abs(p.sol-sol)>80)return;
    const d=Math.hypot(p.x-site.x,p.y-site.y);
    if(d<best){best=d;checkpoint=i;}
   });
@@ -17,7 +17,7 @@ export function attachPhotoTour(journey,samples){
  });
  return journey;
 }
-export const tourStops=(journey,record)=>record.tourVersion===1?journey.lookouts??[]:[];
+export const tourStops=(journey,record)=>(journey.lookouts??[]).filter(p=>(record.tourVersion===1?LEGACY_PHOTO_STOPS:record.tourVersion===CURRENT_TOUR_VERSION?PHOTO_STOPS:[]).some(([id])=>id===p.id));
 export const nextLookout=(journey,record)=>tourStops(journey,record).find(p=>!record.lookouts.includes(p.id));
 export const photoTourComplete=(journey,record)=>!nextLookout(journey,record);
 export function collectLookout(journey,record,before,after,dt){

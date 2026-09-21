@@ -1,4 +1,5 @@
 import {toGame} from './terrain.js';
+import {seitahPhoto,rimPhoto,falbreenPhoto} from './tour-photos.js';
 const site=(id,name,e,n,fact,detail,source,cameraReference)=>({id,name,kind:'site',...toGame(e,n),fact,detail,source,cameraReference,image:'./assets/jezero-relief.png',imageType:'map',imageAlt:'Measured elevation relief of the expanded western Jezero world',imageDescription:'Supporting elevation map of the playable region, not a rover photograph.',imageCredit:'USGS CTX / HiRISE elevation products; ASTRA relief map',researchDetail:'Rover-area reference from the pinned executed traverse. Pickup position is authored nearby, not a solved camera pose or feature centroid. No new hero photograph is approved.'});
 export const worldDiscoveries=[
  site('bright-angel','Bright Angel',-5687.90,2081.28,'Bright Angel exposes light-toned rocks beside the ancient Neretva Vallis river channel. Its different rock character gives scientists another piece of Jezero\u2019s history.','Perseverance reached this area in June 2024 after entering the channel to bypass rougher boulder terrain. Look for the contrast between the pale outcrops and the surrounding channel slopes.','https://www.jpl.nasa.gov/news/nasas-perseverance-fords-an-ancient-river-to-reach-science-target/','54_0'),
@@ -11,4 +12,9 @@ export const worldDiscoveries=[
   imageCredit:'NASA/JPL-Caltech/ASU/MSSS; panorama via FU Berlin. Bell III et al. (2025), LPSC 1719.',
   researchDetail:'Camera-area reference 52_2644, sol 1154 (-5139.08 m east, 1761.12 m north), is the last pinned waypoint before this mosaic. The pickup is authored 50.25 m south-southwest on gentler ground. The focus is authored along the channel; rover heading is not treated as lens heading. This is an approximate lookout, not a solved photographic pose.'},
 ];
+for(const [id,photo]of [['western-rim',rimPhoto],['falbreen',falbreenPhoto]]){
+ const p=worldDiscoveries.find(s=>s.id===id),map={...p};
+ Object.assign(p,photo,{views:[map],researchDetail:`Camera-area reference ${p.cameraReference} from the pinned traverse. Approved perspective frame, approximate terrain match; viewer heading is not a verified compass bearing.`});
+}
+worldDiscoveries.push({...site('seitah-view','Seitah wheel tracks',2213.314604,-1793.687912,'Perseverance explored sand and exposed rocks at Seitah before returning toward the delta. Wheel tracks mark its passage through this early chapter of the mission.','Mastcam-Z photographed this scene on sols 181-182, August 23-24, 2021. Compare the low rocks, open sand and rover tracks. The rocks and tracks in the game are representative, not a surveyed reconstruction.','https://maps.planet.fu-berlin.de/jezero/360/8','7_0'),...seitahPhoto,researchDetail:'Camera-area anchor 7_0, sol 180: 2213.314604 m east, -1793.687912 m north. Approximate pickup position, not a solved camera pose. Separate from the later sol-201 crystals reference.'});
 export const worldLocations=[{name:'Neretva Vallis',...toGame(-5115,1961)},{name:'Bright Angel',...toGame(-5688,2081)},{name:'Jezero rim',...toGame(-7673,-206)},{name:'Falbreen',...toGame(-8549,-505)},{name:'Western frontier',...toGame(-9724,-1430)}];

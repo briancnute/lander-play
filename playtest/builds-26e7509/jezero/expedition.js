@@ -1,5 +1,5 @@
 import {HORIZONTAL_UNITS} from './scale.js';
-import {nextLookout,photoTourComplete,restoreTiming} from './photo-tour.js';
+import {nextLookout,photoTourComplete,restoreTiming,tourStops,CURRENT_TOUR_VERSION} from './photo-tour.js';
 const toGame=(e,n)=>({x:(e+1500)*HORIZONTAL_UNITS,y:(1500-n)*HORIZONTAL_UNITS});
 
 // Retired activities remain valid save credits, but are absent from the playable catalogue.
@@ -29,15 +29,21 @@ export function restoreExpedition(value,journey){
  const next=Number.isInteger(s.next)?Math.max(1,Math.min(journey.checkpoints.length,s.next)):1;
  const activities=Array.isArray(s.activities)?[...new Set(s.activities.filter(id=>ACTIVITY_IDS.includes(id)))]:[];
  const status=['active','finished'].includes(s.status)?s.status:'idle';
- const tourVersion=s.version===2&&s.tourVersion===1?1:0,lookouts=[];
+ const tourVersion=s.version===2&&[1,CURRENT_TOUR_VERSION].includes(s.tourVersion)?s.tourVersion:0,lookouts=[];
  // Restore only the ordered prefix; old field notes are not tour collection proof.
- if(tourVersion)for(const p of journey.lookouts??[]){if(!Array.isArray(s.lookouts)||s.lookouts[lookouts.length]!==p.id)break;lookouts.push(p.id);}
+ if(tourVersion)for(const p of tourStops(journey,{tourVersion})){if(!Array.isArray(s.lookouts)||s.lookouts[lookouts.length]!==p.id)break;lookouts.push(p.id);}
  const freeRoamSetup=s.freeRoamSetup&&typeof s.freeRoamSetup.rover==='string'&&typeof s.freeRoamSetup.kit==='boolean'?{rover:s.freeRoamSetup.rover,kit:s.freeRoamSetup.kit}:null;
  const record={version:2,tourVersion,lookouts,timing:restoreTiming(s.timing),freeRoamSetup,status,next,activities,finishReached:status!=='idle'&&next===journey.checkpoints.length&&s.finishReached===true,returnPoint:validPose(s.returnPoint)?s.returnPoint:null};
  if(status==='finished'&&(next<journey.checkpoints.length||activities.length<REQUIRED_ACTIVITIES||!photoTourComplete(journey,record)))record.status='active';
  return record;
 }
 export const validPose=p=>p&&['x','y','heading'].every(k=>Number.isFinite(p[k]))&&p.x>=-33600&&p.x<=17600&&p.y>=-11200&&p.y<=20800;
+export function rejoinJourney(record,before,after,dt){
+ if(record.status!=='active'||!record.returnPoint||!before||dt<=0||after.mode!=='free'||after.air||after.turnaround)return false;
+ const movement=distance(before,after);
+ if(movement<.001||movement>Math.max(12,Math.abs(after.v)*dt*2+4)||distance(after,record.returnPoint)>144)return false;
+ record.returnPoint=null;return true;
+}
 export function advanceJourney(journey,record,before,after,dt){
  if(record.status!=='active'||after.mode!=='free'||after.air||after.turnaround||!before||dt<=0)return false;
  const movement=distance(before,after);
