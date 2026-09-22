@@ -1,3 +1,4 @@
+import {tractionStep} from '../rover/traction.mjs';
 import {landmarkParts,scanDiscoveries} from './discoveries.mjs';
 import {WORLD,expansionGround,northSouthGround} from './landscape.mjs';
 import {delta} from './regions.mjs';
@@ -47,7 +48,10 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  if(s.turnaround){const target=boundary?.target??{x:clamp(s.x,(bounds.minX??0)+250,bounds.width-250),y:clamp(s.y,bounds.minY+250,bounds.maxY-250)},error=angle(Math.atan2(target.x-s.x,-(target.y-s.y))-s.heading);steer=clamp(error*2,-1,1);drive=true;brake=false;if(edge>65||(area?.releaseAfterTurn&&Math.abs(error)<.12)){s.turnaround=false;s.returnReleased=!!area?.releaseAfterTurn;s.returnReleaseEdge=edge;if(area?.releaseAfterTurn){drive=!!input.drive;brake=!!input.brake;steer=clamp(input.steer||0,-1,1);}say(s,'Your controls',2);}}
 
  s.boost=Math.max(0,s.boost-dt);
- const prev={x:s.x,y:s.y};
+ const prev={x:s.x,y:s.y},priorSpeed=s.v;
+ const drift=!!area?.driftHandling&&!s.air&&!s.turnaround;
+ if(!drift){s.driftVX=null;s.driftVY=null;s.slip=0;}
+ else {if(!Number.isFinite(s.driftVX)){s.driftVX=Math.sin(s.heading)*s.v;s.driftVY=-Math.cos(s.heading)*s.v;}steer*=Math.min(1,120/Math.max(1,Math.abs(s.v)));}
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(area?.roverHandling?(tune.handling??1):1)*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
  // A world may offer a modest ground-surface advantage (for example, the
  // compacted line through a time trial). It changes the cap, never thrust,
@@ -71,12 +75,14 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  s.thrust=0;
  if(s.air&&area?.airBrake&&brake){const before=s.v;s.v=Math.sign(s.v)*Math.max(0,Math.abs(s.v)-180*dt);if(before!==s.v)s.thrust=before>0?-1:1;}
  else if(!s.air&&area?.boostKit)s.thrust=drive?1:brake?-1:0;
- const dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
+ let dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
+ if(drift){const grip=typeof area.surfaceGrip==='function'?area.surfaceGrip(s):180,response=tractionStep(s.driftVX,s.driftVY,s.heading,s.v-priorSpeed,grip,dt);s.driftVX=response.vx;s.driftVY=response.vy;s.slip=response.slip;s.v=Math.sign(response.forward||priorSpeed)*Math.hypot(response.vx,response.vy);dx=response.vx*dt;dy=response.vy*dt;}
+
 
  // Rocks and mesa outlines are ground obstacles. Once airborne, horizontal
  // motion passes above them; terrain height still determines the later landing.
  const contact=s.air?{x:s.x+dx,y:s.y+dy,hit:false}:moveWithContact(s.x,s.y,dx,dy,area?.mesa??mesa,area?.rocks??rocks,contactRadius);if(!s.air&&!area&&delta){for(const poly of delta.mesas){const q=moveWithContact(contact.x,contact.y,0,0,poly,delta.rocks,contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}}if(!s.air)for(const part of area?.parts??landmarkParts){const q=moveWithContact(contact.x,contact.y,0,0,part.poly,[],contactRadius);contact.x=q.x;contact.y=q.y;contact.hit||=q.hit;}s.x=contact.x;s.y=contact.y;
- if(contact.hit){const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
+ if(contact.hit){s.driftVX=null;s.driftVY=null;s.slip=0;const forward=(s.x-prev.x)*Math.sin(s.heading)-(s.y-prev.y)*Math.cos(s.heading);s.v=Math.sign(s.v)*Math.min(Math.abs(s.v),Math.abs(forward)/dt);s.impact=1;if(s.boost)stopBoost(s);}
  const g=surface(s.x,s.y),oldG=surface(prev.x,prev.y),up=(g-oldG)/dt;
  if(!s.air){if(up<s.vz-20*dt&&Math.abs(s.v)>20&&s.vz>2){s.air=true;s.jumpStart={x:s.x,y:s.y};}else{s.z=g;s.vz=up;}}
  if(s.air){s.vz-=20*dt;s.z+=s.vz*dt;if(s.z<=g){s.z=g;s.vz=0;s.air=false;if(s.jumpStart){const length=distance(s,s.jumpStart)*.25;s.jumpBest=Math.max(s.jumpBest,length);if(length>1)say(s,`Jump · ${length.toFixed(1)} m`,3);s.jumpStart=null;}}}
