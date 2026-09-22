@@ -10,8 +10,9 @@ export function createRouteRunUI(api,journey,record,onFinish){
  document.addEventListener('visibilitychange',()=>{last=performance.now();if(document.hidden&&phase==='countdown')visibleTime=0;});
  function show(){
   if(phase!=='closed'||record.status!=='active'||!record.run?.pending)return;
-  const fact=course.facts.find(p=>p.id===record.run.pending);if(!fact)return;
-  api.openDialog('#route-fact');phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='Resume';el('number').textContent=`PERSEVERANCE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('count').textContent='Take a moment · 2';api.save();const own=++token;
+  if(record.run.facts.includes(record.run.pending)){record.run.pending=null;api.save();return;}
+  const fact=course.facts[record.run.facts.length];if(!fact||fact.id!==record.run.pending)return;
+  phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='Resume';el('number').textContent=`PERSEVERANCE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('count').textContent='Take a moment · 2';api.openDialog('#route-fact');api.save();const own=++token;
   function frame(now){if(own!==token||phase==='closed')return;const dt=Math.max(0,(now-last)/1000);last=now;if(!document.hidden&&dialog.open)visibleTime+=dt;
    if(phase==='reading'){button.disabled=visibleTime<2;el('count').textContent=visibleTime<2?`Take a moment · ${Math.ceil(2-visibleTime)}`:'Ready when you are.';}
    else if(phase==='countdown'){el('count').textContent=String(Math.max(1,3-Math.floor(visibleTime/.55)));if(visibleTime>=1.65){acknowledgeRouteFact(course,record.run);phase='closed';dialog.close();api.save();if(routeComplete(course,record.run))onFinish();else{guide();api.resume();}return;}}
@@ -25,8 +26,8 @@ export function createRouteRunUI(api,journey,record,onFinish){
  function update(){api.gpu.expeditionRouteActive=record.status==='active'&&!record.returnPoint;
   guidance.hidden=!api.gpu.expeditionRouteActive||api.state.mode!=='free'||phase!=='closed';if(guidance.hidden)return;
   const p=course.points[Math.min(record.run.next,course.points.length-1)],s=api.state,d=Math.hypot(p.x-s.x,p.y-s.y),a=Math.atan2(p.x-s.x,-(p.y-s.y))-s.heading,angle=Math.atan2(Math.sin(a),Math.cos(a)),rejoin=d>course.halfWidth+45;
-  const direction=Math.abs(angle)>2?'Turn around':angle>.45?'Bear right':angle<-.45?'Bear left':'Follow cyan arrows';
-  guidance.textContent=rejoin?`${direction} · Rejoin at the white map ring (${Math.round(d/3.2)} m)`:`${direction} · ${course.facts[record.run.facts.length]?.name??'Finish'}`;
+  const direction=s.air?'In flight — continue toward the route':Math.abs(angle)>2?'Turn around':angle>.45?'Bear right':angle<-.45?'Bear left':'Follow cyan arrows';
+  guidance.textContent=rejoin&&!s.air?`${direction} · Rejoin at the white map ring (${Math.round(d/3.2)} m)`:`${direction} · ${course.facts[record.run.facts.length]?.name??'Finish'}`;
  }
  return {show,guide,tick,summary,update,get locked(){return phase!=='closed'}};
 }

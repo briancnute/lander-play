@@ -34,6 +34,22 @@ export function stepRouteRun(course,run,before,after,dt){
  if(after.air||moved<.001)return null;
  const factLimit=course.facts[run.facts.length]?.routeIndex??course.points.length-1;
  while(run.next<course.points.length&&run.next<=factLimit&&segmentDistance(course.points[run.next],before,after)<=course.halfWidth)run.next++;
+ // Rejoin a nearby forward stretch after a short detour or a landing. Required
+ // facts remain hard limits; matching never searches a later checkpoint leg.
+ const missed=course.points[Math.min(run.next,course.points.length-1)];
+ const behind=(missed.x-after.x)*(after.x-before.x)+(missed.y-after.y)*(after.y-before.y)<0;
+ if(behind||distance(after,missed)>course.halfWidth*2){
+ let travelled=0,best=course.halfWidth,bestNext=run.next;
+ for(let i=Math.max(1,run.next);i<=factLimit&&i<course.points.length;i++){
+  const a=course.points[i-1],b=course.points[i],length=distance(a,b);travelled+=length;if(travelled>960)break;
+  const dx=b.x-a.x,dy=b.y-a.y,dot=(after.x-before.x)*dx+(after.y-before.y)*dy;
+  if(dot<0)continue;
+  const d=segmentDistance(after,a,b);
+  if(d<best-.01){best=d;bestNext=i;}
+ }
+ run.next=Math.max(run.next,bestNext);
+ }
+ while(run.next<course.points.length&&run.next<=factLimit&&segmentDistance(course.points[run.next],before,after)<=course.halfWidth)run.next++;
  const fact=course.facts[run.facts.length];if(fact&&run.next>=fact.routeIndex&&distance(after,course.points[fact.routeIndex])<=90){run.pending=fact.id;return fact;}
  return null;
 }
