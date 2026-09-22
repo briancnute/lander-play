@@ -51,7 +51,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  const prev={x:s.x,y:s.y},priorSpeed=s.v;
  const drift=!!area?.driftHandling&&!s.air&&!s.turnaround;
  if(!drift){s.driftVX=null;s.driftVY=null;s.slip=0;}
- else {if(!Number.isFinite(s.driftVX)){s.driftVX=Math.sin(s.heading)*s.v;s.driftVY=-Math.cos(s.heading)*s.v;}steer*=Math.min(1,120/Math.max(1,Math.abs(s.v)));}
+ else {if(!Number.isFinite(s.driftVX)){s.driftVX=Math.sin(s.heading)*s.v;s.driftVY=-Math.cos(s.heading)*s.v;}else{const momentum=Math.hypot(s.driftVX,s.driftVY),scale=momentum>0?Math.abs(s.v)/momentum:0;s.driftVX*=scale;s.driftVY*=scale;}steer*=Math.min(1,120/Math.max(1,Math.abs(s.v)));}
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(area?.roverHandling?(tune.handling??1):1)*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
  // A world may offer a modest ground-surface advantage (for example, the
  // compacted line through a time trial). It changes the cap, never thrust,
