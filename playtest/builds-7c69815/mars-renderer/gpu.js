@@ -166,12 +166,12 @@ export class GPURenderer{
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
- gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,this.road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,this.road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,this.road&&s.mode==='trial'?1:0);gl.activeTexture(gl.TEXTURE0);
+ const road=s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null;gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?1:0);gl.activeTexture(gl.TEXTURE0);
  this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);
  this.worldTerrain?.draw(s);
  gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
  if(this.artMesh)this.mesh(this.artMesh,[0,0,0,100],0);
- if(this.routeRibbon&&s.mode==='free'&&!this.photoView)this.routeRibbon.draw(s);
+ if(this.routeRibbon&&s.mode==='free'&&!this.photoView)(this.expeditionRouteActive?this.expeditionRibbon:this.routeRibbon)?.draw(s);
  this.tracks.add(s,(offset,data)=>{gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferSubData(gl.ARRAY_BUFFER,offset*4,data);});this.trackMesh.count=this.tracks.vertexCount;gl.uniform2f(this.locations.trackInfo,this.tracks.count,this.tracks.capacity);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ZERO,gl.ONE);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);if(this.trackMesh.count)this.mesh(this.trackMesh,[0,0,0,100],3);gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.disable(gl.BLEND);
  if(this.photoView&&!this.photoView.live){overlay.width=w;overlay.height=h;this.roverScreenBounds=null;return;}
  // Match the connected mesh under the wheels without writing simulation height.

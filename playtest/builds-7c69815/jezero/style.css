@@ -70,3 +70,5 @@
 
 .map-legend{position:absolute;right:8px;top:42px;margin:0;background:#12312ff2;padding:4px 8px;border-radius:4px;font-size:11px;max-height:70%;overflow:auto}.map-legend summary{min-height:32px;line-height:32px}.map-legend div{padding:3px 0}.map-legend:not([open]){background:#12312fbd}
 .settings-stack .switch{display:flex;align-items:center;gap:10px;min-height:44px;margin:0}.settings-stack .switch input{width:20px;height:20px;margin:0}.settings-stack>small{color:#b5c7ba;line-height:1.45}
+
+#route-fact{max-width:min(440px,calc(100vw - 40px));}#route-fact-copy{line-height:1.6;}#route-fact-count{min-height:2em;font-variant-numeric:tabular-nums;color:#ead3a5;}#route-fact-resume{min-height:44px;min-width:120px;}#route-fact-resume:disabled{opacity:.45;}

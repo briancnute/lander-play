@@ -1,3 +1,4 @@
+import {restoreRouteRun} from './route-run.js';
 import {HORIZONTAL_UNITS} from './scale.js';
 import {nextLookout,photoTourComplete,restoreTiming,tourStops,CURRENT_TOUR_VERSION} from './photo-tour.js';
 const toGame=(e,n)=>({x:(e+1500)*HORIZONTAL_UNITS,y:(1500-n)*HORIZONTAL_UNITS});
@@ -34,6 +35,7 @@ export function restoreExpedition(value,journey){
  if(tourVersion)for(const p of tourStops(journey,{tourVersion})){if(!Array.isArray(s.lookouts)||s.lookouts[lookouts.length]!==p.id)break;lookouts.push(p.id);}
  const freeRoamSetup=s.freeRoamSetup&&typeof s.freeRoamSetup.rover==='string'&&typeof s.freeRoamSetup.kit==='boolean'?{rover:s.freeRoamSetup.rover,kit:s.freeRoamSetup.kit}:null;
  const record={version:2,tourVersion,lookouts,timing:restoreTiming(s.timing),freeRoamSetup,status,next,activities,finishReached:status!=='idle'&&next===journey.checkpoints.length&&s.finishReached===true,returnPoint:validPose(s.returnPoint)?s.returnPoint:null};
+ if(journey.course){record.lookouts=Array.isArray(s.lookouts)?s.lookouts.filter(id=>journey.lookouts?.some(p=>p.id===id)):lookouts;record.run=restoreRouteRun(s.run,journey.course,s);record.legacy=s.legacy??(!s.run&&s.status?{status:s.status,next:s.next,tourVersion:s.tourVersion,lookouts:s.lookouts,activities:s.activities,timing:s.timing}:null);record.tourVersion=0;return record;}
  if(status==='finished'&&(next<journey.checkpoints.length||activities.length<REQUIRED_ACTIVITIES||!photoTourComplete(journey,record)))record.status='active';
  return record;
 }
