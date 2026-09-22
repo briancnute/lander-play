@@ -3,7 +3,7 @@ import {createRouteRibbon} from './route-ribbon.js';
 // Ordered, local guidance: a nearby later visit must never win over the next point.
 export function routeWindow(course,run){
  const next=Math.min(run.next,course.points.length-1),start=Math.max(0,next-2);
- const limit=course.facts[run.facts.length]?.routeIndex??course.points.length-1;
+ const limit=course.points.length-1;
  let end=next,length=0;
  while(end<limit&&length<520){const a=course.points[end],b=course.points[end+1];length+=Math.hypot(b.x-a.x,b.y-a.y);end++;}
  return {start,end,points:course.points.slice(start,end+1),target:course.points[next]};

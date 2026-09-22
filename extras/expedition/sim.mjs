@@ -1,3 +1,4 @@
+import {arcadeResponse,arcadeBrake} from '../rover/arcade-handling.mjs';
 import {tractionStep} from '../rover/traction.mjs';
 import {landmarkParts,scanDiscoveries} from './discoveries.mjs';
 import {WORLD,expansionGround,northSouthGround} from './landscape.mjs';
@@ -49,9 +50,12 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
 
  s.boost=Math.max(0,s.boost-dt);
  const prev={x:s.x,y:s.y},priorSpeed=s.v;
- const drift=!!area?.driftHandling&&!s.air&&!s.turnaround;
+ const arcade=!!area?.arcadeHandling&&!s.air&&!s.turnaround;
+ const response=arcade?arcadeResponse(s,{brake,steer},tune,dt):null;
+ if(!arcade)s.brakeSlide=0;
+ const drift=(!!area?.driftHandling||arcade)&&!s.air&&!s.turnaround;
  if(!drift){s.driftVX=null;s.driftVY=null;s.slip=0;}
- else {if(!Number.isFinite(s.driftVX)){s.driftVX=Math.sin(s.heading)*s.v;s.driftVY=-Math.cos(s.heading)*s.v;}else{const momentum=Math.hypot(s.driftVX,s.driftVY),scale=momentum>0?Math.abs(s.v)/momentum:0;s.driftVX*=scale;s.driftVY*=scale;}steer*=Math.min(1,120/Math.max(1,Math.abs(s.v)));}
+ else {if(!Number.isFinite(s.driftVX)){s.driftVX=Math.sin(s.heading)*s.v;s.driftVY=-Math.cos(s.heading)*s.v;}else{const momentum=Math.hypot(s.driftVX,s.driftVY),scale=momentum>0?Math.abs(s.v)/momentum:0;s.driftVX*=scale;s.driftVY*=scale;}steer*=arcade?response.yaw:Math.min(1,120/Math.max(1,Math.abs(s.v)));}
  s.heading+=steer*(1.8+Math.min(Math.abs(s.v)/35,1)*.65)*dt*(area?.roverHandling?(tune.handling??1):1)*(s.v< -1?-1:1)*(s.air?(airControl?.3:0):1);
  // A world may offer a modest ground-surface advantage (for example, the
  // compacted line through a time trial). It changes the cap, never thrust,
@@ -64,7 +68,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  // Pedals, normal speed caps and ground drag cannot change airborne momentum.
  if(!s.air){
   const previousSpeed=s.v;
-  if(reversing)s.v-=acc*.6*dt;else if(brake)s.v*=Math.exp(-dt*7);else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
+  if(reversing)s.v-=acc*.6*dt;else if(brake){if(arcade)s.v=arcadeBrake(s.v,response.braking,dt);else s.v*=Math.exp(-dt*7);}else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
   if(!terrainTurbo)s.v-=slope*dt*12;
   if(!drive&&!reversing&&inSampleZone(s,sites)&&Math.abs(s.v)<=.5)s.v=0;
   if(s.turnaround)s.v=Math.min(s.v,50);
@@ -76,7 +80,7 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  if(s.air&&area?.airBrake&&brake){const before=s.v;s.v=Math.sign(s.v)*Math.max(0,Math.abs(s.v)-180*dt);if(before!==s.v)s.thrust=before>0?-1:1;}
  else if(!s.air&&area?.boostKit)s.thrust=drive?1:brake?-1:0;
  let dx=Math.sin(s.heading)*s.v*dt,dy=-Math.cos(s.heading)*s.v*dt;
- if(drift){const grip=typeof area.surfaceGrip==='function'?area.surfaceGrip(s):180,response=tractionStep(s.driftVX,s.driftVY,s.heading,s.v-priorSpeed,grip,dt);s.driftVX=response.vx;s.driftVY=response.vy;s.slip=response.slip;s.v=Math.sign(response.forward||priorSpeed)*Math.hypot(response.vx,response.vy);dx=response.vx*dt;dy=response.vy*dt;}
+ if(drift){const surfaceGrip=typeof area.surfaceGrip==='function'?area.surfaceGrip(s):180,grip=arcade?Math.min(response.grip,area.driftHandling?surfaceGrip:Infinity)*(.85+.15*Math.min(1,surfaceGrip/220)):surfaceGrip,responseTraction=tractionStep(s.driftVX,s.driftVY,s.heading,s.v-priorSpeed,grip,dt);s.driftVX=responseTraction.vx;s.driftVY=responseTraction.vy;s.slip=responseTraction.slip;s.v=Math.sign(responseTraction.forward||priorSpeed)*Math.hypot(responseTraction.vx,responseTraction.vy);dx=responseTraction.vx*dt;dy=responseTraction.vy*dt;if(arcade&&Math.abs(s.v)<.08){s.v=s.slip=s.driftVX=s.driftVY=0;dx=dy=0;}}
 
 
  // Rocks and mesa outlines are ground obstacles. Once airborne, horizontal
