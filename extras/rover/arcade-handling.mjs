@@ -8,6 +8,6 @@ export function arcadeResponse(s,input,tune,dt){
  s.brakeSlide=(s.brakeSlide??0)+(target-(s.brakeSlide??0))*(1-Math.exp(-rate*dt));
  if(speed<15)s.brakeSlide*=Math.exp(-8*dt);
  const slide=s.brakeSlide;
- return {slide,mass,grip:(620*(1-slide)+100*slide)*handling/mass,yaw:Math.min(1,190/Math.max(1,speed))*(1+.18*slide)/Math.sqrt(mass),braking:(1.7-.95*slide)/Math.sqrt(mass)};
+ return {slide,mass,grip:(620*(1-slide)+100*slide)*handling/mass*(tune.cloneDrive?3:1),yaw:Math.min(1,(tune.cloneDrive?650:190)/Math.max(1,speed))*(1+.18*slide)/Math.sqrt(mass),braking:(1.7-.95*slide)/Math.sqrt(mass)};
 }
 export function arcadeBrake(speed,rate,dt){return Math.sign(speed)*Math.max(0,Math.abs(speed)-Math.max(24,Math.abs(speed)*rate)*dt)||0;}

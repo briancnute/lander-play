@@ -7,7 +7,7 @@ import {cruiseFactor} from './cruise.js';
 // Air steering and braking are explicit area options; airborne Drive never adds thrust.
 export function driveStep(s,input,dt,course,area=null){
  const originalTune=s.tune;
- if(area?.cruise&&originalTune){const factor=cruiseFactor(s,input,dt);s.tune={...originalTune,speed:originalTune.speed*factor,boostSpeed:originalTune.boostSpeed*factor};}
+ if(area?.cruise&&originalTune&&!originalTune.cloneDrive){const factor=cruiseFactor(s,input,dt);s.tune={...originalTune,speed:originalTune.speed*factor,boostSpeed:originalTune.boostSpeed*factor};}
  const surface=area?.ground??ground;
  const previous={v:s.v,air:s.air,vz:s.vz};s.landingCompression=(s.landingCompression||0)*Math.exp(-dt*7);s.visualBrake=!!input.brake&&!s.air&&s.v>.5;
  s.visualSteer=Math.max(-1,Math.min(1,input.steer||0));

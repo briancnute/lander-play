@@ -12,9 +12,9 @@ export function createRouteRunUI(api,journey,record,onFinish){
   if(phase!=='closed'||record.status!=='active'||!record.run?.pending)return;
   if(record.run.facts.includes(record.run.pending)){record.run.pending=null;api.save();return;}
   const fact=course.facts[record.run.facts.length];if(!fact||fact.id!==record.run.pending)return;
-  phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='Resume';el('number').textContent=`PERSEVERANCE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('photo').hidden=!fact.image;if(fact.image){el('image').src=new URL(fact.image,import.meta.url).href;el('image').alt=fact.imageAlt??fact.name;el('image').onerror=()=>{el('photo').hidden=true;};el('credit').textContent=(fact.imageDescription??'')+' '+(fact.imageCredit??'');}el('count').textContent='Take a moment · 2';api.openDialog('#route-fact');api.save();const own=++token;
+  phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='Resume';el('number').textContent=`MEMORY RESTORE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('photo').hidden=!fact.image;if(fact.image){el('image').src=new URL(fact.image,import.meta.url).href;el('image').alt=fact.imageAlt??fact.name;el('image').onerror=()=>{el('photo').hidden=true;};el('credit').textContent=(fact.imageDescription??'')+' '+(fact.imageCredit??'');}el('count').textContent='Take a moment · 2';api.openDialog('#route-fact');api.save();const own=++token;
   function frame(now){if(own!==token||phase==='closed')return;const dt=Math.max(0,(now-last)/1000);last=now;if(!document.hidden&&dialog.open)visibleTime+=dt;
-   if(phase==='reading'){button.disabled=visibleTime<2;el('count').textContent=visibleTime<2?`Take a moment · ${Math.ceil(2-visibleTime)}`:'Ready when you are.';}
+   if(phase==='reading'){button.disabled=visibleTime<2;el('count').textContent=visibleTime<2?`Take a moment · ${Math.ceil(2-visibleTime)}`:'Memory partition restored · Ready when you are.';}
    else if(phase==='countdown'){el('count').textContent=String(Math.max(1,3-Math.floor(visibleTime/.55)));if(visibleTime>=1.65){acknowledgeRouteFact(course,record.run);phase='closed';dialog.close();api.save();if(routeComplete(course,record.run))onFinish();else{guide();api.resume();}return;}}
    requestAnimationFrame(frame);
   }requestAnimationFrame(frame);
@@ -27,6 +27,7 @@ export function createRouteRunUI(api,journey,record,onFinish){
   guidance.hidden=!api.gpu.expeditionRouteActive||api.state.mode!=='free'||phase!=='closed';if(guidance.hidden)return;
   const p=course.points[Math.min(record.run.next,course.points.length-1)],s=api.state,d=Math.hypot(p.x-s.x,p.y-s.y),a=Math.atan2(p.x-s.x,-(p.y-s.y))-s.heading,angle=Math.atan2(Math.sin(a),Math.cos(a)),rejoin=d>course.halfWidth+45;
   const direction=s.air?'In flight — continue toward the route':course.version===2&&rejoin?'Head toward the next checkpoint':Math.abs(angle)>2?'Turn around':angle>.45?'Bear right':angle<-.45?'Bear left':'Follow cyan arrows';
+  if(!course.facts[record.run.facts.length]){guidance.textContent='Memory restored · Complete remaining systems missions';return;}
   guidance.textContent=rejoin&&!s.air&&course.version!==2?`${direction} · Rejoin at the white map ring (${Math.round(d/3.2)} m)`:`${direction} · ${course.facts[record.run.facts.length]?.name??'Finish'}`;
  }
  return {show,guide,tick,summary,update,get locked(){return phase!=='closed'}};

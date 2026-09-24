@@ -1,6 +1,6 @@
 import {landingCircuit} from './activity-courses.js';
 import {helicopterSites} from './helicopter-sites.js';
-import {jumpRamp} from './neretva-jump.js';
+import {jumpRamp,jumpSite} from './neretva-jump.js';
 import {WORLD_SCALE} from './scale.js';
 import {approvedSites} from './site-catalog.js';
 import {landmarks} from './landmarks.js';
@@ -82,7 +82,7 @@ export async function loadArea(){
  const upperScenery=upperRocks(scenery.visualGround,upper.spine,rally.route);
  const heli=await helicopterSites(scenery.visualGround);
  const lookoutDetail=buildLookoutSurfaces(scenery.visualGround,discoveries);
- const worldScenery=worldRocks(world,discoveries,rally.route),chunks=[heli.vertices,ramp.vertices,vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices,lookoutDetail.vertices];
+ const worldScenery=worldRocks(world,discoveries,[...rally.route,...Array.from({length:36},(_,i)=>({x:jumpSite.x,y:jumpSite.y-i*45}))]),chunks=[heli.vertices,ramp.vertices,vertices,fidelity.vertices,extra.vertices,photoRocks.vertices,upperScenery.vertices,worldScenery.vertices,lookoutDetail.vertices];
  const sceneryVertices=new Float32Array(chunks.reduce((n,v)=>n+v.length,0));let offset=0;for(const chunk of chunks){sceneryVertices.set(chunk,offset);offset+=chunk.length;}
  filtered.push(...extra.rocks,...upperScenery.rocks,...worldScenery.rocks);
  const lineWidth=58,lineBonus=.07;
