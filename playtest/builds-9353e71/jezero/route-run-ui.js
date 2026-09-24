@@ -3,23 +3,23 @@ import {acknowledgeRouteFact,routeComplete,routeScore,stepRouteRun} from './rout
 // Only visible wall time unlocks a fact. Driving time comes from simulation steps.
 export function createRouteRunUI(api,journey,record,onFinish){
  const course=journey.course,dialog=document.createElement('dialog');dialog.id='route-fact';dialog.setAttribute('aria-labelledby','route-fact-title');
- dialog.innerHTML='<span class="eyebrow" id="route-fact-number"></span><h2 id="route-fact-title"></h2><figure id="route-fact-photo"><img id="route-fact-image"><figcaption id="route-fact-credit"></figcaption></figure><p id="route-fact-copy"></p><p id="route-fact-count" role="status" aria-live="polite"></p><button id="route-fact-resume" class="primary" disabled>Resume</button>';
+ dialog.innerHTML='<span class="eyebrow" id="route-fact-number"></span><h2 id="route-fact-title"></h2><figure id="route-fact-photo"><img id="route-fact-image"><figcaption id="route-fact-credit"></figcaption></figure><p id="route-fact-copy"></p><p id="route-fact-count" role="status" aria-live="polite"></p><button id="route-fact-resume" class="primary" disabled>OK</button>';
  document.body.append(dialog);const guidance=document.createElement('div');guidance.id='route-guidance';guidance.hidden=true;document.body.append(guidance);const el=id=>dialog.querySelector('#route-fact-'+id),button=el('resume');let phase='closed',visibleTime=0,last=0,token=0;
  dialog.addEventListener('cancel',e=>e.preventDefault());
  dialog.addEventListener('keydown',e=>{if(e.repeat){e.preventDefault();e.stopPropagation();}});
- document.addEventListener('visibilitychange',()=>{last=performance.now();if(document.hidden&&phase==='countdown')visibleTime=0;});
+ document.addEventListener('visibilitychange',()=>{last=performance.now();});
  function show(){
   if(phase!=='closed'||record.status!=='active'||!record.run?.pending)return;
   if(record.run.facts.includes(record.run.pending)){record.run.pending=null;api.save();return;}
   const fact=course.facts[record.run.facts.length];if(!fact||fact.id!==record.run.pending)return;
-  phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='Resume';el('number').textContent=`MEMORY RESTORE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('photo').hidden=!fact.image;if(fact.image){el('image').src=new URL(fact.image,import.meta.url).href;el('image').alt=fact.imageAlt??fact.name;el('image').onerror=()=>{el('photo').hidden=true;};el('credit').textContent=(fact.imageDescription??'')+' '+(fact.imageCredit??'');}el('count').textContent='Take a moment · 2';api.openDialog('#route-fact');api.save();const own=++token;
+  phase='reading';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=false;button.textContent='OK';el('number').textContent=`MEMORY RESTORE · CHECKPOINT ${record.run.facts.length+1} / ${course.facts.length}`;el('title').textContent=fact.name;el('copy').textContent=fact.fact;el('photo').hidden=!fact.image;if(fact.image){el('image').src=new URL(fact.image,import.meta.url).href;el('image').alt=fact.imageAlt??fact.name;el('image').onerror=()=>{el('photo').hidden=true;};el('credit').textContent=(fact.imageDescription??'')+' '+(fact.imageCredit??'');}el('count').textContent='Take a moment · 2';api.openDialog('#route-fact');api.save();const own=++token;
   function frame(now){if(own!==token||phase==='closed')return;const dt=Math.max(0,(now-last)/1000);last=now;if(!document.hidden&&dialog.open)visibleTime+=dt;
    if(phase==='reading'){button.disabled=visibleTime<2;el('count').textContent=visibleTime<2?`Take a moment · ${Math.ceil(2-visibleTime)}`:'Memory partition restored · Ready when you are.';}
-   else if(phase==='countdown'){el('count').textContent=String(Math.max(1,3-Math.floor(visibleTime/.55)));if(visibleTime>=1.65){acknowledgeRouteFact(course,record.run);phase='closed';dialog.close();api.save();if(routeComplete(course,record.run))onFinish();else{guide();api.resume();}return;}}
+
    requestAnimationFrame(frame);
   }requestAnimationFrame(frame);
  }
- button.onclick=()=>{if(phase!=='reading'||visibleTime<2||document.hidden)return;phase='countdown';visibleTime=0;last=performance.now();button.disabled=true;button.hidden=true;el('count').textContent='3';};
+ button.onclick=()=>{if(phase!=='reading'||visibleTime<2||document.hidden)return;acknowledgeRouteFact(course,record.run);phase='closed';token++;dialog.close();api.save();if(routeComplete(course,record.run))onFinish();else{guide();api.resumeCheckpoint();}};
  function guide(){if(record.status!=='active')return;const run=record.run,fact=course.facts[run.facts.length],nextPoint=course.points[Math.min(run.next,course.points.length-1)],p=course.version===2&&fact&&Math.hypot(nextPoint.x-api.state.x,nextPoint.y-api.state.y)>course.halfWidth*2?course.points[fact.routeIndex]:nextPoint;api.nav.target={...p,name:fact?`Follow chevrons · ${fact.name}`:'Western frontier',routeRun:true};}
  function tick(dt,before){if(record.status!=='active'||record.returnPoint)return false;if(record.run.pending){show();return true;}const next=record.run.next;const fact=stepRouteRun(course,record.run,before,api.state,dt);if(next!==record.run.next){record.next=Math.min(journey.checkpoints.length,Math.floor(course.points[Math.min(record.run.next,course.points.length-1)].source)+1);if(!api.nav.target?.activityId)guide();}if(fact){show();return true;}return false;}
  function summary(){const run=record.run;return `${Math.floor(Math.min(1,(run.next-1)/(course.points.length-1))*100)}% route · ${run.facts.length}/${course.facts.length} checkpoints · ${run.elapsed?routeScore(run)+'% on path':'— on path'}`;}
