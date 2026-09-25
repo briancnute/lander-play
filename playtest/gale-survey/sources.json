@@ -1,0 +1,30 @@
+{
+  "retrieved": "2026-09-25",
+  "sources": [
+    {
+      "file": "sources/MSL_traverse.json",
+      "url": "https://mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_traverse.json",
+      "role": "Recorded route; preserve independent parts and gaps",
+      "sha256": "3e65df06245f798effe66c1f2e1a6957be1f10922f3736d9c7a1968bcb8cdc2e"
+    },
+    {
+      "file": "sources/MSL_waypoints.json",
+      "url": "https://mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_waypoints.json",
+      "role": "Drive endpoints, sols, rover odometer and geoid elevations",
+      "sha256": "2cdf6d3ca64f7cb64c728a0aa35fb405398fe6935e905ece4e57c5f728794039"
+    },
+    {
+      "file": "sources/usgs-dem-page.html",
+      "url": "https://astrogeology.usgs.gov/search/map/mars_msl_gale_merged_dem_1m",
+      "role": "Terrain provenance and limitations",
+      "sha256": "d3b61f6a7a971d3a3a859541b8db39e8f004aabb79ad1c6204e902486f962c34"
+    },
+    {
+      "file": "elevations.f32",
+      "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Mars/MSL/MSL_Gale_DEM_Mosaic_1m_v3.tif",
+      "role": "100 m nearest-sample overview from native 1 m grid; mixed actual source resolutions",
+      "sha256": "7991bfd6485e2044039012fb8692a2d9c33a0240ed7d12ce9b42867afc8d5ee7"
+    }
+  ],
+  "jezeroReference": "docs/JEZERO_MASTER_MAP.md and tools/prototypes/jezero-master-map/build.py; built 16 \u00d7 10 real km, current 0.8 spacing"
+}
