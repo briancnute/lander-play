@@ -1,8 +1,9 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Mercury · Secret sensor mission</title>  <script type="module" crossorigin src="../assets/mercuryRun-tPVcnlLE.js"></script>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Mercury · Secret sensor mission</title>  <script type="module" crossorigin src="../assets/mercuryRun-C9BOeV8D.js"></script>
   <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-Dezn_h7o.js">
+  <link rel="modulepreload" crossorigin href="../assets/planetFacts-BsIxdp_x.js">
   <link rel="modulepreload" crossorigin href="../assets/craftAppearance-C3Ld9XGB.js">
   <link rel="modulepreload" crossorigin href="../assets/tuning-7l_0oP-o.js">
-  <link rel="modulepreload" crossorigin href="../assets/venusChapter-C7wy85yW.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusChapter-CUxSvh6V.js">
   <link rel="modulepreload" crossorigin href="../assets/three.module-BnOqalHZ.js">
   <link rel="modulepreload" crossorigin href="../assets/pad-C9NNRECy.js">
   <link rel="modulepreload" crossorigin href="../assets/transporter-TpCcjsVw.js">
@@ -11,15 +12,15 @@
   <link rel="modulepreload" crossorigin href="../assets/mercuryPickup-GsbIfF75.js">
   <link rel="modulepreload" crossorigin href="../assets/carrier-Cp_KVuTT.js">
   <link rel="modulepreload" crossorigin href="../assets/world-DXgixfz8.js">
-  <link rel="modulepreload" crossorigin href="../assets/chapterBridge-Brd4C8pL.js">
-  <link rel="modulepreload" crossorigin href="../assets/transfer-CrwriKNM.js">
-  <link rel="modulepreload" crossorigin href="../assets/main-DuM2GRxn.js">
+  <link rel="modulepreload" crossorigin href="../assets/chapterBridge-DW9tZZLB.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryMissionComms-DZ0wStgs.js">
+  <link rel="modulepreload" crossorigin href="../assets/main-BOSshO6p.js">
   <link rel="stylesheet" crossorigin href="../assets/mercuryRun-DVT4vySQ.css">
 </head><body><canvas id="world"></canvas>
 <button id="skip-intro">Skip intro →</button><header><div><small>MERCURY / CLASSIFIED SURVEY</small><h1>Terminator mission</h1></div><button id="menu" aria-label="Pause">Ⅱ</button></header>
 <div id="impact" hidden aria-hidden="true"><b id="impact-cost"></b></div><div id="hud"><strong id="timer">0.0 s</strong><span id="samples">0 / 3 deployed</span><small id="guide"></small><small id="craters"></small></div>
 <button id="left" class="steer" aria-label="Steer left">‹</button><button id="right" class="steer" aria-label="Steer right">›</button><button id="drop" hidden>DROP SENSOR<small>SPACE</small></button><div id="toast" role="status" hidden></div><div id="cinema">COLLECTOR COMPLETE · TRANSPORT INBOUND</div>
-<dialog id="welcome"><small>PRIVATE COMMISSION / ASTRA</small><h2>One more mission.</h2><p>The lander is heading home. Its hidden mini rover has three surface-reading kits—and a confidential assignment: investigate whether conditions near Mercury’s day–night boundary could ever support life.</p><p>Drop left at the first hilltop, launch a kit right into the large crater from its edge, then place the final sensor in the middle. Stay outside the craters and dodge through to the finish. Press <b>Space</b> or <b>DROP SENSOR</b> inside each of three marked zones; aim for its center. The rover drives itself and stays on the ground. Sensors record without interrupting the drive. Four linked science facts appear together after the mission and pickup.</p><p class="fine">A fictional research mission, not evidence of life. Surface temperature, radiation and exosphere sensors replace ordinary air readings.</p><button id="start" class="primary">OK · Begin mission</button><button id="welcome-exit">Exit</button></dialog>
+<dialog id="welcome"><small>CAPTAIN THALLER · MISSION CONTROL</small><h2>Three sensors. One route.</h2><p>Your flight patterns are recorded. Now we need surface readings: temperature, radiation and the thin exosphere near the day–night boundary. These help us assess how hostile this region is to life.</p><p>The rover drives forward. Steer around craters. Press <b>SPACE</b> or <b>DROP SENSOR</b> in each marked zone: left on the hill, right from the crater edge, then the center. Reach the pickup with all three deployed.</p><button id="start" class="primary">OK · Begin mission</button><button id="welcome-exit">Exit</button></dialog>
 <dialog id="pause-dialog"><h2>Mission paused</h2><button id="resume" class="primary">Resume</button><button id="restart">Restart mission</button><button id="notes">Mission notes</button><label>Graphics <select id="quality"><option value="balanced">Balanced</option><option value="performance">Performance</option></select></label><details id="drive-tools"><summary>Driving dev tools</summary><label for="forward-speed">Forward speed <output id="forward-value">60%</output></label><input id="forward-speed" type="range" min="50" max="150" step="5" value="60"><label for="lateral-speed">Sideways speed <output id="lateral-value">70%</output></label><input id="lateral-speed" type="range" min="50" max="200" step="5" value="70"><button id="reset-driving">Reset driving defaults</button><p id="tuning-note">Applies on resume. Saved on this device. Adjusted runs show a score but do not set records.</p></details><button id="exit">Exit</button></dialog>
 <dialog id="notes-dialog"><h2>Sensor mission</h2><div id="station-log"></div><button id="notes-back">Back</button></dialog>
 <dialog id="result"><small id="result-kicker"></small><h2 id="result-title"></h2><p id="result-detail"></p><p id="score"></p><p id="best"></p><button id="again" class="primary">Retry mission</button><button id="result-notes">Sensor log</button><button id="done">Exit</button></dialog><div id="error" hidden role="alert"></div></body></html>
