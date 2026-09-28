@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ASTRA · Scene review</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden}#review-game{width:100%;height:100%;border:0;display:block}#review-error{padding:24px}</style>  <script type="module" crossorigin src="../assets/campaignDevRun-BZKPyc6H.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/tuning-7l_0oP-o.js">
+  <link rel="modulepreload" crossorigin href="../assets/missionLessons-DuB3K7jw.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftAppearance-C3Ld9XGB.js">
+  <link rel="modulepreload" crossorigin href="../assets/moonChapter-B6a_kb8A.js">
+  <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-Dezn_h7o.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-Dz5Ig6AL.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-loC37E95.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-D-d3jd6q.js">
+  <link rel="modulepreload" crossorigin href="../assets/factSheets-D3BD0biM.js">
+  <link rel="modulepreload" crossorigin href="../assets/survey-DtnLAP1C.js">
+  <link rel="modulepreload" crossorigin href="../assets/campaignScript-BPz3K9KV.js">
+  <link rel="modulepreload" crossorigin href="../assets/devJump-CUcUdd_i.js">
+  <link rel="modulepreload" crossorigin href="../assets/campaignAssets-D_oGwJHo.js">
+  <link rel="modulepreload" crossorigin href="../assets/preload-helper-DYl5dUZ5.js">
+  <link rel="stylesheet" crossorigin href="../assets/style-39simEpS.css">
+</head><body></body></html>

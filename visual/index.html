@@ -1,17 +1,32 @@
 <!doctype html><html lang="en">
-<script type="module" crossorigin src="../assets/visual-r7FXVKwj.js"></script>
+<script type="module" crossorigin src="../assets/visual-CFPjdJ7Y.js"></script>
 <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-Dezn_h7o.js">
+<link rel="modulepreload" crossorigin href="../assets/worlds-Dz5Ig6AL.js">
 <link rel="modulepreload" crossorigin href="../assets/textures-CfoVhTFt.js">
 <link rel="modulepreload" crossorigin href="../assets/globe-tlowMLWK.js">
-<link rel="modulepreload" crossorigin href="../assets/worlds-Dz5Ig6AL.js">
+<link rel="modulepreload" crossorigin href="../assets/pressure-loC37E95.js">
 <link rel="modulepreload" crossorigin href="../assets/tuning-7l_0oP-o.js">
-<link rel="modulepreload" crossorigin href="../assets/sim-DoVxEeSD.js">
-<link rel="modulepreload" crossorigin href="../assets/thermal-8oy0LE0F.js">
-<link rel="modulepreload" crossorigin href="../assets/factSheets-WWHyMLmR.js">
-<link rel="modulepreload" crossorigin href="../assets/moonOrbits-DuxmaOUy.js">
+<link rel="modulepreload" crossorigin href="../assets/storm-D-d3jd6q.js">
+<link rel="modulepreload" crossorigin href="../assets/factSheets-D3BD0biM.js">
+<link rel="modulepreload" crossorigin href="../assets/sim-CxQ1Mjcs.js">
+<link rel="modulepreload" crossorigin href="../assets/primaryScoring-CIfk7v4P.js">
+<link rel="modulepreload" crossorigin href="../assets/SaveManager-CGC4hywj.js">
+<link rel="modulepreload" crossorigin href="../assets/moonOrbits-0T4c9Rn4.js">
 <link rel="modulepreload" crossorigin href="../assets/explorationMoment-DCzUp_1T.js">
 <link rel="stylesheet" crossorigin href="../assets/visual-Dw93XgOy.css">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solar system exploration</title><script>if(new URLSearchParams(location.search).has("embedded"))document.documentElement.dataset.embedded="true";</script>
-<header><button id="mainmenu" aria-label="Main menu">⌂ Home</button><nav><button class="active" id="visualtab">Visual</button><button id="gridtab">Play</button><button id="encytab">Encyclopedia</button></nav></header>
+<header>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<button id="mainmenu" aria-label="Main menu">⌂ Home</button><nav><button class="active" id="visualtab">Visual</button><button id="gridtab">Play</button><button id="encytab">Encyclopedia</button></nav></header>
 <div class="world"><div class="crumb"></div><select id="scope" aria-label="Solar system extent" hidden><option value="inner">Inner planets</option><option value="all">All planets</option></select></div><div class="layout"><section class="space"><canvas aria-label="Interactive planet. Drag to rotate and tilt; pinch or scroll to zoom."></canvas><button id="prevworld" aria-label="Previous world">‹</button><button id="nextworld" aria-label="Next world">›</button><div class="visual-tools"><button id="lock-view" aria-label="Lock current view" aria-pressed="false">Lock view</button><button id="moon-earth-view" aria-label="View the Moon from Earth" aria-pressed="false" hidden>View from Earth</button><button id="moons-view" aria-label="Show planet and moons" aria-pressed="false" hidden>+Moons</button><select id="scale-mode" aria-label="Display scale" hidden><option value="readable">Readable scale</option><option value="true">True scale</option></select><button id="immersive" aria-label="Fullscreen view">⛶</button></div><div id="scale-note" hidden></div><div id="time-dock"><button id="time-grip" aria-label="Drag time controls" title="Drag time controls">⠿</button><button id="time-back" class="time-direction" aria-label="Back one hour"><span class="time-icon">&lt;</span><small>−1 hr</small></button><div id="date" aria-label="Visual date and time"><button id="date-chip" type="button" aria-label="Edit date and time"></button></div><button id="time-forward" class="time-direction" aria-label="Forward one hour"><span class="time-icon">&gt;</span><small>+1 hr</small></button><button id="time-reset" hidden>Reset</button></div><div id="interval-shortcut" hidden></div><div class="toast" hidden></div></section></div>
 <footer id="worldrail"></footer></html>
