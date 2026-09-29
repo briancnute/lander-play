@@ -1,1 +1,0 @@
-import{C as e,F as t,L as n,f as r}from"./three.module-meWLZOsq.js";function i(i){if(i.getObjectByName(`venus-pickup-mount`))return;let a=new e;a.name=`venus-pickup-mount`;let o=new n({color:5462616,metalness:.8,roughness:.4}),s=new t(new r(1.1,1.1,.14,16),o);s.position.y=4.23;let c=new t(new r(.28,.45,1.5,12),o);c.position.y=3.48,a.add(s,c),i.add(a)}export{i as t};
