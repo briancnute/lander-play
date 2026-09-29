@@ -11,3 +11,9 @@ The two door files referenced textures absent from the NASA repository. Their ma
 The runtime assembles closed doors and engine instances and normalizes scale/orientation.
 NASA 3D resources usage: https://science.nasa.gov/3d-resources/
 NASA media guidelines: https://www.nasa.gov/nasa-brand-center/images-and-media/
+
+ASTRA runtime adaptation (29 September 2026): side and upper-wing photographic
+markings are replaced by original code-drawn ASTRA thermal-panel textures. NASA
+and United States insignia are not displayed on those surfaces. Geometry remains
+NASA-derived; source attribution remains here. The renderer culls rear-facing
+skins and gives the nose skin a small depth bias behind its cockpit framing.
