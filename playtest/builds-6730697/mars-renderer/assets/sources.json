@@ -1,0 +1,7 @@
+{
+  "assets/perseverance.glb": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-2020-perseverance-rover/Mars%202020%20Perseverance%20Rover.glb",
+  "assets/curiosity.glb": "https://assets.science.nasa.gov/content/dam/science/psd/mars/resources/gltf_files/24584_Curiosity_static.glb",
+  "assets/mer.glb": "https://assets.science.nasa.gov/content/dam/science/psd/mars/resources/gltf_files/24883_MER_static.glb",
+  "vendor/model-viewer.min.js": "https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js",
+  "vendor/model-viewer-LICENSE": "https://raw.githubusercontent.com/google/model-viewer/v4.3.1/LICENSE"
+}
