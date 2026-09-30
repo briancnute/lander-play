@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-Dezn_h7o.js";/* empty css              */import{n as e}from"./arrival-BTSL7ghd.js";e(!0);
