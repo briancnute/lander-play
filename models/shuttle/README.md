@@ -17,3 +17,11 @@ markings are replaced by original code-drawn ASTRA thermal-panel textures. NASA
 and United States insignia are not displayed on those surfaces. Geometry remains
 NASA-derived; source attribution remains here. The renderer culls rear-facing
 skins and gives the nose skin a small depth bias behind its cockpit framing.
+
+30 September refinement: retain original wing texture, thermal leading edges and
+elevon geometry; locally cover NASA/US wing insignia. Keep the original curved
+nose, replacing only the glazing with a small conforming square pane. The crew
+hatch is clipped from the original hull and slides recessed, retaining original
+surface normals and UVs when closed. Wing reference checks:
+https://www.nasa.gov/image-detail/shuttle-1/
+https://www.nasa.gov/gallery/space-shuttle-technical-diagrams/
