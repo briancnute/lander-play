@@ -1,3 +1,4 @@
+import {readSurfaceTime,bindSurfaceTime} from '../shared/surface-time.js';
 import {createSkiActivity} from './ski-activity.js';
 import {createFreeRoamSession} from '../shared/free-roam.js';
 import {loadArea,toGame,toMars,UNITS} from './terrain.js';
@@ -19,7 +20,8 @@ function sync(){const held=new Set(pointers.values());input.drive=keys.has('w')|
 function clearInput(){keys.clear();pointers.clear();reverseHeld=false;sync();document.querySelectorAll('.controls .active').forEach(b=>b.classList.remove('active'));}
 function notify(text,seconds=4){if(!state)return;state.message=text;state.messageUntil=state.t+seconds;updateHUD();}
 function save(){if(!ready||ski?.active)return;const pose=!state.air&&!state.turnaround&&validPose(state,area.bounds)?{x:state.x,y:state.y,heading:state.heading}:lastGround;if(!pose)return;lastGround=pose;let ok=false;try{ok=writeSave(localStorage,{position:pose,route:routeOn,light,quality,visited:[...visited],target:target?.id??null});}catch{}if(!ok&&!saveWarned){saveWarned=true;notify('Your browser could not save this outing.',8);}}
-function lighting(){state.solar=light==='night'?{east:0,north:0,up:-1}:light==='dusk'?{east:-.68,north:.70,up:.22}:{east:-.45,north:.6,up:.66};$('#scene').style.background=light==='night'?'linear-gradient(#03060c,#080c14 65%,#151720)':light==='dusk'?'linear-gradient(#6a493c,#b88258 58%,#bc895f)':'linear-gradient(#75482f,#be8b62 53%,#b48059)';gpu.headlightsOverride=light==='night';$('#headlights').checked=light==='night';for(const b of document.querySelectorAll('[data-light]'))b.setAttribute('aria-pressed',String(b.dataset.light===light));}
+let datedSun=readSurfaceTime(location.search);
+function lighting(){const phase=datedSun?(datedSun.up<-.03?'night':datedSun.up<.22?'dusk':'day'):light;state.solar=datedSun??(phase==='night'?{east:0,north:0,up:-1}:phase==='dusk'?{east:-.68,north:.70,up:.22}:{east:-.45,north:.6,up:.66});$('#scene').style.background=phase==='night'?'linear-gradient(#03060c,#080c14 65%,#151720)':phase==='dusk'?'linear-gradient(#6a493c,#b88258 58%,#bc895f)':'linear-gradient(#75482f,#be8b62 53%,#b48059)';gpu.headlightsOverride=phase==='night';$('#headlights').checked=phase==='night';for(const b of document.querySelectorAll('[data-light]'))b.setAttribute('aria-pressed',String(!datedSun&&b.dataset.light===light));}
 function resetAt(p){state=create('free',area.course,'perseverance');Object.assign(state,{x:p.x,y:p.y,heading:p.heading??Math.PI,z:area.ground(p.x,p.y),tune:explorationKit('perseverance',{kit:true}),message:'',messageUntil:0});previous=capturePose(state,state.z);lastGround={x:state.x,y:state.y,heading:state.heading};gpu.reset(state);acc=0;clearInput();lighting();}
 function setPause(value){paused=value;clearInput();acc=0;document.body.classList.toggle('paused',value);if(state)previous=capturePose(state,area.ground(state.x,state.y));if(value)save();draw(0);}
 function openDialog(id){if(!ready)return;for(const d of document.querySelectorAll('dialog[open]'))d.close();setPause(true);$(id).showModal();if(id==='#map-dialog'){selectStop(selected);requestAnimationFrame(()=>drawMap());}}
@@ -60,3 +62,5 @@ async function boot(){try{area=await loadArea({ski:isV2});$('#loading-copy').tex
  window.__gale={freeRoam,ski,get state(){return state;},get paused(){return paused;},get area(){return area;},get gpu(){return gpu;},get visited(){return [...visited];},get input(){return {...input};},travel,save,step,draw,resume,openMap:()=>openDialog('#map-dialog')};
  }catch(e){console.error(e);$('#loading-copy').textContent=e.message||'Gale could not load. Reload to try again.';$('#retry').hidden=false;}}
 boot();
+
+bindSurfaceTime(datedSun,document.querySelector('.light-buttons'),value=>{datedSun=value;if(state){lighting();if(ready)draw(0);}});
