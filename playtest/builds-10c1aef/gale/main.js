@@ -1,3 +1,4 @@
+import {createFreeRoamSession} from '../shared/free-roam.js';
 import {loadArea,toGame,toMars,UNITS} from './terrain.js';
 import {readSave,writeSave,validPose} from './save.js';
 import {GPURenderer} from '../mars-renderer/gpu.js';
@@ -6,6 +7,7 @@ import {driveStep} from '../mars-renderer/driving.js';
 import {explorationKit} from '../mars-renderer/kits.js';
 import {capturePose,displayState} from '../mars-renderer/motion.js';
 import {createRouteRibbon} from '../jezero/route-ribbon.js';
+const isV2=new URLSearchParams(location.search).get('v2')==='1',freeRoam=isV2?createFreeRoamSession({activities:[]}):null;
 const $=s=>document.querySelector(s),keys=new Set(),pointers=new Map();
 let area,gpu,state,previous,ready=false,paused=true,started=false,acc=0,last=0,lastDraw=0,lastUI=0,lastSave=0;
 let routeOn=true,light='dusk',quality='balanced',target=null,visited=new Set(),lastGround=null,saveWarned=false,selected=0,mapZoom=1,mapCenter=null,reverseHeld=false;
@@ -51,6 +53,7 @@ $('#route-enabled').onchange=e=>{routeOn=e.target.checked;gpu.routeRibbon=routeO
 $('#zoom-in').onclick=()=>{mapZoom=Math.min(5,mapZoom*1.5);mapCenter=area.stops[selected];drawMap();};$('#zoom-out').onclick=()=>{mapZoom=Math.max(1,mapZoom/1.5);if(mapZoom===1)mapCenter=null;drawMap();};$('#zoom-reset').onclick=()=>{mapZoom=1;mapCenter=null;drawMap();};$('#map').onclick=e=>{const f=mapFrame($('#map'),false),r=$('#map').getBoundingClientRect();let best=-1,distance=28;area.stops.forEach((p,i)=>{const q=f.point(p),d=Math.hypot(q.x-e.clientX+r.left,q.y-e.clientY+r.top);if(d<distance){best=i;distance=d;}});if(best>=0)selectStop(best);};
 window.addEventListener('resize',()=>{if(ready){draw(0);drawMap();drawMap($('#mini'),true);}});$('#world').addEventListener('webglcontextlost',e=>{e.preventDefault();if(ready)setPause(true);$('#loading').hidden=false;$('#loading-copy').textContent='Graphics paused. Reload to continue from your saved position.';$('#retry').hidden=false;});
 async function boot(){try{area=await loadArea();$('#loading-copy').textContent='Preparing the rover and mountain views…';await new Promise(r=>requestAnimationFrame(r));gpu=new GPURenderer($('#world'),area);gpu.shadowMode='none';gpu.softSurfaceLighting=true;gpu.flightLighting=1;gpu.galeRibbon=createRouteRibbon(gpu,area.segments,area.ground,{halfWidth:1.4,color:[.95,.76,.43],emissive:true});let stored=null;try{stored=readSave(localStorage,area.bounds);}catch{}if(stored){routeOn=stored.route;light=stored.light;quality=stored.quality;visited=new Set(stored.visited.filter(id=>area.stops.some(p=>p.id===id)));target=area.stops.find(p=>p.id===stored.target)??null;}gpu.routeRibbon=routeOn?gpu.galeRibbon:null;resetAt(stored?.position??area.start);$('#route-enabled').checked=routeOn;$('#quality').value=quality;$('#destination').replaceChildren(...area.stops.map((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${i+1}. ${p.name} · Sol ${p.sol}`;return o;}));ready=true;document.body.classList.add('paused');$('#loading').hidden=true;$('#welcome').hidden=false;$('#begin').textContent=stored?'Continue exploring':'Explore Gale';selectStop(0);draw(0);updateHUD();requestAnimationFrame(frame);
- window.__gale={get state(){return state;},get paused(){return paused;},get area(){return area;},get gpu(){return gpu;},get visited(){return [...visited];},get input(){return {...input};},travel,save,step,draw,resume,openMap:()=>openDialog('#map-dialog')};
+ if(isV2){document.body.classList.add('v2-free-roam');document.querySelector('header .eyebrow').textContent='MARS / FREE ROAM · UNSCORED';$('#exit').textContent='Play grid';$('#travel').hidden=true;$('#map-dialog .map-note:last-of-type').textContent='Select a stop to guide your drive. Visited stops remain marked on the map.';resume();}
+ window.__gale={freeRoam,get state(){return state;},get paused(){return paused;},get area(){return area;},get gpu(){return gpu;},get visited(){return [...visited];},get input(){return {...input};},travel,save,step,draw,resume,openMap:()=>openDialog('#map-dialog')};
  }catch(e){console.error(e);$('#loading-copy').textContent=e.message||'Gale could not load. Reload to try again.';$('#retry').hidden=false;}}
 boot();
