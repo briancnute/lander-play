@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mercury · Label studies</title>  <script type="module" crossorigin src="../../assets/mercuryLabels-ByzSWgQT.js"></script>
+  <link rel="modulepreload" crossorigin href="../../assets/modulepreload-polyfill-Dezn_h7o.js">
+  <link rel="modulepreload" crossorigin href="../../assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="../../assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="../../assets/worlds-Dz5Ig6AL.js">
+  <link rel="modulepreload" crossorigin href="../../assets/pressure-Caz6bZCW.js">
+  <link rel="modulepreload" crossorigin href="../../assets/thermal-DmAXXsjx.js">
+  <link rel="modulepreload" crossorigin href="../../assets/tuning-7l_0oP-o.js">
+  <link rel="modulepreload" crossorigin href="../../assets/storm-D-d3jd6q.js">
+  <link rel="modulepreload" crossorigin href="../../assets/factSheets-D6_GCV3P.js">
+  <link rel="modulepreload" crossorigin href="../../assets/collector-Bo_XF6_g.js">
+  <link rel="modulepreload" crossorigin href="../../assets/encycloIndex-CYJljoJo.js">
+  <link rel="stylesheet" crossorigin href="../../assets/mercuryLabels-DIMH-k0m.css">
+</head><body><main><header><span>ASTRA / DESIGN STUDIES</span><h1>A quieter Mercury.</h1><p>Three ways to keep location names steady. Rotate the same globe in each study; select a location to compare.</p></header><div class="controls"><label>Rotate Mercury <input id="rotation" type="range" min="-180" max="180" value="-160"></label><button id="reset">Reset view</button></div><div id="studies"></div><footer>Interactive mockups · The live Visual labels have not changed.</footer></main></body></html>
