@@ -4,7 +4,7 @@ export function readSurfaceTime(search){
   const params=new URLSearchParams(search);if(params.get('v2')!=='1')return null;
   const value=JSON.parse(params.get('surfaceTime')??'null');
   if(!value||typeof value.epoch!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value.epoch))return null;
-  const date=new Date(value.epoch);if(!Number.isFinite(+date)||date.toISOString()!==value.epoch||date.getUTCFullYear()<1||date.getUTCFullYear()>2100)return null;
+  const date=new Date(value.epoch);if(!Number.isFinite(+date)||date.toISOString()!==value.epoch||+date<Date.parse('0000-12-31T00:00:00Z')||+date>=Date.parse('3001-01-02T00:00:00Z'))return null;
   const {east,north,up}=value;if(![east,north,up].every(n=>typeof n==='number'&&Number.isFinite(n))||Math.abs(Math.hypot(east,north,up)-1)>.00001)return null;
   return {epoch:value.epoch,east,north,up};
  }catch{return null;}
