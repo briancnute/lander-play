@@ -12,7 +12,7 @@ export function resolveMove(directions,variant=false,allowSecret=true){
  const family={L:['Tailwhip','deck',1],R:['Reverse tailwhip','deck',-1],LR:['Backflip','flip',1],RL:['Front flip','flip',-1],LRL:['Whip rewind','rewind',1],RLR:['Reverse whip rewind','rewind',-1]};
  // A repeated block before the change adds a revolution to that ordered move.
  const rotations=Math.max(1,directions.length-runs.length+1),[name,axis,sign]=family[code]??family[code.slice(-3)]??family.L;
- if(secret&&variant)return {trick:'The 9000',duration:12.24,rotations:50,axis:'deck',sign:1,variant:true,secret:true};
+ if(secret&&variant)return {trick:'The 9000',duration:12.24,rotations:50,axis:'yaw',sign:1,variant:true,secret:true};
  const ordered=key==='LRR'?'Flip barspin':key==='RLL'?'Reverse flip barspin':name;
  return {trick:`${rotations>1?rotations+'× ':''}${ordered}${variant?' · tuck':''}`,duration:1.29+(rotations-1)*.42,rotations,axis:ordered.includes('barspin')?'bar':axis,sign,variant,secret};
 }
