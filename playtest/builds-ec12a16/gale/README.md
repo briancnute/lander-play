@@ -1,3 +1,12 @@
+## V2 summit extension — 2026-10-06
+
+With `?v2=1`, measured HRSC/MOLA 200 m terrain extends to the Mount Sharp summit.
+`?v2=1&activity=ski` launches the ungated summit-to-basin descent. The original
+Curiosity patch is preserved; the legacy description below still applies without
+V2. See `docs/V2_GALE_SKI_BLADES.md` for course/physics rules and source precision.
+Reproduce regional data with `prepare-summit.py`; verify with `ski-check.mjs`.
+New full-course scores use `.skiBlades.v2`, leaving `.v1` intact.
+
 # Gale open-world prototype
 
 Producer authorized construction and publication on 2026-09-25, with remaining

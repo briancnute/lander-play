@@ -1,3 +1,4 @@
+import {extendSurface} from './summit-terrain.js';
 import {skiCourse} from './ski-run.js';
 import {triangle} from '../mars-renderer/triangle.js';
 export const SCALE=2/3,UNITS=4*SCALE,BOUNDS=[-7000,2000,-15500,1500];
@@ -16,7 +17,7 @@ function tile(surface,i0,j0,i1,j1,stride=1){
  const axis=(a,b)=>{const out=[];for(let k=a;k<b;k+=stride)out.push(k);out.push(b);return out;};
  const ix=axis(i0,i1),jy=axis(j0,j1),v=[],indices=[],cols=ix.length,{height}=surface;
  for(const j of jy)for(const i of ix){const x=surface.xs[i],y=surface.ys[j],z=surface.zs[j*surface.crop.columns+i],dx=height(x-8,y)-height(x+8,y),dy=height(x,y-8)-height(x,y+8),l=Math.hypot(dx,dy,16);v.push(x,y,z,dx/l,dy/l,16/l,.65,.43,.30);}
- for(let j=0;j<jy.length-1;j++)for(let i=0;i<cols-1;i++){const a=j*cols+i,b=a+1,c=a+cols,d=c+1;indices.push(a,b,c,b,d,c);}
+ for(let j=0;j<jy.length-1;j++)for(let i=0;i<cols-1;i++){if(surface.skipCell?.((surface.xs[ix[i]]+surface.xs[ix[i+1]])/2,(surface.ys[jy[j]]+surface.ys[jy[j+1]])/2))continue;const a=j*cols+i,b=a+1,c=a+cols,d=c+1;indices.push(a,b,c,b,d,c);}
  // Visual skirts close distant level-of-detail seams. Contact uses the full grid.
  const edges=[ix.map((_,i)=>i),ix.map((_,i)=>(jy.length-1)*cols+i),jy.map((_,j)=>j*cols),jy.map((_,j)=>j*cols+cols-1)];
  for(const edge of edges)for(let i=1;i<edge.length;i++){const a=edge[i-1],b=edge[i],k=v.length/9;v.push(...v.slice(a*9,a*9+9),...v.slice(b*9,b*9+9));v[k*9+2]-=55;v[(k+1)*9+2]-=55;indices.push(a,b,k,b,k+1,k);}
@@ -38,13 +39,16 @@ export async function loadArea({ski=false}={}){
  const response=await Promise.all(names.map(n=>fetch(new URL('./assets/'+n,import.meta.url),{signal:AbortSignal.timeout(45000)})));if(response.some(r=>!r.ok))throw Error('Gale could not finish downloading. Reload to try again.');
  const info=await response[0].json(),raw=new Float32Array(await response[1].arrayBuffer()),context=new Float32Array(await response[2].arrayBuffer()),route=await response[3].json();
  if(context.length!==info.context.columns*info.context.rows)throw Error('The distant terrain is incomplete.');
- const surface=makeSurface(raw,info.crop),tiles=[];
+ let surface=makeSurface(raw,info.crop);const fine=surface,tiles=[];
  for(let j=0;j<info.crop.rows-1;j+=40)for(let i=0;i<info.crop.columns-1;i+=40){const endI=Math.min(i+40,info.crop.columns-1),endJ=Math.min(j+40,info.crop.rows-1),t=tile(surface,i,j,endI,endJ);t.low=tile(surface,i,j,endI,endJ,4);tiles.push(t);}
+ let summit=null;
+ if(ski){const responses=await Promise.all(['summit.json','summit.f32'].map(n=>fetch(new URL('./assets/'+n,import.meta.url),{signal:AbortSignal.timeout(45000)})));if(responses.some(r=>!r.ok))throw Error('Mount Sharp summit terrain could not load. Reload to try again.');summit=await responses[0].json();const broad=makeSurface(new Float32Array(await responses[1].arrayBuffer()),summit.crop);surface=extendSurface(fine,broad,UNITS);for(let j=0;j<surface.ys.length-1;j+=24)for(let i=0;i<surface.xs.length-1;i+=24){const ei=Math.min(i+24,surface.xs.length-1),ej=Math.min(j+24,surface.ys.length-1),t=tile(surface,i,j,ei,ej);t.low=tile(surface,i,j,ei,ej,2);tiles.push(t);}}
  const segments=route.segments.map(points=>({points:points.map(p=>toGame(...p))}));
  const stops=route.stops.map(p=>({...p,...toGame(...p.pos)}));
  const path=segments.flatMap(s=>s.points),course={route:path,gates:[],finish:path.at(-1)};
- const scenery=makeRocks(surface.height,path,stops,ski?skiCourse(surface.height,stops.at(-1)):null);
- const area={terrainFogDistance:11000,backdropHazeFloor:.38,info,route,segments,stops,course,start:{...stops[0],heading:Math.PI-Math.atan2(140,2700)},surface,ground:surface.height,cameraSurface:surface.height,worldTiles:tiles,backdrop:contextMesh(context,info.context,surface),mesh:{vertices:new Float32Array(),indices:new Uint16Array(),xs:surface.xs,ys:surface.ys},scenery:scenery.vertices,rocks:scenery.rocks,parts:[],mesa:[],pickups:[],samples:[],keepExploring:true,bounds:{minX:BOUNDS[0]*UNITS,width:BOUNDS[1]*UNITS,minY:-BOUNDS[3]*UNITS,maxY:-BOUNDS[2]*UNITS},rockBuckets:scenery.buckets};
+ const scenery=makeRocks(surface.height,path,stops,ski?skiCourse(surface.height):null);
+ const area={terrainFogDistance:ski?26000:11000,backdropHazeFloor:.38,summit,info,route,segments,stops,course,start:{...stops[0],heading:Math.PI-Math.atan2(140,2700)},surface,ground:surface.height,cameraSurface:surface.height,worldTiles:tiles,backdrop:ski?{vertices:new Float32Array(),indices:new Uint16Array()}:contextMesh(context,info.context,surface),mesh:{vertices:new Float32Array(),indices:new Uint16Array(),xs:surface.xs,ys:surface.ys},scenery:scenery.vertices,rocks:scenery.rocks,parts:[],mesa:[],pickups:[],samples:[],keepExploring:true,bounds:{minX:BOUNDS[0]*UNITS,width:BOUNDS[1]*UNITS,minY:-BOUNDS[3]*UNITS,maxY:-BOUNDS[2]*UNITS},rockBuckets:scenery.buckets};
+ if(summit){const b=summit.bounds;area.bounds={minX:b[0]*UNITS,width:b[1]*UNITS,minY:-b[3]*UNITS,maxY:-b[2]*UNITS};}
  area.cameraSurface=(x,y)=>{let z=area.ground(x,y);for(const [rx,ry,r]of scenery.near(x,y))if(Math.hypot(x-rx,y-ry)<r+2)z=Math.max(z,area.ground(rx,ry)+r);return z;};
  area.localRocks=scenery.near;
  area.driveArea={...area,releaseAfterTurn:true,airBrake:true,airControl:true,boostKit:true,roverHandling:true,arcadeHandling:true,surfaceGrip:s=>{const h=area.ground,slope=Math.hypot(h(s.x+8,s.y)-h(s.x-8,s.y),h(s.x,s.y+8)-h(s.x,s.y-8))/16;return 120+100*Math.min(1,slope*7);}};
