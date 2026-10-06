@@ -16,7 +16,7 @@ export function skiCourse(ground,top){
  return {point,height,coords,surface,curvature,top:point(0),base:point(LENGTH),length:LENGTH,width:WIDTH};
 }
 export function itemAltitude(course,item){const ramp=RAMPS.find(r=>item.s-r.s===100&&item.u===r.u);return ramp?course.height(ramp.s,ramp.u)+20:course.height(item.s,item.u)+12;}
-export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,left:20,next:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},sequence:[],trick:null,steerWas:0,gasWas:false,feedback:'Blades deployed · steer, boost and brake',recoveries:0,reason:''};}
+export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,left:20,next:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},sequence:[],trick:null,steerWas:0,gasWas:false,feedback:'SKI BLADES',recoveries:0,reason:''};}
 export function recoverSki(r,course){if(!['running','countdown'].includes(r.phase))return false;if(r.phase==='countdown')return false;const g=GATES[r.next-1]??{s:0,u:0};r.s=g.s+12;r.u=g.u;r.z=course.height(r.s,r.u);r.v=20;r.side=r.vz=0;r.air=false;r.trick=null;r.pending=r.chain=0;r.left=Math.max(0,r.left-5);r.recoveries++;r.feedback='Recovered · −5 seconds · airborne combo lost';if(r.left===0){r.phase='result';r.reason='Time expired';}return true;}
 export function trickFits(r,course,duration){for(let t=.04;t<=duration+.12;t+=.04){const u=clamp(r.u+r.side*t,-WIDTH,WIDTH);if(r.z+r.vz*t-GRAVITY*t*t/2<=course.height(r.s+r.v*t,u)+1)return false;}return true;}
 export function beginTrick(r,course){
@@ -39,7 +39,7 @@ export function stepSki(r,course,input,dt){
  r.side+=(steer*(r.air?38:105)-r.side*(input.brake?4:1.2)-course.curvature(r.s)*r.v*r.v)*dt;
  r.s=Math.min(LENGTH,r.s+r.v*dt);r.u+=r.side*dt;
  if(Math.abs(r.u)>WIDTH){r.u=clamp(r.u,-WIDTH,WIDTH);r.side*=-.25;r.v*=.72;r.pending=r.chain=0;r.trick=null;r.feedback='Edge contact · slow down for the turn';}
- if(!r.air)for(let i=0;i<RAMPS.length;i++){const p=RAMPS[i];if(!r.ramps.includes(i)&&oldS<p.s&&r.s>=p.s&&Math.abs(r.u-p.u)<52&&r.v>35){r.ramps.push(i);r.air=true;r.z=Math.max(r.z,course.height(p.s,r.u));r.vz=18+r.v*.08;r.feedback='Airborne · release Boost, steer then tap Trick';break;}}
+ if(!r.air)for(let i=0;i<RAMPS.length;i++){const p=RAMPS[i];if(!r.ramps.includes(i)&&oldS<p.s&&r.s>=p.s&&Math.abs(r.u-p.u)<52&&r.v>35){r.ramps.push(i);r.air=true;r.z=Math.max(r.z,course.height(p.s,r.u));r.vz=18+r.v*.08;r.feedback='Airborne';break;}}
  if(r.air){r.z+=r.vz*dt;r.vz-=GRAVITY*dt;if(r.trick){r.trick.age+=dt;if(r.trick.age>=r.trick.duration){const t=r.trick,n=r.repeats[t.name]??0;r.repeats[t.name]=n+1;r.pending+=Math.round(t.value/(1+n*.4));r.chain++;r.tricks.push(t.name);r.trick=null;r.feedback='Trick complete · land to bank';}}
   if(r.z<=course.height(r.s,r.u)){r.z=course.height(r.s,r.u);r.air=false;const clean=!r.trick&&Math.abs(r.side)<65;if(clean){const bank=Math.round(r.pending*Math.min(4,1+r.chain*.5));r.score+=bank;r.bestCombo=Math.max(r.bestCombo,bank);if(bank)r.feedback=`Clean landing · +${bank}`;}else{r.v*=.55;r.feedback='Rough landing · combo lost';}r.pending=r.chain=0;r.trick=null;r.vz=0;}
  }else r.z=course.height(r.s,r.u);

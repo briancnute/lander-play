@@ -87,3 +87,12 @@
 .v2-free-roam #race-hud{gap:10px;white-space:nowrap}.v2-free-roam #race-recover{font-size:12px;padding:4px 10px}.v2-free-roam #race-progress{font-size:12px}
 .v2-free-roam[data-phase=activity] #activity-hud:has(#activity-return[hidden]){max-width:250px}
 @media(max-height:500px){#exploration-hint{max-width:235px;font-size:11px}.v2-free-roam #race-hud{top:14px}.v2-free-roam[data-phase=activity] #activity-hud{max-width:215px}.v2-free-roam #activity-actions button{min-height:44px}}
+
+/* V2 active play: peripheral instruments; help and exit actions live in Pause. */
+.v2-free-roam[data-phase=activity] #free-roam-mode{display:none}
+.v2-free-roam #race-hud{background:none;text-shadow:0 1px 4px #000,0 0 8px #000}
+.v2-free-roam[data-activity=neretva-jump] #activity-hud{background:none;padding:0;text-shadow:0 1px 4px #000,0 0 8px #000;top:70px}
+.v2-free-roam[data-activity=neretva-jump] #activity-name{display:none}
+.v2-free-roam[data-phase=activity] #toast{background:none;padding:4px;text-shadow:0 1px 4px #000,0 0 8px #000;font-size:12px}
+
+.v2-free-roam #race-hud{right:85px;top:18px}.v2-free-roam #race-recover{background:none;border:0;font-size:23px;min-width:44px;padding:0}.v2-free-roam #end-lap{font-size:14px;padding:10px;min-height:44px}

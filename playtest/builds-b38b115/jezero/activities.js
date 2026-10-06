@@ -134,15 +134,15 @@ export function createActivities(api,journey,record,stored={}){
   if(id.endsWith('trial')){api.chooseRace(id);return;}
   if(id==='neretva-jump'){api.enableKit();api.reset(active.start);api.nav.target={...active.lip,name:'Neretva launch crest'};}
   else api.reset({...active,heading:0});
-  api.explore();$('#activity-hud').hidden=false;$('#activity-name').textContent=active.name;actions();
+  api.explore();document.body.dataset.activity=id;$('#activity-hud').hidden=false;$('#activity-name').textContent=active.name;actions();
   if(id==='photo'){api.reset({...active,heading:heading(active,api.area.samples[3].focus)});camera();}
   if(id==='art'){document.body.classList.add('art-active');artProtected=art.length>1;api.storm.age=-1;api.storm.haze=0;rebuildArt();}
   if(id==='helicopter'){flightReverse=reverse;if(reverse)api.reset({...heliEnd,heading:0});heliArmed=false;api.pause();api.openDialog('#helicopter-dialog');heliToken=crypto.randomUUID();const frame=document.createElement('iframe');frame.title='Ingenuity journey';const u=new URL('../../../flight/index.html',import.meta.url);u.searchParams.set('jezeroActivity',heliToken);u.searchParams.set('direction',reverse?'reverse':'forward');u.searchParams.set('route',new URL('./assets/helicopter-route.json',import.meta.url).href);frame.src=u.href;$('#helicopter-frame').replaceChildren(frame);}
   api.save();update();
  }
  function stopHelicopter(){heliToken=null;$('#helicopter-frame').replaceChildren();}
- function stop(restore=true){freeRoam?.resume();if(photo)closeCamera();document.body.classList.remove('art-active');if(api.state.artHop){api.state.artHop=null;api.state.air=false;api.state.v=0;api.state.z=ground(api.state.x,api.state.y);}stopHelicopter();active=null;jump=null;for(let i=api.area.pickups.length-1;i>=0;i--)if(api.area.pickups[i].id>=100000)api.area.pickups.splice(i,1);$('#activity-hud').hidden=true;$('#art-map').hidden=true;api.gpu.activityMarkers=null;if(freeRoam){api.nav.target=null;if(restore&&returnPose){api.restoreTravel(returnPose);api.applyTravel();returnPose=null;}}}
- function actions(){const out=$('#activity-actions');out.replaceChildren();const add=(label,fn,id)=>{const b=document.createElement('button');b.textContent=label;if(id)b.id=id;b.onclick=fn;out.append(b);};
+ function stop(restore=true){document.querySelector('#activity-pause-actions')?.remove();document.body.dataset.activity='';freeRoam?.resume();if(photo)closeCamera();document.body.classList.remove('art-active');if(api.state.artHop){api.state.artHop=null;api.state.air=false;api.state.v=0;api.state.z=ground(api.state.x,api.state.y);}stopHelicopter();active=null;jump=null;for(let i=api.area.pickups.length-1;i>=0;i--)if(api.area.pickups[i].id>=100000)api.area.pickups.splice(i,1);$('#activity-hud').hidden=true;$('#art-map').hidden=true;api.gpu.activityMarkers=null;if(freeRoam){api.nav.target=null;if(restore&&returnPose){api.restoreTravel(returnPose);api.applyTravel();returnPose=null;}}}
+ function actions(){const out=$('#activity-actions');out.replaceChildren();document.querySelector('#activity-pause-actions')?.remove();const pauseActions=document.createElement('div');pauseActions.id='activity-pause-actions';if(freeRoam)document.querySelector('#pause-dialog .settings-stack').append(pauseActions);const add=(label,fn,id)=>{const b=document.createElement('button');b.textContent=label;if(id)b.id=id;b.onclick=fn;(freeRoam&&['jump-retry','activity-leave'].includes(id)?pauseActions:out).append(b);};
   if(active.id==='photo')add('Camera',camera,'activity-camera');
   if(active.id==='art'){add('Overhead view',camera,'art-camera');add('Erase',eraseArt,'art-clear');add('Photograph',()=>{if(!photo)camera();$('#drawing-frame').click();},'art-photo');}
   if(active.id.includes('jump'))add('Retry run-up',()=>begin(active.id),'jump-retry');
@@ -209,9 +209,9 @@ export function createActivities(api,journey,record,stored={}){
   if(record.tourVersion)$('#journey-hud').textContent=`${Math.floor((record.next-1)/(journey.checkpoints.length-1)*100)}% route · ${record.lookouts.length}/${tourStops(journey,record).length} photos · ${Math.min(record.activities.length,REQUIRED_ACTIVITIES)}/1 activity`;
   if(routeRun){routeRun.update();$('#journey-hud').textContent=routeRun.summary()+` · ${4-missingMissions(record).length}/4 systems`;}
   if(record.status==='active'&&record.returnPoint&&!active&&!record.finishReached)$('#journey-hud').textContent='Return to route';
-  if(!active)return;let status=active.goal;
+  if(!active)return;const pauseActions=document.querySelector('#activity-pause-actions');if(pauseActions)pauseActions.hidden=false;let status=freeRoam?'':active.goal;
   if(active.id==='art')status=`${art.length>=30?'Drawing ready for a photograph':'Leave a trail in the clearing'} · ${artProtected?'Art protected':'Photographed'}`;
-  if(active.id==='neretva-jump')status=jump?'In flight · Hold Slow to shorten landing':`${boostStage}/3 boost zones · Neretva crossing`;
+  if(active.id==='neretva-jump')status=jump?(freeRoam?'In flight':'In flight · Hold Slow to shorten landing'):`${boostStage}/3 boost zones · Neretva crossing`;
   $('#activity-status').textContent=status;artMap();
  }
  function raceComplete(){freeRoam?.finish();if(active?.id.endsWith('trial')){results[active.id]={date:new Date().toISOString()};if(!freeRoam)creditActivity(record,active.id);api.save();}}

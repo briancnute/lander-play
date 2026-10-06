@@ -10,7 +10,11 @@ export function buildSkiWorld(gpu,course){
  const post=[];box(post,-1,-1,0,2,2,23,metal);box(post,-1,-1,19,14,2,4,mint);const gate=gpu.upload(new Float32Array(post));
  const token=[];for(const side of [-1,1]){triangle(token,[0,0,23],[-7,0,13],[0,side*5,13],[1,.76,.32]);triangle(token,[0,0,23],[0,side*5,13],[7,0,13],[1,.76,.32]);triangle(token,[0,0,3],[0,side*5,13],[-7,0,13],[1,.76,.32]);triangle(token,[0,0,3],[7,0,13],[0,side*5,13],[1,.76,.32]);}const item=gpu.upload(new Float32Array(token));
  const platform=[];box(platform,-10,-13,-3,20,26,2,[.3,.4,.4]);for(const x of [-10,9])box(platform,x,-13,-1,1,26,1,mint);const carrier=gpu.upload(new Float32Array(platform));
- const blades=[];for(const x of [-5.6,3.6]){box(blades,x,-11,-.6,2,23,.8,[.6,.72,.7]);box(blades,x,10,.2,2,3,1.1,mint);}gpu.skiBladeMesh=gpu.upload(new Float32Array(blades));
+ const blades=[];box(blades,-1,-10,-.6,2,20,.8,[.6,.72,.7]);
+ // Raised tapered nose, with a short sloped connection rather than a vertical block.
+ for(const side of [-1,1])triangle(blades,[side,10,.2],[side*.65,13,1.3],[-side,10,.2],mint);
+ box(blades,-.65,12,1.1,1.3,1,.25,mint);gpu.skiBladeMesh=gpu.upload(new Float32Array(blades));
+ const mounts=[];for(const x of [-4.6,4.6])box(mounts,x-.55,-1,.1,1.1,2,1.4,metal);gpu.skiMountMesh=gpu.upload(new Float32Array(mounts));
  const lines=[-WIDTH,WIDTH].map(u=>({points:Array.from({length:156},(_,i)=>course.point(i*40,u))}));
  const edge=createRouteRibbon(gpu,lines,course.surface,{halfWidth:1.6,color:mint,emissive:true});
  const paths=[-130,130].map(u=>({points:Array.from({length:156},(_,i)=>course.point(i*40,u))}));

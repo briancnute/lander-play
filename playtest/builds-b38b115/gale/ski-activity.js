@@ -5,11 +5,12 @@ export function createSkiActivity(api){
  const {area,gpu,session}=api,course=skiCourse(area.ground,area.stops.at(-1)),world=buildSkiWorld(gpu,course);
  area.ground=course.surface;area.driveArea.ground=course.surface;gpu.ground=gpu.height=course.surface;
  const oldCamera=area.cameraSurface;area.cameraSurface=(x,y)=>Math.max(oldCamera(x,y),course.surface(x,y));
+ let feedbackKey='',feedbackAt=0;
  let stage=null,run=null,liftAge=0,record;try{record=loadSkiRecord(localStorage);}catch{record={version:1,best:0,runs:0,combo:0};}
  const $=s=>document.querySelector(s),html=document.createElement('section');html.innerHTML=`
- <button id="ski-start" hidden></button><div id="ski-hud" hidden><b id="ski-clock"></b><span id="ski-score"></span><span id="ski-gate"></span><button id="ski-recover">Recover −5s</button><button id="ski-leave">Free roam</button></div>
- <div id="ski-coach" role="status" hidden></div>
- <dialog id="ski-result"><span class="eyebrow">MOUNT SHARP / SKI BLADES</span><h2 id="ski-result-title"></h2><strong id="ski-result-score"></strong><p id="ski-result-copy"></p><button id="ski-retry" class="primary">Retry descent</button><button id="ski-result-roam">Free roam</button></dialog>`;document.body.append(html);
+ <button id="ski-start" hidden></button><div id="ski-hud" hidden><b id="ski-clock"></b><span id="ski-score"></span><span id="ski-gate"></span><button id="ski-recover" aria-label="Recover at last gate, costs five seconds">↺</button></div>
+ <div id="ski-combo" hidden></div><div id="ski-coach" role="status" hidden></div>
+ <dialog id="ski-result"><span class="eyebrow">MOUNT SHARP / SKI BLADES</span><h2 id="ski-result-title"></h2><strong id="ski-result-score"></strong><p id="ski-result-copy"></p><button id="ski-retry" class="primary">Retry descent</button><button id="ski-result-roam">Free roam</button></dialog>`;document.body.append(html);const leaveButton=document.createElement('button');leaveButton.id='ski-leave';leaveButton.textContent='Free roam';document.querySelector('#settings').append(leaveButton);
  const activityBox=document.createElement('section');activityBox.className='ski-map-entry';activityBox.innerHTML='<h3>Mount Sharp ski blades</h3><p>Fictional downhill playground. Mint edges, mint time gates, gold tokens and jump lines. Each time gate adds 12 seconds and 400 points. Tokens add 250; tricks bank on clean landings.</p><button id="ski-guide">Guide to lift base</button><p id="ski-best"></p><details><summary>Ski controls</summary><p>Hold Boost for speed. Brake before turns. In the air, release Boost, tap a direction, then tap Trick for an Orbit. Double-tap the same direction for Double orbit; left then right (or right then left) gives Switch arc. More airtime allows another move. Land gently to bank; unfinished tricks lose the airborne combo. Repeated moves earn less.</p></details>';
  document.querySelector('.map-side').prepend(activityBox);$('#ski-guide').onclick=()=>api.guide({...course.base,id:'ski-base',name:'Ski lift base'});
  const distance=p=>Math.hypot(api.state.x-p.x,api.state.y-p.y);
@@ -25,13 +26,19 @@ export function createSkiActivity(api){
   Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:h,skiSpin:spin,v:run.v,vz:run.vz,air:run.air,skiBlades:true,visualSteer:input.steer,visualBrake:input.brake,thrust:input.drive&&!run.air?1:0});
   if(run.phase==='result')result();return true;
  }
- function update(){const start=$('#ski-start'),nearTop=distance(course.top)<65,nearBase=distance(course.base)<65,stopped=canStartActivity({distance:0,speed:api.state.v,radius:1,maxSpeed:1});
+ function update(){document.body.dataset.ski=stage??'roam';$('#ski-leave').hidden=!stage;const start=$('#ski-start'),nearTop=distance(course.top)<65,nearBase=distance(course.base)<65,stopped=canStartActivity({distance:0,speed:api.state.v,radius:1,maxSpeed:1});
   start.hidden=api.paused||!(stage==='summit'||stage==='lift'||(!stage&&!api.state.air&&stopped&&(nearTop||nearBase)));
   start.textContent=stage==='lift'?'Skip lift · upper station':stage==='summit'||nearTop?'START · Ski-blade descent':'RIDE · Mount Sharp lift';
   start.onclick=()=>{if(stage==='lift')summit();else if(stage==='summit'||(!stage&&!api.state.air&&distance(course.top)<65&&Math.abs(api.state.v)<=1)){launch();}else if(!stage&&!api.state.air&&distance(course.base)<65&&Math.abs(api.state.v)<=1)startLift();};
-  $('#recover').textContent=stage==='run'?'Recover last time gate · −5 seconds':'Return to the nearest trail stop';$('#recover').disabled=!!stage&&stage!=='run';$('#ski-hud').hidden=!stage;$('#ski-recover').hidden=stage!=='run';$('#ski-recover').disabled=run?.phase!=='running';$('#ski-clock').textContent=stage==='lift'?`LIFT ${Math.ceil(8-liftAge)}s`:stage==='summit'?'UPPER STATION':run?.phase==='countdown'?`START ${Math.ceil(run.countdown)}`:`${Math.ceil(run?.left??0)}s`;
+  $('#recover').textContent=stage==='run'?'Recover last time gate · −5 seconds':'Return to the nearest trail stop';$('#recover').disabled=!!stage&&stage!=='run';$('#ski-hud').hidden=!stage||stage==='result'||api.paused;$('#ski-recover').hidden=stage!=='run';$('#ski-recover').disabled=run?.phase!=='running';$('#ski-clock').textContent=stage==='lift'?`LIFT ${Math.ceil(8-liftAge)}s`:stage==='summit'?'UPPER STATION':run?.phase==='countdown'?`START ${Math.ceil(run.countdown)}`:`${Math.ceil(run?.left??0)}s`;
   $('#ski-score').textContent=run?run.score.toLocaleString()+' pts':'';$('#ski-gate').textContent=run?`${run.next}/${GATES.length} gates`:'';
-  if(stage)$('#target-hud').hidden=true;$('#ski-coach').hidden=!stage||api.paused;$('#ski-coach').textContent=stage==='lift'?'Short scenic lift · unscored':stage==='summit'?'Mint gates add time · gold tokens add points · steer then tap Boost in the air for tricks':run?.feedback??'';
+  if(stage)$('#target-hud').hidden=true;
+  const key=run?[run.feedback,run.score,run.tricks.length,run.recoveries].join('|'):stage;
+  const now=run?.time??liftAge;if(key!==feedbackKey||now<feedbackAt){feedbackKey=key;feedbackAt=now;}
+  const age=now-feedbackAt;$('#ski-coach').hidden=!stage||stage==='result'||api.paused||age>=2.4;
+  $('#ski-coach').textContent=stage==='lift'?'LIFT':stage==='summit'?'UPPER STATION':run?.feedback??'';
+  $('#ski-coach').style.opacity=String(Math.min(1,Math.max(0,(2.4-age)/.6)));
+  $('#ski-combo').hidden=stage!=='run'||api.paused||!run?.pending;$('#ski-combo').textContent=run?.pending?`${run.pending.toLocaleString()} × ${Math.min(4,1+run.chain*.5)}`:'';
   document.querySelector('[data-control=drive]').textContent=stage==='run'?(run.air?'Trick':'Boost'):'Drive';if(stage==='run')$('#brake').textContent='Brake';
   document.querySelector('header .eyebrow').textContent=stage?'MARS / SKI-BLADE ACTIVITY':'MARS / FREE ROAM · UNSCORED';$('#ski-best').textContent=record.best?'Best completed descent · '+record.best.toLocaleString()+' points':'No completed descent yet';
  }
