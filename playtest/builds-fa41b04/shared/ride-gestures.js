@@ -1,5 +1,5 @@
 // Discrete presses own actions. Holding a button never produces repeated impulses.
-export const DOUBLE_TAP=.32,DIRECTION_WINDOW=.65,AIR_TURN_RATE=.65;
+export const DOUBLE_TAP=.32,DIRECTION_WINDOW=1,AIR_TURN_RATE=.65;
 export const newAirControl=()=>({mode:'idle',held:false,yaw:0,lastGas:-99,lastDirection:-99,grounded:null,hops:0,dives:0,flash:0});
 export function airInput(a,grounded,input,trick=false,time=0){
  const press=input.gas&&!a.held;

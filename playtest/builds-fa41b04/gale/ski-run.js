@@ -12,7 +12,7 @@ export function captureSkiInput(r,input){if(r.phase==='running')queueTrickInput(
 export function resetSkiInput(r){r.input=newTrickInput(false);r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
  const move=readTrickInput(r.input,input.time,r.air,!!r.trick,input);
- if(move&&r.trick){r.trick.variant=true;r.trick.name+=' · tuck';r.trick.value+=35;r.feedback=r.trick.name;}
+ if(move&&r.trick){Object.assign(r.trick,move,{name:skiMoveName(move.trick)});r.trick.value+=35;r.feedback=r.trick.name;}
  else if(move&&!beginTrick(r,course,move))r.input.variationOpen=false;
  airInput(r.airControl,!r.air,input,!!r.trick||!!move,input.time);
 }
