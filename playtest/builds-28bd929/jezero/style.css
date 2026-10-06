@@ -81,3 +81,9 @@
 
 /* V2 keeps learning optional and physical activity starts deliberate. */
 #free-roam-mode{display:block;font-size:10px;letter-spacing:1px;color:#cde2c7;margin-top:4px}#free-roam-start,#free-roam-discovery{position:fixed;z-index:4;left:50%;bottom:112px;transform:translateX(-50%);max-width:min(440px,65vw);min-height:44px;padding:9px 16px;background:#17332eef;border-color:#e8d8a2;font-size:13px;box-shadow:0 4px 22px #0005}.v2-free-roam #activity-return{display:none}@media(max-height:500px){#free-roam-start,#free-roam-discovery{bottom:86px;max-width:58vw}#free-roam-mode{font-size:9px}}
+
+/* V2 driving guidance stays outside the road and four touch controls. */
+#exploration-hint{position:static;margin:6px 0 0;max-width:260px;font-size:12px;line-height:1.4;color:#e7dfcd;text-shadow:0 1px 4px #171d1b;pointer-events:none}
+.v2-free-roam #race-hud{gap:10px;white-space:nowrap}.v2-free-roam #race-recover{font-size:12px;padding:4px 10px}.v2-free-roam #race-progress{font-size:12px}
+.v2-free-roam[data-phase=activity] #activity-hud:has(#activity-return[hidden]){max-width:250px}
+@media(max-height:500px){#exploration-hint{max-width:235px;font-size:11px}.v2-free-roam #race-hud{top:14px}.v2-free-roam[data-phase=activity] #activity-hud{max-width:215px}.v2-free-roam #activity-actions button{min-height:44px}}
