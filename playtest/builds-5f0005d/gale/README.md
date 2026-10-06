@@ -96,3 +96,9 @@ review remain open. This is first-prototype terrain/art, not final visual approv
 Named landmark/photo reconstruction, selective connection compression, full
 mountain coverage, campaign transitions, original-rover extraction, cave/interior,
 communications takeover and finale are future work.
+
+## V2 ski-blade activity
+
+`?v2=1&activity=ski` opens the authored descent; `?v2=1&activity=roam` opens
+unscored exploration with physically reachable lift/station zones. See
+`docs/V2_GALE_SKI_BLADES.md` for current rules, scientific limits and validation.
