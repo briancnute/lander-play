@@ -3,11 +3,11 @@ import {newTrickInput,readTrickInput,queueTrickInput} from '../shared/ride-trick
 import {newAirControl,airInput,stepAirControl} from '../shared/ride-gestures.js';
 import {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude} from './ski-course.js';
 export {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude};
-export const SKI_KEY='astra.gale.skiBlades.v3',GRAVITY=14.84,HOP_SPEED=8,DIVE_JOLT=16;
+export const SKI_KEY='astra.gale.skiBlades.v3',GRAVITY=14.84,HOP_SPEED=13.4,DIVE_JOLT=16;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},input:newTrickInput(false),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,input:newTrickInput(false),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
-const rideInput=input=>({gas:!!input.gas,special:!!input.brake,steer:input.steer||0,both:!!input.both,reverse:false});
+const rideInput=input=>({press:input.press,gas:!!input.gas,special:!!input.brake,steer:input.steer||0,both:!!input.both,reverse:false});
 export function captureSkiInput(r,input){if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
 export function resetSkiInput(r){r.input=newTrickInput(false);r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
@@ -42,7 +42,7 @@ export function stepSki(r,course,input,dt){
  else if(!r.air){r.z=ground;r.vz=(ground-oldZ)/dt;if(r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};}
  else {r.z=nextZ;r.vz-=GRAVITY*dt;}
  if(r.air&&r.trick){r.trick.age+=dt;if(r.trick.age>=r.trick.duration){const t=r.trick,n=r.repeats[t.name]??0;r.repeats[t.name]=n+1;r.pending+=Math.round(t.value*Math.max(.2,1/(1+n*.5)));r.chain++;r.tricks.push(t.name);r.trick=null;r.feedback='Trick complete';}}
- if(r.air&&r.z<=ground){r.z=ground;r.air=false;r.down=false;const clean=!r.trick&&Math.abs(r.side)<100;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=(course.height(Math.min(course.length,r.s+r.v*dt),r.u+r.side*dt)-ground)/dt;resetSkiInput(r);r.input.gas=!!input.gas;r.input.steer=Math.sign(input.steer||0);r.airControl.held=!!input.gas;r.airControl.grounded=true;}
+ if(r.air&&r.z<=ground){r.z=ground;r.air=false;r.down=false;const clean=!r.trick&&Math.abs(r.side)<100;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=(course.height(Math.min(course.length,r.s+r.v*dt),r.u+r.side*dt)-ground)/dt;resetSkiInput(r);r.input.gas=!!input.gas;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
  for(let i=0;i<ITEMS.length;i++){const p=ITEMS[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<65&&Math.abs(z-itemAltitude(course,p))<40){r.items.push(i);r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}
  if(r.s>=course.length&&!r.air){bank(r);r.phase='result';r.reason='Descent complete';r.score+=500;}
 }
