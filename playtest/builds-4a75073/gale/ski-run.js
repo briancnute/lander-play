@@ -12,14 +12,15 @@ export function captureSkiInput(r,input){if(r.phase==='running')queueTrickInput(
 export function resetSkiInput(r){r.input=newTrickInput('ski');r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
  releaseGrab(r.trick,input.gas);
- const move=readTrickInput(r.input,input.time,r.air,!!r.trick,input);
- if(move&&r.trick){if(trickFits(r,course,move.duration)){Object.assign(r.trick,move,{name:skiMoveName(move.trick)});r.feedback=r.trick.name;}else r.feedback='Too low for '+move.trick;}
+ const move=readTrickInput(r.input,input.time,r.air,!!r.trick,input,r.trick?.kind==='grab'&&r.trick.releasing);
+ if(move&&r.trick){if(trickFits(r,course,move.duration)){if(!move.variant)completeTrick(r,r.trick);Object.assign(r.trick,move,{name:skiMoveName(move.trick),direction:move.sign});r.feedback=r.trick.name;}else r.feedback='Too low for '+move.trick;}
  else if(move&&!beginTrick(r,course,move))r.input.variationOpen=false;
  airInput(r.airControl,!r.air,input,!!r.trick||!!move,input.time);
 }
 export function trickFits(r,course,duration){const acceleration=GRAVITY;for(let t=.04;t<=duration+.06;t+=.04)if(r.z+r.vz*t-acceleration*t*t/2<=course.height(Math.min(course.length,r.s+r.v*t),r.u+r.side*t)+1)return false;return true;}
 export const skiMoveName=name=>name.replace(/Tailwhip/g,'Blade whip').replace(/tailwhip/g,'blade whip').replace(/Whip rewind/g,'Blade rewind').replace(/whip rewind/g,'blade rewind').replace(/barspin/g,'blade spin');
 export function beginTrick(r,course,move){if(!r.air||r.trick||!move)return false;if(!trickFits(r,course,move.duration)){r.feedback='Too low';return false;}r.trick={...move,name:skiMoveName(move.trick),age:0,direction:move.sign};r.feedback=r.trick.name;return true;}
+function completeTrick(r,t){const key=t.kind?moveRepeatKey(t):t.name,n=r.repeats[key]??0;r.repeats[key]=n+1;r.pending+=Math.round((t.kind?movePoints(t):t.value)*Math.max(.2,1/(1+n*.5)));r.chain++;r.tricks.push(t.name);}
 function bank(r){const points=Math.round(r.pending*Math.min(8,Math.max(1,r.chain)));r.score+=points;r.bestCombo=Math.max(r.bestCombo,points);if(points)r.feedback=`Banked ${points.toLocaleString()}`;r.pending=r.chain=0;}
 export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
@@ -46,7 +47,7 @@ export function stepSki(r,course,input,dt){
  if(!r.air&&r.v>25&&onJump&&nextZ>ground+.12){r.air=true;r.vz=clamp(r.vz,-45,18);r.z=oldZ+r.vz*dt-GRAVITY*dt*dt/2;r.vz-=GRAVITY*dt;r.feedback='Airborne';for(let i=0;i<RAMPS.length;i++)if(Math.abs(oldS-RAMPS[i].s)<100&&!r.ramps.includes(i))r.ramps.push(i);}
  else if(!r.air){r.z=ground;const vertical=(ground-oldZ)/dt;r.vz=onJump?clamp(vertical,-45,18):Math.min(0,vertical);if(r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};}
  else {r.z=nextZ;r.vz-=GRAVITY*dt;}
- if(r.air&&r.trick){const t=r.trick,done=t.kind?advanceMove(t,!!input.gas,dt):(t.age+=dt)>=t.duration;if(done){const key=t.kind?moveRepeatKey(t):t.name,n=r.repeats[key]??0;r.repeats[key]=n+1;r.pending+=Math.round((t.kind?movePoints(t):t.value)*Math.max(.2,1/(1+n*.5)));r.chain++;r.tricks.push(t.name);r.trick=null;r.feedback='Trick complete';}}
+ if(r.air&&r.trick){const t=r.trick,done=t.kind?advanceMove(t,!!input.gas,dt):(t.age+=dt)>=t.duration;if(done){completeTrick(r,t);r.trick=null;r.feedback='Trick complete';}}
  if(r.air&&r.z<=ground){r.z=ground;r.air=false;r.down=false;const clean=!r.trick&&Math.abs(r.side)<100;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=Math.min(0,(course.height(Math.min(course.length,r.s+r.v*dt),r.u+r.side*dt)-ground)/dt);resetSkiInput(r);r.input.gas=!!input.gas;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
  for(let i=0;i<ITEMS.length;i++){const p=ITEMS[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<65&&Math.abs(z-itemAltitude(course,p))<40){r.items.push(i);r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}
  if(r.s>=course.length&&!r.air){bank(r);r.phase='result';r.reason='Descent complete';r.score+=500;}

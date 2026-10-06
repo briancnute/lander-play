@@ -34,12 +34,14 @@ export function advanceMove(m,held,dt){
  return m.releasing&&m.releaseAge>=GRAB_RELEASE;
 }
 /** Actual press order owns the snapshot; releases and overlapping holds cannot rewrite it. */
-export function readTrickInput(s,time,eligible,busy,input){
+export function readTrickInput(s,time,eligible,busy,input,releasedGrab=false){
  const left=input.both||input.steer<0,right=input.both||input.steer>0;
  const direction=input.press==='left'?-1:input.press==='right'?1:!input.press&&left&&!s.left?-1:!input.press&&right&&!s.right?1:0;
  const directionPress=direction!==0,gasPress=input.press==='gas'||!input.press&&input.gas&&!s.gas,d=Math.sign(input.steer);
  s.left=left;s.right=right;s.steer=d;s.gas=input.gas;s.both=input.both;
- if(busy){s.history=[];if(directionPress)s.variationOpen=false;if(gasPress&&s.variationOpen&&time-s.started<=VARIANT_WINDOW){s.variationOpen=false;return resolveMove(s.committed,true,s.vehicle);}return null;}
+ // A fresh direction after release owns a new move, even while the old pose unwinds.
+ if(releasedGrab&&directionPress)s.variationOpen=false;
+ if(busy&&!(releasedGrab&&(directionPress||s.history.length))){s.history=[];if(directionPress)s.variationOpen=false;if(gasPress&&s.variationOpen&&time-s.started<=VARIANT_WINDOW){s.variationOpen=false;return resolveMove(s.committed,true,s.vehicle);}return null;}
  if(!eligible){s.history=[];s.variationOpen=false;return null;}
  s.history=s.history.filter(p=>time-p.time<=SEQUENCE_WINDOW);
  if(input.reverse||input.special&&!input.gas){s.history=[];return null;}
