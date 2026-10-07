@@ -32,7 +32,14 @@ export function buildRallies(journey,ground,rocks=[]){
   sampled.push({...sampled[0]});const points=measured(clearRallyLine(sampled,rocks));points[points.length-1]={...points[0],s:points.at(-1).s};
   return {id,name,description:'One lap · optional local time trial',points,start:atDistance(points,0),finish:points.at(-1),length:points.at(-1).s,cells:[.12,.28,.46,.65,.82].map((f,id)=>({...atDistance(points,points.at(-1).s*f),id})),jumps:[]};
  });
- return {rallies,flight,loops,full};
+ // Compact experiment: existing delta approach, same airlift, then channel bends.
+ // Both drive endpoints meet the physical pads; no free-roam commute is inserted.
+ const relayRallies=[part('relay-delta','Delta approach',.20,.355,'Open delta approach: hold the cyan line or cut bends between rocks.'),part('relay-channel','Channel finish',.443,.64,'Tighter channel bends: choose a clean line or the optional launch.')];
+ relayRallies[0].cells=rallies[1].cells.filter(p=>p.s>=n*(.20-.135)).map((p,id)=>({...p,id})).filter((_,i)=>i%3===0).slice(0,4);
+ relayRallies[1].cells=rallies[2].cells.filter(p=>p.s<=n*(.64-.45)).filter((_,i)=>i%3===0).slice(0,4);
+ relayRallies[1].jumps=rallies[2].jumps.filter(p=>p.s<=n*(.64-.45)).slice(0,1);
+ const relay={id:'relay-v1',name:'Delta relay',rallies:relayRallies,flight};
+ return {rallies,flight,loops,full,relay};
 }
 export function newFlight(flight,ground){return {s:0,v:0,z:ground(flight.start.x,flight.start.y)+35,vz:0,boost:0,spent:[],done:false};}
 export function stepFlight(f,input,dt,route,ground){
@@ -43,5 +50,5 @@ export function stepFlight(f,input,dt,route,ground){
 }
 
 export function readRallyRecords(raw){
- try{const value=JSON.parse(raw||'{}');if(!value||typeof value!=='object'||Array.isArray(value))return {};return Object.fromEntries(Object.entries(value).filter(([id,r])=>['expedition','seitah-loop','delta-loop','rim-loop'].includes(id)&&r&&Number.isFinite(r.time)&&r.time>0&&Array.isArray(r.splits)&&r.splits.length>0&&r.splits.every(p=>p&&typeof p.name==='string'&&Number.isFinite(p.time)&&p.time>=0&&Number.isFinite(p.total)&&p.total>=p.time)));}catch{return {};}
+ try{const value=JSON.parse(raw||'{}');if(!value||typeof value!=='object'||Array.isArray(value))return {};return Object.fromEntries(Object.entries(value).filter(([id,r])=>['relay-v1','expedition','seitah-loop','delta-loop','rim-loop'].includes(id)&&r&&Number.isFinite(r.time)&&r.time>0&&Array.isArray(r.splits)&&r.splits.length>0&&r.splits.every(p=>p&&typeof p.name==='string'&&Number.isFinite(p.time)&&p.time>=0&&Number.isFinite(p.total)&&p.total>=p.time)));}catch{return {};}
 }
