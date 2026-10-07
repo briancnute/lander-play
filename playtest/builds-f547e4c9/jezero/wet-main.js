@@ -1,3 +1,4 @@
+import {surfaceResult} from '../shared/result-card.js';
 import {loadWetArea} from './wet-area.js';
 import {wetRoute,wetStages,wetSafeRoute,WATER_LEVEL,WET_KEY,WET_ID,newWetRun,wetProgress,wetReturn,validWetSave,nearestWetLine} from './wet-course.js';
 import {GPURenderer} from '../mars-renderer/gpu.js';
@@ -21,7 +22,8 @@ function setPause(value){paused=value;clearInput();acc=0;if(value)save();}
 function openPause(){setPause(true);if(!$('#pause-dialog').open)$('#pause-dialog').showModal();}
 function closeDialogs(){for(const d of document.querySelectorAll('dialog[open]'))d.close();document.activeElement?.blur();}
 function restart(){closeDialogs();run=newWetRun();state=create('free',area.course,'perseverance');state.tune={...RALLY_TUNE};state.raceBoosts=3;state.solar={east:-.4,north:.25,up:.7};resetPosition(wetRoute[0]);safe=pose(state);setPause(false);message('Drive to begin · follow the descending shelf');save();}
-function finish(){paused=true;clearInput();if(!run.practice&&(!Number.isFinite(record?.time)||run.time<record.time)){record={course:WET_ID,time:run.time};write(WET_KEY+'.best',record);}try{localStorage.removeItem(WET_KEY+'.run');}catch{}$('#result-time').textContent=clock(run.time);$('#result-best').textContent=run.practice?'Practice lap · water return or overhead view · no official record':`Best ${clock(record?.time??run.time)}`;$('#result-dialog').showModal();}
+function finish(){const prior=record?.time;paused=true;clearInput();if(!run.practice&&(!Number.isFinite(record?.time)||run.time<record.time)){record={course:WET_ID,time:run.time};write(WET_KEY+'.best',record);}try{localStorage.removeItem(WET_KEY+'.run');}catch{}$('#result-time').textContent=clock(run.time);$('#result-best').textContent=run.practice?'Practice lap · water return or overhead view · no official record':`Best ${clock(record?.time??run.time)}`;$('#result-dialog').showModal();surfaceResult({title:'Wet Jezero · ancient lake circuit',score:run.time,unit:'seconds',best:!run.practice&&Number.isFinite(prior)&&run.time<prior,metrics:[{label:'Route',value:'Lake circuit'},{label:'Run',value:run.practice?'Practice':'Official'}],records:[{label:'Fastest official lap',value:record?clock(record.time):'—'}],note:run.practice?'Practice lap · official records unchanged':''},{draw:()=>draw(0),retry:restart,roam:exit});}
+
 function returnDry(){wetReturn(run);const a=nearestWetLine(safe.x,safe.y),b=nearestWetLine(safe.x,safe.y,wetSafeRoute),p=a.d<b.d?a:b;resetPosition({...safe,heading:p.heading});clearInput();message('Water boundary · returned to dry ground · +5s · practice lap');save();}
 function step(dt,input=controls()){
  if(paused||run.done)return;
