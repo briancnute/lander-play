@@ -21,7 +21,7 @@ export function resolveMove(directions,variant=false,vehicle='scooter',stage=var
  if(vehicle==='scooter'){
   const tree=directions.some(d=>d!==directions[0])?'superman':'board',tier=Math.max(1,Math.min(3,stage));
   const names=tree==='board'?['Board grab','One-handed grab','Barrel roll']:['Superman','Bar headstand','Front flip'];
-  return {...common,tree,stage:tier,slot:tree,variant:tier>1,kind:tier===3?'spin':'grab',axis:tier===3?(tree==='board'?'roll':'flip'):'grab',trick:prefix+names[tier-1],rotations:tier===3?1:0,duration:tier===3?1.5:.74,value:(tree==='board'?[60,120,300]:[90,180,450])[tier-1]};
+  return {...common,tree,stage:tier,slot:tree,variant:tier>1,kind:tier===3?'spin':'grab',axis:tier===3?(tree==='board'?'roll':'flip'):'grab',trick:prefix+names[tier-1],rotations:tier===3?1:0,duration:tier===3?1.5:tier===2?.92:.74,value:(tree==='board'?[60,120,300]:[90,180,450])[tier-1]};
  }
  return variant?{...common,kind:'spin',trick:prefix+name,axis,rotations,duration,value}:{...common,kind:'grab',trick:prefix+grab,axis:'grab',rotations:0,duration:VARIANT_WINDOW+(vehicle==='scooter'?GRAB_ATTACK+GRAB_POSE:0)+GRAB_RELEASE,value:60+TRICK_SLOTS.indexOf(common.slot)*10};
 }
@@ -40,7 +40,7 @@ export function advanceMove(m,held,dt,repeat=false){
  }
  releaseGrab(m,held);
  if(!m.releasing)m.hold+=dt;
- else m.releaseAge+=Math.max(0,Math.min(dt,m.age-VARIANT_WINDOW-(m.vehicle==='scooter'?GRAB_ATTACK+GRAB_POSE:0)));
+ else m.releaseAge+=Math.max(0,Math.min(dt,m.age-VARIANT_WINDOW-(m.vehicle==='scooter'?GRAB_ATTACK*(m.stage===2?2:1)+GRAB_POSE:0)));
  return m.releasing&&m.releaseAge>=GRAB_RELEASE;
 }
 /** Actual press order owns the snapshot; releases and overlapping holds cannot rewrite it. */
@@ -76,11 +76,15 @@ export function moonTrickPose(m){
  const base={bodyY:0,bodyZ:0,pitch:0,roll:0,armL:0,armR:0,armLX:0,armRX:0,armLY:0,armRY:0,leg:0,rootRoll:0};
  if(!m?.tree)return base;
  const board=m.tree==='board',tier=Math.min(2,m.stage),sign=m.sign;
- const target=board?{...base,bodyY:-.70,bodyZ:.12,pitch:.40,armLX:1.55,armRX:1.55,armLY:.2,armRY:-.2,leg:1.25,rootRoll:.12*sign}
- :tier===1?{...base,bodyY:1.25,bodyZ:-1.25,pitch:Math.PI/2,armLX:-Math.PI/2,armRX:-Math.PI/2,leg:0}
- :{...base,bodyY:2.78,bodyZ:1.02,pitch:Math.PI,armLX:-.55,armRX:-.55,leg:-.15};
+ const first=board?{...base,bodyY:-.70,bodyZ:.12,pitch:.40,armLX:1.55,armRX:1.55,armLY:.2,armRY:-.2,leg:1.25,rootRoll:.12*sign}
+ :{...base,bodyY:1.25,bodyZ:-1.25,pitch:Math.PI/2,armLX:-Math.PI/2,armRX:-Math.PI/2,leg:0};
+ const target=tier===1||board?{...first}:{...base,bodyY:2.78,bodyZ:1.02,pitch:Math.PI,armLX:-.55,armRX:-.55,leg:-.15};
  if(board&&tier===2){if(sign>0){target.armR=-.3;target.armRX=-1.25;target.armRY=.9;}else{target.armL=.3;target.armLX=-1.25;target.armLY=-.9;}}
- const start=m.poseFrom??base,enter=Math.max(0,Math.min(1,(m.age-(m.poseFrom?0:VARIANT_WINDOW))/GRAB_ATTACK)),blend=enter*enter*(3-2*enter);
+ const start=m.poseFrom??base,local=Math.max(0,m.age-(m.poseFrom?0:VARIANT_WINDOW));
+ const loaded=Math.abs(start.pitch)>=Math.abs(first.pitch)*.95;
+ const preparation=tier===2&&!loaded?GRAB_ATTACK:0;
+ const from=local<preparation?start:preparation?first:start,to=local<preparation?first:target;
+ const enter=Math.max(0,Math.min(1,(local<preparation?local:local-preparation)/GRAB_ATTACK)),blend=enter*enter*(3-2*enter);
  const release=m.kind==='spin'?Math.max(0,Math.min(1,(m.duration-m.age)/.24)):m.releasing?Math.max(0,1-m.releaseAge/GRAB_RELEASE):1;
- return Object.fromEntries(Object.keys(base).map(k=>[k,((start[k]??0)+(target[k]-(start[k]??0))*blend)*release]));
+ return Object.fromEntries(Object.keys(base).map(k=>[k,((from[k]??0)+(to[k]-(from[k]??0))*blend)*release]));
 }
