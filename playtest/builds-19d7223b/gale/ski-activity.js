@@ -5,10 +5,10 @@ import {buildSkiWorld} from './ski-world.js';
 import {canStartActivity} from '../shared/free-roam.js';
 export function createSkiActivity(api){
  const {area,gpu,session}=api,course=skiCourse(area.ground),world=buildSkiWorld(gpu,course);
- area.ground=course.surface;area.driveArea.ground=course.surface;gpu.ground=gpu.height=course.surface;
+ course.worldHeight=course.surface;area.ground=course.surface;area.driveArea.ground=course.surface;gpu.ground=gpu.height=course.surface;
  const oldCamera=area.cameraSurface;area.cameraSurface=(x,y)=>Math.max(oldCamera(x,y),course.surface(x,y));
  let feedbackKey='',feedbackAt=0;
- let stage=null,run=null,liftAge=0,record;try{record=loadSkiRecord(localStorage);}catch{record={version:6,best:0,runs:0,combo:0,fastest:null};}
+ let stage=null,run=null,liftAge=0,record;try{record=loadSkiRecord(localStorage);}catch{record={version:7,best:0,runs:0,combo:0,fastest:null};}
  const $=s=>document.querySelector(s),html=document.createElement('section');html.innerHTML=`
  <button id="ski-start" hidden></button><div id="ski-hud" hidden><b id="ski-clock"></b><span id="ski-score"></span><span id="ski-gate"></span></div>
  <div id="ski-combo" hidden></div><div id="ski-coach" role="status" hidden></div>
@@ -24,11 +24,12 @@ export function createSkiActivity(api){
  function step(dt,input){if(!stage)return false;const s=api.state;s.t+=dt;
   if(stage==='lift'){liftAge=Math.min(8,liftAge+dt);const t=liftAge/8,p=course.point(LENGTH*(1-t));Object.assign(s,{x:p.x,y:p.y,z:course.surface(p.x,p.y)+70*Math.sin(t*Math.PI),v:0,air:true,liftCarrier:true,heading:Math.PI});if(liftAge===8)summit();return true;}
   if(stage!=='run')return true;
-  stepSki(run,course,{gas:input.drive,brake:input.brake,steer:input.steer,both:input.both},dt);const p=course.point(run.s,run.u),h=course.heading(run.s),t=run.trick,progress=t?Math.min(1,t.age/t.duration):0,angle=t?progress*Math.PI*2*t.rotations*t.sign:0;
+  stepSki(run,course,{gas:input.drive,brake:input.brake,steer:input.steer,both:input.both},dt);const p=Number.isFinite(run.worldX)?{x:run.worldX,y:run.worldY}:course.point(run.s,run.u),h=course.heading(run.s),t=run.trick,progress=t?Math.min(1,t.age/t.duration):0,angle=t?progress*Math.PI*2*t.rotations*t.sign:0;
   const grab=t?.kind==='grab'?grabPose(t):null,flip=grab?grab.pitch:t&&['flip','bar','cork','rodeo'].includes(t.axis)?angle:0,spin=grab?grab.yaw:t&&['yaw','cork','rodeo'].includes(t.axis)?angle:0;
   const whip=grab?grab.deck:t?.axis==='rodeo'?angle*2:t?.axis==='deck'?angle:t?.axis==='rewind'?Math.sin(progress*Math.PI*2)*Math.PI*2*t.sign:t?.axis==='bar'?angle:0;
+  const travelHeading=h+(Math.hypot(run.v,run.side)>.001?Math.atan2(run.side,run.v):(run.facing??0));
   const tuck=t?.variant&&!t.secret?Math.sin(progress*Math.PI)*-.35:0;
-  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:h+Math.atan2(run.side,Math.max(.01,run.v)),skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??(!run.air&&input.brake?.28:0),skiGrabRight:grab?-grab.bars+grab.roll:(!run.air&&input.brake?-.28:0),v:run.v,vz:run.vz,air:run.air,skiBlades:true,visualSteer:input.steer,visualBrake:input.brake,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
+  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:travelHeading,skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??(!run.air&&input.brake?.28:0),skiGrabRight:grab?-grab.bars+grab.roll:(!run.air&&input.brake?-.28:0),v:Math.hypot(run.v,run.side),vz:run.vz,air:run.air,skiBlades:true,skiGrade:(course.surface(p.x+Math.sin(travelHeading)*180,p.y-Math.cos(travelHeading)*180)-course.surface(p.x,p.y))/180,visualSteer:input.steer,visualBrake:input.brake,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
   if(run.phase==='result')result();return true;
  }
  function update(){document.body.dataset.ski=stage??'roam';$('#ski-leave').hidden=!stage;const start=$('#ski-start'),nearTop=distance(course.top)<65,nearBase=distance(course.base)<65,stopped=canStartActivity({distance:0,speed:api.state.v,radius:1,maxSpeed:1});
@@ -36,7 +37,7 @@ export function createSkiActivity(api){
   start.textContent=stage==='lift'?'Skip lift · upper station':stage==='summit'||nearTop?'START · Ski-blade descent':'RIDE · Mount Sharp lift';
   start.onclick=()=>{if(stage==='lift')summit();else if(stage==='summit'||(!stage&&!api.state.air&&distance(course.top)<65&&Math.abs(api.state.v)<=1)){launch();}else if(!stage&&!api.state.air&&distance(course.base)<65&&Math.abs(api.state.v)<=1)startLift();};
   $('#ski-hud').hidden=!stage||stage==='result'||api.paused;$('#ski-clock').textContent=stage==='lift'?`LIFT ${Math.ceil(8-liftAge)}s`:stage==='summit'?'UPPER STATION':run?.phase==='countdown'?`START ${Math.ceil(run.countdown)}`:`${Math.floor((run?.time??0)/60)}:${String(Math.floor((run?.time??0)%60)).padStart(2,'0')}`;
-  $('#ski-score').textContent=run?run.score.toLocaleString()+' pts':'';$('#ski-gate').textContent=run?`${Math.round(run.s/course.length*100)}%`:'';
+  $('#ski-score').textContent=run?run.score.toLocaleString()+' pts':'';$('#ski-gate').textContent=run?`${Math.max(0,Math.round((course.height(0)-run.z)/(8/3)))} m ↓ · ${Math.round(run.s/course.length*100)}%`:'';
   if(stage)$('#target-hud').hidden=true;
   const key=run?[run.feedback,run.score,run.tricks.length,run.recoveries].join('|'):stage;
   const now=run?.time??liftAge;if(key!==feedbackKey||now<feedbackAt){feedbackKey=key;feedbackAt=now;}

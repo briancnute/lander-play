@@ -131,7 +131,7 @@ void main(){
  if(kind>5.5&&kind<6.5)lit=mix(base,vec3(1.,.92,.68),roverLamp.w);
  if(kind>7.5)lit=base*(.18+.82*daylight);
  else if(kind>6.5)lit=base;
- if(kind<.5&&backdropPass<.5&&roadEnabled>.5){float road=texture2D(roadMask,(vWorld.xy-roadBounds.xy)/roadBounds.zw).r;vec3 tan=vec3(.79,.56,.37)+vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);if(roadEnabled>1.5){float soil=texture2D(grit,vWorld.xy*.06).r;vec3 compacted=lit*vec3(1.24,1.14,.98)*( .94+.12*soil);lit=mix(lit,compacted,road*.9);}else lit=mix(lit,tan*(.18+.82*daylight),road);}
+ if(kind<.5&&backdropPass<.5&&roadEnabled>.5){float road=texture2D(roadMask,(vWorld.xy-roadBounds.xy)/roadBounds.zw).r;vec3 tan=vec3(.79,.56,.37)+vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);if(roadEnabled>2.5){float soil=texture2D(grit,vWorld.xy*.018).r;lit=mix(lit,lit*vec3(.82,.84,.88),road*(.8+.2*soil));}else if(roadEnabled>1.5){float soil=texture2D(grit,vWorld.xy*.06).r;vec3 compacted=lit*vec3(1.24,1.14,.98)*( .94+.12*soil);lit=mix(lit,compacted,road*.9);}else lit=mix(lit,tan*(.18+.82*daylight),road);}
  // Optional interpreted-lake material; modern worlds never create this mesh.
  if(kind>9.5&&kind<10.5){float ripple=sin(vWorld.x*.035+stormTime*.7+sin(vWorld.y*.017))*sin(vWorld.y*.043-stormTime*.35);float grazing=1.-clamp(abs(vWorld.z-camera.z)/max(1.,vDepth),0.,1.);lit=mix(vec3(.255,.305,.315),vec3(.56,.51,.44),pow(grazing,5.)*.52)+ripple*.009*(1.-smoothstep(500.,5000.,vDepth));}
  float fog=1.-exp(-pow(max(0.,vDepth)/terrainFogDistance,1.7));
@@ -170,7 +170,7 @@ export class GPURenderer{
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,this.water?(this.area.reducedMotion?0:s.t):Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
- const road=this.relayRoad??(s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?(road.style??1):0);gl.activeTexture(gl.TEXTURE0);
+ const road=s.skiBlades?this.skiRoad:this.relayRoad??(s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?(road.style??1):0);gl.activeTexture(gl.TEXTURE0);
  this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);
  this.worldTerrain?.draw(this.photoView?.free?{...s,x:cam.x,y:cam.y}:s);
  gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
