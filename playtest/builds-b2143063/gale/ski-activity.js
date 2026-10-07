@@ -8,7 +8,7 @@ export function createSkiActivity(api){
  area.ground=course.surface;area.driveArea.ground=course.surface;gpu.ground=gpu.height=course.surface;
  const oldCamera=area.cameraSurface;area.cameraSurface=(x,y)=>Math.max(oldCamera(x,y),course.surface(x,y));
  let feedbackKey='',feedbackAt=0;
- let stage=null,run=null,liftAge=0,record;try{record=loadSkiRecord(localStorage);}catch{record={version:4,best:0,runs:0,combo:0,fastest:null};}
+ let stage=null,run=null,liftAge=0,record;try{record=loadSkiRecord(localStorage);}catch{record={version:6,best:0,runs:0,combo:0,fastest:null};}
  const $=s=>document.querySelector(s),html=document.createElement('section');html.innerHTML=`
  <button id="ski-start" hidden></button><div id="ski-hud" hidden><b id="ski-clock"></b><span id="ski-score"></span><span id="ski-gate"></span></div>
  <div id="ski-combo" hidden></div><div id="ski-coach" role="status" hidden></div>
@@ -28,7 +28,7 @@ export function createSkiActivity(api){
   const grab=t?.kind==='grab'?grabPose(t):null,flip=grab?grab.pitch:t&&['flip','bar','cork','rodeo'].includes(t.axis)?angle:0,spin=grab?grab.yaw:t&&['yaw','cork','rodeo'].includes(t.axis)?angle:0;
   const whip=grab?grab.deck:t?.axis==='rodeo'?angle*2:t?.axis==='deck'?angle:t?.axis==='rewind'?Math.sin(progress*Math.PI*2)*Math.PI*2*t.sign:t?.axis==='bar'?angle:0;
   const tuck=t?.variant&&!t.secret?Math.sin(progress*Math.PI)*-.35:0;
-  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:h,skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??0,skiGrabRight:grab?-grab.bars+grab.roll:0,v:run.v,vz:run.vz,air:run.air,skiBlades:true,visualSteer:input.steer,visualBrake:input.brake,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
+  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:h+Math.atan2(run.side,Math.max(.01,run.v)),skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??(!run.air&&input.brake?.28:0),skiGrabRight:grab?-grab.bars+grab.roll:(!run.air&&input.brake?-.28:0),v:run.v,vz:run.vz,air:run.air,skiBlades:true,visualSteer:input.steer,visualBrake:input.brake,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
   if(run.phase==='result')result();return true;
  }
  function update(){document.body.dataset.ski=stage??'roam';$('#ski-leave').hidden=!stage;const start=$('#ski-start'),nearTop=distance(course.top)<65,nearBase=distance(course.base)<65,stopped=canStartActivity({distance:0,speed:api.state.v,radius:1,maxSpeed:1});

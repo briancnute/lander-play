@@ -2,6 +2,7 @@
 export function rideHelp(vehicle='scooter'){
  const ski=vehicle==='ski';
  return `<p><b>Move:</b> ${ski?'Drive / Boost':'Go'}: Space. Steer: A / D or ← / →. Brake: Shift.${ski?'':' Press Brake again when stopped to reverse; Manual balance is unchanged.'}</p>
+ ${ski?'<p><b>Downhill:</b> Coast to gain speed. Left/right carve and shed speed. Hold Shift for a snowplow stop; Shift + direction digs in for a tight, slower turn. Space boosts through wider powered turns. Brake takes priority over Boost.</p>':''}
  <p><b>Hop / descend:</b> Double-tap Brake to hop on the ground or jolt downward in the air. Repeat pairs for more downward thrust. Jolts cannot interrupt a trick. Hold Brake with left/right to redirect your flight, even during tricks.</p>
  <p><b>Grab:</b> Press directions, then hold ${ski?'Drive':'Go'} (labelled Trick in the air). Release before landing. After release, a fresh direction + Trick starts the next grab immediately. Holding earns points.</p>
  <p><b>Flip:</b> Double-tap Trick within 0.32 seconds for a committed move. It finishes its animation whether you hold or release. Leave enough airtime to complete it.</p>

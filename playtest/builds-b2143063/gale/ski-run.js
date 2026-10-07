@@ -3,7 +3,7 @@ import {newTrickInput,readTrickInput,queueTrickInput,advanceMove,releaseGrab,mov
 import {newAirControl,airInput,stepAirControl} from '../shared/ride-gestures.js';
 import {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude} from './ski-course.js';
 export {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude};
-export const SKI_KEY='astra.gale.skiBlades.v5',GRAVITY=3.71*(8/3),HOP_SPEED=Math.sqrt(2*GRAVITY*4),DIVE_JOLT=16;
+export const SKI_KEY='astra.gale.skiBlades.v6',GRAVITY=3.71*(8/3),HOP_SPEED=Math.sqrt(2*GRAVITY*4),DIVE_JOLT=16;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,input:newTrickInput('ski'),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
@@ -22,6 +22,19 @@ export const skiMoveName=name=>name.replace(/Tailwhip/g,'Blade whip').replace(/t
 export function beginTrick(r,course,move){if(!r.air||r.trick||!move)return false;if(!trickFits(r,course,move.duration)){r.feedback='Too low';return false;}r.trick={...move,name:skiMoveName(move.trick),age:0,direction:move.sign};r.feedback=r.trick.name;return true;}
 function completeTrick(r,t){const key=t.kind?moveRepeatKey(t):t.name,n=r.repeats[key]??0;r.repeats[key]=n+1;r.pending+=Math.round((t.kind?movePoints(t):t.value)*Math.max(.2,1/(1+n*.5)));r.chain++;r.tricks.push(t.name);}
 function bank(r){const points=Math.round(r.pending*Math.min(8,Math.max(1,r.chain)));r.score+=points;r.bestCombo=Math.max(r.bestCombo,points);if(points)r.feedback=`Banked ${points.toLocaleString()}`;r.pending=r.chain=0;}
+/** Ground motion follows momentum: edge harder to trade speed for a tighter turn.
+ * No flat-ground motor unless Boost is held; airborne motion stays drag-free. */
+export function stepSkiGround(r,grade,curvature,input,dt){
+ const steer=clamp(input.steer||0,-1,1),edge=Math.abs(steer),brake=!!input.brake;
+ const powered=!brake&&(!!input.gas||r.boost>0),speed=Math.hypot(r.v,r.side);
+ const target=steer*(brake?1.18:powered?.30:.70),response=brake?3.6:powered?1.25:2.4;
+ const current=Math.atan2(r.side,r.v),angle=current+(target-current)*(1-Math.exp(-response*dt));
+ const thrust=brake?0:(input.gas?35:0)+(r.boost>0?42:0),limit=r.boost>0?340:280;
+ const friction=.025+speed*.004+speed*speed*.000025+edge*speed*(brake?.24:powered?.035:.10)+(brake?24+edge*28:0);
+ const downhill=-GRAVITY*grade/Math.sqrt(1+grade*grade);
+ const next=Math.max(0,speed+(thrust+downhill*Math.cos(angle)-friction-Math.max(0,speed-limit)*.8)*dt);
+ r.v=next*Math.cos(angle);r.side=next*Math.sin(angle)-curvature*r.v*r.v*dt;
+}
 export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
  if(r.phase==='countdown'){r.countdown=Math.max(0,r.countdown-dt);if(!r.countdown)r.phase='running';return;}
@@ -34,7 +47,7 @@ export function stepSki(r,course,input,dt){
  r.down=air.dive;r.airMode=r.air&&input.brake&&steer?'turn':'idle';r.yawRate=air.yaw;
  if(r.air)r.yaw=clamp(r.yaw+r.yawRate*dt,-.8,.8);else r.yaw*=Math.exp(-dt*5);
  const grade=clamp((course.height(r.s+12,r.u)-course.height(r.s-12,r.u))/24,-.8,.8);
- if(!r.air){const boost=r.boost>0&&!input.brake?42:0,limit=r.boost>0?340:280;r.v=clamp(r.v+(-GRAVITY*grade+10+(input.gas?35:0)+boost-(input.brake?85:0)-r.v*.10-Math.max(0,r.v-limit)*.8)*dt,0,Math.max(limit,r.v));r.side+=(steer*105-r.side*(input.brake?4:1.2)-course.curvature(r.s)*r.v*r.v)*dt;}
+ if(!r.air)stepSkiGround(r,grade,course.curvature(r.s),input,dt);
  else {r.side+=((r.airMode==='turn'?steer*38:0)-course.curvature(r.s)*r.v*r.v)*dt;}
  // Broad soft shoulders. No lane gate, forced recovery, or combo loss for choosing another line.
  if(Math.abs(r.u)>WIDTH){const excess=Math.abs(r.u)-WIDTH;r.side-=Math.sign(r.u)*Math.min(160,excess*.18)*dt;if(!r.air)r.v*=Math.exp(-dt*.25);}
@@ -52,7 +65,7 @@ export function stepSki(r,course,input,dt){
  for(let i=0;i<ITEMS.length;i++){const p=ITEMS[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<65&&Math.abs(z-itemAltitude(course,p))<40){r.items.push(i);r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}
  if(r.s>=course.length&&!r.air){bank(r);r.phase='result';r.reason='Descent complete';r.score+=500;}
 }
-export function loadSkiRecord(storage){try{const r=JSON.parse(storage.getItem(SKI_KEY));return r&&r.version===5&&Number.isFinite(r.best)&&r.best>=0&&Number.isFinite(r.runs)&&r.runs>=0?r:{version:5,best:0,runs:0,combo:0,fastest:null};}catch{return {version:5,best:0,runs:0,combo:0,fastest:null};}}
+export function loadSkiRecord(storage){try{const r=JSON.parse(storage.getItem(SKI_KEY));return r&&r.version===6&&Number.isFinite(r.best)&&r.best>=0&&Number.isFinite(r.runs)&&r.runs>=0?r:{version:6,best:0,runs:0,combo:0,fastest:null};}catch{return {version:6,best:0,runs:0,combo:0,fastest:null};}}
 export function saveSkiResult(storage,record,r){const next={...record,runs:record.runs+1};if(r.reason==='Descent complete'){next.best=Math.max(record.best,skiRating(r));next.points=Math.max(record.points||0,r.score);next.combo=Math.max(record.combo||0,r.bestCombo);next.fastest=Math.min(record.fastest??Infinity,r.time);}try{storage.setItem(SKI_KEY,JSON.stringify(next));return {record:next,saved:true};}catch{return {record:next,saved:false};}}
 
 // Preserve live combo points; the final rating rewards completion, banked tricks and variety.
