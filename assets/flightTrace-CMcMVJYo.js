@@ -1,0 +1,1 @@
+function e(){let e=[],t=.1,n=-1/0;return{get points(){return e.map(e=>({...e}))},reset(){e=[],t=.1,n=-1/0},sample(r,i=!1){if(![r.x,r.y,r.angle,r.tSec].every(Number.isFinite)||!i&&r.tSec-n<t)return;let a={x:r.x,y:r.y,angle:r.angle,t:r.tSec};e[e.length-1]?.t===a.t?e[e.length-1]=a:e.push(a),n=r.tSec,e.length>600&&(e=e.filter((e,t)=>t%2==0),t*=2)}}}export{e as t};
