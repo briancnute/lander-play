@@ -106,3 +106,6 @@
 #boost-feedback{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);color:#aaffec;font:700 12px system-ui;text-shadow:0 1px 4px #000;pointer-events:none}
 
 .free-camera-active #toast,.free-camera-active #wayfinding,.free-camera-active #landmark-labels,.free-camera-active #boost-feedback,.free-camera-active #map-return{display:none!important}
+
+/* A relay hides unrelated world prompts; leaving restores the normal exploration view. */
+.relay-focused #free-roam-discovery,.relay-focused #free-roam-start,.relay-focused #entry-loading,.relay-focused #exploration-hint{display:none!important}

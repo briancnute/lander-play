@@ -1,3 +1,4 @@
+import {cleanRelayLine,relayGates,RELAY_ID} from './relay-course.js';
 import {clearRallyLine} from './rally-clearance.js';
 // Authored arcade passage beside the pinned NASA traverse; never a surveyed road.
 export const RALLY_VERSION='jezero-traverse-1';
@@ -34,21 +35,23 @@ export function buildRallies(journey,ground,rocks=[]){
  });
  // Compact experiment: existing delta approach, same airlift, then channel bends.
  // Both drive endpoints meet the physical pads; no free-roam commute is inserted.
- const relayRallies=[part('relay-delta','Delta approach',.20,.355,'Open delta approach: hold the cyan line or cut bends between rocks.'),part('relay-channel','Channel finish',.443,.64,'Tighter channel bends: choose a clean line or the optional launch.')];
+ const relayRallies=[part('relay-delta','Delta approach',.20,.355,'Open delta approach: follow the dirt road through wide gates.'),part('relay-channel','Channel finish',.443,.64,'Tighter channel bends: choose a clean line or the optional launch.')];
  relayRallies[0].cells=rallies[1].cells.filter(p=>p.s>=n*(.20-.135)).map((p,id)=>({...p,id})).filter((_,i)=>i%3===0).slice(0,4);
  relayRallies[1].cells=rallies[2].cells.filter(p=>p.s<=n*(.64-.45)).filter((_,i)=>i%3===0).slice(0,4);
  relayRallies[1].jumps=rallies[2].jumps.filter(p=>p.s<=n*(.64-.45)).slice(0,1);
- const relay={id:'relay-v1',name:'Delta relay',rallies:relayRallies,flight};
+ for(const r of relayRallies){r.points=measured(cleanRelayLine(r.points,rocks));r.length=r.points.at(-1).s;r.start=atDistance(r.points,0);r.finish=r.points.at(-1);r.gates=relayGates(r.points,atDistance);r.cells=r.cells.map((p,i,all)=>({...atDistance(r.points,r.length*(i+1)/(all.length+1)),id:i}));}
+ const relayFlight={...flight,speed:280,boostSpeed:420};
+ const relay={id:RELAY_ID,name:'Delta relay',rallies:relayRallies,flight:relayFlight};
  return {rallies,flight,loops,full,relay};
 }
 export function newFlight(flight,ground){return {s:0,v:0,z:ground(flight.start.x,flight.start.y)+35,vz:0,boost:0,spent:[],done:false};}
 export function stepFlight(f,input,dt,route,ground){
- if(f.done)return;f.boost=Math.max(0,f.boost-dt);const target=(input.steer||0)*(f.boost>0?1100:700);f.v+=(target-f.v)*(1-Math.exp(-dt*2));f.s=Math.max(0,Math.min(route.length,f.s+f.v*dt));const t=f.s/route.length,x=route.start.x+(route.finish.x-route.start.x)*t,y=route.start.y+(route.finish.y-route.start.y)*t,floor=ground(x,y)+18;
+ if(f.done)return;f.boost=Math.max(0,f.boost-dt);const target=(input.steer||0)*(f.boost>0?(route.boostSpeed??1100):(route.speed??700));f.v+=(target-f.v)*(1-Math.exp(-dt*2));f.s=Math.max(0,Math.min(route.length,f.s+f.v*dt));const t=f.s/route.length,x=route.start.x+(route.finish.x-route.start.x)*t,y=route.start.y+(route.finish.y-route.start.y)*t,floor=ground(x,y)+18;
  f.vz+=((input.drive?100:0)-(input.special?130:0)-18)*dt;f.vz*=Math.exp(-dt*.6);f.z=Math.max(floor,Math.min(ground(x,y)+380,f.z+f.vz*dt));if(f.z===floor)f.vz=Math.max(0,f.vz);
  for(const p of route.cells)if(!f.spent.includes(p.id)&&Math.hypot(p.s-f.s,p.z-f.z)<38){f.spent.push(p.id);f.boost=2.8;}
  if(f.s>=route.length-12&&f.z<=ground(x,y)+30){f.done=true;f.z=ground(x,y);f.v=f.vz=0;}return {x,y,z:f.z,heading:route.heading};
 }
 
 export function readRallyRecords(raw){
- try{const value=JSON.parse(raw||'{}');if(!value||typeof value!=='object'||Array.isArray(value))return {};return Object.fromEntries(Object.entries(value).filter(([id,r])=>['relay-v1','expedition','seitah-loop','delta-loop','rim-loop'].includes(id)&&r&&Number.isFinite(r.time)&&r.time>0&&Array.isArray(r.splits)&&r.splits.length>0&&r.splits.every(p=>p&&typeof p.name==='string'&&Number.isFinite(p.time)&&p.time>=0&&Number.isFinite(p.total)&&p.total>=p.time)));}catch{return {};}
+ try{const value=JSON.parse(raw||'{}');if(!value||typeof value!=='object'||Array.isArray(value))return {};return Object.fromEntries(Object.entries(value).filter(([id,r])=>['relay-v1','relay-v2','expedition','seitah-loop','delta-loop','rim-loop'].includes(id)&&r&&Number.isFinite(r.time)&&r.time>0&&Array.isArray(r.splits)&&r.splits.length>0&&r.splits.every(p=>p&&typeof p.name==='string'&&Number.isFinite(p.time)&&p.time>=0&&Number.isFinite(p.total)&&p.total>=p.time)));}catch{return {};}
 }

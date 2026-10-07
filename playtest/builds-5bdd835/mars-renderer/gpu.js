@@ -131,10 +131,11 @@ void main(){
  if(kind>5.5&&kind<6.5)lit=mix(base,vec3(1.,.92,.68),roverLamp.w);
  if(kind>7.5)lit=base*(.18+.82*daylight);
  else if(kind>6.5)lit=base;
- if(kind<.5&&backdropPass<.5&&roadEnabled>.5){float road=texture2D(roadMask,(vWorld.xy-roadBounds.xy)/roadBounds.zw).r;vec3 tan=vec3(.79,.56,.37)+vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);lit=mix(lit,tan*(.18+.82*daylight),road);}
+ if(kind<.5&&backdropPass<.5&&roadEnabled>.5){float road=texture2D(roadMask,(vWorld.xy-roadBounds.xy)/roadBounds.zw).r;vec3 tan=vec3(.79,.56,.37)+vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);if(roadEnabled>1.5){float soil=texture2D(grit,vWorld.xy*.06).r;vec3 compacted=lit*vec3(1.24,1.14,.98)*( .94+.12*soil);lit=mix(lit,compacted,road*.9);}else lit=mix(lit,tan*(.18+.82*daylight),road);}
  float fog=1.-exp(-pow(max(0.,vDepth)/terrainFogDistance,1.7));
  if(backdropPass>.5)fog=backdropHazeFloor+.24*(1.-exp(-max(0.,vDepth)/40000.));
  float alpha=kind>2.5&&kind<3.5?.17*clamp((vColor.x-(trackInfo.x-trackInfo.y))/128.,0.,1.)*(1.-localDust):kind>1.5&&kind<2.5?(1.-smoothstep(.15,1.,length(vLocal.xy/vec2(6.,8.))))*.24:1.;
+ if(kind>8.5&&kind<9.5)alpha=.14*(1.-smoothstep(250.,1100.,vDepth));
  if(roverPart>.5)dustFog=min(dustFog,kind>5.5||kind>3.5&&kind<4.5?.35:.68);
  vec3 visible=mix(mix(lit,haze,min(.98,fog)),dustColor,dustFog);
  // A small amount of nearby reflected lamp light remains visible through the dust.
@@ -167,12 +168,13 @@ export class GPURenderer{
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
  if(this.storm?.age>=0||this.storm?.haze>0){gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);this.mesh(this.sky,[0,0,0,100],5);gl.disable(gl.BLEND);gl.enable(gl.DEPTH_TEST);}
  if(this.backdrop){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
- const road=s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null;gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?1:0);gl.activeTexture(gl.TEXTURE0);
+ const road=this.relayRoad??(s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?(road.style??1):0);gl.activeTexture(gl.TEXTURE0);
  this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)this.mesh(m,[0,0,0,100],0);
  this.worldTerrain?.draw(this.photoView?.free?{...s,x:cam.x,y:cam.y}:s);
  gl.uniform1f(this.locations.roadEnabled,0);this.mesh(this.rocks);
  if(this.artMesh)this.mesh(this.artMesh,[0,0,0,100],0);
- if(this.routeRibbon&&s.mode==='free'&&!this.photoView)(this.expeditionRouteActive?this.expeditionRibbon:this.routeRibbon)?.draw(s);
+ if(this.relayFocus)this.historicalTracks?.draw(s);
+ if(!this.relayFocus&&this.routeRibbon&&s.mode==='free'&&!this.photoView)(this.expeditionRouteActive?this.expeditionRibbon:this.routeRibbon)?.draw(s);
  this.tracks.add(s,(offset,data)=>{gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferSubData(gl.ARRAY_BUFFER,offset*4,data);});this.trackMesh.count=this.tracks.vertexCount;gl.uniform2f(this.locations.trackInfo,this.tracks.count,this.tracks.capacity);gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ZERO,gl.ONE);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);if(this.trackMesh.count)this.mesh(this.trackMesh,[0,0,0,100],3);gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.disable(gl.BLEND);
  if(this.photoView&&!this.photoView.live){overlay.width=w;overlay.height=h;this.roverScreenBounds=null;return;}
  // Match the connected mesh under the wheels without writing simulation height.
@@ -182,7 +184,7 @@ export class GPURenderer{
  if(dt>0)this.steerAngle+=((s.visualSteer||0)*.52-this.steerAngle)*(1-Math.exp(-dt*16));
  for(const [x,y]of s.skiBlades?[]:wheelPivots){gl.uniform4f(this.locations.wheel,x,y,this.steerAngle*Math.sign(y),1);const dx=x*Math.cos(s.heading)+y*Math.sin(s.heading),dy=x*Math.sin(s.heading)-y*Math.cos(s.heading),wheelActor=[...actor];if(!s.air)wheelActor[2]+=Math.max(-.6,Math.min(.6,this.height(s.x+dx,s.y+dy)-z-sx*dx-sy*dy));this.mesh(this.wheel,wheelActor);}gl.uniform4f(this.locations.wheel,0,0,0,0);gl.uniform2f(this.locations.slope,0,0);gl.uniform1f(this.locations.roverPart,0);for(const p of boostPickups){if(s.pickupSpent.includes(p.id)||Math.hypot(p.x-s.x,p.y-s.y)>1200)continue;this.mesh(this.cell,[p.x,p.y,ground(p.x,p.y)+.4,0]);}
  overlay.width=w;overlay.height=h;const ctx=overlay.getContext('2d');ctx.font='12px system-ui';ctx.textAlign='center';
- const sampleRows=this.area?.sampleRows?this.area.sampleRows(s):samples.map((p,index)=>({p,index,known:s.collected.includes(index)}));
+ const sampleRows=this.relayFocus?[]:this.area?.sampleRows?this.area.sampleRows(s):samples.map((p,index)=>({p,index,known:s.collected.includes(index)}));
  for(const row of sampleRows){const {p,index:i,known}=row;if(Math.hypot(p.x-s.x,p.y-s.y)>850)continue;const q=this.project(p.x,p.y,ground(p.x,p.y)+8);if(q.depth<4||q.x<20||q.x>w-20||q.y<65||q.y>h-130)continue;
  // Test the sight line against terrain so labels do not show through hills.
  let blocked=false;for(let j=1;j<20;j++){const t=j/20,x=cam.x+(p.x-cam.x)*t,y=cam.y+(p.y-cam.y)*t;if(ground(x,y)>cam.eye+(ground(p.x,p.y)+8-cam.eye)*t){blocked=true;break;}}if(blocked)continue;
