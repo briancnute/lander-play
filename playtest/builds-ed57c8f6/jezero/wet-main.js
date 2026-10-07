@@ -6,13 +6,13 @@ import {driveStep} from '../mars-renderer/driving.js';
 import {RALLY_TUNE} from './rally-route.js';
 import {createViewModes} from './view-modes.js';
 import {startArtHop,stepArtHop} from './art-hop.js';
-const $=s=>document.querySelector(s),keys=new Set(),pointers=new Map();
+const $=s=>document.querySelector(s),keys=new Set(),keyboard=new Set(),pointers=new Map();
 let area,gpu,state,views,run=newWetRun(),paused=false,held=false,safe=null,saveAge=0,toastAge=0,acc=0,last=performance.now(),record=null;
 const clock=t=>`${Math.floor(t/60)}:${(t%60).toFixed(1).padStart(4,'0')}`;
 const read=key=>{try{return JSON.parse(localStorage.getItem(key));}catch{return null;}};
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{$('#save-note').textContent='Storage unavailable. This lap can still be played, but will not be saved.';}}
 function controls(){return {drive:keys.has('drive'),special:keys.has('brake'),steer:Number(keys.has('right'))-Number(keys.has('left'))};}
-function clearInput(){keys.clear();pointers.clear();held=false;for(const b of document.querySelectorAll('.controls button'))b.classList.remove('active');}
+function clearInput(){keys.clear();keyboard.clear();pointers.clear();held=false;for(const b of document.querySelectorAll('.controls button'))b.classList.remove('active');}
 function message(text){$('#toast').textContent=text;toastAge=5;}
 function pose(p){return {x:p.x,y:p.y,heading:p.heading??nearestWetLine(p.x,p.y).heading};}
 function resetPosition(p){Object.assign(state,pose(p),{z:area.ground(p.x,p.y),v:0,vz:0,air:false,boost:0,thrust:0,artHop:null,turnaround:false,returnReleased:false});gpu.reset(state);}
@@ -40,9 +40,10 @@ function step(dt,input=controls()){
 }
 function draw(dt=0){if(!gpu)return;if(!views?.draw(state,dt,$('#labels')))gpu.draw(state,dt,$('#labels'));$('#stage').textContent=run.done?'Complete':wetStages[run.next].name;$('#timer').textContent=clock(run.time);$('#practice').hidden=!run.practice;$('#wet-hint').textContent=run.done?'':wetStages[run.next].hint;$('#mini-map-button').hidden=!views?.overhead;$('#brake').textContent=views?.overhead?'Hop':keys.has('drive')&&state.raceBoosts>0?`Boost ${state.raceBoosts}`:Math.abs(state.v)<1?'Reverse':'Brake';document.body.classList.toggle('rally-boosting',state.boost>0&&!area.reducedMotion);}
 function exit(){save();if(window.parent!==window)window.parent.postMessage({type:'astra-exit-rover'},location.origin);else location.href='../../../?v2=1';}
-for(const id of ['left','right','drive','brake']){const b=$('#'+id);b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pointers.set(e.pointerId,id);keys.add(id);b.classList.add('active');};for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,e=>{pointers.delete(e.pointerId);if(![...pointers.values()].includes(id)){keys.delete(id);b.classList.remove('active');}});}
-const keyMap={w:'drive',arrowup:'drive',a:'left',arrowleft:'left',d:'right',arrowright:'right',' ':'brake',arrowdown:'brake',s:'brake'};
-addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();if($('#result-dialog').open)return;if(paused&&!views?.photo){closeDialogs();setPause(false);}else openPause();return;}const id=keyMap[e.key.toLowerCase()];if(id&&!paused){e.preventDefault();keys.add(id);$('#'+id).classList.add('active');}});addEventListener('keyup',e=>{const id=keyMap[e.key.toLowerCase()];if(id){keys.delete(id);$('#'+id).classList.remove('active');}});
+const keyMap={Space:'drive',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right',ShiftLeft:'brake',ShiftRight:'brake'};
+function syncControls(){keys.clear();for(const code of keyboard)keys.add(keyMap[code]);for(const id of pointers.values())keys.add(id);for(const id of ['left','right','drive','brake'])$('#'+id).classList.toggle('active',keys.has(id));}
+for(const id of ['left','right','drive','brake']){const b=$('#'+id);b.onpointerdown=e=>{if(paused)return;e.preventDefault();b.setPointerCapture(e.pointerId);pointers.set(e.pointerId,id);syncControls();};for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,e=>{pointers.delete(e.pointerId);syncControls();});}
+addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();if($('#result-dialog').open)return;if(paused&&!views?.photo){closeDialogs();setPause(false);}else openPause();return;}const id=keyMap[e.code];if(id&&!paused&&!e.target.closest('input,select,textarea,button,a')&&(!e.repeat||keyboard.has(e.code))){e.preventDefault();keyboard.add(e.code);syncControls();}});addEventListener('keyup',e=>{keyboard.delete(e.code);syncControls();});
 addEventListener('blur',()=>{if(gpu&&!run.done&&!views?.photo)openPause();});document.addEventListener('visibilitychange',()=>{if(document.hidden&&gpu&&!run.done&&!views?.photo)openPause();});addEventListener('pagehide',save);addEventListener('astra-close-practice',save);
 addEventListener('message',e=>{if(e.origin===location.origin&&e.data?.type==='astra-pause-rover')openPause();});
 $('#pause-button').onclick=openPause;$('#resume').onclick=()=>{closeDialogs();setPause(false);};$('#retry').onclick=restart;$('#race-again').onclick=restart;$('#exit').onclick=exit;$('#result-exit').onclick=exit;
