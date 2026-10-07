@@ -53,6 +53,6 @@ export function readTrickInput(s,time,eligible,busy,input,releasedGrab=false){
 /** Distinct held silhouettes, shared by the astronaut pose and ski-blade rig. */
 export function grabPose(m){
  const poses={L:[.12,.18,.28,.35,-.4],LL:[-.42,0,.12,-.3,.25],LR:[.5,0,-.12,.2,-.3],LLL:[-.55,.35,.05,.6,.45],LLR:[.9,0,.15,0,0],LRL:[.12,-.6,.3,-.8,.65],LRR:[-.2,.15,-.4,1.1,-.65]};
- const q=poses[m.slot]??poses.L,e=Math.min(1,m.age/.18)*(m.releasing?Math.max(0,1-m.releaseAge/GRAB_RELEASE):1);
+ const q=poses[m.slot]??poses.L,e=Math.max(0,Math.min(1,(m.age-VARIANT_WINDOW)/.18))*(m.releasing?Math.max(0,1-m.releaseAge/GRAB_RELEASE):1);
  return {pitch:q[0]*e,yaw:q[1]*e*m.sign,roll:q[2]*e*m.sign,deck:q[3]*e*m.sign,bars:q[4]*e*m.sign,extent:e};
 }
