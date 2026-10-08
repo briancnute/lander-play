@@ -1,3 +1,5 @@
+import {installBrowserInput} from '../shared/browser-input.js';
+installBrowserInput();
 import {surfaceResult} from '../shared/result-card.js';
 import {loadWetArea} from './wet-area.js';
 import {wetRoute,wetStages,wetSafeRoute,WATER_LEVEL,WET_KEY,WET_ID,newWetRun,wetProgress,wetReturn,validWetSave,nearestWetLine} from './wet-course.js';

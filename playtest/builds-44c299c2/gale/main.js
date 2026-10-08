@@ -1,3 +1,5 @@
+import {installBrowserInput} from '../shared/browser-input.js';
+installBrowserInput();
 import {readSurfaceTime,bindSurfaceTime} from '../shared/surface-time.js';
 import {createSkiActivity} from './ski-activity.js';
 import {createFreeRoamSession} from '../shared/free-roam.js';

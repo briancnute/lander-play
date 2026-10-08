@@ -1,0 +1,12 @@
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=`button, [role="button"], canvas, [data-game-control]`,t=`input, textarea, select, [contenteditable]:not([contenteditable="false"])`,n=`canvas, [data-game-control], [data-control], #drive-controls button, #speed, [data-launch], [data-surface-play], [data-free-roam], #v3-play-lander, #v3-play-collector`,r=new WeakSet;function i(e=document){let t=e;try{t=e.defaultView.top.document}catch{}let n=t.defaultView,r=t.documentElement;if(!(!n?.matchMedia(`(pointer: coarse)`).matches||n.matchMedia(`(display-mode: standalone)`).matches||n.navigator.standalone||t.fullscreenElement||t.fullscreenEnabled===!1||typeof r.requestFullscreen!=`function`||r.dataset.astraFullscreenAttempted)){r.dataset.astraFullscreenAttempted=`true`;try{Promise.resolve(r.requestFullscreen()).catch(()=>{})}catch{}}}function a(a=document){if(r.has(a))return;r.add(a);let o=a.createElement(`style`);o.dataset.astraBrowserInput=``,o.textContent=`
+ :is(button, [role="button"], canvas, [data-game-control]),
+ :is(button, [role="button"], [data-game-control]) * {
+   -webkit-user-select: none; user-select: none;
+   -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+ }
+ :is(button, [role="button"]) { touch-action: manipulation; }
+ canvas, [data-game-control], [data-control], #drive-controls button, button#speed { touch-action: none; }
+ :is(input, textarea, select, [contenteditable]:not([contenteditable="false"])) {
+   -webkit-user-select: auto; user-select: auto; -webkit-touch-callout: default;
+ }
+ `,a.head.append(o);let s=n=>n?.closest&&!n.closest(t)&&n.closest(e);for(let e of[`contextmenu`,`selectstart`,`dragstart`])a.addEventListener(e,e=>{s(e.target)&&e.preventDefault()},{capture:!0});a.addEventListener(`pointerup`,e=>{e.button===0&&s(e.target)&&e.target.closest(n)&&i(a)},{capture:!0,passive:!0})}a();export{i as t};

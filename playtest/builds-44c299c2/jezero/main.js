@@ -1,3 +1,5 @@
+import {installBrowserInput} from '../shared/browser-input.js';
+installBrowserInput();
 import {surfaceResult} from '../shared/result-card.js';
 import {createRallyExpedition,rallyCatalog} from './rally-expedition.js';
 import {readSurfaceTime,bindSurfaceTime} from '../shared/surface-time.js';
