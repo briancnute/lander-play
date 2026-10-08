@@ -10,10 +10,11 @@ export function airInput(a,grounded,input,trick=false,time=0){
  a.held=input.gas;a.brakeHeld=input.special;
  a.mode=!grounded&&a.slamming?'slam':!grounded&&input.gas&&input.steer?'turn':'idle';
 }
-export function stepAirControl(a,grounded,input,dt,trick=false,time=0){
+export function stepAirControl(a,grounded,input,dt,trick=false,time=0,directSteering=false){
  airInput(a,grounded,input,trick,time);
  const target=!grounded&&input.gas&&!a.slamming?Math.sign(input.steer)*AIR_TURN_RATE:0;
- a.yaw+=(target-a.yaw)*(1-Math.exp(-dt*8));if(grounded)a.yaw=0;
+ // Moon reads held directions directly; Gale keeps its existing eased response.
+ a.yaw=directSteering?target:a.yaw+(target-a.yaw)*(1-Math.exp(-dt*8));if(grounded)a.yaw=0;
  const dives=a.dives,hop=a.hops>0;a.dives=a.hops=0;
  a.flash=grounded?0:dives ? .28 :Math.max(0,a.flash-dt);
  return {dive:!grounded&&(a.slamming||a.flash>0),dives,hop,yaw:a.yaw};

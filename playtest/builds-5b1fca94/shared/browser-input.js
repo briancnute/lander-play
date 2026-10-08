@@ -37,6 +37,15 @@ export function installBrowserInput(doc = document) {
  for (const event of ['contextmenu', 'selectstart', 'dragstart']) {
    doc.addEventListener(event, e => { if (control(e.target)) e.preventDefault(); }, {capture: true});
  }
+ // Held controls already own Pointer Events. Cancel the native Touch Events
+ // gesture too: cancelling pointerdown is not cancellation of touchstart.
+ // Keep ordinary buttons, help text and editable fields on their normal path.
+ const heldControl = target => control(target) && target.closest('[data-game-control]');
+ for (const event of ['touchstart', 'touchmove']) {
+  doc.addEventListener(event, e => {
+   if (e.cancelable && (heldControl(e.target) || Array.from(e.changedTouches ?? []).some(t => heldControl(t.target)))) e.preventDefault();
+  }, {capture: true, passive: false});
+ }
  // Touch activation begins on pointerup, not pointerdown. Request after a hold releases.
  doc.addEventListener('pointerup', e => {
    if (e.button === 0 && control(e.target) && e.target.closest(fullscreenTarget)) requestGameFullscreen(doc);

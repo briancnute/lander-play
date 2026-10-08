@@ -9,4 +9,4 @@
  :is(input, textarea, select, [contenteditable]:not([contenteditable="false"])) {
    -webkit-user-select: auto; user-select: auto; -webkit-touch-callout: default;
  }
- `,a.head.append(o);let s=n=>n?.closest&&!n.closest(t)&&n.closest(e);for(let e of[`contextmenu`,`selectstart`,`dragstart`])a.addEventListener(e,e=>{s(e.target)&&e.preventDefault()},{capture:!0});a.addEventListener(`pointerup`,e=>{e.button===0&&s(e.target)&&e.target.closest(n)&&i(a)},{capture:!0,passive:!0})}a();export{i as t};
+ `,a.head.append(o);let s=n=>n?.closest&&!n.closest(t)&&n.closest(e);for(let e of[`contextmenu`,`selectstart`,`dragstart`])a.addEventListener(e,e=>{s(e.target)&&e.preventDefault()},{capture:!0});let c=e=>s(e)&&e.closest(`[data-game-control]`);for(let e of[`touchstart`,`touchmove`])a.addEventListener(e,e=>{e.cancelable&&(c(e.target)||Array.from(e.changedTouches??[]).some(e=>c(e.target)))&&e.preventDefault()},{capture:!0,passive:!1});a.addEventListener(`pointerup`,e=>{e.button===0&&s(e.target)&&e.target.closest(n)&&i(a)},{capture:!0,passive:!0})}a();export{i as t};
