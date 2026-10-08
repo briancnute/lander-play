@@ -35,8 +35,8 @@ export function advanceMove(m,held,dt,repeat=false){
  if(m.kind!=='grab'){
   if(!held)m.releasing=true;
   if(m.age<m.duration)return false;
-  if(!repeat||m.releasing)return true;
-  m.age-=m.duration;m.cycles++;delete m.poseFrom;return false;
+  if(m.secret||!repeat||m.releasing)return true;
+  if(m.tree)m.poseFrom=moonTrickPose(m);m.age-=m.duration;m.cycles++;return false;
  }
  releaseGrab(m,held);
  if(!m.releasing)m.hold+=dt;
@@ -85,6 +85,11 @@ export function moonTrickPose(m){
  const preparation=tier===2&&!loaded?GRAB_ATTACK:0;
  const from=local<preparation?start:preparation?first:start,to=local<preparation?first:target;
  const enter=Math.max(0,Math.min(1,(local<preparation?local:local-preparation)/GRAB_ATTACK)),blend=enter*enter*(3-2*enter);
- const release=m.kind==='spin'?Math.max(0,Math.min(1,(m.duration-m.age)/.24)):m.releasing?Math.max(0,1-m.releaseAge/GRAB_RELEASE):1;
+ const release=m.kind==='spin'?1:m.releasing?Math.max(0,1-m.releaseAge/GRAB_RELEASE):1;
  return Object.fromEntries(Object.keys(base).map(k=>[k,((from[k]??0)+(to[k]-(from[k]??0))*blend)*release]));
 }
+
+/** Physical Special commits tricks; physical Thrust belongs to ride gestures. */
+export function trickControlInput(input){return {...input,gas:!!input.special,special:false,press:input.press==='special'?'gas':input.press==='gas'?'release':input.press};}
+/** Unwrapped, constant-rate rotation prevents a pause at each cycle boundary. */
+export function moveRotation(m){return m.secret?Math.min(1,m.age/m.duration)*m.rotations*Math.PI*2:m.kind==='spin'?(m.cycles+m.age/m.duration)*m.rotations*Math.PI*2:0;}

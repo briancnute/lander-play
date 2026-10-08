@@ -1,9 +1,9 @@
 // Summit descent. Local Mars gravity, shared Moon trick grammar, optional boost lines.
-import {newTrickInput,readTrickInput,queueTrickInput,advanceMove,releaseGrab,movePoints,moveRepeatKey} from '../shared/ride-tricks.js';
+import {newTrickInput,trickControlInput,readTrickInput,queueTrickInput,advanceMove,releaseGrab,movePoints,moveRepeatKey} from '../shared/ride-tricks.js';
 import {newAirControl,airInput,stepAirControl} from '../shared/ride-gestures.js';
 import {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude} from './ski-course.js';
 export {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude};
-export const SKI_KEY='astra.gale.skiBlades.v7',GRAVITY=3.71*(8/3),HOP_SPEED=Math.sqrt(2*GRAVITY*4),DIVE_JOLT=16;
+export const SKI_KEY='astra.gale.skiBlades.v7',GRAVITY=3.71*(8/3),HOP_SPEED=Math.sqrt(2*GRAVITY*8),DIVE_JOLT=24;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,input:newTrickInput('ski'),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
@@ -11,8 +11,8 @@ const rideInput=input=>({press:input.press,gas:!!input.gas,special:!!input.brake
 export function captureSkiInput(r,input){if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
 export function resetSkiInput(r){r.input=newTrickInput('ski');r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
- releaseGrab(r.trick,input.gas);
- const move=readTrickInput(r.input,input.time,r.air,!!r.trick,input,r.trick?.kind==='grab'&&r.trick.releasing);
+ releaseGrab(r.trick,input.special);
+ const move=readTrickInput(r.input,input.time,r.air,!!r.trick,trickControlInput(input),r.trick?.kind==='grab'&&r.trick.releasing);
  if(move&&r.trick){if(trickFits(r,course,move.duration)){if(!move.variant)completeTrick(r,r.trick);Object.assign(r.trick,move,{name:skiMoveName(move.trick),direction:move.sign});r.feedback=r.trick.name;}else r.feedback='Too low for '+move.trick;}
  else if(move&&!beginTrick(r,course,move))r.input.variationOpen=false;
  airInput(r.airControl,!r.air,input,!!r.trick||!!move,input.time);
@@ -64,11 +64,11 @@ export function stepSki(r,course,input,dt){
  const air=stepAirControl(r.airControl,!r.air,gesture,dt,!!r.trick,r.time);
  if(air.hop&&!r.air){r.air=true;r.vz=HOP_SPEED;r.feedback='Hop';}
  if(air.dives&&r.air){r.vz=Math.min(0,r.vz)-DIVE_JOLT*air.dives;r.feedback='Down-thrust';}
- r.down=air.dive;r.airMode=r.air&&input.brake&&steer?'turn':'idle';r.yawRate=air.yaw;
+ r.down=air.dive;r.airMode=r.air&&air.dive?'slam':r.air&&input.gas&&steer?'turn':'idle';r.yawRate=air.yaw;
  if(r.air)r.yaw=clamp(r.yaw+r.yawRate*dt,-.8,.8);else r.yaw*=Math.exp(-dt*5);
  const grade=clamp((surfaceAt(r,course,12)-surfaceAt(r,course,-12))/24,-.8,.8);
  const crossGrade=clamp((surfaceAt(r,course,0,12)-surfaceAt(r,course,0,-12))/24,-.8,.8);
- if(!r.air)stepSkiGround(r,grade,crossGrade,input,dt);
+ if(!r.air)stepSkiGround(r,grade,crossGrade,{...input,brake:false},dt);
  else if(r.airMode==='turn')r.side+=steer*38*dt;
  // The broad mountain is traversable: no invisible shoulder spring or speed tax.
  advancePosition(r,course,dt);
@@ -79,9 +79,9 @@ export function stepSki(r,course,input,dt){
  const onJump=(course.relief?.(oldS,oldU)??0)>.1;
  if(!r.air&&Math.hypot(r.v,r.side)>25&&onJump&&nextZ>ground+.12){r.air=true;r.vz=clamp(r.vz,-45,18);r.z=oldZ+r.vz*dt-GRAVITY*dt*dt/2;r.vz-=GRAVITY*dt;r.feedback='Airborne';for(let i=0;i<RAMPS.length;i++)if(Math.abs(oldS-RAMPS[i].s)<100&&!r.ramps.includes(i))r.ramps.push(i);}
  else if(!r.air){r.z=ground;const vertical=(ground-oldZ)/dt;r.vz=onJump?clamp(vertical,-45,18):Math.min(0,vertical);if(r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};}
- else {r.z=nextZ;r.vz-=GRAVITY*dt;}
- if(r.air&&r.trick){const t=r.trick,done=t.kind?advanceMove(t,!!input.gas,dt):(t.age+=dt)>=t.duration;if(done){completeTrick(r,t);r.trick=null;r.feedback='Trick complete';}}
- if(r.air&&r.z<=ground){r.z=ground;r.air=false;r.down=false;const clean=!r.trick;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=Math.min(0,(surfaceAt(r,course,r.v*dt,r.side*dt)-ground)/dt);resetSkiInput(r);r.input.gas=!!input.gas;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
+ else {r.z=nextZ;r.vz-=(GRAVITY+(air.dive?32:0))*dt;}
+ if(r.air&&r.trick){const t=r.trick,cycles=t.cycles,done=t.kind?advanceMove(t,!!input.brake,dt,!t.secret&&trickFits(r,course,t.duration)):(t.age+=dt)>=t.duration;if(t.cycles>cycles)completeTrick(r,t);if(done){completeTrick(r,t);r.trick=null;r.feedback='Trick complete';}}
+ if(r.air&&r.z<=ground){r.z=ground;r.air=false;r.down=false;const clean=!r.trick;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=Math.min(0,(surfaceAt(r,course,r.v*dt,r.side*dt)-ground)/dt);resetSkiInput(r);r.input.gas=!!input.brake;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
  for(let i=0;i<ITEMS.length;i++){const p=ITEMS[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<65&&Math.abs(z-itemAltitude(course,p))<40){r.items.push(i);r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}
  if(r.s>=course.length&&!r.air&&Math.abs(r.u)<WIDTH){bank(r);r.phase='result';r.reason='Descent complete';r.score+=500;}
 }

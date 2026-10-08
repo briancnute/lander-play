@@ -1,6 +1,6 @@
 import {surfaceResult} from '../shared/result-card.js';
 import {rideHelp} from '../shared/ride-help.js';
-import {grabPose,movePoints,moveRepeatKey} from '../shared/ride-tricks.js';
+import {moveRotation,grabPose,movePoints,moveRepeatKey} from '../shared/ride-tricks.js';
 import {skiRating,skiCourse,newSkiRun,stepSki,recoverSki,loadSkiRecord,saveSkiResult,LENGTH,ITEMS,captureSkiInput,resetSkiInput} from './ski-run.js';
 import {buildSkiWorld} from './ski-world.js';
 import {canStartActivity} from '../shared/free-roam.js';
@@ -26,12 +26,12 @@ export function createSkiActivity(api){
  function step(dt,input){if(!stage)return false;const s=api.state;s.t+=dt;
   if(stage==='lift'){liftAge=Math.min(8,liftAge+dt);const t=liftAge/8,p=course.point(LENGTH*(1-t));Object.assign(s,{x:p.x,y:p.y,z:course.surface(p.x,p.y)+70*Math.sin(t*Math.PI),v:0,air:true,liftCarrier:true,heading:Math.PI});if(liftAge===8)summit();return true;}
   if(stage!=='run')return true;
-  stepSki(run,course,{gas:input.drive,brake:input.brake,steer:input.steer,both:input.both},dt);const p=Number.isFinite(run.worldX)?{x:run.worldX,y:run.worldY}:course.point(run.s,run.u),h=course.heading(run.s),t=run.trick,progress=t?Math.min(1,t.age/t.duration):0,angle=t?progress*Math.PI*2*t.rotations*t.sign:0;
+  stepSki(run,course,{gas:input.drive,brake:input.brake,steer:input.steer,both:input.both},dt);const p=Number.isFinite(run.worldX)?{x:run.worldX,y:run.worldY}:course.point(run.s,run.u),h=course.heading(run.s),t=run.trick,progress=t?Math.min(1,t.age/t.duration):0,angle=t?moveRotation(t)*t.sign:0;
   const grab=t?.kind==='grab'?grabPose(t):null,flip=grab?grab.pitch:t&&['flip','bar','cork','rodeo'].includes(t.axis)?angle:0,spin=grab?grab.yaw:t&&['yaw','cork','rodeo'].includes(t.axis)?angle:0;
   const whip=grab?grab.deck:t?.axis==='rodeo'?angle*2:t?.axis==='deck'?angle:t?.axis==='rewind'?Math.sin(progress*Math.PI*2)*Math.PI*2*t.sign:t?.axis==='bar'?angle:0;
   const travelHeading=h+(Math.hypot(run.v,run.side)>.001?Math.atan2(run.side,run.v):(run.facing??0));
-  const tuck=t?.variant&&!t.secret?Math.sin(progress*Math.PI)*-.35:0;
-  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:travelHeading,skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??(!run.air&&input.brake?.28:0),skiGrabRight:grab?-grab.bars+grab.roll:(!run.air&&input.brake?-.28:0),v:Math.hypot(run.v,run.side),vz:run.vz,air:run.air,skiBlades:true,skiGrade:(course.surface(p.x+Math.sin(travelHeading)*180,p.y-Math.cos(travelHeading)*180)-course.surface(p.x,p.y))/180,visualSteer:input.steer,visualBrake:input.brake,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
+  const tuck=t?.variant&&!t.secret?-.25:0;
+  Object.assign(s,{x:p.x,y:p.y,z:run.z,heading:travelHeading,skiSpin:spin+run.yaw,skiPitch:flip+tuck,skiTailwhip:whip,skiGrabLeft:grab?.bars??0,skiGrabRight:grab?-grab.bars+grab.roll:0,v:Math.hypot(run.v,run.side),vz:run.vz,air:run.air,skiBlades:true,skiGrade:(course.surface(p.x+Math.sin(travelHeading)*180,p.y-Math.cos(travelHeading)*180)-course.surface(p.x,p.y))/180,visualSteer:input.steer,visualBrake:false,downThrust:run.down,thrust:t ? .65 :(input.drive||run.boost>0)&&!run.air&&!input.brake?1:0});
   if(run.phase==='result')result();return true;
  }
  function update(){document.body.dataset.ski=stage??'roam';$('#ski-leave').hidden=!stage;const start=$('#ski-start'),nearTop=distance(course.top)<65,nearBase=distance(course.base)<65,stopped=canStartActivity({distance:0,speed:api.state.v,radius:1,maxSpeed:1});
@@ -48,7 +48,7 @@ export function createSkiActivity(api){
   $('#ski-coach').style.opacity=String(Math.min(1,Math.max(0,(2.4-age)/.6)));
   const held=run?.trick?.kind==='grab'?Math.round(movePoints(run.trick)*Math.max(.2,1/(1+(run.repeats[moveRepeatKey(run.trick)]??0)*.5))):0,points=(run?.pending??0)+held;
   $('#ski-combo').hidden=stage!=='run'||api.paused||!points;$('#ski-combo').textContent=points?`${points.toLocaleString()} × ${Math.min(8,Math.max(1,run.chain+(held?1:0)))}`:'';
-  document.querySelector('[data-control=drive]').textContent=stage==='run'?(run.air?'Trick':'Boost'):'Drive';if(stage==='run')$('#brake').textContent=run.down?'↓ Jolt':run.airMode==='turn'?'Turn':'Brake';
+  document.querySelector('[data-control=drive]').textContent=stage==='run'?(run.down?'↓ Slam':run.airMode==='turn'?'Turn':'Thrust'):'Drive';if(stage==='run')$('#brake').textContent='Special';
   document.querySelector('header .eyebrow').textContent=stage?'MARS / SKI-BLADE ACTIVITY':'MARS / FREE ROAM · UNSCORED';$('#ski-best').textContent=record.best?'Best completed descent · '+record.best.toLocaleString()+' points':'No completed descent yet';
  }
  function draw(){world.draw(api.state,run);const ctx=$('#labels').getContext('2d');for(const [name,p]of (stage==='run'?[]:[['SKI LIFT',course.base],['DOWNHILL START',course.top]])){if(distance(p)>1400)continue;const q=gpu.project(p.x,p.y,course.surface(p.x,p.y)+30);if(q.depth>4){ctx.fillStyle='#d9f7cf';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(name,q.x,q.y);}}
