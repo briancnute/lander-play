@@ -1,0 +1,1 @@
+import{o as e}from"./scoring-Cvj7YEZy.js";function t(t){if(!(!Number.isFinite(t)||t<0||t>100)&&(t=e(t),!(t<70)))return t>=90?`gold`:t>=80?`silver`:`bronze`}var n={gold:`#d8b45e`,silver:`#b9c7d0`,bronze:`#bf895c`};export{t as n,n as t};
