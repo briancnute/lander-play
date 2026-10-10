@@ -24,6 +24,11 @@ export function chase(cam,s,dt,focus,surface,terrain){
  cam.arm=Math.min(cam.arm,safe);
  const back=cam.arm,x=s.x-sx*back,y=s.y+cy*back,eye=focus+back*slope;
  // Ground-following tilt preserves framing; roofs cannot drive the terrain tilt.
- cam.eye=eye;cam.pitch=Math.atan(slope)-Math.atan(baseSlope)+(s.skiBlades?.10+Math.max(0,Math.min(.5,-(s.skiGrade||0)))*.65:0);
+ cam.eye=eye;
+ const targetPitch=Math.atan(slope)-Math.atan(baseSlope)+(s.skiBlades?.10+Math.max(0,Math.min(.5,-(s.skiGrade||0)))*.65:0);
+ // Ski terrain facets must not kick the horizon. Lens clearance still takes priority;
+ // this filters only the viewing angle, never collision or the rider's trajectory.
+ if(!s.skiBlades||cam.pitch===undefined)cam.pitch=targetPitch;
+ else if(step>0){const change=(targetPitch-cam.pitch)*(1-Math.exp(-step*5));cam.pitch+=Math.max(-step*.9,Math.min(step*.9,change));}
  return {back,x,y,eye,pitch:cam.pitch,lift:eye-s.z-23};
 }
