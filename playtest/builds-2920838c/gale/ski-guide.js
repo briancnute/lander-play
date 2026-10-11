@@ -22,11 +22,19 @@ export function createSkiGuide(gpu,courses){
  for(const name of ['Crest','Bank','Crest','Bank']){const p=candidates.find(p=>p.name===name&&!terrainFeatures.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<300));if(p)terrainFeatures.push(p);}
 
  const posts=[];for(const p of terrainFeatures){box(posts,p.x+18,p.y,ground(p.x+18,p.y),2,2,22,[.45,.64,.60]);box(posts,p.x+18,p.y,ground(p.x+18,p.y)+17,2,2,5,[1,.76,.32]);}const featurePosts=gpu.upload(new Float32Array(posts));
+ // Low, widely spaced trail edges leave room to carve and explore between them.
+ const border=[];
+ for(let s=0;s<=courses.crater.length;s+=120)for(const side of [-1,1]){
+  const p=courses.crater.point(s,side*160),z=ground(p.x,p.y);
+  box(border,p.x-1,p.y-1,z,2,2,10,[.34,.42,.43]);
+  box(border,p.x-1,p.y-1,z+7,2,2,3,[.53,.87,.76]);
+ }
+ const borderPosts=gpu.upload(new Float32Array(border));
  const lip=[];for(let u=-125;u<125;u+=25){const p=(s,v)=>{const q=c.point(s,v);return [q.x,q.y,c.height(s,v)+.35];};triangle(lip,p(c.lip-12,u),p(c.lip,u),p(c.lip-12,u+16),[1,.76,.32]);triangle(lip,p(c.lip,u),p(c.lip,u+16),p(c.lip-12,u+16),[1,.76,.32]);}const lipMesh=gpu.upload(new Float32Array(lip));
  return {lines,features,terrainFeatures,draw(state,mode,run){
   ribbons[mode==='roam'?'crater':mode].draw(state);
-  if(mode!=='slalom')gpu.mesh(featurePosts,[0,0,0,100],7);
-  gpu.mesh(arrows[mode==='roam'?'crater':mode],[0,0,0,100],7);if(mode==='slalom'||mode==='roam')gpu.mesh(lipMesh,[0,0,0,100],7);
+  if(mode!=='slalom'){gpu.mesh(featurePosts,[0,0,0,100],7);gpu.mesh(borderPosts,[0,0,0,100],7);}
+  gpu.mesh(arrows[mode==='roam'?'crater':mode],[0,0,0,100],7);if(mode==='slalom')gpu.mesh(lipMesh,[0,0,0,100],7);
   const canvas=document.querySelector('#labels'),ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=canvas.clientHeight;
   ctx.save();ctx.font='600 12px system-ui';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#172326';
   // Only the next landmark; no permanent panel obscuring the slope.
