@@ -1,3 +1,4 @@
+import {GALE_DRIVE} from './ski-boost.js';
 import {skiCourse} from './ski-course.js';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
@@ -14,10 +15,10 @@ export function createScoreCourse(ground,anchor,finish){
  path.push([end.x,end.y]);
  const c=skiCourse(ground,null,path,{ramps:[],rollers:[],items:[]});
  const jumps=[[800,4100],[-400,1800],[850,-1750]].map(([x,y],i)=>({s:c.coords(anchor.x+x,anchor.y+y).s,u:0,rise:20,run:220,width:145,launch:12,id:i}));
- Object.assign(c,{mode:'crater',scoreCourse:true,naturalAir:false,downhill:true,width:SCORE_BOUNDARY_HALF,trailHalf:SCORE_TRAIL_HALF,boundaryHalf:SCORE_BOUNDARY_HALF,returnSeconds:SCORE_RETURN_SECONDS,limit:120,gates:[],jumps,finish:c.length,finishAnchor:end,route:path.map(([x,y])=>({x,y})),rover:{...anchor,...c.coords(anchor.x,anchor.y),radius:42,sol:anchor.sol??5021,checked:'2026-10-11'}});
+ Object.assign(c,{mode:'crater',drive:GALE_DRIVE,scoreCourse:true,naturalAir:false,downhill:true,width:SCORE_BOUNDARY_HALF,trailHalf:SCORE_TRAIL_HALF,boundaryHalf:SCORE_BOUNDARY_HALF,returnSeconds:SCORE_RETURN_SECONDS,limit:120,gates:[],jumps,finish:c.length,finishAnchor:end,route:path.map(([x,y])=>({x,y})),rover:{...anchor,...c.coords(anchor.x,anchor.y),radius:42,sol:anchor.sol??5021,checked:'2026-10-11'}});
  // Orbs are on reachable grounded approaches/turns, clear of the three flight zones.
- const fractions=[.025,.16,.24,.29,.40,.48,.57,.61,.86,.94];
- c.orbs=fractions.map((f,i)=>({id:i,s:c.length*f,u:[0,45,-45,0,40,0,-40,0,45,0][i],radius:48,points:250}));
+ const fractions=[.025,.16,.24,.29,.40,.48,.57,.61,.86,.98];
+ c.orbs=fractions.map((f,i)=>({id:i,s:c.length*f,u:[0,25,-25,0,0,0,-25,0,25,0][i],radius:48,points:250}));
  // A continuous groomed grade passes through the real start, rover and finish
  // elevations; geology outside the shoulder blend remains untouched.
  const startHeight=ground(c.top.x,c.top.y),endHeight=ground(end.x,end.y),roverT=c.rover.s/c.length;

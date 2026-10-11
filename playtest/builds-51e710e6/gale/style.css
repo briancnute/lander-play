@@ -17,3 +17,6 @@ body[data-ski=run] header{justify-content:flex-end}
 #ski-curiosity[open]{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
 #ski-curiosity img{width:100%;border-radius:10px}#ski-curiosity h2{margin:7px 0}#ski-curiosity p{font-size:14px;line-height:1.4}#ski-curiosity small{display:block;font-size:10px;opacity:.75}#curiosity-continue{display:block;margin-top:14px}
 @media(max-width:540px){#ski-curiosity[open]{grid-template-columns:1fr}#ski-curiosity img{max-height:180px;object-fit:cover}}
+
+#ski-boost{min-width:52px;width:52px;height:52px;padding:0;border-radius:50%;align-self:center;transform:translateY(-14px);border:1px solid #ffd38b;background:#70471f;color:#fff0ce;font-size:11px;font-weight:750;box-shadow:0 0 14px #ffb54a35;touch-action:none}
+#ski-boost:active{background:#b47a32;box-shadow:0 0 20px #ffb54a88}

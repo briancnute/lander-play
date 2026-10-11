@@ -10,11 +10,12 @@ export function createScoreWorld(gpu,c){
  const v=[],mint=[.53,.87,.76],gold=[1,.76,.32],metal=[.34,.42,.43];
  const point=(s,u)=>{const p=c.point(s,u);return [p.x,p.y,c.height(s,u)+.45];};
  for(let s=0;s<c.length;s+=100)for(const side of [-1,1]){const p=point(s,side*c.boundaryHalf);box(v,p[0]-1,p[1]-1,p[2],2,2,10,metal);box(v,p[0]-1,p[1]-1,p[2]+7,2,2,3,mint);}
- // Gold approach chevrons and a striped lip telegraph each constructed takeoff.
- for(const j of c.jumps){
-  for(const d of [320,260,200])for(const side of [-1,1]){const s=j.s-d;triangle(v,point(s+22,side*65),point(s,side*100),point(s-12,side*65),gold);}
-  for(let u=-135;u<135;u+=30){triangle(v,point(j.s-12,u),point(j.s+1,u),point(j.s-12,u+20),gold);triangle(v,point(j.s+1,u),point(j.s+1,u+20),point(j.s-12,u+20),gold);}
-  for(const side of [-1,1]){const p=point(j.s,side*165);box(v,p[0]-2,p[1]-2,p[2],4,4,16,metal);box(v,p[0]-2,p[1]-2,p[2]+11,4,4,5,gold);}
+ // Three centered arrows lead up the ramp toward its highest takeoff.
+ for(const j of c.jumps)for(const d of [180,110,40]){
+  const s=j.s-d;
+  triangle(v,point(s+20,0),point(s-8,24),point(s-8,-24),gold);
+  triangle(v,point(s-8,-8),point(s-8,8),point(s-30,-8),gold);
+  triangle(v,point(s-8,8),point(s-30,8),point(s-30,-8),gold);
  }
  // Checkered ground finish at the historic traverse; low pylons preserve the view.
  for(let s=c.finish-24;s<c.finish+24;s+=12)for(let u=-150;u<150;u+=25){const color=(Math.round((s-c.finish)/12)+Math.round(u/25))%2?[.87,.88,.74]:[.19,.28,.28];triangle(v,point(s,u),point(s+12,u),point(s,u+25),color);triangle(v,point(s+12,u),point(s+12,u+25),point(s,u+25),color);}
@@ -29,14 +30,12 @@ export function createScoreWorld(gpu,c){
   const ctx=document.querySelector('#labels').getContext('2d'),time=matchMedia('(prefers-reduced-motion: reduce)').matches?0:state.t;ctx.save();
   for(const orb of c.orbs){
    if(r.orbs?.includes(orb.id))continue;const p=c.point(orb.s,orb.u);if(Math.hypot(p.x-state.x,p.y-state.y)>1800)continue;
-   p.z=c.surface(p.x,p.y)+24+4*Math.sin(time*3+orb.id);const q=gpu.project(p.x,p.y,p.z),edge=gpu.project(p.x+Math.cos(state.heading)*15,p.y+Math.sin(state.heading)*15,p.z),radius=Math.min(70,Math.abs(edge.x-q.x));
+   p.z=c.surface(p.x,p.y)+16+2*Math.sin(time*3+orb.id);const q=gpu.project(p.x,p.y,p.z),edge=gpu.project(p.x+Math.cos(state.heading)*11,p.y+Math.sin(state.heading)*11,p.z),radius=Math.min(52,Math.abs(edge.x-q.x));
    if(q.depth<8||radius<1||!visible(p))continue;
    const glow=ctx.createRadialGradient(q.x,q.y,radius*.4,q.x,q.y,radius*2);glow.addColorStop(0,'#ffdc8ddd');glow.addColorStop(.55,'#ffb34b66');glow.addColorStop(1,'#ffad4500');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(q.x,q.y,radius*2,0,Math.PI*2);ctx.fill();
    if(atlas.complete&&atlas.naturalWidth){const frame=Math.floor(time*4+orb.id)%16;ctx.drawImage(atlas,frame*128,0,128,128,q.x-radius,q.y-radius,radius*2,radius*2);}
    else{ctx.fillStyle='#db7544';ctx.beginPath();ctx.arc(q.x,q.y,radius,0,Math.PI*2);ctx.fill();}
   }
-  const next=c.jumps.find(j=>j.s>r.s&&j.s-r.s<650);
-  if(next){const p=c.point(next.s);label(ctx,{...p,z:c.height(next.s)+42},'JUMP · straight ahead');}
   if(!r.roverFound&&Math.hypot(c.rover.x-state.x,c.rover.y-state.y)<650)label(ctx,{...c.rover,z:c.surface(c.rover.x,c.rover.y)+32},'CURIOSITY');
   if(c.finish-r.s<900){const p=c.point(c.finish);label(ctx,{...p,z:c.height(c.finish)+40},'FINISH · Curiosity’s trail','#d6f4dc');}
   ctx.restore();

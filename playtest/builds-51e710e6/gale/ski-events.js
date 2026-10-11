@@ -1,5 +1,5 @@
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export const SKI_EVENT_KEYS={slalom:'astra.gale.slalom.v3',crater:'astra.gale.craterTricks.v3'};
+export const SKI_EVENT_KEYS={slalom:'astra.gale.slalom.v3',crater:'astra.gale.craterTricks.v4'};
 export function initSkiEvent(r,course){Object.assign(r,{mode:course.mode,gates:[],gateHits:0,gateQuality:0,boostCharge:0,boostPower:0,boostCollected:false,finalJump:false,jumpBoost:0,overtime:false,orbs:[],outsideSeconds:0,roverFound:false,roverPopupPending:false,finishedCourse:false,feedback:course.mode==='slalom'?'SLALOM · 10 GATES':'CRATER TRICKS · 2 MINUTES'});return r;}
 export function stepSkiEvent(r,c,oldS,oldU,oldAir){
  if(!c.mode)return;
@@ -13,7 +13,7 @@ export function stepSkiEvent(r,c,oldS,oldU,oldAir){
  }
 }
 export function skiEventScore(r){if(r.mode==='crater')return Math.max(0,Math.round(r.score));if(r.reason!=='Slalom complete')return 0;return Math.round(clamp(60*r.gateQuality/10+15*clamp((75-r.time)/40,0,1)+25*clamp(r.bestCombo/3500,0,1),0,100));}
-export function loadSkiEventRecord(storage,mode){const version=3,empty={version,mode,best:0,runs:0,combo:0,fastest:null};try{const r=JSON.parse(storage.getItem(SKI_EVENT_KEYS[mode]));return r?.version===version&&r.mode===mode&&Number.isFinite(r.best)&&r.best>=0&&Number.isFinite(r.runs)&&r.runs>=0?{...empty,...r}:empty;}catch{return empty;}}
+export function loadSkiEventRecord(storage,mode){const version=mode==='crater'?4:3,empty={version,mode,best:0,runs:0,combo:0,fastest:null};try{const r=JSON.parse(storage.getItem(SKI_EVENT_KEYS[mode]));return r?.version===version&&r.mode===mode&&Number.isFinite(r.best)&&r.best>=0&&Number.isFinite(r.runs)&&r.runs>=0?{...empty,...r}:empty;}catch{return empty;}}
 export function saveSkiEventRecord(storage,record,r){const complete=r.reason==='Slalom complete'||r.reason==='Crater run complete'||r.mode==='crater'&&r.reason==='Time expired',next={...record,runs:record.runs+1};if(complete){next.best=Math.max(record.best,skiEventScore(r));next.combo=Math.max(record.combo,r.bestCombo);if(r.reason!=='Time expired')next.fastest=Math.min(record.fastest??Infinity,r.time);}try{storage.setItem(SKI_EVENT_KEYS[r.mode],JSON.stringify(next));return {record:next,saved:true};}catch{return {record:next,saved:false};}}
 
 /** Charge is earned per gate; collecting the run-up token commits it once. */

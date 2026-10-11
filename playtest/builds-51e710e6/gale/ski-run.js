@@ -1,3 +1,4 @@
+import {stepOrbBoost,cancelOrbBoost,requestOrbBoost} from './ski-boost.js';
 import {stepScoreCourse} from './score-events.js';
 import {newLunarRotation,rotationInput,stepLunarRotation,ROTATION_SECONDS} from '../shared/ride-rotation.js';
 import {skiContact} from './ski-contact.js';
@@ -12,7 +13,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});delete r.worldX;delete r.worldY;r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
 const rideInput=input=>({press:input.press,gas:!!input.gas,special:!!input.brake,steer:input.steer||0,both:!!input.both,reverse:false});
-export function captureSkiInput(r,input){if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
+export function captureSkiInput(r,input){if(!input.gas)cancelOrbBoost(r);if(input.press==='special'&&!r.air)requestOrbBoost(r);if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
 export function resetSkiInput(r){r.rotation=newLunarRotation();r.rotationAngle=0;r.input=newTrickInput('ski');r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
  const rotate=rotationInput(r.rotation,input,r.air&&trickFits(r,course,ROTATION_SECONDS),!!r.trick&&(r.trick.kind==='spin'||r.trick.secret),r.airControl.lastGas);
@@ -30,7 +31,7 @@ export function beginTrick(r,course,move){if(!r.air||r.trick||!move)return false
 function completeTrick(r,t){const key=t.kind?moveRepeatKey(t):t.name,n=r.repeats[key]??0;r.repeats[key]=n+1;r.pending+=Math.round((t.kind?movePoints(t):t.value)*Math.max(.2,1/(1+n*.5)));r.chain++;r.tricks.push(t.name);}
 function bank(r){const points=Math.round(r.pending*Math.min(8,Math.max(1,r.chain)));r.score+=points;r.bestCombo=Math.max(r.bestCombo,points);if(points)r.feedback=`Banked ${points.toLocaleString()}`;r.pending=r.chain=0;}
 /** Ground motion follows momentum: edge harder to trade speed for a tighter turn.
- * No flat-ground motor unless Boost is held; airborne motion stays drag-free. */
+ * Thrust drives along the current heading; airborne motion stays drag-free. */
 export function stepSkiGround(r,grade,crossGrade,input,dt,drive={}){
  const steer=clamp(input.steer||0,-1,1),edge=Math.abs(steer),brake=!!input.brake;
  r.brakePressure=(r.brakePressure??0)+((brake?1:0)-(r.brakePressure??0))*(1-Math.exp(-dt*(brake?5:9)));
@@ -38,9 +39,9 @@ export function stepSkiGround(r,grade,crossGrade,input,dt,drive={}){
  // Steering changes the current heading; releasing it never aims at a route rail.
  const rate=brake?1.35:powered?.32:.78;
  const angle=(speed>.001?Math.atan2(r.side,r.v):(r.facing??0))+steer*rate*Math.min(1,speed/12)*dt;
- const boostThrust=r.boostCollected?28+65*r.boostPower:42;
- const thrust=brake?0:(input.gas?(drive.thrust??35):0)+(r.boost>0?boostThrust:0),limit=r.boost>0?(r.boostCollected?390+90*r.boostPower:340):(drive.limit??280);
- const friction=.025+speed*.004+speed*speed*.000025+edge*speed*(powered?.035:.08)+r.brakePressure*(12+edge*13+edge*speed*.075);
+ const boostThrust=r.orbBoost?70:r.boostCollected?28+65*r.boostPower:42;
+ const thrust=brake?0:(input.gas?(drive.thrust??35):0)+(r.boost>0?boostThrust:0),limit=r.boost>0?(r.orbBoost?470:r.boostCollected?390+90*r.boostPower:340):(drive.limit??280);
+ const friction=(.025+speed*.004+speed*speed*.000025+edge*speed*(powered?.035:.08))*(powered?1:(drive.coastDrag??1))+r.brakePressure*(12+edge*13+edge*speed*.075);
  const norm=1+grade*grade+crossGrade*crossGrade;
  const forward= Math.cos(angle),side=Math.sin(angle);
  let v=speed*forward+(thrust*forward-GRAVITY*grade/norm)*dt;
@@ -66,7 +67,7 @@ function advancePosition(r,course,dt){
 export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
  if(r.phase==='countdown'){r.countdown=Math.max(0,r.countdown-dt);if(!r.countdown)r.phase='running';return;}
- syncPosition(r,course);r.time+=dt;r.boost=Math.max(0,r.boost-dt);
+ syncPosition(r,course);r.time+=dt;r.boost=Math.max(0,r.boost-dt);stepOrbBoost(r,course,input);
  const previous={x:r.worldX,y:r.worldY,z:r.z,s:r.s};
  const steer=clamp(input.steer||0,-1,1),oldS=r.s,oldU=r.u,oldZ=r.z,oldAir=r.air;
  const gesture=rideInput(input);for(const e of r.input.events.splice(0))readRide(r,course,e);readRide(r,course,{...gesture,time:r.time});
