@@ -3,7 +3,7 @@ import {box} from '../mars-renderer/geometry.js';
 import {triangle} from '../mars-renderer/triangle.js';
 import {skiGuideLines} from './ski-guide-lines.js';
 export function createSkiGuide(gpu,courses){
- const lines=skiGuideLines(courses),ground=courses.slalom.surface,ribbons={},arrows={};
+ const lines=skiGuideLines({...courses,crater:courses.practice??courses.crater}),ground=courses.slalom.surface,ribbons={},arrows={};
  for(const [mode,points]of Object.entries(lines)){
   ribbons[mode]=createRouteRibbon(gpu,[{points}],ground,{halfWidth:1.4,color:[.55,.83,.73],emissive:true});
   const v=[];let distance=0;
@@ -24,14 +24,15 @@ export function createSkiGuide(gpu,courses){
  const posts=[];for(const p of terrainFeatures){box(posts,p.x+18,p.y,ground(p.x+18,p.y),2,2,22,[.45,.64,.60]);box(posts,p.x+18,p.y,ground(p.x+18,p.y)+17,2,2,5,[1,.76,.32]);}const featurePosts=gpu.upload(new Float32Array(posts));
  // Low, widely spaced trail edges leave room to carve and explore between them.
  const border=[];
- for(let s=0;s<=courses.crater.length;s+=120)for(const side of [-1,1]){
-  const p=courses.crater.point(s,side*160),z=ground(p.x,p.y);
+ for(let s=0;s<=(courses.practice??courses.crater).length;s+=120)for(const side of [-1,1]){
+  const p=(courses.practice??courses.crater).point(s,side*160),z=ground(p.x,p.y);
   box(border,p.x-1,p.y-1,z,2,2,10,[.34,.42,.43]);
   box(border,p.x-1,p.y-1,z+7,2,2,3,[.53,.87,.76]);
  }
  const borderPosts=gpu.upload(new Float32Array(border));
  const lip=[];for(let u=-125;u<125;u+=25){const p=(s,v)=>{const q=c.point(s,v);return [q.x,q.y,c.height(s,v)+.35];};triangle(lip,p(c.lip-12,u),p(c.lip,u),p(c.lip-12,u+16),[1,.76,.32]);triangle(lip,p(c.lip,u),p(c.lip,u+16),p(c.lip-12,u+16),[1,.76,.32]);}const lipMesh=gpu.upload(new Float32Array(lip));
  return {lines,features,terrainFeatures,draw(state,mode,run){
+  if(mode==='crater')return;
   ribbons[mode==='roam'?'crater':mode].draw(state);
   if(mode!=='slalom'){gpu.mesh(featurePosts,[0,0,0,100],7);gpu.mesh(borderPosts,[0,0,0,100],7);}
   gpu.mesh(arrows[mode==='roam'?'crater':mode],[0,0,0,100],7);if(mode==='slalom')gpu.mesh(lipMesh,[0,0,0,100],7);

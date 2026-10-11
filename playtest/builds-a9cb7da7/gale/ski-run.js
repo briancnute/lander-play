@@ -1,3 +1,4 @@
+import {stepScoreCourse} from './score-events.js';
 import {newLunarRotation,rotationInput,stepLunarRotation,ROTATION_SECONDS} from '../shared/ride-rotation.js';
 import {skiContact} from './ski-contact.js';
 // Summit descent. Local Mars gravity, shared Moon trick grammar, optional boost lines.
@@ -66,6 +67,7 @@ export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
  if(r.phase==='countdown'){r.countdown=Math.max(0,r.countdown-dt);if(!r.countdown)r.phase='running';return;}
  syncPosition(r,course);r.time+=dt;r.boost=Math.max(0,r.boost-dt);
+ const previous={x:r.worldX,y:r.worldY,z:r.z,s:r.s};
  const steer=clamp(input.steer||0,-1,1),oldS=r.s,oldU=r.u,oldZ=r.z,oldAir=r.air;
  const gesture=rideInput(input);for(const e of r.input.events.splice(0))readRide(r,course,e);readRide(r,course,{...gesture,time:r.time});
  const air=stepAirControl(r.airControl,!r.air,gesture,dt,!!r.trick,r.time,true);
@@ -95,7 +97,8 @@ export function stepSki(r,course,input,dt){
  r.rotationAngle=stepLunarRotation(r.rotation,dt,r.air);
  const items=course.items??ITEMS;for(let i=0;i<items.length;i++){const p=items[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<(p.radius??65)&&Math.abs(z-itemAltitude(course,p))<40){r.items.push(i);if(p.kind==='slalom-boost')collectSlalomBoost(r);else{r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}}
  if(course.arena&&Math.hypot(r.worldX-course.arena.x,r.worldY-course.arena.y)>course.arena.radius){r.safe={s:0,u:0};recoverSki(r,course);r.feedback='Back to crater park · combo lost';}
- if(course.practice)return;
+ stepScoreCourse(r,course,previous,dt,recoverSki);
+ if(course.practice||r.phase==='result')return;
  if(course.mode){stepSkiEvent(r,course,oldS,oldU,oldAir);return;}
  if(r.s>=course.length&&!r.air&&Math.abs(r.u)<WIDTH){bank(r);r.phase='result';r.reason='Descent complete';r.score+=500;}
 }

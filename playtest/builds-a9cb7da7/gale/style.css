@@ -11,3 +11,9 @@ body[data-ski=run] header>div,body[data-ski=run] #speed,body[data-ski=run] #toas
 @media(max-height:500px){#ski-hud{top:10px;right:76px;gap:18px}#ski-coach{top:85px;font-size:11px}#ski-combo{top:60px;font-size:18px}#ski-start{bottom:92px}#ski-hud span{font-size:11px}}
 
 body[data-ski=run] header{justify-content:flex-end}
+
+#ski-boundary{position:absolute;top:48px;left:50%;transform:translateX(-50%);color:#ffe3a1;background:#48251dd9;padding:7px 12px;border-radius:8px;font:bold 13px system-ui;pointer-events:none}
+#ski-curiosity{width:min(680px,92vw);max-height:88dvh;padding:18px;box-sizing:border-box;overflow:auto}
+#ski-curiosity[open]{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+#ski-curiosity img{width:100%;border-radius:10px}#ski-curiosity h2{margin:7px 0}#ski-curiosity p{font-size:14px;line-height:1.4}#ski-curiosity small{display:block;font-size:10px;opacity:.75}#curiosity-continue{display:block;margin-top:14px}
+@media(max-width:540px){#ski-curiosity[open]{grid-template-columns:1fr}#ski-curiosity img{max-height:180px;object-fit:cover}}
