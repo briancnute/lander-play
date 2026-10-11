@@ -1,0 +1,1 @@
+import{Vt as e,j as t,lt as n,ot as r}from"./three.module-CPp5kT9h.js";function i(){let i=new t;i.name=`survey-sample`;let a=new r(new e(1.8,24,16),new n({color:14666140,metalness:.6,roughness:.35,emissive:6111002,emissiveIntensity:.8}));return a.name=`sample-stone`,a.castShadow=a.receiveShadow=!0,i.add(a),i}export{i as t};
