@@ -342,7 +342,10 @@ try{
  if(!isV2&&(progress.position||progress.collected.length||progress.regions.length)){welcome=false;$('#welcome').hidden=true;openDialog('#pause-dialog');}
  $('#world').addEventListener('webglcontextlost',e=>{e.preventDefault();setPause(true);expedition?.stop();closeDialogs();setPause(true);ready=false;$('#loading').hidden=false;$('#loading h2').textContent='The graphics paused.';$('#loading p').textContent='Reload to restore your last saved progress.';const b=document.createElement('button');b.textContent='Reload terrain';b.onclick=()=>location.reload();$('#loading').append(b);});
  if(isV2){document.body.classList.add('v2-free-roam');$('#exit-rover').textContent='Play grid';$('#free-roam-mode').hidden=false;expedition.openMenu();explore();const requested=launchParams.get('activity');if(requested&&requested!=='roam')expedition.begin(requested);}
+
  window.__jezero={freeRoam,get raceRun(){return raceRun},get state(){return state},area,gpu,storm,progress,expedition,get worldUnlocked(){return true},get expansionComplete(){return area.extension.unlocked&&detailIndices.every(i=>progress.collected.includes(i))&&regions.filter(r=>!r.ambient).every(r=>progress.regions.includes(r.regionId??r.id))},get playback(){return checkpointPlayback(checkpointResumeAge)},get paused(){return paused},get input(){return input},landmarks,regions,nav,raceSite,mapView,routeDisplay,get entryTime(){return entryTime},mods,minimap,get stormsEnabled(){return stormsEnabled},resetAt,step,draw,startLap,chooseRace,explore,setPause,save,openDialog,renderNotes,drawMap};requestAnimationFrame(frame);
 }catch(e){console.error(e);$('#loading h2').textContent='Could not prepare Jezero';$('#loading p').textContent=e.message;const b=document.createElement('button');b.textContent='Try again';b.onclick=()=>location.reload();$('#loading').append(b);}
 
 bindSurfaceTime(datedSun,document.querySelector('.light-buttons'),value=>{datedSun=value;if(state){lighting();if(ready)draw(0);}});
+
+const launchLight=new URLSearchParams(location.search).get('surfaceLight');if(isV2&&['day','dusk','night'].includes(launchLight))document.querySelector(`[data-light="${launchLight}"]`)?.click();
