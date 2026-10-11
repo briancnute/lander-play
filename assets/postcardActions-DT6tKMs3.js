@@ -1,1 +1,0 @@
-function e(e){let t=e.replace(/^[←‹◀\s]*(?:back to\s+)?/i,``).trim()||`Play`;return`Exit to `+(t===t.toUpperCase()?t.toLowerCase().replace(/\b\w/g,e=>e.toUpperCase()):t)}export{e as t};

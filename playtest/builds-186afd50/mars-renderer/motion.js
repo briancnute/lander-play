@@ -1,3 +1,0 @@
-// Render-only interpolation. The simulation still advances at its original fixed rate.
-export function capturePose(s,surface){return {x:s.x,y:s.y,z:s.z,heading:s.heading,clearance:Math.max(0,s.z-surface)};}
-export function displayState(previous,s,alpha,surface){if(!previous)return {...s,renderClearance:Math.max(0,s.z-surface)};const t=Math.max(0,Math.min(1,alpha)),mix=(a,b)=>a+(b-a)*t;return {...s,x:mix(previous.x,s.x),y:mix(previous.y,s.y),z:mix(previous.z,s.z),heading:previous.heading+Math.atan2(Math.sin(s.heading-previous.heading),Math.cos(s.heading-previous.heading))*t,renderClearance:mix(previous.clearance,Math.max(0,s.z-surface))};}
