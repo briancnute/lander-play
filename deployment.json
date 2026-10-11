@@ -1,0 +1,12 @@
+{
+  "galeSource": "2f0ff9509406634365f37a10ef31a52a76735621",
+  "preservedPublicBase": "80e9814c52d0df15203fc17a4e4c037c1f6a7db8",
+  "note": "Scoped Gale engine, help and event records update. Existing Venus, Mercury preview and all other public assets preserved. Original asset names retained for cached pages.",
+  "updatedModules": {
+    "moonOrbits-01VDaGNm.js": "moonOrbits-01VDaGNm-gale2f0ff950.js",
+    "playtest-K6FnHmTh.js": "playtest-K6FnHmTh-gale2f0ff950.js",
+    "web-CjVcNk-t.js": "web-CjVcNk-t-gale2f0ff950.js",
+    "visual-Dy4Ge9L_.js": "visual-Dy4Ge9L_-gale2f0ff950.js",
+    "game-DYkTmCDU.js": "game-DYkTmCDU-gale2f0ff950.js"
+  }
+}
