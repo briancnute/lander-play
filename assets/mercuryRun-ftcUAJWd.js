@@ -1,1 +1,0 @@
-import"./browserInput-CfTP7_rl.js";import{n as e}from"./main-BIR_Razc.js";e();
