@@ -1,0 +1,1 @@
+import{o as e}from"./sim-BEvhPQQO.js";var t=(e,t)=>e===`moon`&&t===`shk`?`crg`:t,n=t=>t.world===`earth`&&[`gcy`,`vic`,`mtm`,`fuji`].includes(t.id)&&!e(`earth`)||t.world===`mars`&&[`vm`,`vmar`,`jez`,`gale`].includes(t.id)||t.world===`moon`&&[`trq`,`shk`].includes(t.id)||t.world===`mercury`&&[`cal`,`pro`].includes(t.id)||t.world===`venus`&&[`ven`,`maat`].includes(t.id);export{n,t};
