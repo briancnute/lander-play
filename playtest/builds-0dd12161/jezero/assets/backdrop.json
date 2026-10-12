@@ -1,0 +1,15 @@
+{
+  "source": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif",
+  "sourcePixelMetres": 20,
+  "sampleMetres": 100,
+  "size": 201,
+  "extentMetres": 10000,
+  "centerLongitude": 77.405,
+  "centerLatitude": 18.461,
+  "verticalExaggeration": 1,
+  "sourceStandardParallel": 18.4663,
+  "elevationDatum": "MOLA topography / DeltaGeoid (USGS science investigation mosaic)",
+  "minElevationMetres": -2683.156982421875,
+  "maxElevationMetres": -1654.2640380859375,
+  "missingSamples": 0
+}
