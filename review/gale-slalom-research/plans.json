@@ -1,0 +1,315 @@
+[
+  {
+    "id": "a",
+    "name": "Fall-line rhythm",
+    "tag": "Most technical",
+    "summary": "A compact descent that changes beat without wandering far across the mountain.",
+    "count": 20,
+    "width": "24\u201328",
+    "spacing": "45\u201385",
+    "combo": "25\u201335",
+    "delay": "100\u2013125",
+    "feel": "Read the next pair, release thrust, flick through the combination, then settle back into a rhythm.",
+    "risk": "Most demanding on a phone. Tight combinations need a slower entry and angled gate detection.",
+    "phases": [
+      "Four regular turns establish the beat",
+      "Two closed gates: a quick hairpin combination",
+      "Three close, aligned gates: a flush",
+      "A held turn shifts the line across the slope",
+      "Four clean turns open toward the jump"
+    ],
+    "points": [
+      [
+        260,
+        65
+      ],
+      [
+        245,
+        150
+      ],
+      [
+        285,
+        230
+      ],
+      [
+        230,
+        320
+      ],
+      [
+        255,
+        400
+      ],
+      [
+        285,
+        480
+      ],
+      [
+        240,
+        580
+      ],
+      [
+        275,
+        685
+      ]
+    ],
+    "xs": [
+      -22,
+      23,
+      -24,
+      22,
+      -8,
+      7,
+      -22,
+      24,
+      -10,
+      6,
+      -7,
+      27,
+      40,
+      22,
+      -22,
+      24,
+      -24,
+      23,
+      -22,
+      10
+    ],
+    "ys": [
+      95,
+      125,
+      155,
+      185,
+      220,
+      238,
+      277,
+      310,
+      346,
+      365,
+      384,
+      427,
+      475,
+      510,
+      541,
+      572,
+      604,
+      635,
+      665,
+      697
+    ],
+    "closed": [
+      4,
+      5,
+      8,
+      9,
+      10
+    ]
+  },
+  {
+    "id": "b",
+    "name": "Strata traverse",
+    "tag": "Recommended \u00b7 best geology + flow",
+    "summary": "An asymmetric sweep along an exposed layer, a compact turning pocket, then a broad descent into the basin.",
+    "count": 18,
+    "width": "28\u201332",
+    "spacing": "65\u2013105",
+    "combo": "30\u201340",
+    "delay": "130\u2013170",
+    "feel": "Commit to a long carve, skim the strata, tighten up briefly, then let the rover run toward the basin.",
+    "risk": "The long traverse must remain visibly downhill. Terrain needs shaping so the rover does not stall against a ridge.",
+    "phases": [
+      "Three welcoming turns on the upper shoulder",
+      "A delayed turn holds the line across the layers",
+      "Two closed gates tighten the terrace exit",
+      "A broad reverse sweep reveals the basin",
+      "Three regular turns align the launch approach"
+    ],
+    "points": [
+      [
+        120,
+        65
+      ],
+      [
+        135,
+        170
+      ],
+      [
+        240,
+        275
+      ],
+      [
+        390,
+        355
+      ],
+      [
+        380,
+        440
+      ],
+      [
+        280,
+        530
+      ],
+      [
+        245,
+        620
+      ],
+      [
+        275,
+        700
+      ]
+    ],
+    "xs": [
+      -20,
+      20,
+      -20,
+      0,
+      25,
+      15,
+      -15,
+      15,
+      -7,
+      8,
+      20,
+      -24,
+      22,
+      -20,
+      20,
+      -20,
+      20,
+      0
+    ],
+    "ys": [
+      100,
+      138,
+      176,
+      232,
+      285,
+      333,
+      372,
+      410,
+      445,
+      464,
+      505,
+      540,
+      573,
+      601,
+      627,
+      653,
+      678,
+      703
+    ],
+    "closed": [
+      3,
+      8,
+      9
+    ]
+  },
+  {
+    "id": "c",
+    "name": "Crater sprint",
+    "tag": "Most arcade \u00b7 fastest rhythm",
+    "summary": "Three short turning sectors separated by breathing room. The path steps between shallow gullies instead of making one continuous S.",
+    "count": 22,
+    "width": "26\u201330",
+    "spacing": "55\u201380",
+    "combo": "25\u201335",
+    "delay": "110\u2013145",
+    "feel": "A burst of precise turns, a clear run to reset, another burst, then a fast and readable release into the jump.",
+    "risk": "Recovery stretches must not build more speed than the next sector can absorb. Entry gates should announce the slowdown.",
+    "phases": [
+      "Five evenly spaced turns teach the first sector",
+      "A long linking turn moves into the next gully",
+      "A three-gate flush punctuates the second sector",
+      "A diagonal recovery leads to the final turning pocket",
+      "Four progressively easier gates release into the jump"
+    ],
+    "points": [
+      [
+        155,
+        65
+      ],
+      [
+        150,
+        215
+      ],
+      [
+        300,
+        285
+      ],
+      [
+        310,
+        415
+      ],
+      [
+        205,
+        485
+      ],
+      [
+        220,
+        575
+      ],
+      [
+        290,
+        645
+      ],
+      [
+        280,
+        710
+      ]
+    ],
+    "xs": [
+      -20,
+      20,
+      -20,
+      20,
+      -20,
+      0,
+      -20,
+      20,
+      -20,
+      -8,
+      8,
+      -7,
+      25,
+      0,
+      -20,
+      20,
+      -20,
+      20,
+      -18,
+      18,
+      -16,
+      0
+    ],
+    "ys": [
+      95,
+      119,
+      143,
+      167,
+      191,
+      255,
+      303,
+      330,
+      357,
+      386,
+      403,
+      420,
+      450,
+      504,
+      543,
+      566,
+      589,
+      612,
+      636,
+      660,
+      684,
+      708
+    ],
+    "closed": [
+      5,
+      9,
+      10,
+      11,
+      13
+    ]
+  }
+]
