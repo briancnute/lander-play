@@ -10,6 +10,6 @@ visual magnitude, sorted and reduced fields. Coordinates retain J2000 reference.
 The adapted dataset is also CC BY-SA 4.0, available at ../data/bright-stars.json.
 No endorsement by the source author is implied.
 
-Binocular adaptation: 25,791 non-Sun entries through visual magnitude 7.5,
+Binocular adaptation: 61,816 non-Sun entries through visual magnitude 8.5,
 with the same reduced fields and J2000 coordinates; also CC BY-SA 4.0.
 Available at ../data/binocular-stars.json.
