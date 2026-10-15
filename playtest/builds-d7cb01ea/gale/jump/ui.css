@@ -34,3 +34,34 @@ body.timed-jump #brake{background:#bc534eb0;border-color:#d38b86}body.timed-jump
 #ski-jump .jump-rail{top:calc(var(--cue-row) - 39px)}
 #ski-jump .jump-move{transform:translate(-50%,-50%);font-size:clamp(17px,2.2vw,26px);font-weight:750;letter-spacing:1px;color:#fff0cb;text-shadow:0 2px 8px #24180f,0 0 15px #e9c78080;text-align:center;max-width:58vw}
 @media(max-height:500px){#ski-jump{--cue-row:calc(100% - 94px)}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:25%}}
+
+/* Spacious timing HUD; transform-only note motion keeps the rail inexpensive. */
+#mini-button[hidden]{display:none!important}
+#ski-jump{--cue-row:calc(100% - 148px)}
+#ski-jump .jump-rail{--icon-size:56px;--target-offset:64px;width:min(920px,96vw);height:112px;background:linear-gradient(90deg,#10241ed9,#10241e80 65%,#10241e30);border:1px solid #b4d5c52e;overflow:hidden;contain:layout paint}
+.rail-note,.rail-burst{will-change:transform;backface-visibility:hidden}
+.rail-note .hit-mark,.rail-note>b{display:none}
+.target-column{height:82px;top:calc(var(--icon-size)/2 - 41px);border-inline:2px solid #ffe9b7;background:#f7db9a26}
+.jump-hit-label{top:87px;font-size:11px;font-weight:750}
+#ski-jump .jump-cue{width:168px;height:168px;transform:translate(-50%,-50%)}
+#ski-jump .jump-cue>svg{width:100%;height:100%}
+#ski-jump .jump-symbol{width:50px;height:50px}
+.jump-ring{stroke-width:3}.jump-center{stroke-width:3}.jump-cue small{font-size:13px;font-weight:800;top:-18px}
+.rail-burst .input-icon{fill:currentColor;stroke:#14251f;stroke-width:1.5;filter:drop-shadow(0 0 6px currentColor)}
+.rail-burst .input-icon circle{fill:currentColor;stroke:#14251f}.rail-burst .input-icon text{fill:#13251d}
+.rail-burst::before{content:'';position:absolute;inset:-7px;border:3px solid currentColor;border-radius:50%;opacity:.85}
+.hit-mark{position:absolute;right:-11px;top:-14px;background:#11231e;border:2px solid currentColor;border-radius:50%;width:25px;height:25px;text-align:center;line-height:23px;font-size:19px;font-weight:900}
+.rail-burst>b{top:calc(var(--icon-size) + 10px);font-size:12px;letter-spacing:.5px;font-weight:900;color:currentColor;text-shadow:0 1px 3px #000}
+.rail-missed .hit-mark{display:block;color:#ff6868}
+.jump-result[data-grade=Perfect]{color:#ffe16a}.jump-result[data-grade=Great]{color:#57d9ff}.jump-result[data-grade=Good]{color:#73efad}.jump-result[data-grade=Basic]{color:#ffba69}
+.jump-result strong::before{content:'●';display:inline-block;margin-right:.25em}.jump-result[data-grade=Perfect] strong::before{content:'★'}.jump-result[data-grade=Great] strong::before{content:'◆'}.jump-result[data-grade=Good] strong::before{content:'✓'}
+.jump-rail[data-feedback=stamp] .rail-burst::before{border-radius:8px;inset:-6px;background:currentColor;opacity:.95}
+.jump-rail[data-feedback=stamp] .rail-burst .input-icon{position:relative;filter:none;fill:#14251f;stroke:none;opacity:.3}
+.jump-rail[data-feedback=stamp] .rail-burst .input-icon circle{fill:#14251f;stroke:none}
+.jump-rail[data-feedback=stamp] .rail-burst .hit-mark{inset:0;border:0;background:transparent;color:#13251d;border-radius:0;width:100%;height:100%;font-size:38px;line-height:var(--icon-size)}
+.jump-rail[data-feedback=stamp] .rail-burst>b{background:#10241e;padding:3px 7px;border-radius:4px}
+@media(max-height:500px){#ski-jump{--cue-row:calc(100% - 148px)}#ski-jump .jump-rail{--icon-size:48px;height:106px}#ski-jump .jump-cue{width:140px;height:140px}#ski-jump .jump-symbol{width:44px;height:44px}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:22%}}
+@media(max-width:500px){#ski-jump .jump-rail{--icon-size:44px;--target-offset:52px}#ski-jump .jump-cue{width:144px;height:144px}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:24%}#ski-jump .jump-cue[data-kind=LAND],#ski-jump .jump-result[data-kind=LANDING]{left:76%}.rail-burst>b{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.rail-burst .input-icon{filter:none}}
+
+@media(max-height:500px){body.jump-hud-space #scene{bottom:144px}body.jump-hud-space{background:#302d26}}

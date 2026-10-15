@@ -1,4 +1,4 @@
-import {drawRail,icon,grade} from './rail-view.js';
+import {drawRail,icon,grade,touchLabels} from './rail-view.js';
 import {jumpCue} from './run.js';
 import {trickFor} from './tricks.js';
 export function createJumpUI(){
@@ -7,12 +7,14 @@ export function createJumpUI(){
  el.innerHTML='<div class="jump-cue" hidden><small></small><div class="jump-symbol"></div><svg viewBox="0 0 180 180"><circle class="jump-band" cx="90" cy="90" r="34"/><circle class="jump-center" cx="90" cy="90" r="34"/><circle class="jump-ring" cx="90" cy="90" r="84"/></svg><b></b></div><div class="jump-rail" hidden><div class="jump-notes"></div><div class="jump-target"><span class="target-column"></span></div><small class="jump-hit-label"></small></div><div class="jump-move" hidden></div><div class="jump-result" role="status" hidden><small></small><strong></strong></div>';
  document.body.append(el);
  const cue=el.querySelector('.jump-cue'),rail=el.querySelector('.jump-rail'),move=el.querySelector('.jump-move'),result=el.querySelector('.jump-result');
+ const cueLabel=cue.querySelector('small'),symbol=cue.querySelector('.jump-symbol'),ring=cue.querySelector('.jump-ring'),band=cue.querySelector('.jump-band'),cueText=cue.querySelector('b'),notes=rail.querySelector('.jump-notes'),target=rail.querySelector('.jump-target'),hitLabel=rail.querySelector('.jump-hit-label');
+ let metrics=null,symbolKey='';const measure=()=>{const css=getComputedStyle(rail);metrics={width:rail.clientWidth,size:parseFloat(css.getPropertyValue('--icon-size')),anchor:parseFloat(css.getPropertyValue('--target-offset'))||64};};new ResizeObserver(()=>{metrics=null;}).observe(rail);
  return {draw(r,visible){
   const original=r?.jump;el.hidden=!visible||!original;if(el.hidden)return;const j={...original,time:original.time+(r.finishStop?.age??0)};
   const resultDuration=j.config.feedback,q=jumpCue(j);cue.hidden=!q||q.score!==undefined;cue.dataset.kind=q?.kind??'';
-  if(q){cue.querySelector('small').textContent=q.kind;cue.querySelector('.jump-symbol').innerHTML=icon(q.action);cue.querySelector('.jump-ring').setAttribute('r',q.radius);cue.querySelector('.jump-band').style.strokeWidth=String(10/q.difficulty);const b=cue.querySelector('b');b.textContent=q.score===undefined?'':grade(q.score)+' · '+q.score;}
+  if(q){if(cueLabel.textContent!==q.kind)cueLabel.textContent=q.kind;const key=q.action+':'+touchLabels();if(symbolKey!==key){symbol.innerHTML=icon(q.action);symbolKey=key;}ring.setAttribute('r',q.radius);band.style.strokeWidth=String(10/q.difficulty);cueText.textContent=q.score===undefined?'':grade(q.score)+' · '+q.score;}
   rail.hidden=!j.rail||j.time<j.config.railStart||j.time>=j.config.sequenceEnd;
-  if(!rail.hidden){const size=parseFloat(getComputedStyle(rail).getPropertyValue('--icon-size')),speed=(rail.clientWidth+size/2-112)/j.config.railTravel;drawRail(rail,rail.querySelector('.jump-notes'),rail.querySelector('.jump-target'),rail.querySelector('.jump-hit-label'),j.rail,j.time,speed,'left','column',112);}
+  if(!rail.hidden){if(!metrics||!metrics.width)measure();const {width,size,anchor}=metrics,speed=(width+size/2-anchor)/j.config.railTravel;drawRail(rail,notes,target,hitLabel,j.rail,j.time,speed,'left','column',anchor,width);}
   const events=[{kind:'TAKEOFF',at:j.takeoff?.at,score:j.takeoff?.score},{kind:'TRICK',at:j.config.sequenceEnd,score:j.execution},{kind:'LANDING',at:j.landing?.at,score:j.landing?.score}];
   const event=events.findLast(e=>e.score!=null&&e.at!=null&&j.time>=e.at&&j.time<e.at+resultDuration);
   result.hidden=!event;
