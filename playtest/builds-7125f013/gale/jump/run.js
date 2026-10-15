@@ -1,6 +1,6 @@
 import {landingTiming,LAND_TARGET} from '../ski-landing.js';
 import {hit,expire,average} from './rail-model.js';
-import {minimumAir,schedule,grade,settings} from './config.js';
+import {minimumAir,schedule,grade,tier,settings} from './config.js';
 import {trickFor,continuousTrickPose,attitudeTorque} from './tricks.js';
 import {landingPose,landingDuration} from './landings.js';
 export const jumpGravity=3.71*(8/3); // Existing Gale world-distance scale.
@@ -24,32 +24,37 @@ export function captureJump(r,press){
  else if(t>=c.landingStart&&t<c.landingEnd&&!j.landing&&action==='brake')j.landing=scoreTap(true,t,c.landingEnd-.25);
 }
 function launch(r,c){
- const j=r.jump,options=j.settings,takeoffDuration=options.takeoff,landingLead=options.landing;j.takeoff??={score:0,at:takeoffDuration};
+ const j=r.jump,options=j.settings,takeoffDuration=options.takeoff;j.takeoff??={score:0,at:takeoffDuration};
  const p=c.point(c.lip,j.endU),h=c.heading(c.lip),z=surface(c,p.x,p.y);
  // A bounded attitude correction preserves some approach-angle influence.
  const rampSlope=(c.height(c.lip-10,j.endU)-c.height(c.lip-50,j.endU))/40;
  const approachAngle=Math.atan2(rampSlope*j.speed,j.speed)*180/Math.PI;
  const correctedAngle=60+clamp((approachAngle-7)*1.5,-40,20)*.35;
- const score=j.takeoff.score,knots=[0,60,80,90,100],durations=[0,1,2,3].map(i=>minimumAir(i,options));durations.push(durations[3]+.35);
- let k=0;while(k<3&&score>=knots[k+1])k++;
- const desired=durations[k]+(durations[k+1]-durations[k])*(score-knots[k])/(knots[k+1]-knots[k]);
- const requested=Math.max(minimumAir(0,options),(desired+.1)*Math.sin(correctedAngle*Math.PI/180)/Math.sin(Math.PI/3));
- j.index=0;for(let i=1;i<4;i++)if(requested>=minimumAir(i,options))j.index=i;
+ const score=j.takeoff.score;
+ // Class selection must not depend on duration: custom input budgets need not
+ // increase with class. A better approach angle can still lift a close grade.
+ const angleFactor=Math.sin(correctedAngle*Math.PI/180)/Math.sin(Math.PI/3);
+ j.index=tier(clamp(score+(angleFactor-1)*100,0,100));
  if(r.tuning&&Number.isInteger(r.previewClass))j.index=clamp(r.previewClass,0,3);
+ const requested=minimumAir(j.index,options);
  const heading=h+clamp(Math.atan2(j.side,j.speed)*.35,-.055,.055);
- // Redirect run-up momentum upward so the longer sequence still lands on the runout.
- const speed=(j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
+ // Retain enough forward speed to reach the groomed runout with a shorter flight.
+ const speed=Math.max((j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),2100/requested),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
  const target=surface(c,p.x+vx*requested,p.y+vy*requested);
  // Solve the impulse against the surveyed landing elevation. Then find actual
  // first terrain contact; never teleport the rover to a scripted flat plane.
  let vz=Math.max(5,(target-z+.5*jumpGravity*requested*requested)/requested);
  const contact=v=>{let last=0;for(let t=.02;t<30;t+=.02){if(z+v*t-.5*jumpGravity*t*t<=surface(c,p.x+vx*t,p.y+vy*t)){let a=last,b=t;for(let n=0;n<18;n++){const m=(a+b)/2;if(z+v*m-.5*jumpGravity*m*m>surface(c,p.x+vx*m,p.y+vy*m))a=m;else b=m;}return b;}last=t;}return 30;};
- // The main move straddles the physical apex, leaving a full landing cue.
- // The main-flight impulse is chosen at launch, never by later taps.
- const move=options.classes[j.index],earliestApex=schedule(j.index,undefined,options).trickStart-takeoffDuration+move.trick/2;
- vz=Math.max(vz,jumpGravity*earliestApex);
+ // Reserve only the sequence, trick window and landing cue. Do not add
+ // height to delay the apex until after the input sequence. Find the smallest
+ // launch impulse that clears the actual terrain for the required duration.
  let airtime=contact(vz);
- for(let n=0;n<200&&airtime<vz/jumpGravity+move.trick/2+landingLead;n++){vz+=.25;airtime=contact(vz);}
+ if(airtime<requested){
+  let low=vz,high=vz+5;
+  while(contact(high)<requested&&high<1000)high+=5;
+  for(let n=0;n<30;n++){const mid=(low+high)/2;if(contact(mid)<requested)low=mid;else high=mid;}
+  vz=high;airtime=contact(vz);
+ }
  j.flight={x:p.x,y:p.y,z,vx,vy,vz,heading,gravity:jumpGravity,correctedAngle};
  j.config=schedule(j.index,airtime,options);
  j.rail={spacing:j.config.beat,window:Math.min(.38,j.config.beat/2),notes:j.config.actions.map((action,i)=>({action,at:j.config.sequence+(i+.5)*j.config.beat,result:null})),finished:false};
