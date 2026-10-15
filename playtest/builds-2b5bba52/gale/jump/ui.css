@@ -27,3 +27,10 @@ body.timed-jump #brake{background:#bc534eb0;border-color:#d38b86}body.timed-jump
 .jump-result strong{font-size:clamp(28px,4vw,46px);font-weight:850;letter-spacing:1px;text-shadow:0 0 18px currentColor}
 .jump-result[data-grade=Perfect]{color:#ffe7a0}.jump-result[data-grade=Great]{color:#9cefff}.jump-result[data-grade=Good]{color:#a9efbd}
 @media(max-height:500px){.jump-result{top:63%}.jump-result[data-kind=TRICK]{top:87px}.jump-result strong{font-size:30px}}
+
+/* One shared baseline for the three events and their result/name cards. */
+#ski-jump{--cue-row:82%}
+#ski-jump .jump-cue,#ski-jump .jump-result,#ski-jump .jump-move{top:var(--cue-row)}
+#ski-jump .jump-rail{top:calc(var(--cue-row) - 39px)}
+#ski-jump .jump-move{transform:translate(-50%,-50%);font-size:clamp(17px,2.2vw,26px);font-weight:750;letter-spacing:1px;color:#fff0cb;text-shadow:0 2px 8px #24180f,0 0 15px #e9c78080;text-align:center;max-width:58vw}
+@media(max-height:500px){#ski-jump{--cue-row:calc(100% - 94px)}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:25%}}

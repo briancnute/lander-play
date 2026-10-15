@@ -24,7 +24,7 @@ export function drawRail(lane,notes,target,label,run,time,speed,direction,mode='
    const strength={Basic:.02,Good:.04,Great:.06,Perfect:.08,Wrong:.02}[tier],opacity=1-u;
    return `<div class="rail-burst" data-grade="${tier}" style="left:${fixed?center(i):anchor}px;opacity:${opacity};color:${colors[tier]}"><div class="burst-icon" style="transform:scale(${1+u*strength})">${icon(n.action)}</div><b>${tier.toUpperCase()}</b></div>`;
   }
-  const exit=n.at+(fixed?run.window:Math.max(run.window,32/speed)),fade=result?.label==='Miss'?Math.max(0,(time-exit)/.28):0;
+  const exit=n.at+(fixed?run.window:Math.max(run.window,(direction==='left'?anchor-32:width-anchor-32)/speed)),fade=result?.label==='Miss'?Math.max(0,(time-exit)/.28):0;
   if(fade>=1)return '';
   let x=fixed?center(i):anchor+sign*(n.at-time)*speed;
   if(fade>0)x=(fixed?center(i):direction==='left'?32:width-32)+Math.sin(fade*34)*1.5*(1-fade);

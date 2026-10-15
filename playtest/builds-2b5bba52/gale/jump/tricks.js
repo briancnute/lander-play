@@ -35,6 +35,17 @@ const clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=x=>{x=clamp(x);return x*x*x*(x*(x*6-15)+10);};
 function track(keys,u){if(!keys)return 0;for(let i=1;i<keys.length;i++){const [a,x]=keys[i-1],[b,y]=keys[i];if(u<=b)return x+(y-x)*smooth((u-a)/(b-a));}return keys.at(-1)[1];}
 export function trickPose(classIndex,score,progress){const move=trickFor(classIndex,score),u=clamp((progress-.05)/.9);return Object.fromEntries(['pitch','yaw','roll'].map(axis=>[axis,track(move[axis],u)]));}
+// Full spins coast at a fixed angular rate across lap boundaries. Recovery
+// and compound moves keep their physically necessary reversals, without the
+// old idle padding at the start and end of every replay.
+export function continuousTrickPose(classIndex,score,turns){
+ const move=trickFor(classIndex,score),laps=Math.floor(Math.max(0,turns)),u=Math.max(0,turns)-laps;
+ return Object.fromEntries(['pitch','yaw','roll'].map(axis=>{
+  const keys=move[axis];if(!keys)return [axis,0];const total=keys.at(-1)[1];
+  const fullSpin=keys.length===2&&Math.abs(total)>=2*Math.PI;
+  return [axis,laps*total+(fullSpin?total*u:track(keys,u))];
+ }));
+}
 // The renderer composes yaw, negative local Y roll, and local X pitch.
 // Estimate body-axis angular momentum so a multi-axis move does not fire a
 // world-axis nozzle in the wrong direction when the rover is inverted.

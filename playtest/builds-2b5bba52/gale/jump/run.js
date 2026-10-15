@@ -1,7 +1,7 @@
 import {landingTiming,LAND_TARGET} from '../ski-landing.js';
 import {hit,expire,average} from './rail-model.js';
 import {takeoffDuration,landingLead,minimumAir,schedule,grade,classes} from './config.js';
-import {trickFor,trickPose,attitudeTorque} from './tricks.js';
+import {trickFor,continuousTrickPose,attitudeTorque} from './tricks.js';
 import {landingPose,landingDuration} from './landings.js';
 export const jumpGravity=3.71*(8/3); // Existing Gale world-distance scale.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -73,18 +73,17 @@ export function stepJump(r,c,dt){
 }
 export function jumpPose(j){
  if(!j?.flight)return {pitch:0,roll:0,yaw:0,foldLeft:0,foldRight:0,bladeSpin:0};
- const q=j.config,elapsed=Math.max(0,j.time-q.trickStart);
- // Repeat full moves until LAND begins. The final replay may resolve during
- // that cue, but must settle before contact. Unwrap complete turns so torque
- // calculations remain continuous across replay boundaries.
- const cycles=Math.max(1,Math.ceil((q.landingStart-q.trickStart)/q.trick));
- const cycle=Math.min(cycles-1,Math.floor(elapsed/q.trick)),start=q.trickStart+cycle*q.trick;
- const end=Math.min(start+q.trick,q.touchdown-.08),pose=trickPose(j.index,j.execution??0,(j.time-start)/(end-start));
- const complete=trickPose(j.index,j.execution??0,1);
- for(const axis of ['pitch','roll','yaw'])pose[axis]+=cycle*complete[axis];
+ const q=j.config,elapsed=clamp(j.time-q.trickStart,0,q.motionEnd-q.trickStart);
+ const pose=continuousTrickPose(j.index,j.execution??0,elapsed/q.cycleDuration);
  return {...pose,foldLeft:0,foldRight:0,bladeSpin:0};
 }
-export function jumpTorque(j){return !j?.flight?{pitch:0,roll:0,yaw:0}:attitudeTorque(t=>jumpPose({...j,time:t}),j.time);}
+export function jumpTorque(j){
+ if(!j?.flight)return {pitch:0,roll:0,yaw:0};
+ const q=j.config,t=j.time;
+ // Make the launch/arrest impulses visible; full turns coast between them.
+ const sample=t>=q.trickStart&&t<q.trickStart+.08?q.trickStart:t>=q.motionEnd&&t<q.motionEnd+.08?q.motionEnd:t;
+ return attitudeTorque(time=>jumpPose({...j,time}),sample);
+}
 export function jumpCue(j){
  if(!j)return null;const t=j.time,c=j.config;let start,target,end,result,action,kind;
  if(t<takeoffDuration){start=0;end=takeoffDuration;target=end-.2;result=j.takeoff;action='brake';kind='TAKEOFF';}
