@@ -1,0 +1,21 @@
+#ski-jump{position:fixed;inset:0;pointer-events:none;z-index:7;color:#f1ead9;font:12px system-ui,sans-serif}
+#ski-jump[hidden],#ski-jump [hidden]{display:none!important}
+.jump-rail{--icon-size:48px;position:absolute;left:50%;top:72px;transform:translateX(-50%);width:min(560px,66vw);height:94px;overflow:hidden;background:linear-gradient(90deg,#16252040,transparent);border-radius:5px}
+.jump-target,.rail-note,.rail-burst{position:absolute;top:39px;width:var(--icon-size);height:var(--icon-size)}
+.jump-target,.rail-burst{transform:translate(-50%,-50%)}
+.target-column{position:absolute;width:var(--icon-size);height:70px;top:calc(var(--icon-size)/2 - 35px);border-inline:1px solid #ffe9b7;background:#f7db9a18}
+.rail-note svg,.rail-burst svg{display:block;width:var(--icon-size);height:var(--icon-size)}
+.input-icon{fill:#a1ccb4;overflow:visible}.input-icon text{font:bold 12px system-ui,sans-serif;fill:#fff7e9;stroke:none}
+.input-icon.thrust-button circle{fill:#b59447}.input-icon.secondary-button circle{fill:#bc534e}
+.rail-burst svg{fill:none;stroke:currentColor;stroke-width:1.5}.rail-burst .input-icon circle{fill:none;stroke:currentColor}.rail-burst .input-icon text{fill:currentColor}
+.rail-burst b{position:absolute;top:calc(var(--icon-size) + 4px);left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:.5px;font-weight:500}
+.rail-missed .input-icon,.rail-missed .input-icon circle{fill:#b7514b;stroke:#e88c80}
+.jump-hit-label{position:absolute;top:77px;transform:translateX(-50%);font-size:9px;color:#edc88b;white-space:nowrap}
+.jump-cue{position:absolute;left:30%;top:44%;width:120px;height:120px;transform:translate(-50%,-50%);text-align:center}
+.jump-cue>svg{position:absolute;inset:0;width:120px;height:120px;fill:none}
+.jump-cue .jump-band{stroke:#efe0be;opacity:.27}.jump-center{stroke:#75d19d;stroke-width:1.5}.jump-ring{stroke:#fff4dc;stroke-width:1.5}
+.jump-symbol{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:35px;height:35px}.jump-symbol svg{width:100%;height:100%}
+.jump-cue small{position:absolute;top:-12px;left:0;right:0;font-size:10px;letter-spacing:1px}.jump-cue b{position:absolute;top:120px;left:-20px;right:-20px;font-size:11px;font-weight:500}
+.jump-move{position:absolute;top:80px;left:50%;transform:translateX(-50%);letter-spacing:.7px;font-size:13px;text-shadow:0 1px 3px #24180f}
+body.timed-jump #brake{background:#bc534eb0;border-color:#d38b86}body.timed-jump [data-control=drive]{background:#b5944780;border-color:#d0b574}
+@media(max-height:500px){.jump-rail{--icon-size:40px;top:48px;height:86px;width:54vw}.jump-move{top:62px}.jump-cue{left:27%;top:43%;transform:translate(-50%,-50%) scale(.86)}}

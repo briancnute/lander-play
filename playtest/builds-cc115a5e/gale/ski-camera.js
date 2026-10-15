@@ -5,7 +5,7 @@ export function skiChase(cam,s,dt,focus,surface,terrain=surface){
  const t=clamp(dt,0,.05),angle=Math.atan2(Math.sin(s.heading-cam.h),Math.cos(s.heading-cam.h));
  cam.h+=clamp(angle*(1-Math.exp(-t*6)),-1.2*t,1.2*t);
  cam.x=s.x;cam.y=s.y;
- const sn=Math.sin(cam.h),cs=Math.cos(cam.h),back=94,x=s.x-sn*back,y=s.y+cs*back;
+ const sn=Math.sin(cam.h),cs=Math.cos(cam.h),back=94-34*clamp(s.skiJumpFocus??0,0,1),x=s.x-sn*back,y=s.y+cs*back;
  // Sample at the lens, never divide a nearby facet's height by two metres.
  const floor=Math.max(surface(x,y),surface(x+cs*3,y+sn*3),surface(x-cs*3,y-sn*3))+5;
  const target=Math.max(focus+34,floor+9);
@@ -17,7 +17,7 @@ export function skiChase(cam,s,dt,focus,surface,terrain=surface){
  // Fade the terrain look-down out with clearance, without a contact-state snap.
  const clearance=Math.max(0,s.z-terrain(s.x,s.y)),groundWeight=.3*(1-clamp(clearance/45,0,1));
  const aim=focus*(1-groundWeight)+look*groundWeight;
- const pitch=clamp(Math.atan2(cam.eye-aim,back+ahead*.3)-.22,-.12,.6);
+ const pitch=clamp(Math.atan2(cam.eye-aim,back+ahead*.3)-.22*(1-clamp(s.skiJumpFocus??0,0,1)),-.12,.6);
  cam.pitch+=clamp((pitch-cam.pitch)*(1-Math.exp(-t*4)),-.45*t,.45*t);
  cam.arm=back;
  return {back,x,y,eye:cam.eye,pitch:cam.pitch,lift:cam.eye-s.z-23};

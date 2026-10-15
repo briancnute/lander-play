@@ -25,6 +25,6 @@ export function buildSkiWorld(gpu,course){
  // Raised tapered nose, with a short sloped connection rather than a vertical block.
  for(const side of [-1,1])triangle(blades,[side,10,.2],[side*.65,13,1.3],[-side,10,.2],mint);
  box(blades,-.65,12,1.1,1.3,1,.25,mint);gpu.skiBladeMesh=gpu.upload(new Float32Array(blades));
- const mounts=[];for(const x of [-4.6,4.6])box(mounts,x-.55,-1,.1,1.1,2,1.4,metal);gpu.skiMountMesh=gpu.upload(new Float32Array(mounts));
+ const mounts=[];for(const x of [-4.6,4.6])box(mounts,x-.55,-1,.1,1.1,2,1.4,metal);box(mounts,-5.15,-.7,1.4,10.3,1.4,.65,metal);for(const x of [-2.2,1.6])box(mounts,x,-3,1.5,.6,6,.6,metal);gpu.skiMountMesh=gpu.upload(new Float32Array(mounts));
  return {draw(state,run){if(run)gpu.mesh(corridor,[0,0,0,100],1);if(state.liftCarrier)gpu.mesh(carrier,[state.x,state.y,state.z,state.heading]);gpu.gl.uniform1f(gpu.locations.roadEnabled,run?3:0);gpu.mesh(ramps,[0,0,0,100],7);if(run){gpu.mesh(slalomMarkers,[0,0,0,100],7);gateFeedback.draw(run);gpu.mesh(basalt,[0,0,0,100],1.25);gpu.mesh(grooves,[0,0,0,100],7);gpu.mesh(boostStone,[0,0,0,100],1);gpu.mesh(run.items.includes(ITEMS.indexOf(pad))?boostSpent:boostItem,[0,0,0,100],7);}gpu.gl.uniform1f(gpu.locations.roadEnabled,0);if(run)for(let i=0;i<ITEMS.length;i++){if(run.items.includes(i)||ITEMS[i].kind==='slalom-boost')continue;const t=ITEMS[i],p=course.point(t.s,t.u);if(Math.hypot(p.x-state.x,p.y-state.y)<2100)t.kind==='slalom-boost'?gpu.mesh(boostItem,[0,0,0,100],7):gpu.mesh(item,[p.x,p.y,itemAltitude(course,t)-13,state.t*.5],7);}}};
 }

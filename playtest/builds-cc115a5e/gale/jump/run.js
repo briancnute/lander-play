@@ -1,0 +1,86 @@
+import {landingTiming,LAND_TARGET} from '../ski-landing.js';
+import {hit,expire,average} from './rail-model.js';
+import {takeoffDuration,landingLead,minimumAir,schedule,tier,grade} from './config.js';
+import {trickFor,trickPose,attitudeTorque} from './tricks.js';
+import {landingPose,landingDuration} from './landings.js';
+export const jumpGravity=3.71*(8/3); // Existing Gale world-distance scale.
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const surface=(c,x,y)=>c.worldHeight?.(x,y)??c.surface(x,y);
+const scoreTap=(correct,t,target,difficulty=1)=>({score:correct?Math.round(100*landingTiming(LAND_TARGET+(t-target)*difficulty)):0,at:t});
+export function maybeBeginJump(r,c){
+ if(!c.timedJump||r.jump||r.finalJump||r.s>=c.lip||Math.abs(r.u)>180||r.s<c.gates.at(-1).s||r.s<c.lip-Math.max(100,r.v)*takeoffDuration)return false;
+ const endU=clamp(r.u+r.side*takeoffDuration*.35,-180,180);
+ r.jump={time:0,index:0,takeoff:null,execution:null,landing:null,rail:null,config:schedule(0),startS:r.s,startU:r.u,endU,speed:clamp(Math.hypot(r.v,r.side),100,480),side:r.side,misses:c.gates.length-r.gateHits};
+ r.boost=0;r.trick=null;r.pending=r.chain=0;r.air=false;
+ return true;
+}
+export function captureJump(r,press){
+ const j=r.jump;if(!j||r.phase!=='running')return;
+ const action={special:'brake',gas:'thrust',left:'left',right:'right'}[press];if(!action)return;
+ const t=j.time,c=j.config;
+ if(t<takeoffDuration&&!j.takeoff)j.takeoff=scoreTap(action==='brake',t,takeoffDuration-.2,1+j.misses*.12);
+ else if(j.rail&&t<c.trickStart)hit(j.rail,action,t);
+ else if(t>=c.landingStart&&t<c.touchdown&&!j.landing)j.landing=scoreTap(action==='thrust',t,c.touchdown-.25);
+}
+function launch(r,c){
+ const j=r.jump;j.takeoff??={score:0,at:takeoffDuration};
+ const p=c.point(c.lip,j.endU),h=c.heading(c.lip),z=surface(c,p.x,p.y);
+ // A bounded attitude correction preserves some approach-angle influence.
+ const rampSlope=(c.height(c.lip-10,j.endU)-c.height(c.lip-50,j.endU))/40;
+ const approachAngle=Math.atan2(rampSlope*j.speed,j.speed)*180/Math.PI;
+ const correctedAngle=60+clamp((approachAngle-7)*1.5,-40,20)*.35;
+ const score=j.takeoff.score,knots=[0,60,80,90,100],durations=[0,1,2,3].map(minimumAir);durations.push(durations[3]+.35);
+ let k=0;while(k<3&&score>=knots[k+1])k++;
+ const desired=durations[k]+(durations[k+1]-durations[k])*(score-knots[k])/(knots[k+1]-knots[k]);
+ const requested=Math.max(minimumAir(0),(desired+.1)*Math.sin(correctedAngle*Math.PI/180)/Math.sin(Math.PI/3));
+ j.index=0;for(let i=1;i<4;i++)if(requested>=minimumAir(i))j.index=i;
+ const heading=h+clamp(Math.atan2(j.side,j.speed)*.35,-.055,.055);
+ const speed=j.speed+(score/100)*12,vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
+ const target=surface(c,p.x+vx*requested,p.y+vy*requested);
+ // Solve the impulse against the surveyed landing elevation. Then find actual
+ // first terrain contact; never teleport the rover to a scripted flat plane.
+ let vz=Math.max(5,(target-z+.5*jumpGravity*requested*requested)/requested);
+ const contact=v=>{let last=0;for(let t=.02;t<30;t+=.02){if(z+v*t-.5*jumpGravity*t*t<=surface(c,p.x+vx*t,p.y+vy*t)){let a=last,b=t;for(let n=0;n<18;n++){const m=(a+b)/2;if(z+v*m-.5*jumpGravity*m*m>surface(c,p.x+vx*m,p.y+vy*m))a=m;else b=m;}return b;}last=t;}return 30;};
+ let airtime=contact(vz);
+ for(let n=0;n<100&&airtime<minimumAir(j.index);n++){vz+=1;airtime=contact(vz);}
+ j.flight={x:p.x,y:p.y,z,vx,vy,vz,heading,gravity:jumpGravity,correctedAngle};
+ j.config=schedule(j.index,airtime);
+ j.rail={spacing:j.config.beat,window:Math.min(.38,j.config.beat/2),notes:j.config.actions.map((action,i)=>({action,at:j.config.sequence+(i+.5)*j.config.beat,result:null})),finished:false};
+ r.finalJump=true;r.air=true;r.takeoff='timed-jump';r.feedback=j.config.name+' takeoff';
+}
+export function stepJump(r,c,dt){
+ const j=r.jump;j.time+=dt;
+ if(j.time<takeoffDuration){const u=j.time/takeoffDuration;r.s=j.startS+(c.lip-j.startS)*u;r.u=j.startU+(j.endU-j.startU)*u;const p=c.point(r.s,r.u);r.worldX=p.x;r.worldY=p.y;r.z=surface(c,p.x,p.y);r.v=(c.lip-j.startS)/takeoffDuration;r.side=(j.endU-j.startU)/takeoffDuration;r.vz=0;return;}
+ if(!j.flight)launch(r,c);
+ const q=j.config,f=j.flight,t=Math.min(q.airtime,j.time-takeoffDuration);
+ expire(j.rail,j.time);
+ if(j.time>=q.trickStart&&j.execution===null){expire(j.rail,Infinity);j.execution=average(j.rail);const move=trickFor(j.index,j.execution);r.tricks.push(move.name);r.bestCombo=Math.round((j.index+1)*250*j.execution/100);r.score=r.bestCombo;r.feedback=move.name;}
+ r.worldX=f.x+f.vx*t;r.worldY=f.y+f.vy*t;r.z=f.z+f.vz*t-.5*f.gravity*t*t;r.vz=f.vz-f.gravity*t;
+ const coords=c.coords(r.worldX,r.worldY);r.s=coords.s;r.u=coords.u;
+ const h=c.heading(r.s);r.v=f.vx*Math.sin(h)-f.vy*Math.cos(h);r.side=f.vx*Math.cos(h)+f.vy*Math.sin(h);
+ if(j.time+1e-9>=q.touchdown){
+  j.landing??={score:0,at:q.touchdown};r.z=surface(c,r.worldX,r.worldY);r.air=false;r.vz=0;
+  const out=Math.abs(r.u)>c.width;
+  const quality=j.landing.score/100;
+  r.finalLanding=r.landing={quality,timing:quality,alignment:1,points:j.landing.score,grade:grade(j.landing.score),at:r.time,x:r.worldX,y:r.worldY,heading:f.heading,outOfBounds:out};
+  r.phase='result';r.reason=out?'Landed outside course':'Slalom complete';
+ }
+}
+export function jumpPose(j){
+ if(!j?.flight)return {pitch:0,roll:0,yaw:0,foldLeft:0,foldRight:0,bladeSpin:0};
+ return {...trickPose(j.index,j.execution??0,(j.time-j.config.trickStart)/j.config.trick),foldLeft:0,foldRight:0,bladeSpin:0};
+}
+export function jumpTorque(j){return !j?.flight||j.time<j.config.trickStart||j.time>=j.config.landingStart?{pitch:0,roll:0,yaw:0}:attitudeTorque(t=>trickPose(j.index,j.execution??0,(t-j.config.trickStart)/j.config.trick),j.time);}
+export function jumpCue(j){
+ if(!j)return null;const t=j.time,c=j.config;let start,target,end,result,action,kind;
+ if(t<takeoffDuration){start=0;end=takeoffDuration;target=end-.2;result=j.takeoff;action='brake';kind='TAKEOFF';}
+ else if(t>=c.landingStart&&t<c.touchdown){start=c.landingStart;end=c.touchdown;target=end-.25;result=j.landing;action='thrust';kind='LAND';}else return null;
+ const progress=clamp(((result?.at??t)-start)/(target-start),0,1.12);
+ return {kind,action,score:result?.score,radius:Math.max(29,84-50*(.94*progress+.06*progress*progress)),difficulty:kind==='TAKEOFF'?1+j.misses*.12:1};
+}
+export function beginJumpFinish(r){r.finishStop={age:0,duration:landingDuration,x:r.worldX,y:r.worldY,heading:r.jump.flight.heading,speed:Math.hypot(r.v,r.side)};}
+export function stepJumpFinish(r,c,dt){
+ const f=r.finishStop;f.age=Math.min(f.duration,f.age+dt);const p=landingPose(r.finalLanding.points,f.age,f.speed),sn=Math.sin(f.heading),cs=Math.cos(f.heading);
+ const x=f.x+p.x*cs-p.y*sn,y=f.y+p.x*sn+p.y*cs;
+ return {...p,x,y,z:surface(c,x,y),heading:f.heading+p.heading,steer:Math.sin(p.heading)*.5,done:f.age>=f.duration-1e-9};
+}

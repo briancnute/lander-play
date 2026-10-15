@@ -1,3 +1,4 @@
+import {maybeBeginJump,stepJump,captureJump} from './jump/run.js';
 import {stepLandingPrompt,scoreSkiLanding} from './ski-landing.js';
 import {skiVisualPose} from './ski-poses.js';
 import {stepOrbBoost,cancelOrbBoost,requestOrbBoost,holdBoostSpeed} from './ski-boost.js';
@@ -15,7 +16,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});r.landingWindow=false;r.landingAttempt=null;r.landingTap=false;r.landingTapETA=undefined;r.landingFlight=0;r.landingCueAge=0;delete r.worldX;delete r.worldY;r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
 const rideInput=input=>({press:input.press,gas:!!input.gas,special:!!input.brake,steer:input.steer||0,both:!!input.both,reverse:false});
-export function captureSkiInput(r,input){if(r.air&&r.landingWindow&&input.press==='gas'&&!r.landingAttempt&&!r.landingTap){r.landingTap=true;r.landingTapETA=r.landingETA;}if(Math.abs(input.steer||0)>.01||input.both)cancelOrbBoost(r);if(input.press==='special'&&!r.air)requestOrbBoost(r);if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
+export function captureSkiInput(r,input){if(r.jump){captureJump(r,input.press);return;}if(r.air&&r.landingWindow&&input.press==='gas'&&!r.landingAttempt&&!r.landingTap){r.landingTap=true;r.landingTapETA=r.landingETA;}if(Math.abs(input.steer||0)>.01||input.both)cancelOrbBoost(r);if(input.press==='special'&&!r.air)requestOrbBoost(r);if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
 export function resetSkiInput(r){r.rotation=newLunarRotation();r.rotationAngle=0;r.input=newTrickInput('ski');r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
  const rotate=rotationInput(r.rotation,course.landingScored&&r.air?{...input,gas:false,press:input.press==='gas'?'release':input.press}:input,r.air&&trickFits(r,course,ROTATION_SECONDS),!!r.trick&&(r.trick.kind==='spin'||r.trick.secret),r.airControl.lastGas);
@@ -69,7 +70,7 @@ function advancePosition(r,course,dt){
 export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
  if(r.phase==='countdown'){r.countdown=Math.max(0,r.countdown-dt);if(!r.countdown)r.phase='running';return;}
- syncPosition(r,course);r.time+=dt;stepLandingPrompt(r,course,input,dt,GRAVITY);r.boost=Math.max(0,r.boost-dt);stepOrbBoost(r,course,input);
+ syncPosition(r,course);r.time+=dt;if(course.timedJump&&(r.jump||maybeBeginJump(r,course))){stepJump(r,course,dt);return;}stepLandingPrompt(r,course,input,dt,GRAVITY);r.boost=Math.max(0,r.boost-dt);stepOrbBoost(r,course,input);
  const previous={x:r.worldX,y:r.worldY,z:r.z,s:r.s};
  const steer=clamp(input.steer||0,-1,1),oldS=r.s,oldU=r.u,oldZ=r.z,oldAir=r.air;
  const gesture=rideInput(input);for(const e of r.input.events.splice(0))readRide(r,course,e);readRide(r,course,{...gesture,time:r.time});
