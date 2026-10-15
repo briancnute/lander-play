@@ -11,7 +11,7 @@ export function createJumpUI(){
   const j=r?.jump;el.hidden=!visible||!j;if(el.hidden)return;
   const q=jumpCue(j);cue.hidden=!q;
   if(q){cue.querySelector('small').textContent=q.kind;cue.querySelector('.jump-symbol').innerHTML=icon(q.action);cue.querySelector('.jump-ring').setAttribute('r',q.radius);cue.querySelector('.jump-band').style.strokeWidth=String(10/q.difficulty);const b=cue.querySelector('b');b.textContent=q.score===undefined?'':grade(q.score)+' · '+q.score;}
-  rail.hidden=!j.rail||j.time>=j.config.trickStart;
+  rail.hidden=!j.rail||j.time<j.config.railStart||j.time>=j.config.sequenceEnd;
   if(!rail.hidden)drawRail(rail,rail.querySelector('.jump-notes'),rail.querySelector('.jump-target'),rail.querySelector('.jump-hit-label'),j.rail,j.time,Math.min(220,rail.clientWidth/2.1),'left','column');
   move.hidden=j.execution===null||j.time<j.config.trickStart||j.time>j.config.trickStart+1.4;
   if(!move.hidden)move.textContent=trickFor(j.index,j.execution).name;

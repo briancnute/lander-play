@@ -1,6 +1,6 @@
 import {landingTiming,LAND_TARGET} from '../ski-landing.js';
 import {hit,expire,average} from './rail-model.js';
-import {takeoffDuration,landingLead,minimumAir,schedule,tier,grade} from './config.js';
+import {takeoffDuration,landingLead,minimumAir,schedule,grade,railDelay,classes} from './config.js';
 import {trickFor,trickPose,attitudeTorque} from './tricks.js';
 import {landingPose,landingDuration} from './landings.js';
 export const jumpGravity=3.71*(8/3); // Existing Gale world-distance scale.
@@ -18,9 +18,9 @@ export function captureJump(r,press){
  const j=r.jump;if(!j||r.phase!=='running')return;
  const action={special:'brake',gas:'thrust',left:'left',right:'right'}[press];if(!action)return;
  const t=j.time,c=j.config;
- if(t<takeoffDuration&&!j.takeoff)j.takeoff=scoreTap(action==='brake',t,takeoffDuration-.2,1+j.misses*.12);
- else if(j.rail&&t<c.trickStart)hit(j.rail,action,t);
- else if(t>=c.landingStart&&t<c.touchdown&&!j.landing)j.landing=scoreTap(action==='thrust',t,c.touchdown-.25);
+ if(t<takeoffDuration){if(action==='brake'&&!j.takeoff)j.takeoff=scoreTap(true,t,takeoffDuration-.2,1+j.misses*.12);}
+ else if(j.rail&&t<c.sequenceEnd)hit(j.rail,action,t);
+ else if(t>=c.landingStart&&t<c.landingEnd&&!j.landing&&action==='brake')j.landing=scoreTap(true,t,c.landingEnd-.25);
 }
 function launch(r,c){
  const j=r.jump;j.takeoff??={score:0,at:takeoffDuration};
@@ -41,10 +41,14 @@ function launch(r,c){
  // first terrain contact; never teleport the rover to a scripted flat plane.
  let vz=Math.max(5,(target-z+.5*jumpGravity*requested*requested)/requested);
  const contact=v=>{let last=0;for(let t=.02;t<30;t+=.02){if(z+v*t-.5*jumpGravity*t*t<=surface(c,p.x+vx*t,p.y+vy*t)){let a=last,b=t;for(let n=0;n<18;n++){const m=(a+b)/2;if(z+v*m-.5*jumpGravity*m*m>surface(c,p.x+vx*m,p.y+vy*m))a=m;else b=m;}return b;}last=t;}return 30;};
+ // The main move straddles the physical apex, leaving a full landing cue.
+ // The main-flight impulse is chosen at launch, never by later taps.
+ const move=classes[j.index],earliestApex=railDelay+move.input+move.trick/2;
+ vz=Math.max(vz,jumpGravity*earliestApex);
  let airtime=contact(vz);
- for(let n=0;n<100&&airtime<minimumAir(j.index);n++){vz+=1;airtime=contact(vz);}
+ for(let n=0;n<200&&airtime<vz/jumpGravity+move.trick/2+landingLead;n++){vz+=.25;airtime=contact(vz);}
  j.flight={x:p.x,y:p.y,z,vx,vy,vz,heading,gravity:jumpGravity,correctedAngle};
- j.config=schedule(j.index,airtime);
+ j.config=schedule(j.index,airtime,vz/jumpGravity);
  j.rail={spacing:j.config.beat,window:Math.min(.38,j.config.beat/2),notes:j.config.actions.map((action,i)=>({action,at:j.config.sequence+(i+.5)*j.config.beat,result:null})),finished:false};
  r.finalJump=true;r.air=true;r.takeoff='timed-jump';r.feedback=j.config.name+' takeoff';
 }
@@ -54,7 +58,7 @@ export function stepJump(r,c,dt){
  if(!j.flight)launch(r,c);
  const q=j.config,f=j.flight,t=Math.min(q.airtime,j.time-takeoffDuration);
  expire(j.rail,j.time);
- if(j.time>=q.trickStart&&j.execution===null){expire(j.rail,Infinity);j.execution=average(j.rail);const move=trickFor(j.index,j.execution);r.tricks.push(move.name);r.bestCombo=Math.round((j.index+1)*250*j.execution/100);r.score=r.bestCombo;r.feedback=move.name;}
+ if(j.time>=q.sequenceEnd&&j.execution===null){expire(j.rail,Infinity);j.execution=average(j.rail);const move=trickFor(j.index,j.execution);r.tricks.push(move.name);r.bestCombo=Math.round((j.index+1)*250*j.execution/100);r.score=r.bestCombo;r.feedback=move.name;}
  r.worldX=f.x+f.vx*t;r.worldY=f.y+f.vy*t;r.z=f.z+f.vz*t-.5*f.gravity*t*t;r.vz=f.vz-f.gravity*t;
  const coords=c.coords(r.worldX,r.worldY);r.s=coords.s;r.u=coords.u;
  const h=c.heading(r.s);r.v=f.vx*Math.sin(h)-f.vy*Math.cos(h);r.side=f.vx*Math.cos(h)+f.vy*Math.sin(h);
@@ -68,13 +72,14 @@ export function stepJump(r,c,dt){
 }
 export function jumpPose(j){
  if(!j?.flight)return {pitch:0,roll:0,yaw:0,foldLeft:0,foldRight:0,bladeSpin:0};
- return {...trickPose(j.index,j.execution??0,(j.time-j.config.trickStart)/j.config.trick),foldLeft:0,foldRight:0,bladeSpin:0};
+ const pose=trickPose(j.index,j.execution??0,(j.time-j.config.trickStart)/j.config.trick);
+ return {...pose,foldLeft:0,foldRight:0,bladeSpin:0};
 }
-export function jumpTorque(j){return !j?.flight||j.time<j.config.trickStart||j.time>=j.config.landingStart?{pitch:0,roll:0,yaw:0}:attitudeTorque(t=>trickPose(j.index,j.execution??0,(t-j.config.trickStart)/j.config.trick),j.time);}
+export function jumpTorque(j){return !j?.flight?{pitch:0,roll:0,yaw:0}:attitudeTorque(t=>jumpPose({...j,time:t}),j.time);}
 export function jumpCue(j){
  if(!j)return null;const t=j.time,c=j.config;let start,target,end,result,action,kind;
  if(t<takeoffDuration){start=0;end=takeoffDuration;target=end-.2;result=j.takeoff;action='brake';kind='TAKEOFF';}
- else if(t>=c.landingStart&&t<c.touchdown){start=c.landingStart;end=c.touchdown;target=end-.25;result=j.landing;action='thrust';kind='LAND';}else return null;
+ else if(t>=c.landingStart&&t<c.landingEnd){start=c.landingStart;end=c.landingEnd;target=end-.25;result=j.landing;action='brake';kind='LAND';}else return null;
  const progress=clamp(((result?.at??t)-start)/(target-start),0,1.12);
  return {kind,action,score:result?.score,radius:Math.max(29,84-50*(.94*progress+.06*progress*progress)),difficulty:kind==='TAKEOFF'?1+j.misses*.12:1};
 }
@@ -82,5 +87,5 @@ export function beginJumpFinish(r){r.finishStop={age:0,duration:landingDuration,
 export function stepJumpFinish(r,c,dt){
  const f=r.finishStop;f.age=Math.min(f.duration,f.age+dt);const p=landingPose(r.finalLanding.points,f.age,f.speed),sn=Math.sin(f.heading),cs=Math.cos(f.heading);
  const x=f.x+p.x*cs-p.y*sn,y=f.y+p.x*sn+p.y*cs;
- return {...p,x,y,z:surface(c,x,y),heading:f.heading+p.heading,steer:Math.sin(p.heading)*.5,done:f.age>=f.duration-1e-9};
+ return {...p,x,y,z:surface(c,x,y)+(p.z??0),heading:f.heading+p.heading,steer:Math.sin(p.heading)*.5,done:f.age>=f.duration-1e-9};
 }

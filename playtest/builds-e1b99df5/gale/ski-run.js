@@ -13,10 +13,10 @@ import {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude} from './ski-course.js';
 export {skiCourse,LENGTH,WIDTH,RAMPS,ITEMS,itemAltitude};
 export const SKI_KEY='astra.gale.skiBlades.v7',GRAVITY=3.71*(8/3),HOP_SPEED=Math.sqrt(2*GRAVITY*8),DIVE_JOLT=24;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function newSkiRun(course){return {phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
+export function newSkiRun(course){return {timedJump:!!course.timedJump,phase:'countdown',countdown:3,s:0,u:0,v:0,side:0,z:course.height(0),vz:0,air:false,time:0,score:0,pending:0,chain:0,bestCombo:0,items:[],ramps:[],tricks:[],repeats:{},rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),trick:null,feedback:'SUMMIT DESCENT',recoveries:0,reason:'',safe:{s:0,u:0},boost:0,brakeHeld:false,brakeAge:0,airMode:'idle',yaw:0,yawRate:0,down:false};}
 export function recoverSki(r,course){if(r.phase!=='running')return false;Object.assign(r,{s:r.safe.s,u:r.safe.u,z:course.height(r.safe.s,r.safe.u),v:30,side:0,vz:0,air:false,trick:null,pending:0,chain:0,rotation:newLunarRotation(),rotationAngle:0,input:newTrickInput('ski'),airControl:newAirControl(),boost:0,yaw:0,yawRate:0,down:false,airMode:'idle',brakeHeld:false,brakeAge:0});r.landingWindow=false;r.landingAttempt=null;r.landingTap=false;r.landingTapETA=undefined;r.landingFlight=0;r.landingCueAge=0;delete r.worldX;delete r.worldY;r.time+=5;r.recoveries++;r.feedback='Recovered · combo lost';return true;}
 const rideInput=input=>({press:input.press,gas:!!input.gas,special:!!input.brake,steer:input.steer||0,both:!!input.both,reverse:false});
-export function captureSkiInput(r,input){if(r.jump){captureJump(r,input.press);return;}if(r.air&&r.landingWindow&&input.press==='gas'&&!r.landingAttempt&&!r.landingTap){r.landingTap=true;r.landingTapETA=r.landingETA;}if(Math.abs(input.steer||0)>.01||input.both)cancelOrbBoost(r);if(input.press==='special'&&!r.air)requestOrbBoost(r);if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
+export function captureSkiInput(r,input){if(r.jump){captureJump(r,input.press);return;}if(r.timedJump)return;if(r.air&&r.landingWindow&&input.press==='gas'&&!r.landingAttempt&&!r.landingTap){r.landingTap=true;r.landingTapETA=r.landingETA;}if(Math.abs(input.steer||0)>.01||input.both)cancelOrbBoost(r);if(input.press==='special'&&!r.air)requestOrbBoost(r);if(r.phase==='running')queueTrickInput(r.input,{...rideInput(input),time:r.time});}
 export function resetSkiInput(r){r.rotation=newLunarRotation();r.rotationAngle=0;r.input=newTrickInput('ski');r.airControl=newAirControl();r.brakeHeld=false;r.brakeAge=0;r.airMode='idle';r.down=false;r.yawRate=0;}
 function readRide(r,course,input){
  const rotate=rotationInput(r.rotation,course.landingScored&&r.air?{...input,gas:false,press:input.press==='gas'?'release':input.press}:input,r.air&&trickFits(r,course,ROTATION_SECONDS),!!r.trick&&(r.trick.kind==='spin'||r.trick.secret),r.airControl.lastGas);
@@ -70,10 +70,11 @@ function advancePosition(r,course,dt){
 export function stepSki(r,course,input,dt){
  if(r.phase==='result'||!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,.05);
  if(r.phase==='countdown'){r.countdown=Math.max(0,r.countdown-dt);if(!r.countdown)r.phase='running';return;}
- syncPosition(r,course);r.time+=dt;if(course.timedJump&&(r.jump||maybeBeginJump(r,course))){stepJump(r,course,dt);return;}stepLandingPrompt(r,course,input,dt,GRAVITY);r.boost=Math.max(0,r.boost-dt);stepOrbBoost(r,course,input);
+ syncPosition(r,course);r.time+=dt;if(course.timedJump&&(r.jump||maybeBeginJump(r,course))){stepJump(r,course,dt);return;}if(course.timedJump){const zone=course.items?.find(p=>p.kind==='slalom-boost');if(zone&&r.s>=zone.s)r.driveLocked=true;if(r.driveLocked)input={...input,gas:false,brake:false,both:false};}
+ stepLandingPrompt(r,course,input,dt,GRAVITY);r.boost=Math.max(0,r.boost-dt);if(!course.timedJump)stepOrbBoost(r,course,input);
  const previous={x:r.worldX,y:r.worldY,z:r.z,s:r.s};
  const steer=clamp(input.steer||0,-1,1),oldS=r.s,oldU=r.u,oldZ=r.z,oldAir=r.air;
- const gesture=rideInput(input);for(const e of r.input.events.splice(0))readRide(r,course,e);readRide(r,course,{...gesture,time:r.time});
+ const gesture=rideInput(course.timedJump?{...input,brake:false}:input);for(const e of r.input.events.splice(0))readRide(r,course,e);readRide(r,course,{...gesture,time:r.time});
  const air=stepAirControl(r.airControl,!r.air,course.landingScored&&r.air&&r.landingWindow?{...gesture,gas:false}:gesture,dt,!!r.trick,r.time,true);
  // Ground double-taps never launch skis; airborne slam remains available.
  if(air.dives&&r.air){r.vz=Math.min(0,r.vz)-DIVE_JOLT*air.dives;r.feedback='Down-thrust';}
@@ -81,7 +82,7 @@ export function stepSki(r,course,input,dt){
  r.yaw=course.landingScored?0:air.yaw*.2;
  const grade=clamp((surfaceAt(r,course,12)-surfaceAt(r,course,-12))/24,-.8,.8);
  const crossGrade=clamp((surfaceAt(r,course,0,12)-surfaceAt(r,course,0,-12))/24,-.8,.8);
- if(!r.air)stepSkiGround(r,grade,crossGrade,{...input,brake:!!input.both},dt,course.drive);
+ if(!r.air)stepSkiGround(r,grade,crossGrade,{...input,brake:!!input.both||!!course.timedJump&&!!input.brake},dt,course.drive);
  else if(r.airMode==='turn'){const angle=air.yaw*dt,c=Math.cos(angle),sn=Math.sin(angle),v=r.v;r.v=v*c-r.side*sn;r.side=v*sn+r.side*c;}
  holdBoostSpeed(r);
  // The broad mountain is traversable: no invisible shoulder spring or speed tax.
