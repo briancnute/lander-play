@@ -7,8 +7,8 @@ export function icon(action){const button=action==='thrust'||action==='brake'||a
 export const grade=score=>score>=90?'Perfect':score>=80?'Great':score>=60?'Good':'Basic';
 const colors={Perfect:'#ffe7a0',Great:'#9cefff',Good:'#a9efbd',Basic:'#e6dfce',Wrong:'#ff897b'};
 export function endTime(run,speed){return Math.max(...run.notes.map(n=>n.result&&n.result.label!=='Miss'?(n.result.at??n.at)+.65:n.at+Math.max(run.window,32/speed)+.3));}
-export function drawRail(lane,notes,target,label,run,time,speed,direction,mode='shape'){
- const width=lane.clientWidth,distance=Math.max(64,speed*run.window+32),anchor=direction==='left'?distance:width-distance,sign=direction==='left'?1:-1;
+export function drawRail(lane,notes,target,label,run,time,speed,direction,mode='shape',targetOffset){
+ const width=lane.clientWidth,distance=targetOffset??Math.max(64,speed*run.window+32),anchor=direction==='left'?distance:width-distance,sign=direction==='left'?1:-1;
  const fixed=mode==='fixed',gap=(width-112)/Math.max(1,run.notes.length-1),center=i=>run.notes.length===1?width/2:56+i*gap;
  const bar=run.notes.length===1?center(0)+(time-run.notes[0].at)*80:center(0)+(time-run.notes[0].at)*gap/run.spacing;
  lane.dataset.mode=mode;

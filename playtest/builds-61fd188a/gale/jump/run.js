@@ -1,6 +1,6 @@
 import {landingTiming,LAND_TARGET} from '../ski-landing.js';
 import {hit,expire,average} from './rail-model.js';
-import {takeoffDuration,landingLead,minimumAir,schedule,grade,railDelay,classes} from './config.js';
+import {takeoffDuration,landingLead,minimumAir,schedule,grade,classes} from './config.js';
 import {trickFor,trickPose,attitudeTorque} from './tricks.js';
 import {landingPose,landingDuration} from './landings.js';
 export const jumpGravity=3.71*(8/3); // Existing Gale world-distance scale.
@@ -35,7 +35,8 @@ function launch(r,c){
  const requested=Math.max(minimumAir(0),(desired+.1)*Math.sin(correctedAngle*Math.PI/180)/Math.sin(Math.PI/3));
  j.index=0;for(let i=1;i<4;i++)if(requested>=minimumAir(i))j.index=i;
  const heading=h+clamp(Math.atan2(j.side,j.speed)*.35,-.055,.055);
- const speed=j.speed+(score/100)*12,vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
+ // Redirect run-up momentum upward so the longer sequence still lands on the runout.
+ const speed=(j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
  const target=surface(c,p.x+vx*requested,p.y+vy*requested);
  // Solve the impulse against the surveyed landing elevation. Then find actual
  // first terrain contact; never teleport the rover to a scripted flat plane.
@@ -43,12 +44,12 @@ function launch(r,c){
  const contact=v=>{let last=0;for(let t=.02;t<30;t+=.02){if(z+v*t-.5*jumpGravity*t*t<=surface(c,p.x+vx*t,p.y+vy*t)){let a=last,b=t;for(let n=0;n<18;n++){const m=(a+b)/2;if(z+v*m-.5*jumpGravity*m*m>surface(c,p.x+vx*m,p.y+vy*m))a=m;else b=m;}return b;}last=t;}return 30;};
  // The main move straddles the physical apex, leaving a full landing cue.
  // The main-flight impulse is chosen at launch, never by later taps.
- const move=classes[j.index],earliestApex=railDelay+move.input+move.trick/2;
+ const move=classes[j.index],earliestApex=schedule(j.index).trickStart-takeoffDuration+move.trick/2;
  vz=Math.max(vz,jumpGravity*earliestApex);
  let airtime=contact(vz);
  for(let n=0;n<200&&airtime<vz/jumpGravity+move.trick/2+landingLead;n++){vz+=.25;airtime=contact(vz);}
  j.flight={x:p.x,y:p.y,z,vx,vy,vz,heading,gravity:jumpGravity,correctedAngle};
- j.config=schedule(j.index,airtime,vz/jumpGravity);
+ j.config=schedule(j.index,airtime);
  j.rail={spacing:j.config.beat,window:Math.min(.38,j.config.beat/2),notes:j.config.actions.map((action,i)=>({action,at:j.config.sequence+(i+.5)*j.config.beat,result:null})),finished:false};
  r.finalJump=true;r.air=true;r.takeoff='timed-jump';r.feedback=j.config.name+' takeoff';
 }
@@ -72,7 +73,15 @@ export function stepJump(r,c,dt){
 }
 export function jumpPose(j){
  if(!j?.flight)return {pitch:0,roll:0,yaw:0,foldLeft:0,foldRight:0,bladeSpin:0};
- const pose=trickPose(j.index,j.execution??0,(j.time-j.config.trickStart)/j.config.trick);
+ const q=j.config,elapsed=Math.max(0,j.time-q.trickStart);
+ // Repeat full moves until LAND begins. The final replay may resolve during
+ // that cue, but must settle before contact. Unwrap complete turns so torque
+ // calculations remain continuous across replay boundaries.
+ const cycles=Math.max(1,Math.ceil((q.landingStart-q.trickStart)/q.trick));
+ const cycle=Math.min(cycles-1,Math.floor(elapsed/q.trick)),start=q.trickStart+cycle*q.trick;
+ const end=Math.min(start+q.trick,q.touchdown-.08),pose=trickPose(j.index,j.execution??0,(j.time-start)/(end-start));
+ const complete=trickPose(j.index,j.execution??0,1);
+ for(const axis of ['pitch','roll','yaw'])pose[axis]+=cycle*complete[axis];
  return {...pose,foldLeft:0,foldRight:0,bladeSpin:0};
 }
 export function jumpTorque(j){return !j?.flight?{pitch:0,roll:0,yaw:0}:attitudeTorque(t=>jumpPose({...j,time:t}),j.time);}

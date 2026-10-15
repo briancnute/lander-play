@@ -11,11 +11,19 @@
 .rail-burst b{position:absolute;top:calc(var(--icon-size) + 4px);left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:.5px;font-weight:500}
 .rail-missed .input-icon,.rail-missed .input-icon circle{fill:#b7514b;stroke:#e88c80}
 .jump-hit-label{position:absolute;top:77px;transform:translateX(-50%);font-size:9px;color:#edc88b;white-space:nowrap}
-.jump-cue{position:absolute;left:30%;top:44%;width:120px;height:120px;transform:translate(-50%,-50%);text-align:center}
+.jump-cue{position:absolute;left:22%;top:67%;width:120px;height:120px;transform:translate(-50%,-50%);text-align:center}
 .jump-cue>svg{position:absolute;inset:0;width:120px;height:120px;fill:none}
 .jump-cue .jump-band{stroke:#efe0be;opacity:.27}.jump-center{stroke:#75d19d;stroke-width:1.5}.jump-ring{stroke:#fff4dc;stroke-width:1.5}
 .jump-symbol{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:35px;height:35px}.jump-symbol svg{width:100%;height:100%}
 .jump-cue small{position:absolute;top:-12px;left:0;right:0;font-size:10px;letter-spacing:1px}.jump-cue b{position:absolute;top:120px;left:-20px;right:-20px;font-size:11px;font-weight:500}
 .jump-move{position:absolute;top:80px;left:50%;transform:translateX(-50%);letter-spacing:.7px;font-size:13px;text-shadow:0 1px 3px #24180f}
 body.timed-jump #brake{background:#bc534eb0;border-color:#d38b86}body.timed-jump [data-control=drive]{background:#b5944780;border-color:#d0b574}
-@media(max-height:500px){.jump-rail{--icon-size:40px;top:48px;height:86px;width:54vw}.jump-move{top:62px}.jump-cue{left:27%;top:43%;transform:translate(-50%,-50%) scale(.86)}}
+@media(max-height:500px){.jump-rail{--icon-size:40px;top:48px;height:86px;width:54vw}.jump-move{top:62px}.jump-cue{top:63%;transform:translate(-50%,-50%) scale(.86)}}
+
+.jump-cue[data-kind=LAND]{left:78%}
+.jump-result{position:absolute;left:22%;top:67%;transform:translate(-50%,-50%) scale(var(--pop-scale,1));text-align:center;color:#f1e5cb;filter:drop-shadow(0 2px 8px #25150cc0);white-space:nowrap}
+.jump-result[data-kind=TRICK]{left:50%;top:112px}.jump-result[data-kind=LANDING]{left:78%}
+.jump-result small{display:block;font-size:10px;letter-spacing:2px;margin-bottom:5px}
+.jump-result strong{font-size:clamp(28px,4vw,46px);font-weight:850;letter-spacing:1px;text-shadow:0 0 18px currentColor}
+.jump-result[data-grade=Perfect]{color:#ffe7a0}.jump-result[data-grade=Great]{color:#9cefff}.jump-result[data-grade=Good]{color:#a9efbd}
+@media(max-height:500px){.jump-result{top:63%}.jump-result[data-kind=TRICK]{top:87px}.jump-result strong{font-size:30px}}
