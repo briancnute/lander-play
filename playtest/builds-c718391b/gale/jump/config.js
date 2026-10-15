@@ -1,11 +1,11 @@
 // Producer-approved tuning, in seconds. Keep the final input on Trick / Shift.
 export const takeoffDuration=1.2,landingLead=1,railDelay=0,railTravel=1.8,resultDuration=.5;
 export const classes=[
- {name:'Basic',pause:0,input:1.8,count:6,trick:2.5,cycle:1,actions:['left','right','thrust','left','right','brake']},
- {name:'Good',pause:0,input:2.55,count:6,trick:1.7,cycle:.9,actions:['left','thrust','right','left','thrust','brake']},
- {name:'Great',pause:0,input:4,count:7,trick:2,cycle:1.4,actions:['left','right','thrust','left','thrust','right','brake']},
- {name:'Premium',pause:0,input:2.85,count:7,trick:2.2,cycle:1.4,actions:['left','brake','right','thrust','left','thrust','brake']},
-].map((c,i)=>{const count=[6,8,12,10][i];return {...c,count,actions:Array.from({length:count},(_,n)=>n===count-1?'brake':c.actions[n%c.actions.length])};});
+ {name:'Basic',actions:['left','right','thrust','left','right','brake']},
+ {name:'Good',actions:['left','thrust','right','left','thrust','brake']},
+ {name:'Great',actions:['left','right','thrust','left','thrust','right','brake']},
+ {name:'Premium',actions:['left','brake','right','thrust','left','thrust','brake']},
+].map((c,i)=>{const count=6+i;return {...c,pause:0,count,input:count*3/10,trick:2.5,cycle:1,actions:Array.from({length:count},(_,n)=>n===count-1?'brake':c.actions[n%c.actions.length])};});
 export const tier=score=>score>=90?3:score>=80?2:score>=60?1:0;
 export const grade=score=>['Basic','Good','Great','Perfect'][tier(score)];
 const bounded=(v,f,min,max)=>typeof v==='number'&&Number.isFinite(v)?Math.max(min,Math.min(max,v)):f;
