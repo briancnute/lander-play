@@ -1,6 +1,5 @@
 import {drawRail,icon,grade} from './rail-view.js';
 import {jumpCue} from './run.js';
-import {resultDuration} from './config.js';
 import {trickFor} from './tricks.js';
 export function createJumpUI(){
  const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('./ui.css',import.meta.url).href;document.head.append(style);
@@ -10,7 +9,7 @@ export function createJumpUI(){
  const cue=el.querySelector('.jump-cue'),rail=el.querySelector('.jump-rail'),move=el.querySelector('.jump-move'),result=el.querySelector('.jump-result');
  return {draw(r,visible){
   const original=r?.jump;el.hidden=!visible||!original;if(el.hidden)return;const j={...original,time:original.time+(r.finishStop?.age??0)};
-  const q=jumpCue(j);cue.hidden=!q||q.score!==undefined;cue.dataset.kind=q?.kind??'';
+  const resultDuration=j.config.feedback,q=jumpCue(j);cue.hidden=!q||q.score!==undefined;cue.dataset.kind=q?.kind??'';
   if(q){cue.querySelector('small').textContent=q.kind;cue.querySelector('.jump-symbol').innerHTML=icon(q.action);cue.querySelector('.jump-ring').setAttribute('r',q.radius);cue.querySelector('.jump-band').style.strokeWidth=String(10/q.difficulty);const b=cue.querySelector('b');b.textContent=q.score===undefined?'':grade(q.score)+' · '+q.score;}
   rail.hidden=!j.rail||j.time<j.config.railStart||j.time>=j.config.sequenceEnd;
   if(!rail.hidden){const size=parseFloat(getComputedStyle(rail).getPropertyValue('--icon-size')),speed=(rail.clientWidth+size/2-112)/j.config.railTravel;drawRail(rail,rail.querySelector('.jump-notes'),rail.querySelector('.jump-target'),rail.querySelector('.jump-hit-label'),j.rail,j.time,speed,'left','column',112);}
