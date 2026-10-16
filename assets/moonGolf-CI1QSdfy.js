@@ -1,0 +1,1 @@
+import"./browserInput-CTmKQAlA.js";import{n as e}from"./main-CtR3pUaL.js";e();
