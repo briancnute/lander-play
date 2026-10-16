@@ -1,3 +1,4 @@
+import {flightElapsed} from './clock.js';
 import {landingTiming,LAND_TARGET} from '../ski-landing.js';
 import {hit,expire,average} from './rail-model.js';
 import {minimumAir,schedule,grade,tier,settings} from './config.js';
@@ -36,10 +37,11 @@ function launch(r,c){
  const angleFactor=Math.sin(correctedAngle*Math.PI/180)/Math.sin(Math.PI/3);
  j.index=tier(clamp(score+(angleFactor-1)*100,0,100));
  if(r.tuning&&Number.isInteger(r.previewClass))j.index=clamp(r.previewClass,0,3);
- const requested=minimumAir(j.index,options);
+ const requestedWall=minimumAir(j.index,options),planned=schedule(j.index,requestedWall,options);
+ const requested=flightElapsed(planned.touchdown,planned),slowTime=requestedWall-requested;
  const heading=h+clamp(Math.atan2(j.side,j.speed)*.35,-.055,.055);
- // Retain enough forward speed to reach the groomed runout with a shorter flight.
- const speed=Math.max((j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),2100/requested),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
+ // Retain the normal approach speed; slow motion reduces distance traveled.
+ const speed=Math.max((j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),2100/requestedWall),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
  const target=surface(c,p.x+vx*requested,p.y+vy*requested);
  // Solve the impulse against the surveyed landing elevation. Then find actual
  // first terrain contact; never teleport the rover to a scripted flat plane.
@@ -56,7 +58,7 @@ function launch(r,c){
   vz=high;airtime=contact(vz);
  }
  j.flight={x:p.x,y:p.y,z,vx,vy,vz,heading,gravity:jumpGravity,correctedAngle};
- j.config=schedule(j.index,airtime,options);
+ j.config={...schedule(j.index,airtime+slowTime,options),physicalAirtime:airtime};
  j.rail={spacing:j.config.beat,window:Math.min(.38,j.config.beat/2),notes:j.config.actions.map((action,i)=>({action,at:j.config.sequence+(i+.5)*j.config.beat,result:null})),finished:false};
  r.finalJump=true;r.air=true;r.takeoff='timed-jump';r.feedback=j.config.name+' takeoff';
 }
@@ -64,7 +66,7 @@ export function stepJump(r,c,dt){
  const j=r.jump,takeoffDuration=j.settings.takeoff;j.time+=dt;
  if(j.time<takeoffDuration){const u=j.time/takeoffDuration;r.s=j.startS+(c.lip-j.startS)*u;r.u=j.startU+(j.endU-j.startU)*u;const p=c.point(r.s,r.u);r.worldX=p.x;r.worldY=p.y;r.z=surface(c,p.x,p.y);r.v=(c.lip-j.startS)/takeoffDuration;r.side=(j.endU-j.startU)/takeoffDuration;r.vz=0;return;}
  if(!j.flight)launch(r,c);
- const q=j.config,f=j.flight,t=Math.min(q.airtime,j.time-takeoffDuration);
+ const q=j.config,f=j.flight,t=Math.min(q.physicalAirtime,flightElapsed(j.time,q));
  expire(j.rail,j.time);
  if(j.time>=q.sequenceEnd&&j.execution===null){expire(j.rail,Infinity);j.execution=average(j.rail);const move=trickFor(j.index,j.execution);r.tricks.push(move.name);r.bestCombo=Math.round((j.index+1)*250*j.execution/100);r.score=r.bestCombo;r.feedback=move.name;}
  r.worldX=f.x+f.vx*t;r.worldY=f.y+f.vy*t;r.z=f.z+f.vz*t-.5*f.gravity*t*t;r.vz=f.vz-f.gravity*t;
