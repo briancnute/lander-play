@@ -40,8 +40,8 @@ function launch(r,c){
  const requestedWall=minimumAir(j.index,options),planned=schedule(j.index,requestedWall,options);
  const requested=flightElapsed(planned.touchdown,planned),slowTime=requestedWall-requested;
  const heading=h+clamp(Math.atan2(j.side,j.speed)*.35,-.055,.055);
- // Retain the normal approach speed; slow motion reduces distance traveled.
- const speed=Math.max((j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),2100/requestedWall),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
+ // Reserve the groomed runout distance using physical flight time, not QTE time.
+ const speed=Math.max((j.speed+(score/100)*12)*Math.cos(correctedAngle*Math.PI/180),2100/requested),vx=Math.sin(heading)*speed,vy=-Math.cos(heading)*speed;
  const target=surface(c,p.x+vx*requested,p.y+vy*requested);
  // Solve the impulse against the surveyed landing elevation. Then find actual
  // first terrain contact; never teleport the rover to a scripted flat plane.
