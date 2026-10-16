@@ -1,4 +1,4 @@
-export const TOUR_PACE={speed:3,boostMultiplier:1.65,boostSeconds:4,cooldownSeconds:8,doubleTapSeconds:.32};
+export const TOUR_PACE={speed:3,boostMultiplier:1.65,boostSeconds:4,cooldownSeconds:4,doubleTapSeconds:.32};
 export function tourTargetSpeed(leg,projection,velocity,multiplier=1){
  let curvature=0,previous=null;const ahead=Math.max(100,Math.abs(velocity)*.85);
  for(const p of leg.points){if(p.s<projection.station-20||p.s>projection.station+ahead)continue;if(previous){const angle=p.heading-previous.heading;curvature=Math.max(curvature,Math.abs(Math.atan2(Math.sin(angle),Math.cos(angle)))/Math.max(1,p.s-previous.s));}previous=p;}
