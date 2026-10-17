@@ -13,8 +13,32 @@ body.astra-is-loading> :not(.astra-loading):not(script):not(style){visibility:hi
 
 body.astra-is-loading #loading{display:none!important}
 
-/* Mercury flight preparation stays visually blank and performs no decorative work. */
+/* Mercury flight: instant static CSS stars, system type, no decorative requests. */
 .astra-loading.al-blank{background:#080b0e}
-.astra-loading.al-blank header,.astra-loading.al-blank .al-fact,.astra-loading.al-blank .al-track{display:none}
+.astra-loading.al-blank::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 8% 12%,#d9e5ed99 0 .65px,transparent 1.2px),
+ radial-gradient(circle at 28% 8%,#f4f1e8bb 0 .8px,transparent 1.4px),
+ radial-gradient(circle at 63% 5%,#d6e4f055 0 .7px,transparent 1.3px),
+ radial-gradient(circle at 88% 16%,#fff9d999 0 .65px,transparent 1.2px),
+ radial-gradient(circle at 17% 31%,#dbe5f077 0 .7px,transparent 1.2px),
+ radial-gradient(circle at 44% 21%,#f2f2ee55 0 .55px,transparent 1.2px),
+ radial-gradient(circle at 72% 28%,#d9e5edaa 0 .75px,transparent 1.3px),
+ radial-gradient(circle at 95% 37%,#f4f1e855 0 .6px,transparent 1.2px),
+ radial-gradient(circle at 6% 55%,#d9e5ed77 0 .55px,transparent 1.2px),
+ radial-gradient(circle at 27% 62%,#f4f1e888 0 .7px,transparent 1.3px),
+ radial-gradient(circle at 81% 53%,#d9e5ed66 0 .6px,transparent 1.2px),
+ radial-gradient(circle at 58% 72%,#dbe5f0aa 0 .7px,transparent 1.3px),
+ radial-gradient(circle at 12% 84%,#f4f1e855 0 .7px,transparent 1.2px),
+ radial-gradient(circle at 36% 91%,#d9e5edaa 0 .8px,transparent 1.4px),
+ radial-gradient(circle at 76% 88%,#f4f1e888 0 .65px,transparent 1.2px),
+ radial-gradient(circle at 92% 77%,#d9e5ed77 0 .7px,transparent 1.3px),
+ radial-gradient(circle at 52% 14%,#dbe5f044 0 .55px,transparent 1px),
+ radial-gradient(circle at 19% 73%,#dbe5f044 0 .55px,transparent 1px),
+ radial-gradient(circle at 69% 95%,#dbe5f044 0 .55px,transparent 1px),
+ radial-gradient(circle at 90% 61%,#dbe5f044 0 .55px,transparent 1px)}
+.astra-loading.al-blank header{display:block;top:50%;left:6%;right:6%;transform:translateY(-50%);text-align:center}
+.astra-loading.al-blank h1{font:400 clamp(30px,5vw,46px)/1.2 system-ui,sans-serif;letter-spacing:.28em;padding-left:.28em;color:#e8ecef}
+.astra-loading.al-blank .al-subtitle{font:400 10px/1.4 system-ui,sans-serif;letter-spacing:.07em;text-transform:none;color:#9da6ad;margin:12px 0 0}
+.astra-loading.al-blank .al-fact,.astra-loading.al-blank .al-track{display:none}
 .astra-loading.al-blank .al-fill{animation:none}
 .astra-loading.al-blank:not([data-failed=true]) footer{display:none}
