@@ -11,3 +11,7 @@ The creator describes NASA imagery/elevation sources, adjusted color, and fictio
 terrain filling unmapped gaps. This is visual reference, not an exact reconstructed
 Caloris approach or a source for geographical measurements. On-screen attribution
 appears during the approach. No historical V1 rendering or cinematic code is reused.
+
+`public/textures/mercury-loading.jpg` is a 1024px JPEG derivative of the same
+Solar System Scope Mercury map, used for the rotating Mercury loading-screen
+trial. Attribution is also retained in ASTRA's source licensing record.
