@@ -11,37 +11,7 @@
  const title=!world?'ASTRA':/caloris-flight/.test(path)?(p.get('mode')==='collector'?'Collector':'Lander'):/venus-ascent/.test(path)?'Through the Veil':canonical.names[(/gale/.test(path)?'gale':'jezero')+':'+activity]||names[activity]||'Free Roam';
  let subtitle=world?[world.toUpperCase(),canonical.sites[site]||sites[site]||'',ancient?'Hypothetical ancient environment':''].filter(Boolean).join(' / '):'';
  if(activity==='golf'&&p.get('course'))subtitle+=' / '+(canonical.holes[p.get('course')]||'Selected hole');
- return {world,site,mercuryGlobe:world==='mercury'&&/caloris-flight/.test(path),title:p.get('loadingTitle')||title,subtitle:p.get('loadingSubtitle')||subtitle,ancient};
- }
- // CPU-rendered sphere keeps the loading view independent of the activity's WebGL context.
- // Same equirectangular Mercury map and geographic coordinates as ASTRA's globe.
- function mercuryGlobe(panel,meta){
-  panel.classList.add('al-mercury-globe');
-  const scene=document.createElement('div');scene.className='al-globe-scene';
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=320;canvas.setAttribute('aria-label','Mercury rotating. Texture: Solar System Scope, CC BY 4.0.');canvas.setAttribute('role','img');
-  const pin=document.createElement('div');pin.className='al-globe-pin';const name=document.createElement('span');name.textContent=canonical.sites[meta.site]||'CALORIS BASIN';pin.append(name);scene.append(canvas,pin);panel.append(scene);
-  const ctx=canvas.getContext('2d'),image=new Image(),size=320,radius=158,output=ctx.createImageData(size,size),pixels=[];
-  const lat=meta.site==='pro'?.4789:.5323,lon=meta.site==='pro'?2.5471:2.8271;
-  // Tilt toward the target latitude, keeping the selected destination near the visual centre.
-  const tilt=.38,ct=Math.cos(tilt),st=Math.sin(tilt);
-  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
-   const nx=(x+ .5-size/2)/radius,ny=-(y+ .5-size/2)/radius,d=nx*nx+ny*ny;if(d>=1)continue;
-   const nz=Math.sqrt(1-d),wy=ny*ct+nz*st,wz=nz*ct-ny*st;
-   const light=.105+.895*Math.pow(Math.max(0,-nx*.53+ny*.3+nz*.79),.85);
-   pixels.push([(y*size+x)*4,Math.atan2(nx,wz),Math.asin(wy),light,Math.min(1,(1-d)*radius)*255]);
-  }
-  let stopped=false,raf=0,last=0,texture,tw=0,th=0;const start=performance.now(),motion=matchMedia('(prefers-reduced-motion: reduce)');
-  function draw(now){if(stopped)return;raf=requestAnimationFrame(draw);if(!texture||now-last<65)return;last=now;
-   const turn=motion.matches?0:(now-start)*.00009,centre=lon+.24+turn;
-   for(const [i,a,b,l,alpha] of pixels){const u=((a+centre)/(Math.PI*2)+.5)%1,v=.5-b/Math.PI,ti=(Math.min(th-1,Math.floor(v*th))*tw+Math.floor((u+1)%1*tw))*4;output.data[i]=texture[ti]*l;output.data[i+1]=texture[ti+1]*l;output.data[i+2]=texture[ti+2]*l;output.data[i+3]=alpha;}
-   ctx.putImageData(output,0,0);
-   const a=lon-centre,x=Math.cos(lat)*Math.sin(a),z=Math.cos(lat)*Math.cos(a),y=Math.sin(lat)*ct-z*st,depth=z*ct+Math.sin(lat)*st;
-   pin.style.left=(50+x*radius/size*100)+'%';pin.style.top=(50-y*radius/size*100)+'%';pin.hidden=depth<.14;
-  }
-  image.onload=()=>{if(stopped)return;const map=document.createElement('canvas');tw=map.width=image.naturalWidth;th=map.height=image.naturalHeight;const c=map.getContext('2d',{willReadFrequently:true});c.drawImage(image,0,0);texture=c.getImageData(0,0,tw,th).data;scene.dataset.ready='true';};
-  image.onerror=()=>{if(stopped)return;scene.dataset.ready='failed';};
-  image.src=new URL('textures/mercury-loading.jpg',script.src).href;raf=requestAnimationFrame(draw);
-  return ()=>{stopped=true;cancelAnimationFrame(raf);image.onload=image.onerror=null;};
+ return {world,site,blank:world==='mercury'&&/caloris-flight/.test(path),title:p.get('loadingTitle')||title,subtitle:p.get('loadingSubtitle')||subtitle,ancient};
  }
  function create(host,meta,options={}){
  const panel=document.createElement('dialog');panel.className='astra-loading';panel.dataset.world=meta.world||'';panel.setAttribute('aria-label',meta.title+' loading');
@@ -51,13 +21,12 @@
  (((meta.ancient||meta.comparison)?'Modern comparison: ':'')+pool[Math.floor(Math.random()*pool.length)]).split(/(Perseverance|Curiosity)/).forEach(part=>fact.append(/^(Perseverance|Curiosity)$/.test(part)?el('strong','',part):part));center.append(label,fact);
  const footer=el('footer'),track=el('div','al-track'),fill=el('div','al-fill'),status=el('p','al-status',options.status||'Loading activity…');track.append(fill);track.setAttribute('role','progressbar');track.setAttribute('aria-label','Loading progress');status.setAttribute('role','status');status.setAttribute('aria-live','polite');footer.append(track,status);
  const back=el('button','al-back','Back'),retry=el('button','al-retry','Retry');back.type=retry.type='button';back.setAttribute('aria-label',options.backLabel||'Back');back.onclick=options.back||(()=>parent!==window?parent.postMessage({type:'astra-exit-rover'},location.origin):history.length>1?history.back():location.assign(new URL('./',script.src).href));back.hidden=!!options.boot;retry.hidden=true;retry.onclick=options.retry||(()=>location.reload());panel.append(header,center,footer,back,retry);host.append(panel);panel.showModal();
- const globe=meta.mercuryGlobe?mercuryGlobe(panel,meta):null;
+ if(meta.blank)panel.classList.add('al-blank');
  let disposed=false;
- if(globe)status.textContent='Loading…';
  const observer=new MutationObserver(records=>{if(disposed)return;if(!panel.open||records.some(r=>r.target!==panel&&r.target.tagName==='DIALOG'&&!r.target.classList.contains('astra-loading')&&r.target.open)){panel.close();panel.showModal();}});observer.observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['open']});panel.addEventListener('cancel',e=>{e.preventDefault();if(!back.hidden)back.click();});const timer=setTimeout(()=>fail(options.boot?'ASTRA is taking longer than usual. Retry loading.':'This is taking longer than usual. Retry or go back.'),30000);
- function update(text,completed,total){if(disposed)return;status.textContent=globe?'Loading…':text;const measured=Number.isFinite(completed)&&Number.isFinite(total)&&total>0;panel.dataset.measured=String(measured);if(measured){const fraction=Math.max(0,Math.min(.98,completed/total));fill.style.width=fraction*100+'%';track.setAttribute('aria-valuenow',String(Math.round(fraction*100)));}else{fill.style.width='';track.removeAttribute('aria-valuenow');}}
- function fail(text=options.boot?'ASTRA could not start. Retry.':'The activity could not load. Retry or go back.'){if(disposed)return;clearTimeout(timer);status.textContent=text;retry.hidden=false;panel.dataset.measured='true';fill.style.width='0';}
- function destroy(){if(disposed)return;disposed=true;clearTimeout(timer);globe?.();observer.disconnect();panel.close();panel.remove();}
+ function update(text,completed,total){if(disposed)return;status.textContent=text;const measured=Number.isFinite(completed)&&Number.isFinite(total)&&total>0;panel.dataset.measured=String(measured);if(measured){const fraction=Math.max(0,Math.min(.98,completed/total));fill.style.width=fraction*100+'%';track.setAttribute('aria-valuenow',String(Math.round(fraction*100)));}else{fill.style.width='';track.removeAttribute('aria-valuenow');}}
+ function fail(text=options.boot?'ASTRA could not start. Retry.':'The activity could not load. Retry or go back.'){if(disposed)return;clearTimeout(timer);panel.dataset.failed='true';status.textContent=text;retry.hidden=false;panel.dataset.measured='true';fill.style.width='0';}
+ function destroy(){if(disposed)return;disposed=true;clearTimeout(timer);observer.disconnect();panel.close();panel.remove();}
  return {panel,update,fail,destroy};
  }
  const documentId=crypto.randomUUID();const hosted=parent!==window&&params.get('loadingHost')==='1';let blocked=true,finished=false,canceled=false,failed=false;const controller=new AbortController();
