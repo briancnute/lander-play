@@ -1,0 +1,11 @@
+#extreme-relay-hud{position:fixed;top:max(18px,env(safe-area-inset-top));left:20px;right:80px;z-index:5;white-space:pre-line;font:600 15px/1.6 system-ui;color:#eff5df;text-shadow:0 2px 5px #35261d;pointer-events:none}#extreme-relay-cue{position:fixed;top:45%;right:20px;z-index:5;font:700 17px system-ui;color:#ffdc9b;text-shadow:0 2px 5px #35261d;pointer-events:none}body.extreme-relay header,body.extreme-relay #toast,body.extreme-relay #target-hud,body.extreme-relay #wayfinding{display:none!important}#extreme-relay-hud[hidden],#extreme-relay-cue[hidden]{display:none}@media(max-height:480px){#extreme-relay-hud{top:10px;font-size:12px;line-height:1.5}}
+
+#extreme-relay-pause{position:fixed;right:16px;top:14px;z-index:6;min-width:46px;min-height:46px;background:#183a30eb;color:#eff5df;border:1px solid #99c9ac;border-radius:8px;font-size:22px}#extreme-relay-pause[hidden]{display:none}
+
+#extreme-result{background:#172d29;color:#eff5df;border:1px solid #87b49a;border-radius:12px;padding:24px;max-width:calc(100vw - 28px)}#extreme-result button{min-height:44px;padding:10px 16px;margin:8px}
+
+body.extreme-relay #landmark-labels,body.extreme-relay #overhead-toggle{display:none!important}
+/* Keep the race map above touch controls when a phone rotates mid-run. */
+body.extreme-relay #mini-map-button{left:20px!important;top:auto!important;bottom:110px!important;width:140px;height:96px}
+@media(max-width:520px){body.extreme-relay #mini-map-button{left:12px!important;bottom:96px!important;width:104px;height:70px}}
+@media(max-height:480px){body.extreme-relay #mini-map-button{bottom:92px!important;width:100px;height:62px}}
