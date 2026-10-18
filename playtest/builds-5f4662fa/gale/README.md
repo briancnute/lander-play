@@ -1,4 +1,14 @@
-## Current Gale ski games — October 8, 2026
+## Current Free Ski — October 18, 2026
+
+`?v2=1&activity=roam` launches a separate, unscored summit-to-basin descent:
+42.7 game km on the pinned 200 m HRSC/MOLA survey, joining unchanged 20 m
+Curiosity-region terrain. Five optional map chapters, restart/recovery and an
+independent saved position support a continuous descent with no mandatory gates,
+timer or finish interruption. Historical rover travel remains tire tracks.
+Named slalom, Crater Tricks, rover exploration and expeditions retain their
+existing terrain and rules. See `docs/MARS_FREE_SKI_PHASE5.md`.
+
+## Historical Gale ski games — October 8, 2026
 
 V2 now launches Mount Sharp slalom (`activity=ski`) or the 120-second crater
 trick run (`activity=crater`). A compact interpreted mountain joins the unchanged
