@@ -138,7 +138,8 @@ void main(){
  else if(kind>6.5)lit=base;
  if(kind<.5&&backdropPass<.5&&roadEnabled>.5){float road=texture2D(roadMask,(vWorld.xy-roadBounds.xy)/roadBounds.zw).r;vec3 tan=vec3(.79,.56,.37)+vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);if(roadEnabled>3.5){float soil=texture2D(grit,vWorld.xy*.025).r;lit=mix(lit,lit*vec3(1.42,1.30,1.02)*(.96+.08*soil),road*.94);}else if(roadEnabled>2.5){float soil=texture2D(grit,vWorld.xy*.018).r;lit=mix(lit,lit*vec3(.82,.84,.88),road*(.8+.2*soil));}else if(roadEnabled>1.5){float soil=texture2D(grit,vWorld.xy*.06).r;vec3 compacted=lit*vec3(1.24,1.14,.98)*( .94+.12*soil);lit=mix(lit,compacted,road*.9);}else lit=mix(lit,tan*(.18+.82*daylight),road);}
  // Optional interpreted-lake material; modern worlds never create this mesh.
- if(kind>9.5&&kind<10.5){float ripple=sin(vWorld.x*.035+stormTime*.7+sin(vWorld.y*.017))*sin(vWorld.y*.043-stormTime*.35);float grazing=1.-clamp(abs(vWorld.z-camera.z)/max(1.,vDepth),0.,1.);lit=mix(vec3(.255,.305,.315),vec3(.56,.51,.44),pow(grazing,5.)*.52)+ripple*.009*(1.-smoothstep(500.,5000.,vDepth));}
+ if(kind>9.5&&kind<10.5){float ripple=sin(vWorld.x*.035+stormTime*.7+sin(vWorld.y*.017))*sin(vWorld.y*.043-stormTime*.35);if(vColor.b>.9)ripple=sin(vWorld.x*.045+vWorld.y*.014-stormTime*2.4)*sin(vWorld.y*.06+vWorld.x*.009);
+ float grazing=1.-clamp(abs(vWorld.z-camera.z)/max(1.,vDepth),0.,1.);lit=mix(vec3(.255,.305,.315),vec3(.56,.51,.44),pow(grazing,5.)*.52)+ripple*.009*(1.-smoothstep(500.,5000.,vDepth));}
  float fog=1.-exp(-pow(max(0.,vDepth)/terrainFogDistance,1.7));
  if(backdropPass>.5)fog=backdropHazeFloor+.24*(1.-exp(-max(0.,vDepth)/40000.));
  float alpha=kind>2.5&&kind<3.5?.17*clamp((vColor.x-(trackInfo.x-trackInfo.y))/128.,0.,1.)*(1.-localDust):kind>1.5&&kind<2.5?(1.-smoothstep(.15,1.,length(vLocal.xy/vec2(6.,8.))))*.24:1.;
