@@ -43,11 +43,11 @@ body.astra-is-loading #loading{display:none!important}
 .astra-loading.al-blank .al-fill{animation:none}
 .astra-loading.al-blank:not([data-failed=true]) footer{display:none}
 
-/* Surface scroll is one full illustrative turn every three seconds. */
-.astra-loading .al-planet{position:relative;overflow:hidden;isolation:isolate;width:min(24vh,38vw,180px);height:min(24vh,38vw,180px);margin:0 auto 24px;border-radius:50%;background:#6c706d;contain:paint;box-shadow:0 0 20px #b8ced008}
-.astra-loading .al-surface{display:flex;width:400%;height:100%;will-change:transform;animation:al-planet-turn 3s linear infinite}
-.astra-loading .al-surface svg{display:block;flex:0 0 50%;width:50%;height:100%}
-.astra-loading .al-planet::after{content:"";position:absolute;inset:-1px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 34% 29%,#fff2 0,transparent 38%,#0006 73%,#000e 100%),linear-gradient(90deg,#0001 20%,transparent 44%,#0007 100%);box-shadow:inset -10px -3px 18px #0005}
-@keyframes al-planet-turn{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.astra-loading .al-surface{animation:none;will-change:auto}}
+/* Cached frames from the real globe renderer; never hold readiness for this image. */
+.astra-loading .al-planet{position:relative;overflow:hidden;visibility:hidden;width:min(24vh,38vw,180px);height:min(24vh,38vw,180px);margin:0 auto 24px;contain:paint}
+.astra-loading .al-planet[data-ready=true]{visibility:visible}
+.astra-loading .al-surface{width:3700%;height:100%;background-size:100% 100%;background-repeat:no-repeat}
+.astra-loading .al-planet[data-ready=true] .al-surface{will-change:transform;animation:al-planet-turn 3s steps(36,end) infinite}
+@keyframes al-planet-turn{from{transform:translateX(0)}to{transform:translateX(-97.2972972973%)}}
+@media(prefers-reduced-motion:reduce){.astra-loading .al-planet[data-ready=true] .al-surface{animation:none;will-change:auto}}
 @media(max-height:480px){.astra-loading .al-planet{margin-bottom:16px}.astra-loading.al-blank h1{font-size:30px}}
