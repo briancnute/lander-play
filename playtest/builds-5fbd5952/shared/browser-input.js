@@ -1,6 +1,5 @@
 // Shared by bundled activities and the directly published Mars worlds.
-const heldTarget = 'canvas, [data-game-control], [data-control]';
-const protectedTarget = `button, [role="button"], ${heldTarget}`;
+const protectedTarget = 'button, [role="button"], canvas, [data-game-control]';
 const editableTarget = 'input, textarea, select, [contenteditable]:not([contenteditable="false"])';
 const fullscreenTarget = 'canvas, [data-game-control], [data-control], #drive-controls button, #speed, [data-launch], [data-surface-play], [data-free-roam], #v3-play-lander, #v3-play-collector';
 const installed = new WeakSet();
@@ -22,13 +21,13 @@ export function installBrowserInput(doc = document) {
  const style = doc.createElement('style');
  style.dataset.astraBrowserInput = '';
  style.textContent = `
- :is(${protectedTarget}),
- :is(${protectedTarget}) * {
+ :is(button, [role="button"], canvas, [data-game-control]),
+ :is(button, [role="button"], [data-game-control]) * {
    -webkit-user-select: none; user-select: none;
    -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
  }
  :is(button, [role="button"]) { touch-action: manipulation; }
- ${heldTarget}, #drive-controls button, button#speed { touch-action: none; }
+ canvas, [data-game-control], [data-control], #drive-controls button, button#speed { touch-action: none; }
  :is(input, textarea, select, [contenteditable]:not([contenteditable="false"])) {
    -webkit-user-select: auto; user-select: auto; -webkit-touch-callout: default;
  }
@@ -41,7 +40,7 @@ export function installBrowserInput(doc = document) {
  // Held controls already own Pointer Events. Cancel the native Touch Events
  // gesture too: cancelling pointerdown is not cancellation of touchstart.
  // Keep ordinary buttons, help text and editable fields on their normal path.
- const heldControl = target => control(target) && target.closest(heldTarget);
+ const heldControl = target => control(target) && target.closest('[data-game-control]');
  for (const event of ['touchstart', 'touchmove']) {
   doc.addEventListener(event, e => {
    if (e.cancelable && (heldControl(e.target) || Array.from(e.changedTouches ?? []).some(t => heldControl(t.target)))) e.preventDefault();
