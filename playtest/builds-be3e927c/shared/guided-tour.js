@@ -1,3 +1,4 @@
+import {ROVER_PROFILES,roverTune,roverDriveArea,createRoverExploration} from './rover-driving.js';
 import {newTourRun,restoreTourRun,acknowledgeCheckpoint,createTourTracker,projectOnLeg,tourClock,tourEarthLabel,poseOf,jumpTour,nearestTourPoint} from './guided-tour-run.js';
 import {driveStep} from '../mars-renderer/driving.js';
 import {createRouteRibbon} from '../jezero/route-ribbon.js';
@@ -35,6 +36,7 @@ export async function mountGuidedTour(api,asset){
   const ix=Math.floor(p.x/100),iy=Math.floor(p.y/100);for(let j=iy-1;j<=iy+1;j++)for(let i=ix-1;i<=ix+1;i++)for(const [x,y,r]of buckets.get(i+','+j)??[])if(Math.hypot(p.x-x,p.y-y)<r+14)return false;return true;
  }
  let saved;try{saved=JSON.parse(localStorage.getItem(key)??'null');}catch{}
+ const exploration=createRoverExploration(area,steering);
  let run=restoreTourRun(tour,saved,safe,envelope.contains),tracker=createTourTracker(tour,run,safe,envelope.contains),lift=null,saveFailed=false,lastSave=0,missedAge=0,parked=true,hasDeparted=false,gateApproached=false,roaming=false;
  const locked=()=>!roaming&&(run.pending!==null||run.status==='complete'&&!run.exploring||run.atEnd);
  const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('./guided-tour.css',import.meta.url).href;document.head.append(link);document.body.classList.add('guided-tour');
@@ -56,7 +58,7 @@ export async function mountGuidedTour(api,asset){
  el('gt-name').textContent=tour.name;el('gt-map-title').textContent=(tour.site==='jezero'?'Jezero':'Gale')+' · Paused map';
  function save(){if(!run||roaming)return;try{localStorage.setItem(key,JSON.stringify(run));saveFailed=false;}catch{saveFailed=true;}update();}
  function leave(){
-  if(roaming)return;save();roaming=true;lift=null;tracker.resetWarning();direction.reset();missedAge=0;boost.clearTap();if(gpu.relayRoad)gpu.gl.deleteTexture(gpu.relayRoad.texture);gpu.relayRoad=null;
+  if(roaming)return;save();roaming=true;exploration.reset(Math.abs(api.state.v)>.08);lift=null;tracker.resetWarning();direction.reset();missedAge=0;boost.clearTap();if(gpu.relayRoad)gpu.gl.deleteTexture(gpu.relayRoad.texture);gpu.relayRoad=null;
   for(const dialog of [card,map,pause])if(dialog.open)dialog.close();
   el('gt-name').textContent=(tour.site==='jezero'?'Jezero':'Gale / Mount Sharp')+' · Free Roam';el('gt-pause-title').textContent='Free Roam · Paused';
   for(const id of ['gt-next','gt-progress','gt-leave','gt-pause-leave','gt-map-leave','gt-map-focus'])el(id).hidden=true;
@@ -67,7 +69,7 @@ export async function mountGuidedTour(api,asset){
   api.resume();drawMini();update();
  }
  function clearDrift(s){Object.assign(s,{v:0,vz:0,air:false,turnaround:false,boost:0,thrust:0,impact:0,driftVX:null,driftVY:null,slip:0,visualSteer:0,visualBrake:false});api.clearInput();}
- function align(p){boost.cancel();direction.reset();directionCue.hidden=true;api.reset({...p,heading:p.heading});clearDrift(api.state);gpu.camera={x:p.x,y:p.y,h:p.heading};gpu.bodySlope=null;steering.reset();missedAge=0;parked=true;hasDeparted=false;gateApproached=false;lastSave=0;}
+ function align(p){boost.cancel();direction.reset();directionCue.hidden=true;api.reset({...p,heading:p.heading});clearDrift(api.state);gpu.camera={x:p.x,y:p.y,h:p.heading};gpu.bodySlope=null;steering.reset();exploration.reset();missedAge=0;parked=true;hasDeparted=false;gateApproached=false;lastSave=0;}
  function showPending(){if(roaming)return;if(run.pending===null&&(run.status!=='complete'||run.exploring)&&!run.atEnd)return;boost.cancel();boost.clearTap();
   const index=run.status==='complete'?(run.completedAt??tour.checkpoints.length-1):run.atEnd?tour.checkpoints.length-1:run.pending,p=tour.checkpoints[index];clearDrift(api.state);
   el('gt-card-number').textContent=index===0&&!run.passedGates.includes(0)?'TOUR BRIEFING':run.status==='complete'?'EXPEDITION COMPLETE':run.atEnd?'TOUR ENDPOINT':`STOP ${index+1} / ${tour.checkpoints.length}`;
@@ -105,10 +107,10 @@ export async function mountGuidedTour(api,asset){
    if(t===1){const target=lift.to;lift=null;align(target);run.pose=poseOf(api.state);save();}update();return;
   }
   const s=api.state,before={x:s.x,y:s.y},leg=tour.legs[run.leg],projection=projectOnLeg(leg,s,0,Infinity),brake=!!(input.brake||input.special||input.reverse);
-  boost.step(dt,{brake});const targetSpeed=roaming?nearestTourPoint(tour,s).speed*TOUR_PACE.speed*boost.multiplier:tourTargetSpeed(leg,projection,s.v,boost.multiplier);
-  s.tune={...s.tune,speed:targetSpeed,boostSpeed:targetSpeed,acceleration:boost.active?480:240,handling:1.15,cloneDrive:false};
+  boost.step(dt,{brake});if(roaming){exploration.step(s,input,dt,boost);parked=exploration.parked;update();return;}const targetSpeed=tourTargetSpeed(leg,projection,s.v,boost.multiplier);
+  s.tune=roverTune(s.tune,ROVER_PROFILES.tour,targetSpeed,!!boost.active);
   let gas=input.drive||boost.active>0;if(gas){parked=false;hasDeparted=true;}
-  driveStep(s,{drive:!!gas,brake,brakeOnly:true,steer:steering.step(input.steer,dt)},dt,area.course,{...area.driveArea,rocks:area.localRocks?.(s.x,s.y)??area.rocks,pickups:[],samples:[],keepExploring:true,boundaryAt:()=>({edge:1000}),cruise:false,arcadeHandling:false,driftHandling:false,roverHandling:true,airBrake:true,airControl:true,speedMultiplier:()=>1});
+  driveStep(s,{drive:!!gas,brake,brakeOnly:true,steer:steering.step(input.steer,dt)},dt,area.course,{...roverDriveArea(area),rocks:area.localRocks?.(s.x,s.y)??area.rocks});
   if(parked&&!gas){s.x=before.x;s.y=before.y;s.v=s.vz=0;s.air=false;s.z=area.ground(s.x,s.y);}else if(brake&&Math.abs(s.v)<.08)parked=true;
   // This outing follows the ground. Keep safe tour hillcrests planted at the
   // faster pace; jumping remains a separate activity with its own handling.

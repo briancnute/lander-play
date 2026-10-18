@@ -1,7 +1,8 @@
+import {ROVER_PROFILES} from '../shared/rover-profiles.js';
 import {measured,atDistance} from './rally-route.js';
 import {crossesRelayGate} from './relay-course.js';
 export const EXTREME_ID='extreme-relay',EXTREME_NAME='Jezero Extreme Relay';
-export const EXTREME_PACE=1.18,EXTREME_GATE_SPACING=2800;
+export const EXTREME_PACE=ROVER_PROFILES.relay.pace,EXTREME_GATE_SPACING=2800;
 const join=legs=>measured(legs.flatMap((l,i)=>i?l.points.slice(1):l.points));
 function road(id,name,legs){const points=join(legs),length=points.at(-1).s,positions=[];for(let s=220;s<length-450;s+=EXTREME_GATE_SPACING)positions.push(s);positions.push(length-120);return {id,name,kind:'rally',points,length,start:atDistance(points,0),finish:points.at(-1),gates:positions.map((s,id)=>({...atDistance(points,s),id,halfWidth:60})),cells:[],jumps:[]};}
 export function buildExtremeCourse(tour){
