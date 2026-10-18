@@ -1,0 +1,93 @@
+{
+  "routeSha256": "4c0527effc8e19523f2806526affe81dff96d528f61c55c60ccd850488c49c66",
+  "totalGameKm": 14.631637163022033,
+  "groundGameKm": 13.095036692385692,
+  "flightGameKm": 1.5366004706363385,
+  "checkpoints": 11,
+  "raceGates": 21,
+  "crossings": 0,
+  "overlappingLanes": 0,
+  "minimumNonlocalLaneSeparationGameMetres": 66.20523129821382,
+  "sharedLegs": [
+    {
+      "id": "landing--seitah",
+      "start": 0,
+      "end": 2898.2251326785513,
+      "stage": "delta",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "seitah--delta-front",
+      "start": 2898.2251326785513,
+      "end": 12575.381133423378,
+      "stage": "delta",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "delta-front--depot",
+      "start": 12575.381133423378,
+      "end": 15875.663297408419,
+      "stage": "delta",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "depot--upper-fan",
+      "start": 15875.663297408419,
+      "end": 26864.2316082082,
+      "stage": "delta",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "upper-fan--margin",
+      "start": 26864.2316082082,
+      "end": 30961.42196134057,
+      "stage": "delta",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "margin--neretva",
+      "start": 0,
+      "end": 6146.401882545354,
+      "stage": "airlift",
+      "relay": "fly",
+      "tour": "drive"
+    },
+    {
+      "id": "neretva--bright-angel",
+      "start": 0,
+      "end": 1920.5882918680734,
+      "stage": "rim",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "bright-angel--rim",
+      "start": 1920.5882918680734,
+      "end": 12679.76409915453,
+      "stage": "rim",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "rim--beyond-rim",
+      "start": 12679.76409915453,
+      "end": 15166.323370636674,
+      "stage": "rim",
+      "relay": "drive",
+      "tour": "drive"
+    },
+    {
+      "id": "beyond-rim--frontier",
+      "start": 15166.323370636674,
+      "end": 21418.724808202205,
+      "stage": "rim",
+      "relay": "drive",
+      "tour": "drive"
+    }
+  ]
+}
