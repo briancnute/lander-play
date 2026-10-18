@@ -13,7 +13,7 @@ export function readRoverSteering(storage){
  try{return createTourSteering(JSON.parse(storage.getItem('astra.mars.tourSteering.v1'))??{});}catch{return createTourSteering();}
 }
 // One exploration controller for direct launches and continuing from either tour.
-// Boost ownership remains with the existing activity until the energy-turbo phase.
+// Activity-owned energy turbo supplies the common speed target and acceleration.
 export function createRoverExploration(area,steering=createTourSteering()){
  let parked=true,lastState=null;
  return {steering,get parked(){return parked;},reset(moving=false){parked=!moving;steering.reset();},step(s,input,dt,boost=null){
