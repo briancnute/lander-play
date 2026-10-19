@@ -1,3 +1,5 @@
+import {installBrowserInput} from '../shared/browser-input.js';
+installBrowserInput();
 import {CRAFT} from './craft-data.js';
 import {openCraft} from './craft.js';
 import {NightSky} from './night-sky.js';
