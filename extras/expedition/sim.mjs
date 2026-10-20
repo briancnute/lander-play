@@ -60,7 +60,8 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  // A world may offer a modest ground-surface advantage (for example, the
  // compacted line through a time trial). It changes the cap, never thrust,
  // and cannot affect a rover while airborne.
- const terrainTurbo=s.boost>0&&Number.isFinite(area?.turboSurfaceSpeed);
+ // Energy-meter turbo opts in without enabling legacy timed-pickup acceleration.
+ const terrainTurbo=(s.boost>0||(area?.poweredTurbo===true&&drive&&!brake))&&Number.isFinite(area?.turboSurfaceSpeed);
  const surfaceSpeed=s.air?1:terrainTurbo?clamp(area.turboSurfaceSpeed,1,1.2):typeof area?.speedMultiplier==='function'?clamp(area.speedMultiplier(s),1,1.2):1;
  const max=(s.boost?tune.boostSpeed:tune.speed)*surfaceSpeed,acc=s.boost?tune.acceleration*2.5:tune.acceleration;
  const slope=(surface(s.x+Math.sin(s.heading)*3,s.y-Math.cos(s.heading)*3)-surface(s.x,s.y))/3;

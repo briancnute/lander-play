@@ -1,12 +1,12 @@
 import {createRoverTurbo,collectTurboRefills} from '../shared/rover-turbo.js';
 import {mountRoverTurboControl} from '../shared/rover-turbo-control.js';
-import {ROVER_PROFILES,roverTune,roverDriveArea,createRoverExploration} from '../shared/rover-driving.js';
+import {ROVER_PROFILES,roverTune,createRoverExploration} from '../shared/rover-driving.js';
 import {createViewModes} from './view-modes.js';
 import {startArtHop,stepArtHop} from './art-hop.js';
-import {buildExtremeCourse,EXTREME_ID,EXTREME_NAME,EXTREME_PACE,advanceExtremeGate,extremeFlightPose,extremeFlightCamera,beginExtremeFlight,blendExtremeFlightCamera} from './extreme-course.js';
+import {buildExtremeCourse,EXTREME_ID,EXTREME_NAME,advanceExtremeGate,extremeFlightPose,extremeFlightCamera,beginExtremeFlight,blendExtremeFlightCamera} from './extreme-course.js';
 import {atDistance,progressAlong} from './rally-route.js';
 import {projectOnLeg} from '../shared/guided-tour-run.js';
-import {tourTargetSpeed} from '../shared/tour-pace.js';
+import {relayTargetSpeed,relayDriveArea} from './relay-driving.js';
 import {createTourSteering} from '../shared/tour-steering.js';
 import {chase} from '../mars-renderer/chase.js';
 import {driveStep} from '../mars-renderer/driving.js';
@@ -17,7 +17,7 @@ import {surfaceResult} from '../shared/result-card.js';
 import {box,triangle} from '../mars-renderer/geometry.js';
 const clock=t=>`${Math.floor(t/60)}:${(t%60).toFixed(2).padStart(5,'0')}`;
 export function createExtremeRelay(api,journey){
- const {area,gpu,freeRoam}=api,course=buildExtremeCourse(area.guidedTour),key='astra.jezero.extreme-relay.v3',boost=createRoverTurbo();let run=null,flight=null,records={},parked=true,specialHeld=false;
+ const {area,gpu,freeRoam}=api,course=buildExtremeCourse(area.guidedTour),key='astra.jezero.extreme-relay.v4',boost=createRoverTurbo();let run=null,flight=null,records={},parked=true,specialHeld=false;
  let prefs;try{records=JSON.parse(localStorage.getItem(key))??{};prefs=JSON.parse(localStorage.getItem('astra.mars.tourSteering.v1'));}catch{}if(typeof records!=='object'||Array.isArray(records))records={};const steering=createTourSteering(prefs??{});
  const exploration=createRoverExploration(area,steering);
  const treads=createRecordedTreads(gpu,journey.segments,area.ground),$=s=>document.querySelector(s);
@@ -51,9 +51,9 @@ export function createExtremeRelay(api,journey){
   if(run.nextGate===current.gates.length&&run.progress>=current.length-150&&Math.hypot(s.x-current.finish.x,s.y-current.finish.y)<160){if(run.index===0){split();flight=beginExtremeFlight(current,course.stages[1],course.stages[2],s,projectOnLeg(current,s,0,Infinity).station);flight.chaseCamera={...gpu.camera};setStage(1);s.air=true;}else finish();}return true;
  }
  function drive(s,input,dt,current){
-  const projection=current?projectOnLeg(current,s,0,Infinity):{speed:120},brake=!!(input.special||input.brake||input.reverse),target=current?tourTargetSpeed({...current,length:Infinity},projection,s.v,boost.multiplier)*EXTREME_PACE:projection.speed*3*boost.multiplier;
+  const projection=current?projectOnLeg(current,s,0,Infinity):{speed:120},brake=!!(input.special||input.brake||input.reverse),target=relayTargetSpeed(current,projection,s.v,boost);
   s.tune=roverTune(s.tune,ROVER_PROFILES.relay,target,!!boost.active);const gas=!!input.drive||boost.active>0,before={x:s.x,y:s.y};if(gas)parked=false;
-  driveStep(s,{drive:gas,brake,brakeOnly:true,steer:steering.step(input.steer,dt)},dt,area.course,roverDriveArea(area));
+  driveStep(s,{drive:gas,brake,brakeOnly:true,steer:steering.step(input.steer,dt)},dt,area.course,relayDriveArea(area,boost));
   if(parked&&!gas){Object.assign(s,before,{v:0,vz:0,air:false,z:area.ground(before.x,before.y)});}else if(brake&&Math.abs(s.v)<.08)parked=true;
   if(current&&projectOnLeg(current,s,0,Infinity).distance<=46){s.air=false;s.vz=0;s.z=area.ground(s.x,s.y);s.jumpStart=null;}
  }
@@ -62,7 +62,7 @@ export function createExtremeRelay(api,journey){
   if(!api.paused&&!run.done&&cue.hidden){if(run.index===0&&run.nextGate>=c.gates.length-1&&c.length-run.progress<700){cue.hidden=false;cue.textContent='AIRLIFT AHEAD · KEEP DRIVING';}else if(flight&&(flight.length-flight.s)<900){cue.hidden=false;cue.textContent='ROAD AHEAD · AUTO RELEASE';}}
   $('#drive').textContent='Drive';$('#brake').textContent='Brake';$('#brake').setAttribute('aria-label','Brake');$('#free-roam-mode').textContent=EXTREME_NAME.toUpperCase();
  }
- function openMenu(){const list=$('#jump-activities');list.replaceChildren();const button=document.createElement('button');button.textContent=EXTREME_NAME+(records.best?.time?' · '+clock(records.best.time):'');button.onclick=begin;const help=document.createElement('p');help.textContent='Race the expedition route. Pass the widely spaced gates. Drive straight into the helicopter pickup at speed; it carries you through Neretva and releases you moving. One clock, no photo stops. The rover-carrying helicopter is fictional.';list.append(button,help);$('#controls-help').innerHTML='<p>Drive / Space to move. Double-tap Drive / Space and hold for extra speed. Release to recharge. Green energy cells refill the meter. A D / ← → steer. Brake / Shift slows or stops. Same steering feel as the guided tour.</p><p>Keep driving into the airlift. During flight, Drive accelerates and left/right shifts your line. Pickup and drop-off are automatic.</p>';}
+ function openMenu(){const list=$('#jump-activities');list.replaceChildren();const button=document.createElement('button');button.textContent=EXTREME_NAME+(records.best?.time?' · '+clock(records.best.time):'');button.onclick=begin;const help=document.createElement('p');help.textContent='Race the expedition route. Pass the widely spaced gates. Drive straight into the helicopter pickup at speed; it carries you through Neretva and releases you moving. One clock, no photo stops. The rover-carrying helicopter is fictional.';list.append(button,help);$('#controls-help').innerHTML='<p>Drive / Space to move. Double-tap Drive / Space and hold for extra speed. Release to recharge. Turbo keeps the same power and speed target on every surface and slope; steer and brake for corners. Green energy cells refill the meter. A D / ← → steer. Brake / Shift slows or stops. Same steering feel as the guided tour.</p><p>Keep driving into the airlift. During flight, Drive accelerates and left/right shifts your line. Pickup and drop-off are automatic.</p>';}
  function overlay(ctx){const s=api.state;treads.draw(s);if(!run)return;const c=stage();for(const p of refills)if(p.stage===run.index&&!collected.has(p.id)&&Math.hypot(s.x-p.x,s.y-p.y)<1700)gpu.mesh(refillMesh,[p.x,p.y,area.ground(p.x,p.y),p.heading]);if(c.kind==='rally')for(let i=run.nextGate;i<Math.min(c.gates.length,run.nextGate+2);i++){const g=c.gates[i];if(Math.hypot(s.x-g.x,s.y-g.y)<1700)gpu.mesh(gates[run.index][i],[0,0,0,100],1);}
   const pad=course.stages[1].start;if(flight||run.index===0&&Math.hypot(s.x-pad.x,s.y-pad.y)<1700){const approach=Math.max(0,Math.min(1,(500-Math.hypot(s.x-pad.x,s.y-pad.y))/340)),blend=approach*approach*(3-2*approach),p=flight?s:{x:pad.x+(s.x-pad.x)*blend,y:pad.y+(s.y-pad.y)*blend,z:area.ground(pad.x,pad.y)+(s.z-area.ground(pad.x,pad.y))*blend,heading:pad.heading+Math.atan2(Math.sin(s.heading-pad.heading),Math.cos(s.heading-pad.heading))*blend};gpu.mesh(helicopter,[p.x,p.y,p.z,p.heading]);gpu.mesh(rotorMesh,[p.x,p.y,p.z,(s.t*35)%(Math.PI*2)]);}
  }
