@@ -11,7 +11,8 @@ let collection={crafts:[build('explorer'),build('visitor'),build('breakfast')],s
 try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved?.crafts?.length){collection={crafts:saved.crafts.map(normalize),selected:saved.selected}}else{const old=JSON.parse(localStorage.getItem(LEGACY_KEY));if(old?.crafts?.length){collection={crafts:old.crafts.map(importLegacy),selected:old.selected};legacyImported=true}}}catch{storageIssue='Storage unavailable. Save may not persist on this browser.'}
 collection.selected=collection.crafts.some(c=>c.id===collection.selected)?collection.selected:collection.crafts[0].id;
 try{if(!localStorage.getItem(KEY))localStorage.setItem(KEY,JSON.stringify(collection))}catch{storageIssue='Local saving unavailable. Keep this tab open while building.'}
-let craft=clone(collection.crafts.find(c=>c.id===collection.selected)),baseline=JSON.stringify(craft),category='cabin',filter='All',adjusting=false,pins=new Set(),undo=[],redo=[],selectedSticker=-1,flightScale=false,dialog=$('#dialog');
+const requestedCraft=new URL(location.href).searchParams.get('craft');
+let craft=clone(collection.crafts.find(c=>c.id===requestedCraft)||collection.crafts.find(c=>c.id===collection.selected)),baseline=JSON.stringify(craft),category='cabin',filter='All',adjusting=false,pins=new Set(),undo=[],redo=[],selectedSticker=-1,flightScale=false,dialog=$('#dialog');
 const dirty=()=>JSON.stringify(craft)!==baseline;
 function say(message){$('#message').textContent=message}
 function remember(){if(!dirty()){clearDraft();return true}try{localStorage.setItem(DRAFT_KEY,JSON.stringify({craft,baseline}));return true}catch{say('Draft recovery unavailable. Save before closing.');return false}}
