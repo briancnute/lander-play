@@ -1,6 +1,6 @@
 import {loadArea,toGame,UNITS} from './terrain.js';
 import {startWetWorld} from '../shared/wet-world.js';
-startWetWorld({site:'gale',title:'Wet Gale',rover:'curiosity',load:()=>loadArea(),
+startWetWorld({site:'gale',title:'Ancient Gale',rover:'curiosity',load:()=>loadArea(),
  // Authored low-lake interpretation, not a measured ancient shoreline.
  water:new URL('./assets/water-survey.json',import.meta.url),lake:{level:80*UNITS,seed:toGame(0,0),step:40*UNITS},
  shore:toGame(-4230,-4670),connectedStart:true,
