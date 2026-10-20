@@ -69,8 +69,8 @@ export function update(s,input,dt,course,contactRadius,surface=ground,airControl
  // Pedals, normal speed caps and ground drag cannot change airborne momentum.
  if(!s.air){
   const previousSpeed=s.v;
-  if(reversing)s.v-=acc*.6*dt;else if(brake){if(arcade)s.v=arcadeBrake(s.v,response.braking,dt);else s.v*=Math.exp(-dt*7);}else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
-  if(!terrainTurbo)s.v-=slope*dt*12;
+  if(reversing)s.v-=acc*.6*dt;else if(brake){if(Number.isFinite(area?.brakeDeceleration)&&area.brakeDeceleration>0)s.v=Math.sign(s.v)*Math.max(0,Math.abs(s.v)-area.brakeDeceleration*dt);else if(arcade)s.v=arcadeBrake(s.v,response.braking,dt);else s.v*=Math.exp(-dt*7);}else if(drive)s.v+=acc*dt;else s.v*=Math.exp(-dt*.65);
+  if(!terrainTurbo&&!area?.ignoreSlope)s.v-=slope*dt*12;
   if(!drive&&!reversing&&inSampleZone(s,sites)&&Math.abs(s.v)<=.5)s.v=0;
   if(s.turnaround)s.v=Math.min(s.v,50);
   if(s.v>max)s.v=previousSpeed>max?Math.min(s.v,Math.max(max,previousSpeed-tune.acceleration*dt)):max;

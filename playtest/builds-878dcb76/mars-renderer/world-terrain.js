@@ -1,3 +1,4 @@
+import {inFlightRange} from './flight-detail.js';
 // Batch distant terrain into portable 16-bit meshes; keep contact-matching tiles nearby.
 export function createWorldTerrain(gpu,tiles){
  const groups=[];let entries=[],vertices=[],indices=[];
@@ -11,9 +12,9 @@ export function createWorldTerrain(gpu,tiles){
  }
  flush();
  return {groups,high,draw(s){
-  const near=tiles.map(t=>Math.hypot(Math.max(t.minX-s.x,0,s.x-t.maxX),Math.max(t.minY-s.y,0,s.y-t.maxY))<2400);
-  for(const g of groups){const signature=g.entries.map(e=>near[e.i]?'1':'0').join('');if(signature!==g.signature){
-   const indices=new Uint16Array(g.indices.length);let count=0;for(const e of g.entries)if(!near[e.i]){indices.set(g.indices.subarray(e.start,e.end),count);count+=e.end-e.start;}
+  const near=tiles.map(t=>!s.helicopter&&Math.hypot(Math.max(t.minX-s.x,0,s.x-t.maxX),Math.max(t.minY-s.y,0,s.y-t.maxY))<2400);
+  for(const g of groups){const visible=s.helicopter?g.entries.map(e=>inFlightRange(tiles[e.i],s)):g.entries.map(e=>!near[e.i]),signature=(s.helicopter?'flight:':'rover:')+visible.map(v=>v?'1':'0').join('');if(signature!==g.signature){
+   const indices=new Uint16Array(g.indices.length);let count=0;for(let i=0;i<g.entries.length;i++){const e=g.entries[i];if(visible[i]){indices.set(g.indices.subarray(e.start,e.end),count);count+=e.end-e.start;}}
    const gl=gpu.gl;gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,g.mesh.index);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices.subarray(0,count),gl.DYNAMIC_DRAW);g.mesh.count=count;g.signature=signature;
   }if(g.mesh.count)gpu.mesh(g.mesh,[0,0,0,100],0);}
   for(let i=0;i<high.length;i++)if(near[i])gpu.mesh(high[i].mesh,[0,0,0,100],0);
