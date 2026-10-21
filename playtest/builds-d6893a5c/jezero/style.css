@@ -109,3 +109,5 @@
 
 /* A relay hides unrelated world prompts; leaving restores the normal exploration view. */
 .relay-focused #free-roam-discovery,.relay-focused #free-roam-start,.relay-focused #entry-loading,.relay-focused #exploration-hint{display:none!important}
+
+#ingenuity-pad-launch{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:8;max-width:45vw;padding:10px 14px;min-height:44px;background:#183b32ed;border:1px solid #99c9ac;border-radius:9px;color:#eff5df;font:600 12px system-ui}#ingenuity-pad-launch[hidden]{display:none}
