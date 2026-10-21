@@ -14,9 +14,22 @@ export function labLandingCue(f){
  if(f.vz>0)return 'RELEASE THRUST · SETTLE';
  return 'HOLD STEADY · '+Math.min(100,Math.round((f.touchdownHold??0)/.45*100))+'%';
 }
+export function startLabLaunch(f,ground,tuning){
+ const speed=labTune(tuning).speed,start=f.course.start;
+ f.phase='launch';f.launch={elapsed:0,speed,startZ:ground(start.x-Math.sin(f.heading)*speed*1.5,start.y+Math.cos(f.heading)*speed*1.5)+25,endZ:ground(start.x,start.y)+130};
+ f.distance=-speed*1.5;f.x=start.x+Math.sin(f.heading)*f.distance;f.y=start.y-Math.cos(f.heading)*f.distance;f.z=f.launch.startZ;f.v=f.vz=f.sideV=f.bank=0;
+}
+function stepLaunch(f,dt,ground){
+ const a=f.launch,before=f.z;a.elapsed=Math.min(3,a.elapsed+dt);if(a.elapsed>3-1e-8)a.elapsed=3;const t=a.elapsed/3,ease=t*t*(3-2*t);
+ f.time+=dt;f.distance=-a.speed*1.5+a.speed*a.elapsed*a.elapsed/6;f.x=f.course.start.x+Math.sin(f.heading)*f.distance;f.y=f.course.start.y-Math.cos(f.heading)*f.distance;
+ f.z=Math.max(ground(f.x,f.y)+25,a.startZ+(a.endZ-a.startZ)*ease);f.v=a.speed*t;f.vz=(f.z-before)/dt;f.sideV=f.bank=0;
+ if(a.elapsed>=3){f.phase='flying';f.distance=0;f.vz=0;}
+ return helicopterPose(f);
+}
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
- const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z},steer=clamp(input.steer||0,-1,1),up=!!input.drive,down=!!(input.brake||input.special);
+ if(f.phase==='launch')return stepLaunch(f,dt,ground);
+ const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
  f.time+=dt;
  const landing=!!f.course&&!activeFlightTarget(f),remaining=f.course?Math.max(0,f.course.length-(f.distance??0)):Infinity;
  if(landing&&f.phase==='flying')f.phase='approach';
@@ -27,11 +40,14 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  f.x+=(Math.sin(f.heading)*(travel/dt)+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*(travel/dt)+Math.sin(f.heading)*f.sideV)*dt;
  if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-700,700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}
  const nearPad=landing&&Math.hypot(f.x-f.course.finish.x,f.y-f.course.finish.y)<=120&&f.z<(f.course.padZ??ground(f.course.finish.x,f.course.finish.y)+3)+105;
+ // Opposite thrust takes effect immediately instead of spending a beat still moving the wrong way.
+ if((down&&f.vz>0)||(up&&f.vz<0))f.vz=0;
  f.vz=approach(f.vz,up===down?0:up?t.up:-(nearPad?Math.min(18,t.down):t.down),(up===down?t.verticalDamping:t.verticalAcceleration)*dt);f.z+=f.vz*dt;
  const pad=f.course?.finish,padZ=pad?(f.course.padZ??ground(pad.x,pad.y)+3):0,padDistance=pad?Math.hypot(f.x-pad.x,f.y-pad.y):Infinity,onPad=landing&&padDistance<=120;
- const floor=onPad?padZ+25:ground(f.x,f.y)+t.clearance,ceiling=ground(f.x,f.y)+700;
+ const floor=onPad?padZ+25:ground(f.x,f.y)+t.clearance,ceiling=Math.max(floor,f.course?.ceilingZ??ground(f.x,f.y)+700);
  const contact=f.z<=floor+.3,impact=Math.abs(f.vz);
-if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
+ f.verticalLimit=f.z<floor?'ground':f.z>ceiling?'ceiling':null;
+ if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
  for(const p of [activeFlightTarget(f)].filter(Boolean)){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;f.feedback={text:"TARGET COLLECTED · "+f.collected+" / "+f.pods.length,time:f.time};}}
  for(const p of f.pods)if(!p.collected&&!p.passed&&Number.isFinite(p.s)&&f.distance>p.s+100){p.passed=true;f.feedback={text:"TARGET MISSED",time:f.time};}
  if(f.phase==='landing'){

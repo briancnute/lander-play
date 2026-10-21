@@ -6,10 +6,14 @@ export function buildJezeroFlightCourse(tour,ground){
  // 0 and 200. Use the same dry ground here; the water remains in Ancient Jezero.
  const start={id:'neretva-tributary',name:'Neretva tributary head',x:-18240,y:-7488},finish={id:'neretva-tributary-outlet',name:'Neretva tributary outlet',x:-14400,y:-1728},points=measured([start,finish]),length=points.at(-1).s;
  // Build momentum through consecutive left/right drifts, then a near-straight beat.
- const offsets=[-60,-210,-330,-100,160,290,80,60,-130,-270],heights=[140,230,155,255,165,235,145,250,165,320];
- const pods=offsets.map((side,id)=>{const s=length*(id+1)/(offsets.length+1),p=atDistance(points,s),x=p.x+Math.cos(p.heading)*side,y=p.y+Math.sin(p.heading)*side;return {id,s,x,y,z:ground(x,y)+heights[id],collected:false,passed:false};});
+ const offsets=[-60,-210,-330,-100,160,290,80,60,-130,-270],altitudes=[0,145,290,140,-10,-160,-20,-170,-320,-470];
+ const positions=offsets.map((side,id)=>{const s=length*(id+1)/(offsets.length+1),p=atDistance(points,s);return {id,s,x:p.x+Math.cos(p.heading)*side,y:p.y+Math.sin(p.heading)*side};});
+ // Absolute flight altitudes create real climbs/descents despite the falling terrain.
+ const baseZ=Math.max(...positions.slice(0,3).map(p=>ground(p.x,p.y)))+150;
+ const pods=positions.map((p,id)=>({...p,z:Math.max(ground(p.x,p.y)+120,baseZ+altitudes[id]),collected:false,passed:false}));
+ const ceilingZ=Math.max(...pods.map(p=>p.z),ground(start.x,start.y)+130)+250;
  const padZ=Math.max(...[[0,0],[-110,0],[110,0],[0,-110],[0,110],[-80,-80],[-80,80],[80,-80],[80,80]].map(([x,y])=>ground(finish.x+x,finish.y+y)))+3;
- return {padZ,id:'neretva-reaction-v3',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
+ return {padZ,ceilingZ,id:'neretva-reaction-v4',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
 }
 export function mountFlightRouteMap(course){
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),b=course.mapBounds,w=b.width-b.minX,h=b.maxY-b.minY,pad=Math.max(w,h)*.06;
