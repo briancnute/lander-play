@@ -7,11 +7,13 @@ export function labTune(value={}){return Object.fromEntries(Object.entries(LAB_D
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0)return helicopterPose(f);
  const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z},steer=clamp(input.steer||0,-1,1),up=!!input.drive,down=!!(input.brake||input.special);
- f.time+=dt;f.v=t.speed;f.sideV=approach(f.sideV,steer*t.strafe,t.strafeAcceleration*dt);f.bank+=(steer*.5-f.bank)*(1-Math.exp(-dt*7));
+ f.time+=dt;f.distance=(f.distance??0)+t.speed*dt;f.v=t.speed;f.sideV=approach(f.sideV,steer*t.strafe,t.strafeAcceleration*dt);f.bank+=(steer*.5-f.bank)*(1-Math.exp(-dt*7));
  f.x+=(Math.sin(f.heading)*f.v+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*f.v+Math.sin(f.heading)*f.sideV)*dt;
+ if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-700,700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}
  f.vz=approach(f.vz,up===down?0:up?t.up:-t.down,(up===down?t.verticalDamping:t.verticalAcceleration)*dt);f.z+=f.vz*dt;
  const floor=ground(f.x,f.y)+t.clearance,ceiling=ground(f.x,f.y)+700;if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
  for(const p of f.pods)if(!p.collected){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;}}
+ for(const p of f.pods)if(!p.collected&&Number.isFinite(p.s)&&f.distance>p.s+100)p.passed=true;
  return helicopterPose(f);
 }
 export function mountHelicopterLab({restart}){

@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";location.replace(new URL(`../playtest/builds-1937c206/jezero/index.html?v2=1&activity=helicopter-lab&surfaceLight=day`,location.href));

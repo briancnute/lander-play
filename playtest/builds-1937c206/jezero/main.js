@@ -190,6 +190,7 @@ function drawMap(c=$('#map'),mini=false){
   const stroke=(points,color,width)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin=ctx.lineCap='round';ctx.beginPath();points.forEach((p,i)=>{const q=mapPoint(p,w,h,bounds);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.stroke();};
   if(isV2&&expedition?.recordedRoute)for(const segment of journey.segments){stroke(segment.points,'#dfbd87',3.5);stroke(segment.points,'#6b432b',1.7);}
   if(isV2&&expedition?.run?.stage?.points)stroke(expedition.run.stage.points,relay?'#c7ac84':'#73fff0',mini?3:4);
+  expedition?.drawFlightMap?.(ctx,p=>mapPoint(p,w,h,bounds));
   if(on&&!isV2){
    // Overview retains historical context quietly; the minimap shows only the current passage.
    if(!mini)stroke(course.points,'#ffe59d45',1);
