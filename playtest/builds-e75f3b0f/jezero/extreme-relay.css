@@ -32,3 +32,9 @@ body:has(dialog[open]) #ingenuity-countdown{visibility:hidden}
 @media(max-height:500px){#ingenuity-countdown{font-size:44px}}
 
 .ingenuity-landing .controls{opacity:.3;pointer-events:none}.ingenuity-landing #helicopter-lab-toggle{visibility:hidden}
+
+body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed;left:0;right:0;height:calc(var(--ingenuity-letterbox,0)*10dvh);background:#050608;z-index:22;pointer-events:none}body.helicopter-lab::before{top:0}body.helicopter-lab::after{bottom:0}
+.ingenuity-landing .controls,.ingenuity-landing #extreme-relay-hud,.ingenuity-landing #extreme-relay-cue,.ingenuity-landing #ingenuity-feedback{visibility:hidden}
+#ingenuity-finish-label{position:fixed;transform:translate(-50%,-100%);font:600 13px/1 system-ui;letter-spacing:3px;color:#b7fff0;text-shadow:0 0 9px #39ffd1,0 1px 4px #142725;pointer-events:none;z-index:6}#ingenuity-finish-label[hidden],body:has(dialog[open]) #ingenuity-finish-label{display:none}
+
+.ingenuity-landing #mini-map-button,.ingenuity-landing #mini-button,.ingenuity-landing #guided-tour-map-button{visibility:hidden}

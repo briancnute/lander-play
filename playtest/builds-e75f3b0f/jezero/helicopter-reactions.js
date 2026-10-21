@@ -32,6 +32,6 @@ export function resolveReactionPlane(f,before,ground,tuning){
  const progress=f.distance-before.distance,a=progress?clamp((p.s-before.distance)/progress,0,1):1,x=before.x+(f.x-before.x)*a,y=before.y+(f.y-before.y)*a,z=before.z+(f.z-before.z)*a;
  const side=(x-p.x)*Math.cos(f.heading)+(y-p.y)*Math.sin(f.heading);
  p.collected=(side/REACTION_TARGET.horizontalRadius)**2+((z-p.z)/REACTION_TARGET.verticalRadius)**2<=1;p.passed=!p.collected;p.resolved=true;
- if(p.collected)f.collected++;f.feedback={text:p.collected?'TARGET COLLECTED · '+f.collected+' / '+f.pods.length:'TARGET MISSED',time:f.time};
- spawnReactionTarget(f,ground,tuning);if(reactionTargetsComplete(f))f.finishGateZ=f.z;
+ if(p.collected){f.collected++;f.lastCollection={x,y,z};}f.feedback={text:p.collected?'TARGET COLLECTED · '+f.collected+' / '+f.pods.length:'TARGET MISSED',time:f.time};
+ spawnReactionTarget(f,ground,tuning);if(reactionTargetsComplete(f)){const origin=f.lastCollection??f,side=(origin.x-f.course.start.x)*Math.cos(f.heading)+(origin.y-f.course.start.y)*Math.sin(f.heading);f.finishGate={x:f.course.finishLine.x+Math.cos(f.heading)*side,y:f.course.finishLine.y+Math.sin(f.heading)*side,z:origin.z};f.finishGateZ=origin.z;}
 }
