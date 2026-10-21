@@ -40,10 +40,10 @@ export function stepRelayHelicopter(f,input,dt,ground,bounds){
 export function helicopterPose(f){return {x:f.x,y:f.y,z:f.z,heading:f.heading,v:f.v,vz:f.vz,air:true,helicopter:true,helicopterBank:f.bank};}
 // Single follow camera, with one terrain-clearance sample instead of the rover's
 // obstacle boom plus a second side-view camera. No scripted side-view cut.
-export function followRelayHelicopter(camera,pose,dt,ground){
- const back=185,heading=turn(camera.heading??pose.heading,pose.heading,1-Math.exp(-Math.min(.05,dt)*5));
- const target={x:pose.x-Math.sin(heading)*back,y:pose.y+Math.cos(heading)*back,eye:pose.z+78};
+export function followRelayHelicopter(camera,pose,dt,ground,landingPad=null){
+ const back=landingPad?clamp((pose.z-landingPad.z)+180,240,620):185,heading=turn(camera.heading??pose.heading,pose.heading,1-Math.exp(-Math.min(.05,dt)*5));
+ const target={x:pose.x-Math.sin(heading)*back,y:pose.y+Math.cos(heading)*back,eye:pose.z+(landingPad?100:78)};
  const blend=1-Math.exp(-Math.min(.05,dt)*8);
  for(const key of ['x','y','eye'])camera[key]=(camera[key]??target[key])+(target[key]- (camera[key]??target[key]))*blend;
- camera.eye=Math.max(camera.eye,ground(camera.x,camera.y)+12);camera.heading=heading;camera.pitch=.14;camera.live=true;camera.zoom=1;return camera;
+ camera.eye=Math.max(camera.eye,ground(camera.x,camera.y)+12);camera.heading=heading;const targetPitch=landingPad?clamp((Math.atan2(camera.eye-landingPad.z,Math.hypot(camera.x-landingPad.x,camera.y-landingPad.y))+Math.atan2(camera.eye-pose.z-55,back))/2,.2,.75):.14;camera.pitch=landingPad?(camera.pitch??.14)+(targetPitch-(camera.pitch??.14))*blend:.14;camera.live=true;camera.zoom=1;return camera;
 }
