@@ -6,13 +6,8 @@ export const LAB_RANGES={speed:[60,700,10],strafe:[30,450,10],strafeAcceleration
 export function labTune(value={}){return Object.fromEntries(Object.entries(LAB_DEFAULTS).map(([key,fallback])=>[key,Number.isFinite(value?.[key])?clamp(value[key],...LAB_RANGES[key].slice(0,2)):fallback]));}
 export const activeFlightTarget=f=>f.pods.find(p=>!p.collected&&!p.passed)??null;
 export function labLandingCue(f){
- if(f.phase==='approach')return 'LANDING APPROACH · SLOWING';
- const pad=f.course.finish,side=(pad.x-f.x)*Math.cos(f.heading)+(pad.y-f.y)*Math.sin(f.heading);
- if(Math.hypot(pad.x-f.x,pad.y-f.y)>65)return side<0?'← STRAFE LEFT TO PAD':'STRAFE RIGHT TO PAD →';
- if(Math.abs(f.sideV)>25||Math.abs(f.bank)>=.18)return 'RELEASE STRAFE · SETTLE';
- if(f.z>f.course.padZ+26)return 'SHIFT / DOWN · LOWER GENTLY';
- if(f.vz>0)return 'RELEASE THRUST · SETTLE';
- return 'HOLD STEADY · '+Math.min(100,Math.round((f.touchdownHold??0)/.45*100))+'%';
+ if(f.phase==='landing-cutscene')return 'LANDING · AUTOPILOT';
+ return 'CROSS THE FINISH LINE · '+Math.ceil(Math.max(0,(f.course.finishS??f.course.length)-f.distance));
 }
 export function startLabLaunch(f,ground,tuning){
  const speed=labTune(tuning).speed,start=f.course.start;
@@ -26,35 +21,46 @@ function stepLaunch(f,dt,ground){
  if(a.elapsed>=3){f.phase='flying';f.distance=0;f.vz=0;}
  return helicopterPose(f);
 }
+function startLandingFilm(f,ground){
+ const p=f.course.finish,padZ=f.course.padZ??ground(p.x,p.y)+3;
+ const terrain=Math.max(...Array.from({length:21},(_,i)=>{const t=i/20;return ground(f.x+(p.x-f.x)*t,f.y+(p.y-f.y)*t);}));
+ f.landingFilm={elapsed:0,start:{x:f.x,y:f.y,z:f.z,vx:Math.sin(f.heading)*f.v+Math.cos(f.heading)*f.sideV,vy:-Math.cos(f.heading)*f.v+Math.sin(f.heading)*f.sideV,bank:f.bank},hoverZ:Math.max(f.z,padZ+180,terrain+45),padZ};
+ f.phase='landing-cutscene';f.feedback=null;f.verticalLimit=null;
+}
+function stepLandingFilm(f,dt,ground){
+ const a=f.landingFilm,p=f.course.finish,old={x:f.x,y:f.y,z:f.z},align=1.2,descent=2,total=align+descent+.35;
+ a.elapsed=Math.min(total,a.elapsed+dt);if(a.elapsed>total-1e-8)a.elapsed=total;f.time+=dt;
+ const t=Math.min(1,a.elapsed/align),ease=t*t*(3-2*t),h00=2*t*t*t-3*t*t+1,h10=t*t*t-2*t*t+t,h01=-2*t*t*t+3*t*t;
+ f.x=h00*a.start.x+h10*align*a.start.vx+h01*p.x;f.y=h00*a.start.y+h10*align*a.start.vy+h01*p.y;f.bank=a.start.bank*(1-ease);
+ const down=Math.max(0,Math.min(1,(a.elapsed-align)/descent)),lower=down*down*(3-2*down);
+ f.z=Math.max(ground(f.x,f.y)+25,a.elapsed<align?a.start.z+(a.hoverZ-a.start.z)*ease:a.hoverZ+(a.padZ+25-a.hoverZ)*lower);
+ f.v=Math.hypot(f.x-old.x,f.y-old.y)/dt;f.vz=(f.z-old.z)/dt;f.sideV=0;
+ if(a.elapsed>=align){f.x=p.x;f.y=p.y;f.v=0;}
+ if(down===1){f.z=a.padZ+25;f.v=f.vz=0;f.bank=0;}
+ if(a.elapsed===total)f.phase='landed';
+ return {...helicopterPose(f),air:down<1};
+}
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
  if(f.phase==='launch')return stepLaunch(f,dt,ground);
+ if(f.phase==='landing-cutscene')return stepLandingFilm(f,dt,ground);
  const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
  f.time+=dt;
- const landing=!!f.course&&!activeFlightTarget(f),remaining=f.course?Math.max(0,f.course.length-(f.distance??0)):Infinity;
- if(landing&&f.phase==='flying')f.phase='approach';
+ const finishS=f.course?(f.course.finishS??f.course.length):Infinity;
  if(f.feedback&&f.time-f.feedback.time>1.1)f.feedback=null;
- let travel=t.speed*dt;
- if(f.phase==='approach'||f.phase==='landing'){travel=remaining<.5?remaining:remaining*(1-Math.exp(-Math.min(2,t.speed/Math.max(.001,remaining))*dt));f.v=travel/dt;if(remaining-travel<.5){travel=remaining;f.v=0;f.phase='landing';}}else f.v=t.speed;
+ const travel=Math.min(t.speed*dt,Math.max(0,finishS-(f.distance??0)));f.v=travel/dt;
  f.distance=(f.distance??0)+travel;f.sideV=approach(f.sideV,steer*t.strafe,t.strafeAcceleration*dt);f.bank+=(steer*.5-f.bank)*(1-Math.exp(-dt*7));
  f.x+=(Math.sin(f.heading)*(travel/dt)+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*(travel/dt)+Math.sin(f.heading)*f.sideV)*dt;
  if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-700,700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}
- const nearPad=landing&&Math.hypot(f.x-f.course.finish.x,f.y-f.course.finish.y)<=120&&f.z<(f.course.padZ??ground(f.course.finish.x,f.course.finish.y)+3)+105;
- // Opposite thrust takes effect immediately instead of spending a beat still moving the wrong way.
+ // Opposite thrust responds immediately; Down wins overlapping altitude inputs.
  if((down&&f.vz>0)||(up&&f.vz<0))f.vz=0;
- f.vz=approach(f.vz,up===down?0:up?t.up:-(nearPad?Math.min(18,t.down):t.down),(up===down?t.verticalDamping:t.verticalAcceleration)*dt);f.z+=f.vz*dt;
- const pad=f.course?.finish,padZ=pad?(f.course.padZ??ground(pad.x,pad.y)+3):0,padDistance=pad?Math.hypot(f.x-pad.x,f.y-pad.y):Infinity,onPad=landing&&padDistance<=120;
- const floor=onPad?padZ+25:ground(f.x,f.y)+t.clearance,ceiling=Math.max(floor,f.course?.ceilingZ??ground(f.x,f.y)+700);
- const contact=f.z<=floor+.3,impact=Math.abs(f.vz);
+ f.vz=approach(f.vz,up===down?0:up?t.up:-t.down,(up===down?t.verticalDamping:t.verticalAcceleration)*dt);f.z+=f.vz*dt;
+ const floor=ground(f.x,f.y)+t.clearance,ceiling=Math.max(floor,f.course?.ceilingZ??ground(f.x,f.y)+700);
  f.verticalLimit=f.z<floor?'ground':f.z>ceiling?'ceiling':null;
  if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
  for(const p of [activeFlightTarget(f)].filter(Boolean)){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;f.feedback={text:"TARGET COLLECTED · "+f.collected+" / "+f.pods.length,time:f.time};}}
  for(const p of f.pods)if(!p.collected&&!p.passed&&Number.isFinite(p.s)&&f.distance>p.s+100){p.passed=true;f.feedback={text:"TARGET MISSED",time:f.time};}
- if(f.phase==='landing'){
-  const stable=!up&&onPad&&padDistance<=65&&contact&&impact<=22&&Math.abs(f.sideV)<=25&&Math.abs(f.bank)<.18;
-  f.touchdownHold=stable?(f.touchdownHold??0)+dt:0;
-  if(f.touchdownHold>=.45){f.phase='landed';f.v=f.vz=f.sideV=0;f.bank=0;f.z=padZ+25;}
- }
+ if(f.course&&f.distance>=finishS&&!activeFlightTarget(f))startLandingFilm(f,ground);
  return {...helicopterPose(f),air:f.phase!=='landed'};
 }
 export function mountHelicopterLab({restart}){

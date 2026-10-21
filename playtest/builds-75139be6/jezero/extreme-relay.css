@@ -30,3 +30,5 @@ body:has(dialog[open]) #ingenuity-countdown{visibility:hidden}
 
 #ingenuity-countdown strong{display:block}#ingenuity-countdown small{display:block;font:700 12px/1.5 system-ui;letter-spacing:2px;margin-top:6px}
 @media(max-height:500px){#ingenuity-countdown{font-size:44px}}
+
+.ingenuity-landing .controls{opacity:.3;pointer-events:none}.ingenuity-landing #helicopter-lab-toggle{visibility:hidden}

@@ -13,7 +13,8 @@ export function buildJezeroFlightCourse(tour,ground){
  const pods=positions.map((p,id)=>({...p,z:Math.max(ground(p.x,p.y)+120,baseZ+altitudes[id]),collected:false,passed:false}));
  const ceilingZ=Math.max(...pods.map(p=>p.z),ground(start.x,start.y)+130)+250;
  const padZ=Math.max(...[[0,0],[-110,0],[110,0],[0,-110],[0,110],[-80,-80],[-80,80],[80,-80],[80,80]].map(([x,y])=>ground(finish.x+x,finish.y+y)))+3;
- return {padZ,ceilingZ,id:'neretva-reaction-v4',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
+ const finishS=length-260,finishLine={...atDistance(points,finishS),z:pods.at(-1).z};
+ return {padZ,ceilingZ,finishS,finishLine,id:'neretva-reaction-v5',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
 }
 export function mountFlightRouteMap(course){
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),b=course.mapBounds,w=b.width-b.minX,h=b.maxY-b.minY,pad=Math.max(w,h)*.06;
