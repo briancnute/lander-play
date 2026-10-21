@@ -24,6 +24,10 @@ import {box,triangle} from '../mars-renderer/geometry.js';
 const clock=t=>`${Math.floor(t/60)}:${(t%60).toFixed(2).padStart(5,'0')}`;
 export function createExtremeRelay(api,journey){
  const lab=new URLSearchParams(location.search).get('activity')==='helicopter-lab';
+ // A distant, non-interactive dust bank uses the existing Mars atmosphere pass.
+ // Keep its nearest edge beyond the targets; no particle meshes or gameplay wind.
+ const distantDust={age:0,haze:0,front:0,cell:[0,0,9000,2800],shape:[1,0,0,.48],baseZ:0,density:()=>0};
+ const stillDust=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const {area,gpu,freeRoam}=api,course=buildExtremeCourse(area.guidedTour),key='astra.jezero.extreme-relay.v6',boost=createRoverTurbo();let run=null,flight=null,renderPose=null,flightCamera=null,cameraReturn=0,records={},parked=true,specialHeld=false,flightBack=false;
  let prefs;try{records=JSON.parse(localStorage.getItem(key))??{};prefs=JSON.parse(localStorage.getItem('astra.mars.tourSteering.v1'));}catch{}if(typeof records!=='object'||Array.isArray(records))records={};const steering=createTourSteering(prefs??{});
  const exploration=createRoverExploration(area,steering);
@@ -139,6 +143,7 @@ export function createExtremeRelay(api,journey){
    cameraReturn=Math.max(0,cameraReturn-dt);const follow=chase(gpu.camera,shown,dt,shown.z+6,area.ground,area.ground),t=1-cameraReturn/.65;
    gpu.photoView={live:true,x:flightCamera.x+(follow.x-flightCamera.x)*t,y:flightCamera.y+(follow.y-flightCamera.y)*t,eye:flightCamera.eye+(follow.eye-flightCamera.eye)*t,heading:shown.heading,pitch:flightCamera.pitch+(follow.pitch-flightCamera.pitch)*t,zoom:1};
   }
+  if(lab&&flight){const h=flight.heading,age=stillDust?0:flight.time,drift=Math.sin(age*.055)*220;distantDust.age=age;distantDust.cell[0]=shown.x+Math.sin(h)*4800+Math.cos(h)*drift;distantDust.cell[1]=shown.y-Math.cos(h)*4800+Math.sin(h)*drift;distantDust.shape[0]=Math.cos(h);distantDust.shape[1]=Math.sin(h);distantDust.shape[2]=age*.025;distantDust.baseZ=shown.z+220;gpu.storm=distantDust;}
   gpu.draw(shown,dt,labels);
   finishLabel.hidden=true;if(lab&&flight?.phase==='flying'&&flightTargetsComplete(flight)){const p=flight.finishGate??{...labCourse.finishLine,z:flight.finishGateZ??flight.z},q=gpu.project(p.x,p.y,p.z);if(q.depth>5){const rect=gpu.canvas.getBoundingClientRect();finishLabel.hidden=false;finishLabel.style.left=(rect.left+q.x)+'px';finishLabel.style.top=(rect.top+q.y)+'px';}}
   return true;
