@@ -5,12 +5,22 @@ export const LAB_DEFAULTS={speed:280,strafe:180,strafeAcceleration:300,up:90,dow
 export const LAB_RANGES={speed:[60,700,10],strafe:[30,450,10],strafeAcceleration:[60,900,20],up:[10,250,5],down:[10,250,5],verticalAcceleration:[30,600,10],verticalDamping:[20,600,10],clearance:[15,100,5]};
 export function labTune(value={}){return Object.fromEntries(Object.entries(LAB_DEFAULTS).map(([key,fallback])=>[key,Number.isFinite(value?.[key])?clamp(value[key],...LAB_RANGES[key].slice(0,2)):fallback]));}
 export const activeFlightTarget=f=>f.pods.find(p=>!p.collected&&!p.passed)??null;
+export function labLandingCue(f){
+ if(f.phase==='approach')return 'LANDING APPROACH · SLOWING';
+ const pad=f.course.finish,side=(pad.x-f.x)*Math.cos(f.heading)+(pad.y-f.y)*Math.sin(f.heading);
+ if(Math.hypot(pad.x-f.x,pad.y-f.y)>65)return side<0?'← STRAFE LEFT TO PAD':'STRAFE RIGHT TO PAD →';
+ if(Math.abs(f.sideV)>25||Math.abs(f.bank)>=.18)return 'RELEASE STRAFE · SETTLE';
+ if(f.z>f.course.padZ+26)return 'SHIFT / DOWN · LOWER GENTLY';
+ if(f.vz>0)return 'RELEASE THRUST · SETTLE';
+ return 'HOLD STEADY · '+Math.min(100,Math.round((f.touchdownHold??0)/.45*100))+'%';
+}
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
  const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z},steer=clamp(input.steer||0,-1,1),up=!!input.drive,down=!!(input.brake||input.special);
  f.time+=dt;
  const landing=!!f.course&&!activeFlightTarget(f),remaining=f.course?Math.max(0,f.course.length-(f.distance??0)):Infinity;
  if(landing&&f.phase==='flying')f.phase='approach';
+ if(f.feedback&&f.time-f.feedback.time>1.1)f.feedback=null;
  let travel=t.speed*dt;
  if(f.phase==='approach'||f.phase==='landing'){travel=remaining<.5?remaining:remaining*(1-Math.exp(-Math.min(2,t.speed/Math.max(.001,remaining))*dt));f.v=travel/dt;if(remaining-travel<.5){travel=remaining;f.v=0;f.phase='landing';}}else f.v=t.speed;
  f.distance=(f.distance??0)+travel;f.sideV=approach(f.sideV,steer*t.strafe,t.strafeAcceleration*dt);f.bank+=(steer*.5-f.bank)*(1-Math.exp(-dt*7));
@@ -22,8 +32,8 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  const floor=onPad?padZ+25:ground(f.x,f.y)+t.clearance,ceiling=ground(f.x,f.y)+700;
  const contact=f.z<=floor+.3,impact=Math.abs(f.vz);
 if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
- for(const p of [activeFlightTarget(f)].filter(Boolean)){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;}}
- for(const p of f.pods)if(!p.collected&&Number.isFinite(p.s)&&f.distance>p.s+100)p.passed=true;
+ for(const p of [activeFlightTarget(f)].filter(Boolean)){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;f.feedback={text:"TARGET COLLECTED · "+f.collected+" / "+f.pods.length,time:f.time};}}
+ for(const p of f.pods)if(!p.collected&&!p.passed&&Number.isFinite(p.s)&&f.distance>p.s+100){p.passed=true;f.feedback={text:"TARGET MISSED",time:f.time};}
  if(f.phase==='landing'){
   const stable=!up&&onPad&&padDistance<=65&&contact&&impact<=22&&Math.abs(f.sideV)<=25&&Math.abs(f.bank)<.18;
   f.touchdownHold=stable?(f.touchdownHold??0)+dt:0;
