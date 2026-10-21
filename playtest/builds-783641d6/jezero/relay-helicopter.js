@@ -2,9 +2,11 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const approach=(a,b,amount)=>a+clamp(b-a,-amount,amount);
 const turn=(a,b,t)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*t;
 const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
-export const HELICOPTER={speed:560,acceleration:240,coast:90,bank:.5,yaw:1.55,rise:90,descent:18,clearance:60,landingRadius:150,landingSeconds:1.1};
+export const HELICOPTER={speed:560,acceleration:240,coast:220,bank:.5,strafe:180,rise:90,descent:18,clearance:60,landingRadius:150,landingSeconds:1.1,landingSpeed:95,landingHeight:90,landingHold:.8,pickupRadius:85};
 export function createRelayHelicopter(pad,pose,exit,ground){
- return {x:pad.x,y:pad.y,z:ground(pad.x,pad.y)+32,heading:pad.heading,v:Math.max(0,pose.v),vz:0,bank:0,time:0,phase:'flying',hatchClosed:true,exit:{...exit},landing:null};
+ const heading=Math.atan2(exit.x-pad.x,pad.y-exit.y),length=Math.hypot(exit.x-pad.x,exit.y-pad.y);
+ const pods=[.23,.48,.73].map((t,i)=>{const side=[-95,105,-65][i],x=pad.x+(exit.x-pad.x)*t+Math.cos(heading)*side,y=pad.y+(exit.y-pad.y)*t+Math.sin(heading)*side;return {id:i,x,y,z:ground(x,y)+[135,235,155][i],collected:false};});
+ return {pods,collected:0,landingHold:0,sideV:0,routeLength:length,x:pad.x,y:pad.y,z:ground(pad.x,pad.y)+32,heading,v:Math.max(0,pose.v),vz:0,bank:0,time:0,phase:'flying',hatchClosed:true,exit:{...exit},landing:null};
 }
 export function stepRelayHelicopter(f,input,dt,ground,bounds){
  if(!Number.isFinite(dt)||dt<=0)return helicopterPose(f);
@@ -15,17 +17,24 @@ export function stepRelayHelicopter(f,input,dt,ground,bounds){
   if(t===1){f.phase='landed';f.hatchClosed=false;f.v=0;}return helicopterPose(f);
  }
  if(f.phase==='landed')return helicopterPose(f);
- const steer=clamp(input.steer||0,-1,1),rise=!!(input.brake||input.special||input.reverse);
- f.bank+=(steer*HELICOPTER.bank-f.bank)*(1-Math.exp(-dt*7));f.heading+=f.bank*HELICOPTER.yaw*dt;f.heading=Math.atan2(Math.sin(f.heading),Math.cos(f.heading));
- f.v=approach(f.v,input.drive?HELICOPTER.speed:0,(input.drive?HELICOPTER.acceleration:HELICOPTER.coast)*dt);
- f.x+=Math.sin(f.heading)*f.v*dt;f.y-=Math.cos(f.heading)*f.v*dt;
+ const steer=clamp(input.steer||0,-1,1),rise=!!(input.brake||input.special);
+ f.bank+=(steer*HELICOPTER.bank-f.bank)*(1-Math.exp(-dt*7));f.sideV=approach(f.sideV,steer*HELICOPTER.strafe,300*dt);
+ f.v=approach(f.v,input.reverse?-180:input.drive?HELICOPTER.speed:0,(input.drive||input.reverse?HELICOPTER.acceleration:HELICOPTER.coast)*dt);
+ const before={x:f.x,y:f.y,z:f.z};
+ f.x+=(Math.sin(f.heading)*f.v+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*f.v+Math.sin(f.heading)*f.sideV)*dt;
  if(bounds){f.x=clamp(f.x,bounds.minX+80,bounds.width-80);f.y=clamp(f.y,bounds.minY+80,bounds.maxY-80);}
  f.vz=approach(f.vz,rise?HELICOPTER.rise:-HELICOPTER.descent,180*dt);f.z+=f.vz*dt;
  const floor=ground(f.x,f.y)+32+(HELICOPTER.clearance-32)*smooth(f.time/.6);
  if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}
  // Terrain clearance is automatic; the player controls height above that safe floor.
  if(f.z>ground(f.x,f.y)+700){f.z=ground(f.x,f.y)+700;f.vz=Math.min(0,f.vz);}
- if(f.time>.5&&Math.hypot(f.x-f.exit.x,f.y-f.exit.y)<=HELICOPTER.landingRadius){f.phase='landing';f.landing={elapsed:0,start:{x:f.x,y:f.y,z:f.z,heading:f.heading,v:f.v,bank:f.bank}};}
+ // Swept 3D pickup: a fast frame cannot tunnel through a cargo pod.
+ for(const p of f.pods)if(!p.collected){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,t=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*t,p.y-before.y-dy*t,p.z-before.z-dz*t)<=HELICOPTER.pickupRadius){p.collected=true;f.collected++;}}
+ const distance=Math.hypot(f.x-f.exit.x,f.y-f.exit.y),height=f.z-ground(f.x,f.y);
+ f.landingReady=f.collected===f.pods.length&&distance<=HELICOPTER.landingRadius&&height<=HELICOPTER.landingHeight&&Math.hypot(f.v,f.sideV)<=HELICOPTER.landingSpeed&&!rise;
+ f.landingHold=f.landingReady?f.landingHold+dt:0;
+ if(f.landingHold>=HELICOPTER.landingHold){f.phase='landing';f.landing={elapsed:0,start:{x:f.x,y:f.y,z:f.z,heading:f.heading,v:f.v,bank:f.bank}};}
+
  return helicopterPose(f);
 }
 export function helicopterPose(f){return {x:f.x,y:f.y,z:f.z,heading:f.heading,v:f.v,vz:f.vz,air:true,helicopter:true,helicopterBank:f.bank};}

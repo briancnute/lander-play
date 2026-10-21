@@ -9,3 +9,7 @@ body.extreme-relay #landmark-labels,body.extreme-relay #overhead-toggle{display:
 body.extreme-relay #mini-map-button{left:20px!important;top:auto!important;bottom:110px!important;width:140px;height:96px}
 @media(max-width:520px){body.extreme-relay #mini-map-button{left:12px!important;bottom:96px!important;width:104px;height:70px}}
 @media(max-height:480px){body.extreme-relay #mini-map-button{bottom:92px!important;width:100px;height:62px}}
+
+#relay-flight-briefing{background:#172d29;color:#eff5df;border:1px solid #87b49a;border-radius:14px;padding:24px;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 24px);overflow:auto;box-sizing:border-box}#relay-flight-briefing::backdrop{background:#071410b8}#relay-flight-briefing h2{margin:8px 0;font-size:28px}#relay-flight-briefing p{margin:10px 0;line-height:1.4}.flight-lessons{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}.flight-lessons strong,.flight-lessons span{display:block}.flight-lessons span,.flight-small{font-size:14px;color:#c6d8cd}#relay-takeoff{width:100%;min-height:48px;background:#bdd9b9;color:#14271e;font-weight:700;border-radius:8px;border:0}#relay-flight-back{min-height:44px;min-width:64px;touch-action:none}#relay-flight-back[hidden]{display:none}@media(max-height:480px){#relay-flight-briefing{padding:14px 20px}#relay-flight-briefing h2{font-size:23px;margin:4px 0}#relay-flight-briefing p{margin:6px 0}.flight-lessons{gap:0 18px}}
+
+.controls #relay-flight-back{font-size:13px;width:64px;height:56px;align-self:flex-end;pointer-events:auto}
