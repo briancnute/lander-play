@@ -7,6 +7,8 @@ export function boundsOfMesh(vertices){
 }
 export function inFlightRange(bounds,s){
  if(!bounds)return true;
+ const plane=s.terrainPlane;if(plane){const nearest=plane.nx*(plane.nx>=0?bounds.minX:bounds.maxX)+plane.ny*(plane.ny>=0?bounds.minY:bounds.maxY);if(nearest>plane.offset+plane.width+47)return false;}
+
  const origin=s.terrainObserver??s;return Math.hypot(Math.max(bounds.minX-origin.x,0,origin.x-bounds.maxX),Math.max(bounds.minY-origin.y,0,origin.y-bounds.maxY))<(s.terrainRange??FLIGHT_TERRAIN_RANGE);
 }
 // Lower only the flight canvas when sustained frame time exceeds the budget.
