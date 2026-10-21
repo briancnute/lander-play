@@ -43,7 +43,10 @@ function stepLandingFilm(f,dt,ground){
 }
 export function ingenuityForwardTilt(f){return f.phase==='landing'||f.phase==='landed'?0:-.1*Math.min(1,Math.max(0,f.v)/LAB_DEFAULTS.speed);}
 export function followIngenuityFlight(camera,pose,dt,ground){
- followRelayHelicopter(camera,pose,dt,ground);camera.eye=Math.max(pose.z+78,ground(camera.x,camera.y)+12);return camera;
+ followRelayHelicopter(camera,pose,dt,ground);camera.eye=Math.max(pose.z+78,ground(camera.x,camera.y)+12);
+ // Keep the craft at a fixed screen elevation as the camera clears terrain or catches up.
+ const back=Math.max(1,Math.hypot(camera.x-pose.x,camera.y-pose.y));
+ camera.pitch=Math.atan2(camera.eye-pose.z,back)-Math.atan2(78,185)+.14;return camera;
 }
 export function followIngenuityLaunch(camera,pose,ground,launch){
  const t=smooth(clamp(launch.elapsed/3,0,1)),h=pose.heading-.55*(1-t),back=340-80*t;
