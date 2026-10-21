@@ -76,7 +76,7 @@ function syncFloor(){
  storm.southBoundary=area.bounds.maxY+1600;
  relief.src=new URL('./assets/jezero-relief.png',import.meta.url).href;relief.onload=()=>{dirty=true;};
 }
-function readSave(){try{const raw=JSON.parse(localStorage.getItem(KEY)||'null');if(!raw||raw.version!==SITE_VERSION)return;preservedSave=raw;const s=explorationSaveView(raw,isV2);
+function readSave(){if(launchParams.get('activity')==='helicopter-lab')return;try{const raw=JSON.parse(localStorage.getItem(KEY)||'null');if(!raw||raw.version!==SITE_VERSION)return;preservedSave=raw;const s=explorationSaveView(raw,isV2);
  progress.v2RaceRecords=readRaceRecords(s.v2RaceRecords);
  const coordinateRatio=WORLD_SCALE/(s.worldScale??1);for(const p of [s.position,s.navigation?.target])if(p){p.x*=coordinateRatio;p.y*=coordinateRatio;}
  progress.collected=Array.isArray(s.collected)?[...new Set(s.collected.filter(i=>(s.siteCatalog>=2||i===3)&&Number.isInteger(i)&&i>=0&&i<discoveries.length))]:[];
@@ -97,7 +97,7 @@ function readSave(){try{const raw=JSON.parse(localStorage.getItem(KEY)||'null');
  if(['balanced','performance'].includes(s.quality))quality=s.quality;if(['day','dusk','night'].includes(s.light))light=s.light;
  if(s.position&&['x','y','heading'].every(k=>Number.isFinite(s.position[k]))&&containsPosition(s.position,area.bounds))progress.position=s.position;
  }catch{/* Corrupt or unavailable storage cannot prevent exploration. */}}
-function save(){if(isGuidedTour){guidedTour?.save();return;}if(!ready)return;syncFloor();const position=state.mode==='free'&&!state.air&&!state.turnaround?{x:state.x,y:state.y,heading:state.heading}:progress.position;
+function save(){if(launchParams.get('activity')==='helicopter-lab')return;if(isGuidedTour){guidedTour?.save();return;}if(!ready)return;syncFloor();const position=state.mode==='free'&&!state.air&&!state.turnaround?{x:state.x,y:state.y,heading:state.heading}:progress.position;
  try{localStorage.setItem(KEY,JSON.stringify(mergeExplorationSave(preservedSave,{version:SITE_VERSION,worldScale:WORLD_SCALE,siteCatalog:3,collected:progress.collected,regions:progress.regions,completedActivities:progress.completedActivities,bests:progress.bests,v2RaceRecords:progress.v2RaceRecords,legacyBests:progress.legacyBests,raceVersion:RACE_VERSION,rover:raceExplorer??selected,position,quality,light,seenLandmarks:progress.seenLandmarks,navigation:nav,mods,driftEnabled,stormsEnabled,minimap:minimap.state,expedition:expeditionRecord,activityState:expedition?.snapshot()??activitySave,basemap,mapStyleVersion:2},isV2)));progress.position=position;}catch{if(!saveWarned){saveWarned=true;notify('Progress cannot be saved in this browser.');}}}
 function notify(text,seconds=5){state.message=text;state.messageUntil=state.t+seconds;dirty=true;}
 function collectTourPhoto(i){
