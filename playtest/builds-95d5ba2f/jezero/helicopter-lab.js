@@ -72,7 +72,7 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(f.phase==='landing-cutscene')return stepLandingFilm(f,dt,ground);
  const t=labTune(f.finishTune??tuning),before={x:f.x,y:f.y,z:f.z,distance:f.distance??0},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
  f.time+=dt;f.steerCommand=steer;f.verticalCommand=up?1:down?-1:0;
- if(f.course?.reactionTargets&&!f.pods.some(p=>p.spawned)&&!flightTargetsComplete(f))spawnReactionTarget(f,ground,t);
+ if(f.course?.reactionTargets&&!activeFlightTarget(f)&&!flightTargetsComplete(f))spawnReactionTarget(f,ground,t);
  const finishS=f.course?(f.course.finishS??f.course.length):Infinity;
  if(f.feedback&&f.time-f.feedback.time>1.1)f.feedback=null;
  const travel=Math.min(t.speed*dt,Math.max(0,finishS-(f.distance??0)));f.v=travel/dt;
