@@ -1,3 +1,4 @@
+import {flightReference,flightCeiling} from './helicopter-course.js';
 import {spawnReactionTarget,resolveReactionPlane,reactionTargetsComplete} from './helicopter-reactions.js';
 import {helicopterPose,followRelayHelicopter} from './relay-helicopter.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -13,7 +14,7 @@ export function startLabLaunch(f,ground,tuning){
  const speed=labTune(tuning).speed,start=f.course.start;
  f.distance=-speed;f.x=start.x+Math.sin(f.heading)*f.distance;f.y=start.y-Math.cos(f.heading)*f.distance;
  const padZ=Math.max(ground(f.x,f.y),...Array.from({length:24},(_,i)=>ground(f.x+Math.cos(i*Math.PI/12)*85,f.y+Math.sin(i*Math.PI/12)*85)))+2;
- f.phase='launch';f.launch={elapsed:0,speed,padZ,startZ:padZ+25,endZ:ground(start.x,start.y)+130};
+ f.phase='launch';f.launch={elapsed:0,speed,padZ,startZ:padZ+25,endZ:Math.max(ground(start.x,start.y),flightReference(f.course,0))+130};
  f.z=f.launch.startZ;f.v=f.vz=f.sideV=f.bank=0;
 }
 function stepLaunch(f,dt,ground,tuning){
@@ -21,12 +22,12 @@ function stepLaunch(f,dt,ground,tuning){
  const lift=smooth(clamp((a.elapsed-.35)/1.65,0,1)),forward=clamp((a.elapsed-1)/2,0,1);
  f.time+=dt;f.distance=-a.speed+a.speed*forward*forward;f.x=f.course.start.x+Math.sin(f.heading)*f.distance;f.y=f.course.start.y-Math.cos(f.heading)*f.distance;
  f.z=Math.max(ground(f.x,f.y)+25,a.startZ+(a.endZ-a.startZ)*lift);f.v=a.speed*forward;f.vz=(f.z-before)/dt;f.sideV=f.bank=0;
- if(a.elapsed>=3){f.phase='flying';f.distance=0;f.vz=0;if(f.course.reactionTargets)spawnReactionTarget(f,ground,labTune(tuning));}
+ if(a.elapsed>=3){f.phase='flying';f.distance=0;f.referenceZ=flightReference(f.course,0);f.vz=0;if(f.course.reactionTargets)spawnReactionTarget(f,ground,labTune(tuning));}
  return {...helicopterPose(f),air:a.elapsed>.35};
 }
 function startLandingFilm(f,ground){
  const p=f.course.finish,padZ=f.course.padZ??ground(p.x,p.y)+3;
- f.landingFilm={elapsed:0,duration:clamp(2+Math.max(0,f.z-padZ-25)/650,2,5),start:{x:f.x,y:f.y,z:f.z,v:f.v,bank:f.bank},padZ};
+ f.landingFilm={elapsed:0,duration:clamp(2+Math.max(0,f.z-padZ-25)/300,2,5),start:{x:f.x,y:f.y,z:f.z,v:f.v,bank:f.bank},padZ};
  f.phase='landing-cutscene';f.feedback=null;f.verticalLimit=null;
 }
 function stepLandingFilm(f,dt,ground){
@@ -51,9 +52,14 @@ export function followIngenuityLaunch(camera,pose,ground,launch){
 export function followIngenuityLanding(camera,pose,dt,ground,pad,heading,film){
  if(!film)return camera;
  if(!film.cameraStart)film.cameraStart={...camera};
- const initial=film.cameraStart,t=clamp(film.elapsed/film.duration,0,1),blend=smooth(clamp(t*1.5,0,1)),back=260+440*smooth(t),h=initial.heading??heading;
- const target={x:pose.x-Math.sin(h)*back,y:pose.y+Math.cos(h)*back,eye:pose.z+150,pitch:.2,zoom:.85};
- for(const [key,value]of Object.entries(target))camera[key]=(initial[key]??value)+(value-(initial[key]??value))*blend;
+ const initial=film.cameraStart,t=clamp(film.elapsed/film.duration,0,1),blend=smooth(t),h=initial.heading??heading;
+ // Move the original camera offset with the craft every frame, then widen it.
+ const origin=film.start,offsetX=initial.x-origin.x,offsetY=initial.y-origin.y,offsetZ=initial.eye-origin.z;
+ camera.x=pose.x+offsetX+( -Math.sin(h)*700-offsetX)*blend;
+ camera.y=pose.y+offsetY+( Math.cos(h)*700-offsetY)*blend;
+ camera.eye=pose.z+offsetZ+(150-offsetZ)*blend;camera.zoom=(initial.zoom??1)+(.85-(initial.zoom??1))*blend;
+ camera.eye=Math.max(camera.eye,ground(camera.x,camera.y)+30);const back=Math.hypot(camera.x-pose.x,camera.y-pose.y);camera.pitch=Math.atan2(camera.eye-pose.z-10,back);
+
  camera.heading=h;camera.eye=Math.max(camera.eye,ground(camera.x,camera.y)+30);camera.live=true;return camera;
 }
 
@@ -61,7 +67,7 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
  if(f.phase==='launch')return stepLaunch(f,dt,ground,tuning);
  if(f.phase==='landing-cutscene')return stepLandingFilm(f,dt,ground);
- const t=labTune(tuning),before={x:f.x,y:f.y,z:f.z,distance:f.distance??0},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
+ const t=labTune(f.finishTune??tuning),before={x:f.x,y:f.y,z:f.z,distance:f.distance??0},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
  f.time+=dt;f.steerCommand=steer;f.verticalCommand=up?1:down?-1:0;
  if(f.course?.reactionTargets&&!f.pods.some(p=>p.spawned)&&!flightTargetsComplete(f))spawnReactionTarget(f,ground,t);
  const finishS=f.course?(f.course.finishS??f.course.length):Infinity;
@@ -72,8 +78,9 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-700,700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}
  // Opposite thrust responds immediately; Down wins overlapping altitude inputs.
  if((down&&f.vz>0)||(up&&f.vz<0))f.vz=0;
- f.vz=up||down?approach(f.vz,up?t.up:-t.down,t.verticalAcceleration*dt):0;f.z+=f.vz*dt;
- const floor=ground(f.x,f.y)+t.clearance,ceiling=Math.max(floor,f.course?.ceilingZ??ground(f.x,f.y)+700);
+ f.vz=up||down?approach(f.vz,up?t.up:-t.down,t.verticalAcceleration*dt):0;f.z+=f.vz*dt+flightReference(f.course,f.distance)-flightReference(f.course,before.distance);
+ f.referenceZ=flightReference(f.course,f.distance);
+ const floor=ground(f.x,f.y)+t.clearance,ceiling=Math.max(floor,Number.isFinite(flightCeiling(f.course,f.distance))?flightCeiling(f.course,f.distance):ground(f.x,f.y)+700);
  f.verticalLimit=f.z<floor?'ground':f.z>ceiling?'ceiling':null;
  if(f.z<floor){f.z=floor;f.vz=Math.max(0,f.vz);}if(f.z>ceiling){f.z=ceiling;f.vz=Math.min(0,f.vz);}
  if(f.course?.reactionTargets)resolveReactionPlane(f,before,ground,t);else{

@@ -38,3 +38,5 @@ body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed
 #ingenuity-finish-label{position:fixed;transform:translate(-50%,-100%);font:600 13px/1 system-ui;letter-spacing:3px;color:#b7fff0;text-shadow:0 0 9px #39ffd1,0 1px 4px #142725;pointer-events:none;z-index:6}#ingenuity-finish-label[hidden],body:has(dialog[open]) #ingenuity-finish-label{display:none}
 
 .ingenuity-landing #mini-map-button,.ingenuity-landing #mini-button,.ingenuity-landing #guided-tour-map-button{visibility:hidden}
+
+.ingenuity-launch .controls,.ingenuity-launch #mini-map-button,.ingenuity-launch #helicopter-lab-toggle,.ingenuity-launch #extreme-relay-hud,.ingenuity-launch #extreme-relay-cue{visibility:hidden}

@@ -1,3 +1,4 @@
+import {flightReference,flightCeiling} from './helicopter-course.js';
 // Targets are authored at the next grab plane from the player's ACTUAL state.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const REACTION_TARGET={horizontalRadius:60,verticalRadius:95,lateralReaction:.35,heightReaction:1};
@@ -22,10 +23,10 @@ export function spawnReactionTarget(f,ground,tuning,random=f.reactionRandom??Mat
  p.x=cx+Math.cos(h)*goal;p.y=cy+Math.sin(h)*goal;
  if(!f.heightDirection)f.heightDirection=random()<.5?-1:1;else if(random()<.45)f.heightDirection*=-1;
  const vertical=reachable(f.vz,(f.verticalCommand??0)>0?tuning.up:(f.verticalCommand??0)<0?-tuning.down:0,tuning.down,tuning.up,tuning.verticalAcceleration,seconds,REACTION_TARGET.heightReaction);
- const floor=ground(p.x,p.y)+120,ceiling=c.ceilingZ-120,allowance=REACTION_TARGET.verticalRadius*.5;
- let desired=f.z+f.heightDirection*(120+random()*30);if(desired<floor||desired>ceiling){f.heightDirection*=-1;desired=f.z+f.heightDirection*(120+random()*30);}
- p.z=clamp(clamp(desired,f.z+vertical[0]-allowance,f.z+vertical[1]+allowance),floor,Math.max(floor,ceiling));
- Object.assign(p,{spawned:true,origin:{x:f.x,y:f.y,z:f.z,distance:f.distance,sideV:f.sideV,vz:f.vz},seconds,lateralDelta:goal-originSide,verticalDelta:p.z-f.z});return p;
+ const shift=flightReference(c,p.s)-flightReference(c,f.distance),referenceZ=f.z+shift,floor=Math.max(ground(p.x,p.y)+120,flightReference(c,p.s)+90),ceiling=flightCeiling(c,p.s)-60,allowance=REACTION_TARGET.verticalRadius*.5;
+ let desired=referenceZ+f.heightDirection*(120+random()*30);if(desired<floor||desired>ceiling){f.heightDirection*=-1;desired=referenceZ+f.heightDirection*(120+random()*30);}
+ p.z=clamp(clamp(desired,referenceZ+vertical[0]-allowance,referenceZ+vertical[1]+allowance),floor,Math.max(floor,ceiling));
+ Object.assign(p,{referenceZ:flightReference(c,p.s),spawned:true,origin:{x:f.x,y:f.y,z:f.z,distance:f.distance,sideV:f.sideV,vz:f.vz},seconds,lateralDelta:goal-originSide,verticalDelta:p.z-f.z});return p;
 }
 export function resolveReactionPlane(f,before,ground,tuning){
  const p=f.pods.find(p=>p.spawned&&!p.resolved&&!p.passed);if(!p||f.distance<p.s)return;
@@ -33,5 +34,14 @@ export function resolveReactionPlane(f,before,ground,tuning){
  const side=(x-p.x)*Math.cos(f.heading)+(y-p.y)*Math.sin(f.heading);
  p.collected=(side/REACTION_TARGET.horizontalRadius)**2+((z-p.z)/REACTION_TARGET.verticalRadius)**2<=1;p.passed=!p.collected;p.resolved=true;
  if(p.collected){f.collected++;f.lastCollection={x,y,z};}f.feedback={text:p.collected?'TARGET COLLECTED · '+f.collected+' / '+f.pods.length:'TARGET MISSED',time:f.time};
- spawnReactionTarget(f,ground,tuning);if(reactionTargetsComplete(f)){const origin=f.lastCollection??f,side=(origin.x-f.course.start.x)*Math.cos(f.heading)+(origin.y-f.course.start.y)*Math.sin(f.heading);f.finishGate={x:f.course.finishLine.x+Math.cos(f.heading)*side,y:f.course.finishLine.y+Math.sin(f.heading)*side,z:origin.z};f.finishGateZ=origin.z;}
+ spawnReactionTarget(f,ground,tuning);if(reactionTargetsComplete(f)){f.finishGate=createFinishZone(f,ground,tuning);f.finishTune={...tuning};}
+}
+export function createFinishZone(f,ground,tuning){
+ const c=f.course,h=f.heading,seconds=Math.max(0,(c.finishS-f.distance)/tuning.speed),station=c.finishS;
+ const side=(f.x-c.start.x)*Math.cos(h)+(f.y-c.start.y)*Math.sin(h);
+ const horizontal=[motion(f.sideV,-tuning.strafe,tuning.strafeAcceleration,seconds).distance,motion(f.sideV,tuning.strafe,tuning.strafeAcceleration,seconds).distance];
+ const left=clamp(side+horizontal[0],-700,700),right=clamp(side+horizontal[1],-700,700),middle=(left+right)/2;
+ const base=f.z+flightReference(c,station)-flightReference(c,f.distance),terrain=Math.min(...Array.from({length:17},(_,i)=>{const lateral=left+(right-left)*i/16;return ground(c.finishLine.x+Math.cos(h)*lateral,c.finishLine.y+Math.sin(h)*lateral)+tuning.clearance;}));
+ const bottom=Math.max(terrain,base+motion(f.vz,-tuning.down,tuning.verticalAcceleration,seconds).distance),top=Math.max(bottom,Math.min(flightCeiling(c,station),base+motion(f.vz,tuning.up,tuning.verticalAcceleration,seconds).distance));
+ return {x:c.finishLine.x+Math.cos(h)*middle,y:c.finishLine.y+Math.sin(h)*middle,z:(bottom+top)/2,left,right,bottom,top,width:Math.max(1,right-left),height:Math.max(1,top-bottom),origin:{x:f.x,y:f.y,z:f.z,distance:f.distance},seconds};
 }

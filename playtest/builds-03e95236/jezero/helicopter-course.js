@@ -1,3 +1,9 @@
+export function flightReference(course,s){
+ const points=course?.altitudeProfile;if(!points?.length)return 0;
+ const end=points.findIndex(p=>p.s>=s);if(end<=0)return end===0?points[0].z:points.at(-1).z;
+ const a=points[end-1],b=points[end];return a.z+(b.z-a.z)*Math.max(0,Math.min(1,(s-a.s)/(b.s-a.s)));
+}
+export function flightCeiling(course,s){return course?.altitudeProfile?flightReference(course,s)+360:course?.ceilingZ??Infinity;}
 // An authored arcade transect on the SAME coordinates/elevation sampler as Jezero.
 // Mapped Ancient Jezero drainage anchors define this arcade route, not a historical Ingenuity flight.
 import {measured,atDistance} from './rally-route.js';
@@ -7,10 +13,11 @@ export function buildJezeroFlightCourse(tour,ground){
  const start={id:'neretva-tributary',name:'Neretva tributary head',x:-18240,y:-7488},finish={id:'neretva-tributary-outlet',name:'Neretva tributary outlet',x:-14400,y:-1728},points=measured([start,finish]),length=points.at(-1).s;
  // Only the grab-plane stations exist in advance. Positions are generated live.
  const pods=Array.from({length:10},(_,id)=>({id,s:length*(id+1)/11,spawned:false,resolved:false,collected:false,passed:false}));
+ const altitudeProfile=Array.from({length:41},(_,i)=>{const s=(length-260)*i/40,p=atDistance(points,s);return {s,z:Math.max(...[-700,-350,0,350,700].map(side=>ground(p.x+Math.cos(p.heading)*side,p.y+Math.sin(p.heading)*side)))};});
  const ceilingZ=Math.max(...Array.from({length:21},(_,i)=>{const p=atDistance(points,length*i/20);return Math.max(...[-600,0,600].map(side=>ground(p.x+Math.cos(p.heading)*side,p.y+Math.sin(p.heading)*side)));}))+1000;
  const padZ=Math.max(...[[0,0],[-110,0],[110,0],[0,-110],[0,110],[-80,-80],[-80,80],[80,-80],[80,80]].map(([x,y])=>ground(finish.x+x,finish.y+y)))+3;
  const finishS=length-260,finishLine={...atDistance(points,finishS),z:ground(finish.x,finish.y)+450};
- return {padZ,ceilingZ,finishS,finishLine,reactionTargets:true,id:'neretva-reaction-v6',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
+ return {padZ,ceilingZ,altitudeProfile,finishS,finishLine,reactionTargets:true,id:'neretva-reaction-v7',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
 }
 export function mountFlightRouteMap(course){
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),b=course.mapBounds,w=b.width-b.minX,h=b.maxY-b.minY,pad=Math.max(w,h)*.06;
