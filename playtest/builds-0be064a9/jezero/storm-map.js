@@ -6,7 +6,7 @@ export function createStormMap(){
   if(storm.age<0)return;
   const spanX=bounds.width-bounds.minX,spanY=bounds.maxY-bounds.minY;
   for(let y=0;y<192;y++)for(let x=0;x<192;x++){
-   const i=(y*192+x)*4,d=storm.density(bounds.minX+(x+.5)/192*spanX,bounds.minY+(y+.5)/192*spanY);
+   const i=(y*192+x)*4,wx=bounds.minX+(x+.5)/192*spanX,wy=bounds.minY+(y+.5)/192*spanY,d=storm.mapDensity?storm.mapDensity(wx,wy):storm.density(wx,wy);
    // Warm airborne dust stays distinct from dark relief/shadow markings.
    image.data[i]=226;image.data[i+1]=181;image.data[i+2]=113;image.data[i+3]=Math.round(d*155);
   }

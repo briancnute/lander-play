@@ -1,1 +1,0 @@
-location.replace(new URL(`../playtest/builds-16bd6316/jezero/index.html?v2=1&activity=helicopter-lab&surfaceLight=day`,location.href));
