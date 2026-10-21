@@ -29,7 +29,8 @@ uniform vec4 dustCurtain;uniform vec4 dustSweep;
 uniform float daylight,kind,stormTime,roverPart,localDust,lampSlope,residualDust,airborne;
 ${dustCellGLSL}
 float dust(vec3 target){
- if(dustCurtain.w>.5){vec3 ray=target-camera.xyz;float forward=ray.x*sin(dustSweep.x)-ray.y*cos(dustSweep.x),right=ray.x*cos(dustSweep.x)+ray.y*sin(dustSweep.x);float edge=dustSweep.y+.07*sin(ray.z/max(100.,forward)*8.+stormTime*.14);float covered=1.-smoothstep(edge-.1,edge+.1,dustSweep.z*right/max(100.,forward));return covered*smoothstep(dustCurtain.x,dustCurtain.y,length(ray));}
+ if(dustCurtain.w>.5){vec3 ray=target-camera.xyz;float distance=length(ray);if(kind>4.5&&kind<5.5){ray=normalize(ray)*30000.;distance=30000.;}vec3 p=camera.xyz+ray*min(1.,3200./max(1.,distance));float wisps=.5+.2*sin(p.x*.0007+stormTime*.025+sin(p.y*.0005))+.15*sin(p.y*.0009-stormTime*.02+sin(p.x*.0006));float direction=.10*dustSweep.z*dot(p.xy-dustCell.xy,vec2(cos(dustSweep.x),sin(dustSweep.x)))/22000.;float density=smoothstep(0.,1.,dustCurtain.z*2.2-(.25+wisps*.65+direction));return smoothstep(dustCurtain.x,dustCurtain.y,distance)*density*cellDensity(p.xy);}
+
 
  if(weather.y<=0.&&residualDust<=0.)return 0.;
  vec3 ray=target-camera.xyz;float distance=length(ray),sum=0.;
@@ -87,6 +88,7 @@ void main(){
  float dustFog=dust(vWorld);vec3 dustColor=mix(vec3(.10,.075,.07),vec3(.64,.425,.27),daylight);
  float grainDust=(texture2D(grit,gl_FragCoord.xy*.009+vec2(stormTime*.007,stormTime*.003)).r-.5)*.006;
  dustColor+=grainDust;
+ if(dustCurtain.w>.5)dustColor+=vec3(.012,.009,.006)*sin(gl_FragCoord.x*.003+stormTime*.06+sin(gl_FragCoord.y*.004-stormTime*.035))*sin(gl_FragCoord.y*.003+stormTime*.03);
  if(kind>4.5&&kind<5.5){gl_FragColor=vec4(dustColor,dustFog);return;}
  vec3 base=kind>2.5&&kind<3.5?vec3(.16,.115,.08):vColor;float grain=0.;
  if(kind>7.5)base+=vec3(.035,.027,.019)*(texture2D(grit,vWorld.xy*.004).r-.5);
@@ -177,7 +179,7 @@ export class GPURenderer{
  // Optional bounded Jezero weather; other rover studies retain their front.
  for(const name of ['dustCell','dustShape','dustBase'])if(!(name in this.locations))this.locations[name]=gl.getUniformLocation(this.program,name);
  const curtain=this.storm?.curtain;
- gl.uniform4f(this.locations.dustCurtain,curtain?.near??0,curtain?.far??0,0,curtain?.enabled?1:0);gl.uniform4f(this.locations.dustSweep,curtain?.heading??0,curtain?.edge??0,curtain?.direction??1,0);
+ gl.uniform4f(this.locations.dustCurtain,curtain?.near??0,curtain?.far??0,curtain?.progress??0,curtain?.enabled?1:0);gl.uniform4f(this.locations.dustSweep,curtain?.heading??0,0,curtain?.direction??1,0);
  const terrainState=curtain?.complete?{...s,terrainRange:curtain.far,terrainObserver:cam}:s;this.dustTerrainCulled=!!curtain?.complete;
  gl.uniform4fv(this.locations.dustCell,this.storm?.cell??[0,0,0,0]);gl.uniform4fv(this.locations.dustShape,this.storm?.cell?this.storm.shape:[1,0,0,0]);gl.uniform1f(this.locations.dustBase,this.storm?.baseZ??0);
  gl.uniform2f(this.locations.weather,this.storm?.front||0,this.storm?.age>=0?1:0);gl.uniform1f(this.locations.stormTime,this.water?(this.area.reducedMotion?0:s.t):Math.max(0,this.storm?.age||0));gl.uniform4f(this.locations.roverLamp,s.x,s.y,s.heading,this.lampStrength);gl.uniform1f(this.locations.roverPart,0);
