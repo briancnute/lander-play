@@ -7,7 +7,7 @@ export function boundsOfMesh(vertices){
 }
 export function inFlightRange(bounds,s){
  if(!bounds)return true;
- return Math.hypot(Math.max(bounds.minX-s.x,0,s.x-bounds.maxX),Math.max(bounds.minY-s.y,0,s.y-bounds.maxY))<FLIGHT_TERRAIN_RANGE;
+ const origin=s.terrainObserver??s;return Math.hypot(Math.max(bounds.minX-origin.x,0,origin.x-bounds.maxX),Math.max(bounds.minY-origin.y,0,origin.y-bounds.maxY))<(s.terrainRange??FLIGHT_TERRAIN_RANGE);
 }
 // Lower only the flight canvas when sustained frame time exceeds the budget.
 // Never oscillate resolution during a short flight; landing resets the budget.
