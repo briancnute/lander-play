@@ -5,10 +5,11 @@ export function buildJezeroFlightCourse(tour,ground){
  // Anchors pinned to Ancient Jezero water-survey.json, North rim tributary samples
  // 0 and 200. Use the same dry ground here; the water remains in Ancient Jezero.
  const start={id:'neretva-tributary',name:'Neretva tributary head',x:-18240,y:-7488},finish={id:'neretva-tributary-outlet',name:'Neretva tributary outlet',x:-14400,y:-1728},points=measured([start,finish]),length=points.at(-1).s;
- const offsets=[-105,115,-90,130,-120,85,-130,105,-80,90],heights=[140,230,155,255,165,235,145,250,165,320];
+ // Build momentum through consecutive left/right drifts, then a near-straight beat.
+ const offsets=[-60,-210,-330,-100,160,290,80,60,-130,-270],heights=[140,230,155,255,165,235,145,250,165,320];
  const pods=offsets.map((side,id)=>{const s=length*(id+1)/(offsets.length+1),p=atDistance(points,s),x=p.x+Math.cos(p.heading)*side,y=p.y+Math.sin(p.heading)*side;return {id,s,x,y,z:ground(x,y)+heights[id],collected:false,passed:false};});
  const padZ=Math.max(...[[0,0],[-110,0],[110,0],[0,-110],[0,110],[-80,-80],[-80,80],[80,-80],[80,80]].map(([x,y])=>ground(finish.x+x,finish.y+y)))+3;
- return {padZ,id:'neretva-reaction-v2',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
+ return {padZ,id:'neretva-reaction-v3',name:'Neretva tributary descent',kind:'flight',start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{...tour.bounds},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),waterLineage:{asset:'water-survey.json',channel:'North rim',startSample:0,finishSample:200},excluded:['landing','rim','beyond-rim','frontier']};
 }
 export function mountFlightRouteMap(course){
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),b=course.mapBounds,w=b.width-b.minX,h=b.maxY-b.minY,pad=Math.max(w,h)*.06;
