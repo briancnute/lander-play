@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ASTRA · Mercury arrival review</title>  
+  <script type="module" crossorigin src="../assets/arrivalReview-Tx-DwpbW.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-BGrGSBXR.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="../assets/earthUnderwater-B68tVwc6.js">
+  <link rel="modulepreload" crossorigin href="../assets/missionLessons-YXn9ae0E.js">
+  <link rel="modulepreload" crossorigin href="../assets/planetFacts-CbIU0w-n.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftAppearance-DsifwKBm.js">
+  <link rel="modulepreload" crossorigin href="../assets/pilotProfile-B2b7qnp2.js">
+  <link rel="modulepreload" crossorigin href="../assets/craft-YONYm_io.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightV21-CQRwJflN.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightEquipment-CwbKCGjI.js">
+  <link rel="modulepreload" crossorigin href="../assets/emojiCraft-CHlMK1k6.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="../assets/RoundedBoxGeometry-DKuhJw5K.js">
+  <link rel="modulepreload" crossorigin href="../assets/astronaut-C7ya-9eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/transporter-Bsf_B1rw.js">
+  <link rel="modulepreload" crossorigin href="../assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="../assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="../assets/arrival-DHm5yXmO.js">
+  <link rel="modulepreload" crossorigin href="../assets/cockpitProjection-DU8dP8Gm.js">
+  <link rel="modulepreload" crossorigin href="../assets/arrival-DTpC3ASD.js">
+  <link rel="stylesheet" crossorigin href="../assets/arrival-BnaZQjjH.css">
+  <link rel="stylesheet" crossorigin href="../assets/cockpitProjection-SY2lqLcB.css">
+  <link rel="stylesheet" crossorigin href="../assets/style-CQRkvgJ5.css">
+</head><body></body></html>

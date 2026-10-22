@@ -1,0 +1,34 @@
+import {extendCatalog,EXTRA_BUILDS,defaultDetails,normalDetails,isColor,cabinSurface} from './kit.js?v=expanded-1';
+const uid=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2);
+const option=(id,name,family='Space',extra={})=>({id,name,family,...extra});
+const emojiOptions=[['cool','😎','Cool customer'],['alien','👽','Visitor'],['robot','🤖','Automaton'],['cat','😺','Co-pawlot'],['ghost','👻','Phantom'],['frog','🐸','Hop pilot'],['pumpkin','🎃','Night shift'],['melt','🫠','Doing fine'],['fox','🦊','Fox trot'],['owl','🦉','Night owl'],['poop','💩','Bad idea'],['grin','😀','Good company']].map(([id,glyph,name])=>option(id,name,'Oddities',{glyph}));
+const palettes=[
+ option('survey','Survey gold','',{primary:'#d6ad68',secondary:'#e4d7b8',dark:'#655438',glass:'#7bced9'}),
+ option('arctic','Arctic white','',{primary:'#dbe2df',secondary:'#9baeb8',dark:'#586a78',glass:'#8cdddf'}),
+ option('ocean','Deep sea','',{primary:'#76b9b0',secondary:'#ccdfd0',dark:'#305e60',glass:'#a0e8df'}),
+ option('rescue','Rescue orange','',{primary:'#e88b55',secondary:'#e6ddca',dark:'#8b4e36',glass:'#b2dfdf'}),
+ option('midnight','Midnight','',{primary:'#556b8a',secondary:'#abb3c2',dark:'#27394f',glass:'#f2c98a'}),
+ option('rose','Rose quartz','',{primary:'#d99da8',secondary:'#ead8d9',dark:'#794b64',glass:'#c5eeea'}),
+ option('acid','Acid test','',{primary:'#c7db78',secondary:'#e5e6b5',dark:'#596742',glass:'#f7c7e2'}),
+ option('violet','Ultraviolet','',{primary:'#a59bd1',secondary:'#d3cde4',dark:'#514d78',glass:'#a8e3e6'})
+];
+const CATALOG={
+ cabin:[option('cabin','Survey cabin'),option('bubble','Bubble canopy'),option('pod','Command pod'),option('dish','Deep-space dish'),option('shuttle','Orbiter'),option('tower','Signal tower'),...emojiOptions],
+ body:[option('descent','Descent stage'),option('tank','Pressure tank'),option('cargo','Cargo box'),option('truss','Open truss'),option('saucer','Flying saucer'),option('toaster','Space toaster','Oddities'),option('donut','Donut drive','Oddities'),option('cloud','Cloud nine','Oddities')],
+ legs:[option('braced','Lunar braces'),option('straight','Light struts'),option('spring','Shock springs'),option('skids','Landing skids'),option('spider','Spider stance'),option('boots','Big boots','Oddities')],
+ engine:[option('bell','Classic bell'),option('twin','Twin engines'),option('quad','Four bells'),option('spike','Aerospike'),option('ion','Ion drive')],
+ palette:palettes,
+ flame:[option('solar','Solar gold','',{color:'#ffc778'}),option('ice','Ice blue','',{color:'#8be1ef'}),option('violet','Violet trail','',{color:'#cbabff'}),option('mint','Mint condition','',{color:'#a1f2c4'}),option('rose','Pink noise','',{color:'#f5a9ce'}),option('off','Engine off','',{color:'#61727e'})],
+ stickers:['⭐','⚡','❤️','🌙','🚀','🌈','👽','🏁','☠️','🔥','🪐','✨'].map((glyph,i)=>option(String(i),['Star','Lightning','Heart','Moon','Rocket','Rainbow','Alien','Checkered flag','Skull','Fire','Saturn','Sparkles'][i],'',{glyph})),
+ builds:[option('explorer','Explorer'),option('expedition','Expedition'),option('eagle','Eagle · concept'),option('visitor','The Visitor','Oddities'),option('breakfast','Orbital breakfast','Oddities'),option('haunted','Haunted cargo','Oddities'),option('car','Car · concept','Oddities')]
+};
+extendCatalog(CATALOG,palettes,emojiOptions,option);
+const MAX_STICKERS=12;
+const blank=()=>({id:uid(),name:'Untitled craft',cabin:'cabin',body:'descent',legs:'braced',engine:'bell',palette:'survey',flame:'ice',stickers:[],details:defaultDetails(),base:'explorer'});
+function build(id){const c=blank();c.base=id;Object.assign(c,({explorer:{name:'Explorer'},expedition:{name:'Expedition',cabin:'tower',body:'cargo',legs:'spring',engine:'quad',palette:'ocean'},eagle:{name:'Eagle',cabin:'pod',body:'descent',legs:'braced',engine:'bell',palette:'survey'},visitor:{name:'The Visitor',cabin:'alien',body:'saucer',legs:'spider',engine:'ion',palette:'violet',flame:'violet'},breakfast:{name:'Orbital Breakfast',cabin:'cool',body:'toaster',legs:'boots',engine:'twin',palette:'rescue',flame:'solar'},haunted:{name:'Ghost Freight',cabin:'ghost',body:'cargo',legs:'skids',palette:'arctic',flame:'mint'},car:{name:'Car',cabin:'shuttle',body:'cargo',legs:'skids',palette:'rescue'}})[id]||EXTRA_BUILDS[id]||{});return c}
+const valid=(key,v)=>CATALOG[key]?.some(o=>o.id===v);
+function normalize(c){const n={...blank(),...c};for(const key of ['cabin','body','legs','engine','palette','flame'])if(!valid(key,n[key]))n[key]=blank()[key];n.details=normalDetails(n.details);n.name=String(n.name||'Untitled craft').slice(0,32);n.id=typeof n.id==='string'?n.id:uid();n.stickers=Array.isArray(n.stickers)?n.stickers.filter(s=>s&&typeof s.glyph==='string'&&s.glyph.length<=24).slice(0,MAX_STICKERS).map(s=>({kind:s.kind==='text'?'text':'emoji',part:s.part==='cabin'&&cabinSurface(n)?'cabin':'body',color:isColor(s.color)?s.color:'#f3e6c6',flip:!!s.flip,glyph:s.glyph,x:Number.isFinite(s.x)?s.x:0,y:Number.isFinite(s.y)?s.y:30,size:Math.min(36,Math.max(8,Number(s.size)||20)),rot:Number.isFinite(s.rot)?s.rot:0})):[];n.stickers.forEach(s=>constrain(s,n));return n}
+function importLegacy(c){const n=build(String(c.model||'explorer').toLowerCase());n.id=c.id||uid();n.name=c.name||n.name;n.cabin=c.kind==='emoji'?(emojiOptions.find(o=>o.glyph===c.emoji)?.id||'cool'):({Cabin:'cabin',Dome:'bubble',Pod:'pod'}[c.top]||n.cabin);n.body={Drum:'descent',Tank:'tank',Cargo:'cargo'}[c.body]||n.body;n.legs={Braced:'braced',Straight:'straight',Skids:'skids'}[c.legs]||n.legs;n.engine=c.engine==='Slim'?'spike':'bell';n.palette=({'#dfb87a':'survey','#86b8ad':'ocean','#d9dfe3':'arctic','#dc897c':'rescue','#93a9da':'violet'})[c.paint]||n.palette;n.stickers=(c.stickers||[]).map(s=>({...s,x:(s.x-150),y:s.y-125}));return normalize(n)}
+function palette(c){const p=palettes.find(p=>p.id===c.palette)||palettes[0],v=c.details?.colors||{};return {...p,primary:v.body||p.primary,secondary:v.cabin||p.secondary,dark:v.trim||p.dark,glass:v.glass||p.glass,hardware:v.legs||'#a8b9bf',foot:v.feet||p.primary,engine:v.engine||'#a7b7bc'}}
+function constrain(s,c){if(s.part==='cabin'&&!cabinSurface(c))s.part='body';const bounds=s.part==='cabin'?(['tower','shuttle','pod'].includes(c.cabin)?[-18,18,-58,-23]:[-27,27,-69,-23]):c.body==='saucer'?[-47,47,20,56]:c.body==='donut'?[-40,40,42,66]:c.body==='pizza'?[-18,18,16,51]:[-45,45,7,61];const angle=(s.rot||0)*Math.PI/180,ratio=s.kind==='text'?Math.max(.7,[...s.glyph].length*.32):.64,rx=Math.abs(Math.cos(angle))*ratio+Math.abs(Math.sin(angle))*.64,ry=Math.abs(Math.sin(angle))*ratio+Math.abs(Math.cos(angle))*.64;s.size=Math.min(s.size,(bounds[1]-bounds[0])/(2*rx),(bounds[3]-bounds[2])/(2*ry));const x=s.size*rx,y=s.size*ry;s.x=Math.max(bounds[0]+x,Math.min(bounds[1]-x,s.x));s.y=Math.max(bounds[2]+y,Math.min(bounds[3]-y,s.y))}
+export {uid,emojiOptions,palettes,CATALOG,MAX_STICKERS,blank,build,normalize,importLegacy,palette,constrain};

@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ASTRA · Mount Fuji Visual Lab</title>  
+  <script type="module" crossorigin src="../assets/fujiLab-BZ2oDdL_.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-BGrGSBXR.js">
+  <link rel="modulepreload" crossorigin href="../assets/craft-YONYm_io.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="../assets/earthUnderwater-B68tVwc6.js">
+  <link rel="modulepreload" crossorigin href="../assets/collector-CIzd_PQl.js">
+  <link rel="modulepreload" crossorigin href="../assets/masteryScoring-28QCknFV.js">
+  <link rel="modulepreload" crossorigin href="../assets/completionFeedback-B-NQsjRB.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightV21-CQRwJflN.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightTuning-DJnRbxFb.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-Bl7Bwdtb.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-D10mTwXF.js">
+  <link rel="modulepreload" crossorigin href="../assets/FlightSetup-wtJfaG_Z.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-CJm_g_Xe.js">
+  <link rel="modulepreload" crossorigin href="../assets/primaryScoring-Crly2MWr.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-DK_Qw_8p.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="../assets/moonGolfCourse-DANjUM22.js">
+  <link rel="modulepreload" crossorigin href="../assets/lunarCourse-BJyXAqXI.js">
+  <link rel="modulepreload" crossorigin href="../assets/contact-FuwFdITk.js">
+  <link rel="modulepreload" crossorigin href="../assets/survey-N4KBkE4F.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisFlight-DrQLdjaR.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisPresentation-tFY_Kt-Q.js">
+  <link rel="modulepreload" crossorigin href="../assets/Reflector-DDZkkKQg.js">
+  <link rel="modulepreload" crossorigin href="../assets/lake-Bz8D7omw.js">
+  <link rel="stylesheet" crossorigin href="../assets/fujiLab-DzYDIJg2.css">
+</head><body>
+<canvas id="world" aria-label="Playable Mount Fuji landing environment"></canvas>
+<header><a href="../">ASTRA</a><span>MOUNT FUJI <small>VISUAL LAB</small></span><select id="version" aria-label="Environment version"><option value="A">A · Lake & barge</option><option value="C">Earlier A · Meadow</option><option value="B">Earlier B · Sculpted mountain</option></select><button id="restart">Restart</button><button id="pause">Fly</button><button id="inspect" aria-expanded="false">Inspect</button></header>
+<section id="season-panel" aria-label="Season and clouds"><div><label>Date <input id="season-date" type="date" aria-label="Preview date"></label><button id="today">Today</button><label><input id="clouds" type="checkbox" checked> Low clouds</label></div><small id="season-label"></small><small>Seasonal illustration · not live weather</small></section>
+<section id="inspection" hidden aria-label="Development inspection"><span>CHECKPOINTS</span><button data-alt="800">800 m</button><button data-alt="400">400 m</button><button data-alt="120">120 m</button><button data-alt="0">Touchdown</button><button id="freeze">Freeze scene</button><button id="capture">Save image</button></section>
+<aside id="telemetry"><strong id="altitude"></strong><span id="speed"></span><span id="fuel"></span><span id="time"></span></aside><div id="craft-marker">⌖</div><div id="home-marker">BARGE</div>
+<div id="status" role="status">Ready · Space to thrust · A / D to turn · Shift for power</div><div id="controls"><button data-game-control="left" aria-label="Turn left">←</button><button data-game-control="right" aria-label="Turn right">→</button><button id="power">MED</button><button data-game-control="thrust">THRUST</button></div>
+<dialog id="result"><h2 id="result-title"></h2><div id="result-content"></div><button id="result-retry">Fly again</button><button id="result-close">Inspect landing</button></dialog></body></html>

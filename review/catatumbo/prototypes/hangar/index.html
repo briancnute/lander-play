@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10191e">
+<title>ASTRA · Craft workshop</title>
+<link rel="stylesheet" href="./workshop.css?v=edit-design-1">
+</head>
+<body>
+<header class="topbar">
+  <button id="fleet-button" class="back-button" aria-label="Open My Craft collection"><span aria-hidden="true">‹</span> My Craft</button>
+  <div class="identity"><span class="wordmark">ASTRA</span><span class="edition">CRAFT WORKSHOP <i>CONCEPT</i></span></div>
+  <button id="save-button" class="primary">Save craft</button>
+</header>
+<main class="workshop">
+  <section class="stage" aria-label="Live craft preview">
+    <div class="stage-top"><div><span class="eyebrow">ON THE WORKBENCH</span><button id="rename-button" class="craft-name" title="Rename craft"><span id="craft-name"></span><span class="edit-mark" aria-hidden="true">✎</span></button></div><button id="scale-button" class="scale-button" aria-pressed="false">Flight scale <span aria-hidden="true">↗</span></button></div>
+    <div class="drawing" id="drawing"></div>
+    <div class="floor" aria-hidden="true"></div>
+    <div class="stage-bottom"><span id="design-caption"></span><span class="saved-state" id="saved-state"></span></div>
+    <div class="hint" id="preview-hint">Tap a part to explore it</div>
+  </section>
+  <section class="console" aria-label="Craft customization">
+    <nav class="categories" aria-label="Craft parts" id="categories"></nav>
+    <div class="shelf-heading"><div><h1 id="category-title">Cabin</h1><span id="category-subtitle"></span></div><div class="shelf-tools"><button id="adjust-button" class="icon-button" aria-pressed="false">Adjust</button><button id="pin-button" class="icon-button" aria-pressed="false" title="Keep this part when using Surprise me">Pin</button><button id="shuffle-button" class="icon-button" title="Try a random option in this category">Shuffle ↻</button></div></div>
+    <div class="filter-row"><div id="filters" class="filters"></div><div class="shelf-arrows"><button id="previous" aria-label="Previous choices">‹</button><button id="next" aria-label="More choices">›</button></div></div>
+    <div id="choices" class="choices" tabindex="0" aria-label="Cabin choices"></div>
+    <div id="adjustments" class="adjustments" hidden></div>
+    <div id="sticker-controls" class="sticker-controls" hidden></div>
+    <div class="selection-line"><span id="selection-label"></span><span id="choice-count"></span></div>
+  </section>
+</main>
+<footer class="toolbar"><div class="history-controls"><button id="undo-button" disabled>↶ <span>Undo</span></button><button id="redo-button" disabled>↷ <span>Redo</span></button></div><span id="message" role="status" aria-live="polite">Your imagination. Flight hardware.</span><div class="save-controls"><button id="surprise-button">✧ Surprise me</button><button id="footer-save-button" class="primary">Save craft</button></div></footer>
+<dialog id="dialog"></dialog>
+<script type="module" src="./workshop.js?v=edit-design-1"></script>
+</body>
+</html>
