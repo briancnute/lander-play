@@ -1,0 +1,86 @@
+#extreme-relay-hud{position:fixed;top:max(18px,env(safe-area-inset-top));left:20px;right:80px;z-index:5;white-space:pre-line;font:600 15px/1.6 system-ui;color:#eff5df;text-shadow:0 2px 5px #35261d;pointer-events:none}#extreme-relay-cue{position:fixed;top:45%;right:20px;z-index:5;font:700 17px system-ui;color:#ffdc9b;text-shadow:0 2px 5px #35261d;pointer-events:none}body.extreme-relay header,body.extreme-relay #toast,body.extreme-relay #target-hud,body.extreme-relay #wayfinding{display:none!important}#extreme-relay-hud[hidden],#extreme-relay-cue[hidden]{display:none}@media(max-height:480px){#extreme-relay-hud{top:10px;font-size:12px;line-height:1.5}}
+
+#extreme-relay-pause{position:fixed;right:16px;top:14px;z-index:6;min-width:46px;min-height:46px;background:#183a30eb;color:#eff5df;border:1px solid #99c9ac;border-radius:8px;font-size:22px}#extreme-relay-pause[hidden]{display:none}
+
+#extreme-result{background:#172d29;color:#eff5df;border:1px solid #87b49a;border-radius:12px;padding:24px;max-width:calc(100vw - 28px)}#extreme-result button{min-height:44px;padding:10px 16px;margin:8px}
+
+body.extreme-relay #landmark-labels,body.extreme-relay #overhead-toggle{display:none!important}
+/* Keep the race map above touch controls when a phone rotates mid-run. */
+body.extreme-relay #mini-map-button{left:20px!important;top:auto!important;bottom:110px!important;width:140px;height:96px}
+@media(max-width:520px){body.extreme-relay #mini-map-button{left:12px!important;bottom:96px!important;width:104px;height:70px}}
+@media(max-height:480px){body.extreme-relay #mini-map-button{bottom:92px!important;width:100px;height:62px}}
+
+#relay-flight-briefing{background:#172d29;color:#eff5df;border:1px solid #87b49a;border-radius:14px;padding:24px;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 24px);overflow:auto;box-sizing:border-box}#relay-flight-briefing::backdrop{background:#071410b8}#relay-flight-briefing h2{margin:8px 0;font-size:28px}#relay-flight-briefing p{margin:10px 0;line-height:1.4}.flight-lessons{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}.flight-lessons strong,.flight-lessons span{display:block}.flight-lessons span,.flight-small{font-size:14px;color:#c6d8cd}#relay-takeoff{width:100%;min-height:48px;background:#bdd9b9;color:#14271e;font-weight:700;border-radius:8px;border:0}#relay-flight-back{min-height:44px;min-width:64px;touch-action:none}#relay-flight-back[hidden]{display:none}@media(max-height:480px){#relay-flight-briefing{padding:14px 20px}#relay-flight-briefing h2{font-size:23px;margin:4px 0}#relay-flight-briefing p{margin:6px 0}.flight-lessons{gap:0 18px}}
+
+.controls #relay-flight-back{font-size:13px;width:64px;height:56px;align-self:flex-end;pointer-events:auto}
+
+#helicopter-lab-toggle{position:fixed;top:14px;right:76px;z-index:8;min-height:44px;font-size:14px}#helicopter-lab-tools{position:fixed;top:66px;right:16px;z-index:8;width:min(290px,calc(100vw - 32px));max-height:calc(100dvh - 160px);overflow:auto;padding:16px;border:1px solid #87b49a;border-radius:12px;background:#172d29f5;color:#eff5df}#helicopter-lab-tools[hidden]{display:none}#helicopter-lab-tools h2{margin:0;font-size:19px}#helicopter-lab-tools p{font-size:12px}#helicopter-lab-tools label{display:block;margin:12px 0;font-size:13px}#helicopter-lab-tools label span{display:flex;justify-content:space-between}#helicopter-lab-tools input{width:100%;min-height:32px;accent-color:#bcd9ac}#helicopter-lab-tools button{font-size:12px;padding:7px}.lab-actions{display:flex;flex-wrap:wrap;gap:6px}#helicopter-lab-tools textarea{width:100%;min-height:130px}body.helicopter-lab #drive{font-size:13px;padding:6px}body.helicopter-lab #free-roam-mode{display:none}
+
+body.helicopter-lab #brake{padding:6px;font-size:13px}
+
+#helicopter-course-map{display:block;width:100%;height:150px;margin:10px 0;border-radius:8px;background:#142c26}body.helicopter-lab #relay-flight-briefing{width:min(680px,calc(100vw - 32px))}@media(max-height:480px){body.helicopter-lab #relay-flight-briefing{display:grid;grid-template-columns:1fr 180px;gap:4px 16px}body.helicopter-lab #relay-flight-briefing[open]{display:grid}body.helicopter-lab #relay-flight-briefing:not([open]){display:none}body.helicopter-lab #relay-flight-briefing>small,body.helicopter-lab #relay-flight-briefing>h2,body.helicopter-lab #relay-flight-briefing>p{grid-column:1}body.helicopter-lab #helicopter-course-map{grid-column:2;grid-row:2 / 6;height:180px}body.helicopter-lab #relay-takeoff{grid-column:1 / -1}body.helicopter-lab .flight-lessons{grid-column:1}body.helicopter-lab .flight-lessons span{font-size:12px}body.helicopter-lab #relay-flight-briefing>p{font-size:12px}}
+
+#ingenuity-feedback{position:fixed;left:20px;top:80px;z-index:24;pointer-events:none;padding:8px 14px;border-radius:8px;background:rgba(13,27,31,.88);color:#fff2c9;font:bold 14px system-ui;white-space:nowrap;border:1px solid #e8c978}
+#ingenuity-feedback[hidden]{display:none}
+body:has(dialog[open]) #ingenuity-feedback{visibility:hidden}
+
+#ingenuity-countdown{position:fixed;left:50%;top:22%;transform:translate(-50%,-50%);z-index:24;pointer-events:none;color:#fff5db;text-shadow:0 3px 14px #000;font:700 clamp(44px,7vw,70px)/1 system-ui;text-align:center;white-space:nowrap}
+#ingenuity-countdown[hidden]{display:none}
+body:has(dialog[open]) #ingenuity-countdown{visibility:hidden}
+
+#ingenuity-countdown strong{display:block}#ingenuity-countdown small{display:block;font:700 12px/1.5 system-ui;letter-spacing:2px;margin-top:6px}
+@media(max-height:500px){#ingenuity-countdown{font-size:44px}}
+
+.ingenuity-landing .controls{opacity:.3;pointer-events:none}.ingenuity-landing #helicopter-lab-toggle{visibility:hidden}
+
+body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed;left:0;right:0;height:10dvh;transform:scaleY(var(--ingenuity-letterbox,0));will-change:transform;background:#050608;z-index:22;pointer-events:none}body.helicopter-lab::before{top:0;transform-origin:top}body.helicopter-lab::after{bottom:0;transform-origin:bottom}
+.ingenuity-landing .controls,.ingenuity-landing #extreme-relay-hud,.ingenuity-landing #extreme-relay-cue,.ingenuity-landing #ingenuity-feedback{visibility:hidden}
+#ingenuity-finish-label{position:fixed;transform:translate(-50%,-100%);font:600 13px/1 system-ui;letter-spacing:3px;color:#b7fff0;text-shadow:0 0 9px #39ffd1,0 1px 4px #142725;pointer-events:none;z-index:6}#ingenuity-finish-label[hidden],body:has(dialog[open]) #ingenuity-finish-label{display:none}
+
+.ingenuity-landing #mini-map-button,.ingenuity-landing #mini-button,.ingenuity-landing #guided-tour-map-button{visibility:hidden}
+
+.ingenuity-launch .controls,.ingenuity-launch #mini-map-button,.ingenuity-launch #helicopter-lab-toggle,.ingenuity-launch #extreme-relay-hud,.ingenuity-launch #extreme-relay-cue{visibility:hidden}
+/* Keep flight instruments at the edges; the target itself supplies direction. */
+.helicopter-lab #extreme-relay-hud{top:18px;left:20px;right:auto;font:600 13px/1.65 system-ui;letter-spacing:.05em}
+.helicopter-lab #ingenuity-feedback{top:68px;left:20px;padding:0;background:none;border:0;font:700 12px/1.5 system-ui;color:#aaffdf;text-shadow:0 2px 5px #152b26;animation:ingenuity-capture 1.1s ease-out both}
+.helicopter-lab #ingenuity-feedback[data-kind=miss]{color:#ffd59a}
+.helicopter-lab #extreme-relay-cue{top:auto;bottom:24px;right:20px;font:600 11px/1.5 system-ui;color:#ffe4b0}
+@keyframes ingenuity-capture{0%{opacity:0;transform:translateY(5px)}15%,65%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-3px)}}
+@media(max-height:500px){.helicopter-lab #extreme-relay-hud{top:10px;left:16px;font-size:11px}.helicopter-lab #ingenuity-feedback{top:52px;left:16px;font-size:10px}}
+#ingenuity-routes{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;grid-column:1 / -1}#ingenuity-routes a{color:#c9e4db;border:1px solid #789e91;border-radius:7px;padding:9px 10px;text-decoration:none;font:600 12px system-ui}#ingenuity-routes a[aria-current]{background:#c2dcc8;color:#172d29;border-color:#c2dcc8}
+@media(max-height:480px){
+ body.helicopter-lab #relay-flight-briefing{grid-template-columns:minmax(0,1fr) 180px;gap:5px 16px}
+ body.helicopter-lab #relay-flight-briefing>small{grid-column:1;grid-row:1}
+ body.helicopter-lab #relay-flight-briefing>h2{grid-column:1;grid-row:2}
+ body.helicopter-lab #relay-flight-briefing>p:first-of-type{grid-column:1;grid-row:3}
+ body.helicopter-lab #helicopter-course-map{grid-column:2;grid-row:1 / 4;height:112px;margin:0}
+ body.helicopter-lab #ingenuity-routes{grid-column:1 / -1;grid-row:4;margin:5px 0}
+ body.helicopter-lab .flight-lessons{grid-column:1;grid-row:5}
+ body.helicopter-lab .flight-lessons p{margin:3px 0!important}
+ body.helicopter-lab .flight-lessons strong{font-size:12px}
+ body.helicopter-lab .flight-lessons span{font-size:11px}
+ body.helicopter-lab .flight-small{display:none}
+ body.helicopter-lab #relay-takeoff{grid-column:2;grid-row:5;align-self:end;min-height:48px}
+}
+#ingenuity-routes a{min-height:40px;box-sizing:border-box;display:flex;align-items:center}
+
+.ingenuity-site-film #ingenuity-countdown,.ingenuity-site-film .controls,.ingenuity-site-film #mini-map-button,.ingenuity-site-film #helicopter-lab-toggle,.ingenuity-site-film #extreme-relay-hud,.ingenuity-site-film #extreme-relay-cue,.ingenuity-site-film #ingenuity-feedback{visibility:hidden}
+#ingenuity-discovery{position:fixed;inset:0;z-index:20;pointer-events:none;color:#dcfff1}
+#ingenuity-discovery[hidden]{display:none}#ingenuity-discovery svg{position:absolute;width:100%;height:100%;overflow:hidden}#ingenuity-discovery path{fill:#95f4d00a;stroke:#a6ffe0;stroke-width:2;stroke-dasharray:14 5;filter:drop-shadow(0 0 4px #65e6bd)}
+#ingenuity-discovery section{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:14dvh;max-width:min(370px,80vw);padding:12px 16px;background:#172a29df;border-left:2px solid #a6ffe0;border-radius:2px}
+#ingenuity-discovery small{display:block;font-size:10px;letter-spacing:.16em;color:#a6dfc9}#ingenuity-discovery strong{display:block;font-size:clamp(18px,3vw,25px);margin:4px 0}#ingenuity-discovery p{font-size:14px;line-height:1.35;margin:0}
+@media(max-height:450px){#ingenuity-discovery section{max-width:300px;padding:8px 12px}#ingenuity-discovery p{font-size:12px}}
+
+.ingenuity-route-intro .controls,.ingenuity-route-intro #ingenuity-countdown,.ingenuity-route-intro #mini-map-button,.ingenuity-route-intro #helicopter-lab-toggle,.ingenuity-route-intro #extreme-relay-hud,.ingenuity-route-intro #extreme-relay-cue,.ingenuity-route-intro #ingenuity-feedback{visibility:hidden}
+#ingenuity-skip-intro{min-height:44px;min-width:100px;position:fixed;right:max(24px,env(safe-area-inset-right));bottom:3dvh;z-index:25;padding:8px 16px;border:1px solid #a6dfc9;border-radius:6px;background:#172a29ec;color:#dcfff1;font:inherit;font-size:14px;cursor:pointer}#ingenuity-skip-intro[hidden]{display:none}
+.ingenuity-route-intro #ingenuity-discovery path{fill:#95f4d018}
+
+#ingenuity-intro-map{position:fixed;inset:0;width:100%;height:100%;z-index:19;pointer-events:none}#ingenuity-intro-map[hidden]{display:none}
+#helicopter-course-map{height:220px}
+
+body.helicopter-lab #relay-flight-briefing{width:min(800px,calc(100vw - 32px))}#helicopter-course-map{height:min(44dvh,350px)}.ingenuity-flight-help{font-size:13px;margin:8px 0}.ingenuity-flight-help summary{cursor:pointer;color:#bfe7cc}.ingenuity-flight-help .flight-lessons{margin-top:10px}
+@media(max-height:480px){body.helicopter-lab #relay-flight-briefing .ingenuity-flight-help{grid-column:1}body.helicopter-lab #helicopter-course-map{height:150px;grid-row:1 / 6}}
+
+#ingenuity-intro-map{inset:auto;box-shadow:0 0 0 100vmax #07100be6}
+#ingenuity-route-title{position:fixed;z-index:21;pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%) scaleX(1.05);font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-size:clamp(16px,3.5vw,44px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.18em;color:#e2fff3;text-shadow:0 0 16px #5cc8a6,0 2px 4px #152d26}
+#ingenuity-route-title[hidden]{display:none}.ingenuity-route-intro #ingenuity-discovery section{display:none}
