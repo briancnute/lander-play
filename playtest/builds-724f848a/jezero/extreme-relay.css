@@ -63,3 +63,10 @@ body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed
  body.helicopter-lab #relay-takeoff{grid-column:2;grid-row:5;align-self:end;min-height:48px}
 }
 #ingenuity-routes a{min-height:40px;box-sizing:border-box;display:flex;align-items:center}
+
+.ingenuity-site-film #ingenuity-countdown,.ingenuity-site-film .controls,.ingenuity-site-film #mini-map-button,.ingenuity-site-film #helicopter-lab-toggle,.ingenuity-site-film #extreme-relay-hud,.ingenuity-site-film #extreme-relay-cue,.ingenuity-site-film #ingenuity-feedback{visibility:hidden}
+#ingenuity-discovery{position:fixed;inset:0;z-index:20;pointer-events:none;color:#dcfff1}
+#ingenuity-discovery[hidden]{display:none}#ingenuity-discovery svg{position:absolute;width:100%;height:100%;overflow:hidden}#ingenuity-discovery path{fill:#95f4d00a;stroke:#a6ffe0;stroke-width:2;stroke-dasharray:14 5;filter:drop-shadow(0 0 4px #65e6bd)}
+#ingenuity-discovery section{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:14dvh;max-width:min(370px,80vw);padding:12px 16px;background:#172a29df;border-left:2px solid #a6ffe0;border-radius:2px}
+#ingenuity-discovery small{display:block;font-size:10px;letter-spacing:.16em;color:#a6dfc9}#ingenuity-discovery strong{display:block;font-size:clamp(18px,3vw,25px);margin:4px 0}#ingenuity-discovery p{font-size:14px;line-height:1.35;margin:0}
+@media(max-height:450px){#ingenuity-discovery section{max-width:300px;padding:8px 12px}#ingenuity-discovery p{font-size:12px}}

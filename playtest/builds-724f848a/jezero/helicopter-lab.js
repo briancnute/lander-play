@@ -1,3 +1,4 @@
+import {startDiscovery,stepDiscovery} from './helicopter-discoveries.js';
 import {flightReference,flightCeiling} from './helicopter-course.js';
 import {spawnReactionTarget,resolveReactionPlane,reactionTargetsComplete} from './helicopter-reactions.js';
 import {helicopterPose,followRelayHelicopter} from './relay-helicopter.js';
@@ -68,6 +69,7 @@ export function followIngenuityLanding(camera,pose,dt,ground,pad,heading,film){
 
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
+ if(f.phase==='site-film'){stepDiscovery(f,dt);return {...helicopterPose(f),air:true};}
  if(f.phase==='launch')return stepLaunch(f,dt,ground,tuning);
  if(f.phase==='landing-cutscene')return stepLandingFilm(f,dt,ground);
  const t=labTune(f.finishTune??tuning),before={x:f.x,y:f.y,z:f.z,distance:f.distance??0},steer=clamp(input.steer||0,-1,1),down=!!(input.brake||input.special),up=!!input.drive&&!down;
@@ -90,6 +92,7 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  for(const p of [activeFlightTarget(f)].filter(Boolean)){const dx=f.x-before.x,dy=f.y-before.y,dz=f.z-before.z,n=dx*dx+dy*dy+dz*dz,a=n?clamp(((p.x-before.x)*dx+(p.y-before.y)*dy+(p.z-before.z)*dz)/n,0,1):0;if(Math.hypot(p.x-before.x-dx*a,p.y-before.y-dy*a,p.z-before.z-dz*a)<=85){p.collected=true;f.collected++;f.feedback={text:"TARGET COLLECTED · "+f.collected+" / "+f.pods.length,time:f.time};}}
  for(const p of f.pods)if(!p.collected&&!p.passed&&Number.isFinite(p.s)&&f.distance>p.s+100){p.passed=true;f.feedback={text:"TARGET MISSED",time:f.time};}
  }
+ startDiscovery(f);
  if(f.course&&f.distance>=finishS&&flightTargetsComplete(f))startLandingFilm(f,ground);
  return {...helicopterPose(f),air:f.phase!=='landed'};
 }
