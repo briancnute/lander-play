@@ -372,4 +372,4 @@ draw(0);window.AstraLoading?.ready();
 
 bindSurfaceTime(datedSun,document.querySelector('.light-buttons'),value=>{datedSun=value;if(state){lighting();if(ready)draw(0);}});
 
-const launchLight=new URLSearchParams(location.search).get('surfaceLight');if(isV2&&['day','dusk','night'].includes(launchLight))document.querySelector(`[data-light="${launchLight}"]`)?.click();
+const launchLight=new URLSearchParams(location.search).get('surfaceLight');if(ready&&isV2&&['day','dusk','night'].includes(launchLight))document.querySelector(`[data-light="${launchLight}"]`)?.click();
