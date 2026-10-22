@@ -51,7 +51,7 @@ export function followIngenuityFlight(camera,pose,dt,ground){
  camera.pitch=Math.atan2(camera.eye-pose.z,back)-Math.atan2(78,185)+.14;return camera;
 }
 export function followIngenuityLaunch(camera,pose,ground,launch){
- const t=smooth(clamp(launch.elapsed/3,0,1)),h=pose.heading-.55*(1-t),back=340-80*t;
+ const t=smooth(clamp(launch.elapsed/3,0,1)),h=pose.heading,back=220-35*t;
  Object.assign(camera,{x:pose.x-Math.sin(h)*back,y:pose.y+Math.cos(h)*back,eye:Math.max(pose.z+78,ground(pose.x-Math.sin(h)*back,pose.y+Math.cos(h)*back)+30),heading:h,pitch:.14,zoom:1,live:true});return camera;
 }
 export function followIngenuityLanding(camera,pose,dt,ground,pad,heading,film){
