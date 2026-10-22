@@ -1,3 +1,4 @@
+import {flightFrame} from './helicopter-path.js';
 import {flightMapFrame} from './helicopter-map.js';
 const clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=x=>{const t=clamp(x);return t*t*(3-2*t);};
@@ -17,4 +18,4 @@ export function frameRouteIntro(camera,f,ground){
  if(a.skip)view=mix(a.skip.from??view,launch,smooth(a.skip.elapsed/.8));
  view.eye=Math.max(view.eye,ground(view.x,view.y)+30);a.view={...view};Object.assign(camera,view,{terrainRange:Math.max(9000,c.length*1.25)});return camera;
 }
-export function introValleyOutline(course,ground){const h=course.start.heading,middle={x:(course.start.x+course.finish.x)/2-Math.sin(h)*140,y:(course.start.y+course.finish.y)/2+Math.cos(h)*140},length=course.length/2+420;return Array.from({length:65},(_,i)=>{const angle=i*Math.PI/32,along=Math.cos(angle)*length,side=Math.sin(angle)*1100*(.92+.08*Math.cos(angle*3)),x=middle.x+Math.sin(h)*along+Math.cos(h)*side,y=middle.y-Math.cos(h)*along+Math.sin(h)*side;return {x,y,z:ground(x,y)+12};});}
+export function introValleyOutline(course,ground){if(course.curved)return Array.from({length:65},(_,i)=>{const angle=i*Math.PI/32,p=flightFrame(course,-300+(course.length+600)*(1+Math.cos(angle))/2),side=Math.sin(angle)*(course.halfWidth+430),x=p.x+Math.cos(p.heading)*side,y=p.y+Math.sin(p.heading)*side;return {x,y,z:ground(x,y)+12};});const h=course.start.heading,middle={x:(course.start.x+course.finish.x)/2-Math.sin(h)*140,y:(course.start.y+course.finish.y)/2+Math.cos(h)*140},length=course.length/2+420;return Array.from({length:65},(_,i)=>{const angle=i*Math.PI/32,along=Math.cos(angle)*length,side=Math.sin(angle)*1100*(.92+.08*Math.cos(angle*3)),x=middle.x+Math.sin(h)*along+Math.cos(h)*side,y=middle.y-Math.cos(h)*along+Math.sin(h)*side;return {x,y,z:ground(x,y)+12};});}

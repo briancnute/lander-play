@@ -1,0 +1,59 @@
+{
+  "source": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+  "retrieved": "2026-10-22",
+  "sha256": "e51ea04ff999f6d1058fd4221f419ac84873825e4f8877cfea96b289fc6ab550",
+  "note": "Latest published waypoint when retrieved; fixed dated snapshot, not live tracking. Shared rover traverse remains unchanged.",
+  "feature": {
+    "type": "Feature",
+    "properties": {
+      "RMC": "92_0",
+      "site": 92,
+      "drive": 0,
+      "sol": 2009,
+      "easting": 4342236.965,
+      "northing": 1092764.296,
+      "elev_geoid": -1937.453125,
+      "elev_radii": -9999.0,
+      "radius": -9999.0,
+      "lon": 77.23287536,
+      "lat": 18.43559464,
+      "roll": 8.94687255,
+      "pitch": 3.563454016,
+      "yaw": 93.21437784,
+      "yaw_rad": 1.626897803,
+      "tilt": 9.625036577,
+      "dist_m": 6.258,
+      "dist_total_m": 45223.649,
+      "dist_km": 45.22,
+      "dist_mi": 28.1,
+      "final": "y",
+      "Note": "End-of-drive localization",
+      "images": [
+        {
+          "name": "Panorama",
+          "isPanoramic": true,
+          "url": "Layers/mosaics/N_LRGB_2009_RZS_0920000_CYL_L_AUTOGENJ02.jpg",
+          "rows": "2173",
+          "columns": "9292",
+          "azmin": "0.0",
+          "azmax": "360.0",
+          "elmin": "-66.5713",
+          "elmax": "17.6151",
+          "elzero": "455.678"
+        }
+      ]
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        77.23287536,
+        18.43559464,
+        -1937.453125
+      ]
+    }
+  },
+  "game": {
+    "x": -26168.327636810533,
+    "y": 9618.864094305689
+  }
+}
