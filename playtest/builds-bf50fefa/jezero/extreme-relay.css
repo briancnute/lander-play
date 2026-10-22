@@ -92,3 +92,9 @@ body.helicopter-lab #relay-flight-briefing{width:min(800px,calc(100vw - 32px))}#
 .ingenuity-flight-site span{font:500 11px/1.2 system-ui;letter-spacing:.035em;max-width:166px;text-shadow:0 1px 3px #192921,0 0 5px #192921}
 .ingenuity-flight-site.label-left{flex-direction:row-reverse;transform:translate(calc(-100% + 9px),-50%)}
 @media(max-height:500px){.ingenuity-flight-site span{font-size:10px}}
+
+.ingenuity-flight-site small{display:block;font-size:9px;line-height:1.4;letter-spacing:0;opacity:.8;margin-top:2px}
+
+.ingenuity-flight-site.edge-indicator i{border-radius:0;width:10px;height:10px;border-width:0 1px 1px 0;transform:rotate(45deg);margin:3px}
+
+@media(orientation:portrait){body.helicopter-lab::before,body.helicopter-lab::after{height:2dvh}}

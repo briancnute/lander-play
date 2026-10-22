@@ -1,3 +1,4 @@
+import {flightFrame} from './helicopter-path.js';
 import {stepRouteIntro} from './helicopter-intro.js';
 import {stepDiscovery} from './helicopter-discoveries.js';
 import {flightReference,flightCeiling} from './helicopter-course.js';
@@ -13,7 +14,7 @@ export const flightTargetsComplete=reactionTargetsComplete;
 const smooth=t=>t*t*(3-2*t);
 export function labLandingCue(f){return f.phase==='landing-cutscene'?'FLIGHT COMPLETE':'CROSS THE FINISH LINE · '+Math.ceil(Math.max(0,(f.course.finishS??f.course.length)-f.distance));}
 export function startLabLaunch(f,ground,tuning){
- const speed=labTune(tuning).speed,start=f.course.start;
+ const speed=labTune(tuning).speed,start=f.course.start;f.heading=start.heading??f.heading;
  f.distance=-speed;f.x=start.x+Math.sin(f.heading)*f.distance;f.y=start.y-Math.cos(f.heading)*f.distance;
  const padZ=Math.max(ground(f.x,f.y),...Array.from({length:24},(_,i)=>ground(f.x+Math.cos(i*Math.PI/12)*85,f.y+Math.sin(i*Math.PI/12)*85)))+2;
  f.phase='launch';f.launch={elapsed:0,speed,padZ,startZ:padZ+25,endZ:Math.max(ground(start.x,start.y),flightReference(f.course,0))+(f.course.launchHeight??130)};
@@ -81,8 +82,9 @@ export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(f.feedback&&f.time-f.feedback.time>1.1)f.feedback=null;
  const travel=Math.min(t.speed*dt,Math.max(0,finishS-(f.distance??0)));f.v=travel/dt;
  f.distance=(f.distance??0)+travel;if(steer*f.sideV<0)f.sideV=0;f.sideV=steer?approach(f.sideV,steer*t.strafe,t.strafeAcceleration*dt):0;f.bank+=(steer*.5-f.bank)*(1-Math.exp(-dt*7));
- f.x+=(Math.sin(f.heading)*(travel/dt)+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*(travel/dt)+Math.sin(f.heading)*f.sideV)*dt;
- if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-(f.course.halfWidth??700),f.course.halfWidth??700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}
+ if(f.course?.curved){const oldFrame=flightFrame(f.course,before.distance),frame=flightFrame(f.course,f.distance),oldSide=(before.x-oldFrame.x)*Math.cos(oldFrame.heading)+(before.y-oldFrame.y)*Math.sin(oldFrame.heading),side=oldSide+f.sideV*dt,bounded=clamp(side,-f.course.halfWidth,f.course.halfWidth);f.heading=frame.heading;f.x=frame.x+Math.cos(frame.heading)*bounded;f.y=frame.y+Math.sin(frame.heading)*bounded;if(side!==bounded)f.sideV=0;}
+ else{f.x+=(Math.sin(f.heading)*(travel/dt)+Math.cos(f.heading)*f.sideV)*dt;f.y+=(-Math.cos(f.heading)*(travel/dt)+Math.sin(f.heading)*f.sideV)*dt;
+ if(f.course){const cx=f.course.start.x+Math.sin(f.heading)*f.distance,cy=f.course.start.y-Math.cos(f.heading)*f.distance,side=(f.x-cx)*Math.cos(f.heading)+(f.y-cy)*Math.sin(f.heading),bounded=clamp(side,-(f.course.halfWidth??700),f.course.halfWidth??700);f.x=cx+Math.cos(f.heading)*bounded;f.y=cy+Math.sin(f.heading)*bounded;if(side!==bounded)f.sideV=0;}}
  // Opposite thrust responds immediately; Down wins overlapping altitude inputs.
  if((down&&f.vz>0)||(up&&f.vz<0))f.vz=0;
  f.vz=up||down?approach(f.vz,up?t.up:-t.down,t.verticalAcceleration*dt):0;f.z+=f.vz*dt+flightReference(f.course,f.distance)-flightReference(f.course,before.distance);

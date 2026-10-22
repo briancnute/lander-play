@@ -24,7 +24,7 @@ function rod(out,a,b,r,color,sides=8){
  const v=[n[1]*u[2]-n[2]*u[1],n[2]*u[0]-n[0]*u[2],n[0]*u[1]-n[1]*u[0]],point=(p,t)=>p.map((x,i)=>x+r*(Math.cos(t)*u[i]+Math.sin(t)*v[i]));
  for(let i=0;i<sides;i++){const t=i*2*Math.PI/sides,t2=(i+1)*2*Math.PI/sides,p=point(a,t),q=point(a,t2),s=point(b,t),w=point(b,t2);triangle(out,p,s,w,color);triangle(out,p,w,q,color);triangle(out,a,q,p,color);triangle(out,b,s,w,color);}
 }
-function perseveranceBody(){
+export function perseveranceBody(){
  const a=[],white=[.80,.78,.70],silver=[.55,.57,.55],dark=[.17,.19,.18],gold=[.60,.46,.24];
  const outline=[[-2.5,-3.5],[2.5,-3.5],[3,-2.7],[3,2.55],[2.35,3.5],[-2.35,3.5],[-3,2.55],[-3,-2.7]];
  const lower=outline.map(([x,y])=>[x*.88,y*.9,2]),upper=outline.map(([x,y])=>[x,y,3.65]);

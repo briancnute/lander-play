@@ -1,3 +1,4 @@
+import {flightFrame,flightSide} from './helicopter-path.js';
 import {recordCaptureFlow} from './helicopter-engagement.js';
 import {flightReference,flightCeiling} from './helicopter-course.js';
 // Targets are authored at the next grab plane from the player's ACTUAL state.
@@ -15,14 +16,14 @@ function reachable(v,held,negative,positive,acceleration,seconds,latency){
 }
 export function spawnReactionTarget(f,ground,tuning,random=f.reactionRandom??Math.random){
  const p=f.pods.find(p=>!p.spawned&&!p.resolved&&!p.passed);if(!p||f.distance<(p.revealS??0))return null;
- const c=f.course,h=f.heading,limit=c.halfWidth??700,targetLimit=limit-100,seconds=Math.max(.05,(p.s-f.distance)/tuning.speed),cx=c.start.x+Math.sin(h)*p.s,cy=c.start.y-Math.cos(h)*p.s;
- const originSide=(f.x-c.start.x-Math.sin(h)*f.distance)*Math.cos(h)+(f.y-c.start.y+Math.cos(h)*f.distance)*Math.sin(h);
+ const c=f.course,frame=flightFrame(c,p.s),h=frame.heading,limit=c.halfWidth??700,targetLimit=limit-100,seconds=Math.max(.05,(p.s-f.distance)/tuning.speed),cx=frame.x,cy=frame.y;
+ const originSide=flightSide(f);
  const range=reachable(f.sideV,(f.steerCommand??0)*tuning.strafe,tuning.strafe,tuning.strafe,tuning.strafeAcceleration,seconds,REACTION_TARGET.lateralReaction);
  let low=Math.max(-targetLimit,originSide+range[0]+8),high=Math.min(targetLimit,originSide+range[1]-8);if(low>high){low=Math.max(-limit,originSide+range[0]);high=Math.min(limit,originSide+range[1]);}if(low>high)low=high=clamp(originSide+(range[0]+range[1])/2,-limit,limit);
  let direction=p.beat==='drift'&&f.driftDirection?f.driftDirection:random()<.5?-1:1;if(direction<0&&low>=originSide)direction=1;if(direction>0&&high<=originSide)direction=-1;
  if(p.beat==='drift')f.driftDirection=direction;
  const magnitude=(p.beat==='drift'?190:220)+random()*80,goal=clamp(originSide+direction*magnitude,Math.min(low,high),Math.max(low,high));
- p.x=cx+Math.cos(h)*goal;p.y=cy+Math.sin(h)*goal;
+ p.x=cx+Math.cos(h)*goal;p.y=cy+Math.sin(h)*goal;p.heading=h;
  if(!f.heightDirection)f.heightDirection=random()<.5?-1:1;else if(random()<.45)f.heightDirection*=-1;
  const vertical=reachable(f.vz,(f.verticalCommand??0)>0?tuning.up:(f.verticalCommand??0)<0?-tuning.down:0,tuning.down,tuning.up,tuning.verticalAcceleration,seconds,REACTION_TARGET.heightReaction);
  const shift=flightReference(c,p.s)-flightReference(c,f.distance),referenceZ=f.z+shift,floor=Math.max(ground(p.x,p.y)+(c.targetClearance??120),flightReference(c,p.s)+(c.targetMinHeight??90)),ceiling=flightCeiling(c,p.s)-(c.targetTopMargin??60),allowance=REACTION_TARGET.verticalRadius*.5;
@@ -34,18 +35,18 @@ export function spawnReactionTarget(f,ground,tuning,random=f.reactionRandom??Mat
 export function resolveReactionPlane(f,before,ground,tuning){
  const p=f.pods.find(p=>p.spawned&&!p.resolved&&!p.passed);if(!p||f.distance<p.s)return;
  const progress=f.distance-before.distance,a=progress?clamp((p.s-before.distance)/progress,0,1):1,x=before.x+(f.x-before.x)*a,y=before.y+(f.y-before.y)*a,z=before.z+(f.z-before.z)*a;
- const side=(x-p.x)*Math.cos(f.heading)+(y-p.y)*Math.sin(f.heading);
+ const side=(x-p.x)*Math.cos(p.heading??f.heading)+(y-p.y)*Math.sin(p.heading??f.heading);
  p.collected=(side/REACTION_TARGET.horizontalRadius)**2+((z-p.z)/REACTION_TARGET.verticalRadius)**2<=1;p.passed=!p.collected;p.resolved=true;
  recordCaptureFlow(f,p.collected);
  if(p.collected){f.collected++;f.lastCollection={x,y,z};}f.feedback={kind:p.collected?'hit':'miss',target:{x:p.x,y:p.y,z:p.z},heading:f.heading,streak:f.captureStreak??0,text:p.collected?'TARGET COLLECTED · '+f.collected+' / '+f.pods.length:'TARGET MISSED',time:f.time};
  spawnReactionTarget(f,ground,tuning);if(reactionTargetsComplete(f)){f.finishGate=createFinishZone(f,ground,tuning);f.finishTune={...tuning};}
 }
 export function createFinishZone(f,ground,tuning){
- const c=f.course,h=f.heading,limit=c.halfWidth??700,seconds=Math.max(0,(c.finishS-f.distance)/tuning.speed),station=c.finishS;
- const side=(f.x-c.start.x)*Math.cos(h)+(f.y-c.start.y)*Math.sin(h);
+ const c=f.course,h=c.finishLine.heading,limit=c.halfWidth??700,seconds=Math.max(0,(c.finishS-f.distance)/tuning.speed),station=c.finishS;
+ const side=flightSide(f);
  const horizontal=[motion(f.sideV,-tuning.strafe,tuning.strafeAcceleration,seconds).distance,motion(f.sideV,tuning.strafe,tuning.strafeAcceleration,seconds).distance];
  const left=clamp(side+horizontal[0],-limit,limit),right=clamp(side+horizontal[1],-limit,limit),middle=(left+right)/2;
  const base=f.z+flightReference(c,station)-flightReference(c,f.distance),terrain=Math.min(...Array.from({length:17},(_,i)=>{const lateral=left+(right-left)*i/16;return ground(c.finishLine.x+Math.cos(h)*lateral,c.finishLine.y+Math.sin(h)*lateral)+tuning.clearance;}));
  const bottom=Math.max(terrain,base+motion(f.vz,-tuning.down,tuning.verticalAcceleration,seconds).distance),top=Math.max(bottom,Math.min(flightCeiling(c,station),base+motion(f.vz,tuning.up,tuning.verticalAcceleration,seconds).distance));
- return {x:c.finishLine.x+Math.cos(h)*middle,y:c.finishLine.y+Math.sin(h)*middle,z:(bottom+top)/2,left,right,bottom,top,width:Math.max(1,right-left),height:Math.max(1,top-bottom),origin:{x:f.x,y:f.y,z:f.z,distance:f.distance},seconds};
+ return {heading:h,x:c.finishLine.x+Math.cos(h)*middle,y:c.finishLine.y+Math.sin(h)*middle,z:(bottom+top)/2,left,right,bottom,top,width:Math.max(1,right-left),height:Math.max(1,top-bottom),origin:{x:f.x,y:f.y,z:f.z,distance:f.distance},seconds};
 }
