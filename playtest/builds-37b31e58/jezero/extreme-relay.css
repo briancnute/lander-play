@@ -80,3 +80,7 @@ body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed
 
 body.helicopter-lab #relay-flight-briefing{width:min(800px,calc(100vw - 32px))}#helicopter-course-map{height:min(44dvh,350px)}.ingenuity-flight-help{font-size:13px;margin:8px 0}.ingenuity-flight-help summary{cursor:pointer;color:#bfe7cc}.ingenuity-flight-help .flight-lessons{margin-top:10px}
 @media(max-height:480px){body.helicopter-lab #relay-flight-briefing .ingenuity-flight-help{grid-column:1}body.helicopter-lab #helicopter-course-map{height:150px;grid-row:1 / 6}}
+
+#ingenuity-intro-map{inset:auto;box-shadow:0 0 0 100vmax #07100be6}
+#ingenuity-route-title{position:fixed;z-index:21;pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%) scaleX(1.05);font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-size:clamp(16px,3.5vw,44px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.18em;color:#e2fff3;text-shadow:0 0 16px #5cc8a6,0 2px 4px #152d26}
+#ingenuity-route-title[hidden]{display:none}.ingenuity-route-intro #ingenuity-discovery section{display:none}
