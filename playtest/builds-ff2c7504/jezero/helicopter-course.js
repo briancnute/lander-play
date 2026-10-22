@@ -21,14 +21,4 @@ export function buildJezeroFlightCourse(tour,ground,id='canyon-run'){
  const finishS=length-260,finishLine={...atDistance(points,finishS),z:padZ+130};
  return {...route,padZ,ceilingZ,altitudeProfile,finishS,finishLine,reactionTargets:true,start:{...start,heading:atDistance(points,0).heading},finish,points,length,pods,gates:[],mapBounds:{minX:Math.min(start.x,finish.x)-1800,width:Math.max(start.x,finish.x)+1800,minY:Math.min(start.y,finish.y)-1800,maxY:Math.max(start.y,finish.y)+1800},context:tour.checkpoints.map(p=>({x:p.x,y:p.y})),kind:'flight'};
 }
-export function mountFlightRouteMap(course){
- const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),b=course.mapBounds,w=b.width-b.minX,h=b.maxY-b.minY,pad=Math.max(w,h)*.06;
- svg.id='helicopter-course-map';svg.setAttribute('viewBox',`${b.minX-pad} ${b.minY-pad} ${w+pad*2} ${h+pad*2}`);svg.setAttribute('role','img');svg.setAttribute('aria-label',course.name+' route; future targets are hidden');
- const element=(name,attrs)=>{const e=document.createElementNS(ns,name);for(const [key,value]of Object.entries(attrs))e.setAttribute(key,String(value));svg.append(e);return e;};
- element('rect',{x:b.minX,y:b.minY,width:w,height:h,fill:'#203c35',stroke:'#6b8c7c','stroke-width':Math.max(w,h)*.004});
- element('path',{d:`M ${course.context.map(p=>`${p.x} ${p.y}`).join(' L ')}`,stroke:'#66786b','stroke-width':Math.max(w,h)*.006,fill:'none'});
- element('path',{d:`M ${course.points.map(p=>`${p.x} ${p.y}`).join(' L ')}`,stroke:'#76e5d9','stroke-width':Math.max(w,h)*.012,fill:'none'});
-
- for(const [p,label] of [[course.start,'START'],[course.finish,'LANDING']]){element('circle',{cx:p.x,cy:p.y,r:Math.max(w,h)*.017,fill:'#bfe7cc'});element('text',{x:p.x,y:p.y+Math.max(w,h)*.09,fill:'#eff5df','font-size':Math.max(w,h)*.055,'text-anchor':'middle'}).textContent=label;}
- return svg;
-}
+export {mountFlightOverview as mountFlightRouteMap} from './helicopter-map.js';

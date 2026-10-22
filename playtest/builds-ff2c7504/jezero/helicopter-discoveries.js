@@ -6,7 +6,8 @@ export const FLIGHT_DISCOVERIES={
  'kodiak-approach':[{after:4,id:'kodiak',name:'Kodiak',fact:'This isolated delta remnant preserves layers from Jezero’s ancient lake.',x:5427.2,y:8832,radius:180},{after:7,id:'landing',name:'Octavia E. Butler Landing',fact:'Perseverance touched down here on February 18, 2021.',x:13055.669,y:7905.586,radius:90}],
  'western-frontier':[{after:4,id:'frontier',name:'Western Frontier',fact:'Beyond Jezero’s western rim: an unnamed crater, and new ground to explore.',x:-31400,y:4500,radius:430}]
 };
-export function pendingDiscovery(f){const count=f.pods.filter(p=>p.resolved||p.passed).length;return FLIGHT_DISCOVERIES[f.course?.id]?.find(p=>p.after===count&&!f.discoveries?.includes(p.id));}
+// Geography is introduced before takeoff; flight stays uninterrupted.
+export function pendingDiscovery(){return null;}
 export function startDiscovery(f){const site=pendingDiscovery(f);if(!site)return false;f.discoveries??=[];f.discoveries.push(site.id);f.siteFilm={site,elapsed:0,duration:6.6};f.phase='site-film';f.feedback=null;f.vz=f.sideV=f.bank=0;f.steerCommand=f.verticalCommand=0;return true;}
 export function discoveryLetterbox(f){const a=f.siteFilm;return a?Math.min(smooth(a.elapsed/.7),smooth((a.duration-a.elapsed)/.8)):0;}
 export function stepDiscovery(f,dt){const a=f.siteFilm;a.elapsed=Math.min(a.duration,a.elapsed+dt);if(a.elapsed>=a.duration-1e-8){f.phase='flying';f.siteFilm=null;} }

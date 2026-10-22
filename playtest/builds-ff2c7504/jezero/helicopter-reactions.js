@@ -1,4 +1,3 @@
-import {pendingDiscovery} from './helicopter-discoveries.js';
 import {recordCaptureFlow} from './helicopter-engagement.js';
 import {flightReference,flightCeiling} from './helicopter-course.js';
 // Targets are authored at the next grab plane from the player's ACTUAL state.
@@ -15,7 +14,6 @@ function reachable(v,held,negative,positive,acceleration,seconds,latency){
  return [drift.distance+motion(drift.velocity,-negative,acceleration,remaining).distance,drift.distance+motion(drift.velocity,positive,acceleration,remaining).distance];
 }
 export function spawnReactionTarget(f,ground,tuning,random=f.reactionRandom??Math.random){
- if(pendingDiscovery(f))return null;
  const p=f.pods.find(p=>!p.spawned&&!p.resolved&&!p.passed);if(!p||f.distance<(p.revealS??0))return null;
  const c=f.course,h=f.heading,limit=c.halfWidth??700,targetLimit=limit-100,seconds=Math.max(.05,(p.s-f.distance)/tuning.speed),cx=c.start.x+Math.sin(h)*p.s,cy=c.start.y-Math.cos(h)*p.s;
  const originSide=(f.x-c.start.x-Math.sin(h)*f.distance)*Math.cos(h)+(f.y-c.start.y+Math.cos(h)*f.distance)*Math.sin(h);

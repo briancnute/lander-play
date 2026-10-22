@@ -74,3 +74,9 @@ body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed
 .ingenuity-route-intro .controls,.ingenuity-route-intro #ingenuity-countdown,.ingenuity-route-intro #mini-map-button,.ingenuity-route-intro #helicopter-lab-toggle,.ingenuity-route-intro #extreme-relay-hud,.ingenuity-route-intro #extreme-relay-cue,.ingenuity-route-intro #ingenuity-feedback{visibility:hidden}
 #ingenuity-skip-intro{min-height:44px;min-width:100px;position:fixed;right:max(24px,env(safe-area-inset-right));bottom:3dvh;z-index:25;padding:8px 16px;border:1px solid #a6dfc9;border-radius:6px;background:#172a29ec;color:#dcfff1;font:inherit;font-size:14px;cursor:pointer}#ingenuity-skip-intro[hidden]{display:none}
 .ingenuity-route-intro #ingenuity-discovery path{fill:#95f4d018}
+
+#ingenuity-intro-map{position:fixed;inset:0;width:100%;height:100%;z-index:19;pointer-events:none}#ingenuity-intro-map[hidden]{display:none}
+#helicopter-course-map{height:220px}
+
+body.helicopter-lab #relay-flight-briefing{width:min(800px,calc(100vw - 32px))}#helicopter-course-map{height:min(44dvh,350px)}.ingenuity-flight-help{font-size:13px;margin:8px 0}.ingenuity-flight-help summary{cursor:pointer;color:#bfe7cc}.ingenuity-flight-help .flight-lessons{margin-top:10px}
+@media(max-height:480px){body.helicopter-lab #relay-flight-briefing .ingenuity-flight-help{grid-column:1}body.helicopter-lab #helicopter-course-map{height:150px;grid-row:1 / 6}}
