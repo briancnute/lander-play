@@ -1,3 +1,4 @@
+import {stepRouteIntro} from './helicopter-intro.js';
 import {startDiscovery,stepDiscovery} from './helicopter-discoveries.js';
 import {flightReference,flightCeiling} from './helicopter-course.js';
 import {spawnReactionTarget,resolveReactionPlane,reactionTargetsComplete} from './helicopter-reactions.js';
@@ -69,6 +70,7 @@ export function followIngenuityLanding(camera,pose,dt,ground,pad,heading,film){
 
 export function stepLabHelicopter(f,input,dt,ground,tuning){
  if(!Number.isFinite(dt)||dt<=0||f.phase==='landed')return {...helicopterPose(f),air:f.phase!=='landed'};
+ if(f.phase==='route-intro'){stepRouteIntro(f,dt);return {...helicopterPose(f),air:false};}
  if(f.phase==='site-film'){stepDiscovery(f,dt);return {...helicopterPose(f),air:true};}
  if(f.phase==='launch')return stepLaunch(f,dt,ground,tuning);
  if(f.phase==='landing-cutscene')return stepLandingFilm(f,dt,ground);

@@ -70,3 +70,7 @@ body.helicopter-lab::before,body.helicopter-lab::after{content:"";position:fixed
 #ingenuity-discovery section{position:absolute;left:max(24px,env(safe-area-inset-left));bottom:14dvh;max-width:min(370px,80vw);padding:12px 16px;background:#172a29df;border-left:2px solid #a6ffe0;border-radius:2px}
 #ingenuity-discovery small{display:block;font-size:10px;letter-spacing:.16em;color:#a6dfc9}#ingenuity-discovery strong{display:block;font-size:clamp(18px,3vw,25px);margin:4px 0}#ingenuity-discovery p{font-size:14px;line-height:1.35;margin:0}
 @media(max-height:450px){#ingenuity-discovery section{max-width:300px;padding:8px 12px}#ingenuity-discovery p{font-size:12px}}
+
+.ingenuity-route-intro .controls,.ingenuity-route-intro #ingenuity-countdown,.ingenuity-route-intro #mini-map-button,.ingenuity-route-intro #helicopter-lab-toggle,.ingenuity-route-intro #extreme-relay-hud,.ingenuity-route-intro #extreme-relay-cue,.ingenuity-route-intro #ingenuity-feedback{visibility:hidden}
+#ingenuity-skip-intro{min-height:44px;min-width:100px;position:fixed;right:max(24px,env(safe-area-inset-right));bottom:3dvh;z-index:25;padding:8px 16px;border:1px solid #a6dfc9;border-radius:6px;background:#172a29ec;color:#dcfff1;font:inherit;font-size:14px;cursor:pointer}#ingenuity-skip-intro[hidden]{display:none}
+.ingenuity-route-intro #ingenuity-discovery path{fill:#95f4d018}
