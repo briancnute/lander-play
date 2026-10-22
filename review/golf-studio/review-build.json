@@ -1,0 +1,25 @@
+{
+  "source": "fdbc778e7652446aa16766ecb44676f39d335b2d",
+  "files": {
+    "assets/SpecialRunBook-C_hbUhHg.js": "0478b8c010c31aaf35103b73e135f387e971d4c5d7f76b49da27d98f822e0038",
+    "assets/browserInput-BBHdG_eQ.js": "bcdc969c51b4d503ef8bb8458d0a1dd904d97cfa1e2938132a99b016c7d45339",
+    "assets/earthGolf-CGdlNyQg.js": "d88781c9384509a3339017e7bfa4e91beb2f4b67041195988daf4aa0e7402e10",
+    "assets/earthGolf-DpupnCSG.js": "7abaea63e56787a0ef23d91f4cc50eb480cac312948ebea56e806d22b882b7fc",
+    "assets/earthGolf-Dup5lmir.css": "405bb9e4ed76a98d28b5f744cd8add80e6b8b43f6cdb275a61da02c04f0538dd",
+    "assets/game-starts-QqQvrHY9.js": "07c12719cab409ce4e7d84b6eda0f97b47a140f086605a8f64bf338a9c219414",
+    "assets/golfAim-Ce80GpTf.js": "7e363827508dcac548e5263bf4564347ec20878b472a01a4a8838381e1d3934e",
+    "assets/golfDesign-45CRZz7r.js": "a0a6fb1f8aee0a06a8c27e34d1c24770daa6518d8942514f2d0c9661f55b8caa",
+    "assets/lunarCourse-BJyXAqXI.js": "ec02fa442a2ce604559860d61d93dfb03de25e8999578fa65d1ae7daa152741d",
+    "assets/moonGolfCourse-DANjUM22.js": "558e67a3b3ae96d278860da5d47ab187cfb976f44b0cfbb75bd83132971a28ac",
+    "assets/playable-course-yV8ptFST.jpg": "8f6c798a14864a747ca1bcd51a790e80a3bf91354179a8a5b5a814cd4d5330fa",
+    "assets/three.module-BGrGSBXR.js": "b7448f36f541007347b21d37c4bd4397e173f15dab1ff2a59c038af9bdc0446e",
+    "earth-golf/index.html": "f655e77da2b65fedc1c657b7738d2ef40fb54a1a88825fe2fddedc7c1f3237bb",
+    "loading-planets/earth-d1171f7777a5.webp": "d1171f7777a56af359fc2b1ac1c85a4e445c5e73f62fbe0fe7dcab9e66501665",
+    "loading-planets/mars-a8a50f64d8a2.webp": "a8a50f64d8a268451e9cddd107dc736c826504e0ba1ad116b1111ffa4032fdf9",
+    "loading-planets/mercury-96129024c665.webp": "96129024c66535cd4a546a318769e0a692e3deb8facee3217e6668f1726c0ad3",
+    "loading-planets/moon-b5759e2d8a38.webp": "b5759e2d8a38becba681d86e5d4e9c42bd808dc501ce80c4e5b3dbfce92a2258",
+    "loading-planets/venus-455fea83d00e.webp": "455fea83d00ed34bd095814202dccabfa3bbad6a611603a255d268a9c6b214f5",
+    "loading-screen.css": "2309d2639df9f9f4bcd9a0307ae7f07ee1a4aa6b0183b1ceb043424bb4c82c9a",
+    "loading-screen.js": "8e9482856ad31e9ea6785f11979ef81f0345198b1acad3ee28ec2d7a28565881"
+  }
+}
