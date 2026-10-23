@@ -1,0 +1,1 @@
+var e=new URL(`../playtest/builds-ee6f799d/jezero/index.html?v2=1&activity=helicopter-lab&surfaceLight=day`,location.href),t=new URLSearchParams(location.search).get(`flight`);t&&e.searchParams.set(`flight`,t),location.replace(e);
