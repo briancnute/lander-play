@@ -1,1 +1,0 @@
-import{n as e}from"./game-DH_h82zt.js";function t(){return e(`surface:earth-golf`,`Earth · ASTRA Golf Studio`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
