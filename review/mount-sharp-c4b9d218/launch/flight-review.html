@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ASTRA · Playdeck flight tutorial</title>  
+  <script type="module" crossorigin src="../assets/flightReview-k8nnFZ4z.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="../assets/moonGolfCourse-CKiYQSwL.js">
+  <link rel="modulepreload" crossorigin href="../assets/lunarCourse-BA9F72FH.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightV21-CQRwJflN.js">
+  <link rel="modulepreload" crossorigin href="../assets/collector-CIzd_PQl.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightTuning-DJnRbxFb.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/earthUnderwater-B68tVwc6.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-Bl7Bwdtb.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-D10mTwXF.js">
+  <link rel="modulepreload" crossorigin href="../assets/FlightSetup-wtJfaG_Z.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-CJm_g_Xe.js">
+  <link rel="modulepreload" crossorigin href="../assets/primaryScoring-Crly2MWr.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-DK_Qw_8p.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="../assets/contact-FuwFdITk.js">
+  <link rel="modulepreload" crossorigin href="../assets/survey-N4KBkE4F.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisFlight-C1EEsenz.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-BGrGSBXR.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisPresentation-tFY_Kt-Q.js">
+  <link rel="modulepreload" crossorigin href="../assets/craft-YONYm_io.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftAppearance-DsifwKBm.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightEquipment-CwbKCGjI.js">
+  <link rel="modulepreload" crossorigin href="../assets/emojiCraft-CHlMK1k6.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusSite-DQA_3wB4.js">
+  <link rel="modulepreload" crossorigin href="../assets/pad-G1V3Vace.js">
+  <link rel="modulepreload" crossorigin href="../assets/Reflector-DDZkkKQg.js">
+  <link rel="modulepreload" crossorigin href="../assets/atmosphere-Bz8qoRSK.js">
+  <link rel="modulepreload" crossorigin href="../assets/pixelCraft-BLRHrUNC.js">
+  <link rel="modulepreload" crossorigin href="../assets/lake-hNtQtuUx.js">
+  <link rel="modulepreload" crossorigin href="../assets/RoundedBoxGeometry-DKuhJw5K.js">
+  <link rel="modulepreload" crossorigin href="../assets/transporter-Bsf_B1rw.js">
+  <link rel="modulepreload" crossorigin href="../assets/camera-HXgMub8l.js">
+  <link rel="modulepreload" crossorigin href="../assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="../assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="../assets/visualSky-BLUknQCY.js">
+  <link rel="modulepreload" crossorigin href="../assets/surfaceSolar-uhWk5G_y.js">
+  <link rel="modulepreload" crossorigin href="../assets/siteLighting-DFnwZBYb.js">
+  <link rel="modulepreload" crossorigin href="../assets/sharedGround-D0_9K103.js">
+  <link rel="modulepreload" crossorigin href="../assets/golfFlag-YDmAL_Ss.js">
+  <link rel="modulepreload" crossorigin href="../assets/carrier-A8MxrqpG.js">
+  <link rel="modulepreload" crossorigin href="../assets/world-BX5o3D7B.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightArena-C4gwyTwA.js">
+  <link rel="modulepreload" crossorigin href="../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../assets/pilotProfile-B2b7qnp2.js">
+  <link rel="modulepreload" crossorigin href="../assets/surveySample-CtoUGcgr.js">
+  <link rel="modulepreload" crossorigin href="../assets/BufferGeometryUtils-1J55UCJr.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryDusk-2accxqnI.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryPickup-BT2XivAI.js">
+  <link rel="modulepreload" crossorigin href="../assets/world-XcQZyHlS.js">
+  <link rel="modulepreload" crossorigin href="../assets/practice-eaGqKslz.js">
+  <link rel="stylesheet" crossorigin href="../assets/flightArena-3eEbJoYN.css">
+  <link rel="stylesheet" crossorigin href="../assets/practice-UJS5m4ef.css">
+  <link rel="stylesheet" crossorigin href="../assets/style-CQRkvgJ5.css">
+</head><body><main id="practice-slot"></main><section id="review" hidden><p>PLAYDECK / FLIGHT TUTORIAL REVIEW</p><h1>Ready for another round?</h1><p>This review covers the flight tutorial only.</p><button id="replay">Replay flight tutorial</button><a href="./">Return to the campaign opening →</a><a href="../playtest/">Playtest →</a></section></body></html>

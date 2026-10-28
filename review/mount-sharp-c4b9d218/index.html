@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>ASTRA</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ASTRA" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#05070d" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preload" href="fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/public-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      /* bundled locally (offline / Capacitor safe) — not a CDN */
+      @font-face {
+        font-family: 'Press Start 2P';
+        src: url('fonts/press-start-2p.woff2') format('woff2');
+        font-display: block;
+      }
+      @font-face {
+        font-family: 'Public Sans';
+        src: url('fonts/public-sans.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: block;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #05070d;
+        overflow: hidden;
+        /* iOS: never let the page scroll under the dynamic toolbar */
+        position: fixed;
+        inset: 0;
+      }
+      #game {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        /* 100vh on iOS includes the strip hidden under Safari's toolbar + home bar, making the
+           canvas TALLER than the visible screen (bottom controls fall off). dvh = the *visible*
+           height; the plain-vh line is the fallback for browsers without dvh. */
+        height: 100vh;
+        height: 100dvh;
+      }
+    </style>
+  <link rel="stylesheet" href="./loading-screen.css?v=1cfbfc2154cb">  
+  <script type="module" crossorigin src="./assets/game-D_AUXbak.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="./assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/golfCourseRound-Du6IsusF.js">
+  <link rel="modulepreload" crossorigin href="./assets/three.module-BGrGSBXR.js">
+  <link rel="modulepreload" crossorigin href="./assets/game-starts-QqQvrHY9.js">
+  <link rel="modulepreload" crossorigin href="./assets/essentialStorage-B7P2TWtx.js">
+  <link rel="modulepreload" crossorigin href="./assets/SpecialRunBook-CkLsT1Qb.js">
+  <link rel="modulepreload" crossorigin href="./assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="./assets/craftAppearance-DsifwKBm.js">
+  <link rel="modulepreload" crossorigin href="./assets/venusSite-DQA_3wB4.js">
+  <link rel="modulepreload" crossorigin href="./assets/collector-CIzd_PQl.js">
+  <link rel="modulepreload" crossorigin href="./assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="./assets/flightTuning-DJnRbxFb.js">
+  <link rel="modulepreload" crossorigin href="./assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="./assets/earthUnderwater-B68tVwc6.js">
+  <link rel="modulepreload" crossorigin href="./assets/storm-Bl7Bwdtb.js">
+  <link rel="modulepreload" crossorigin href="./assets/sim-D10mTwXF.js">
+  <link rel="modulepreload" crossorigin href="./assets/modernFlightSetup-CJm_g_Xe.js">
+  <link rel="modulepreload" crossorigin href="./assets/venusAscent-BbJSr4T6.js">
+  <link rel="modulepreload" crossorigin href="./assets/flightV21-CQRwJflN.js">
+  <link rel="modulepreload" crossorigin href="./assets/flightEquipment-CwbKCGjI.js">
+  <link rel="modulepreload" crossorigin href="./assets/masteryScoring-28QCknFV.js">
+  <link rel="modulepreload" crossorigin href="./assets/FlightSetup-wtJfaG_Z.js">
+  <link rel="modulepreload" crossorigin href="./assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="./assets/flightV3-COHkwoCM.js">
+  <link rel="modulepreload" crossorigin href="./assets/scoreMedal-BAu2Vkxz.js">
+  <link rel="modulepreload" crossorigin href="./assets/sharedFlightSetup-CIPTCAkS.js">
+  <link rel="modulepreload" crossorigin href="./assets/venusLineup-xeDGgZ9L.js">
+  <link rel="modulepreload" crossorigin href="./assets/primaryScoring-Crly2MWr.js">
+  <link rel="modulepreload" crossorigin href="./assets/pressure-DK_Qw_8p.js">
+  <link rel="modulepreload" crossorigin href="./assets/spine-DyfP_qGK.js">
+  <link rel="modulepreload" crossorigin href="./assets/SaveManager-bRKruEtp.js">
+  <link rel="modulepreload" crossorigin href="./assets/venusUnlock-DJzbpBIf.js">
+  <link rel="modulepreload" crossorigin href="./assets/esm-BPhzIRZy.js">
+  <link rel="modulepreload" crossorigin href="./assets/playerBackup-cGoZEq6E.js">
+  <link rel="modulepreload" crossorigin href="./assets/postcardActions-CLUNEFie.js">
+  <link rel="modulepreload" crossorigin href="./assets/siteFacts-blfXwjwM.js">
+  <link rel="modulepreload" crossorigin href="./assets/missionLessons-YXn9ae0E.js">
+  <link rel="modulepreload" crossorigin href="./assets/planetFacts-CbIU0w-n.js">
+  <link rel="modulepreload" crossorigin href="./assets/missionCards-CD02ysg7.js">
+  <link rel="modulepreload" crossorigin href="./assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="./assets/contact-FuwFdITk.js">
+  <link rel="modulepreload" crossorigin href="./assets/survey-N4KBkE4F.js">
+  <link rel="modulepreload" crossorigin href="./assets/thermal-DmAXXsjx.js">
+  <link rel="modulepreload" crossorigin href="./assets/factSheets-HdAopLM-.js">
+  <link rel="modulepreload" crossorigin href="./assets/transferTime-CWAGzyo5.js">
+  <link rel="modulepreload" crossorigin href="./assets/campaignScript-BpCipVtO.js">
+  <link rel="modulepreload" crossorigin href="./assets/devJump-DiUP0XSt.js">
+  <link rel="modulepreload" crossorigin href="./assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="./assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="./assets/camera-HXgMub8l.js">
+  <link rel="modulepreload" crossorigin href="./assets/visualSky-BLUknQCY.js">
+  <link rel="modulepreload" crossorigin href="./assets/surfaceSolar-uhWk5G_y.js">
+  <link rel="modulepreload" crossorigin href="./assets/siteLighting-DFnwZBYb.js">
+  <link rel="modulepreload" crossorigin href="./assets/mercuryDusk-2accxqnI.js">
+  <link rel="modulepreload" crossorigin href="./assets/craft-YONYm_io.js">
+  <link rel="modulepreload" crossorigin href="./assets/emojiCraft-CHlMK1k6.js">
+  <link rel="modulepreload" crossorigin href="./assets/surveySample-CtoUGcgr.js">
+  <link rel="modulepreload" crossorigin href="./assets/pad-G1V3Vace.js">
+  <link rel="modulepreload" crossorigin href="./assets/RoundedBoxGeometry-DKuhJw5K.js">
+  <link rel="modulepreload" crossorigin href="./assets/transporter-Bsf_B1rw.js">
+  <link rel="modulepreload" crossorigin href="./assets/sharedGround-D0_9K103.js">
+  <link rel="modulepreload" crossorigin href="./assets/BufferGeometryUtils-1J55UCJr.js">
+  <link rel="modulepreload" crossorigin href="./assets/mercuryPickup-BT2XivAI.js">
+  <link rel="modulepreload" crossorigin href="./assets/world-XcQZyHlS.js">
+  <link rel="modulepreload" crossorigin href="./assets/moonGolfCourse-CKiYQSwL.js">
+  <link rel="modulepreload" crossorigin href="./assets/moonGolfRoster-BURoYNl-.js">
+  <link rel="modulepreload" crossorigin href="./assets/activityStats-zvDXato0.js">
+  <link rel="modulepreload" crossorigin href="./assets/freeRoamDestinations-CVAEK7Zs.js">
+  <link rel="modulepreload" crossorigin href="./assets/flightEquipment-bHvseNaX.js">
+  <link rel="modulepreload" crossorigin href="./assets/appStorage-CDvUquN1.js">
+  <link rel="modulepreload" crossorigin href="./assets/landscapeLaunch-BKz6F14_.js">
+  <link rel="modulepreload" crossorigin href="./assets/activity-info-Cxm1EzSE.js">
+  <link rel="modulepreload" crossorigin href="./assets/landingLab-at2b4miJ.js">
+  <link rel="modulepreload" crossorigin href="./assets/phaser-CGhF1TR9.js">
+  <link rel="modulepreload" crossorigin href="./assets/encyclopediaCopy-D2PagFfX.js">
+  <link rel="modulepreload" crossorigin href="./assets/Cutscene-B0vYFUXx.js">
+  <link rel="modulepreload" crossorigin href="./assets/roverPrototype-C3wVGGHG.js">
+  <link rel="modulepreload" crossorigin href="./assets/encycloIndex-0uVbAYaL.js">
+  <link rel="modulepreload" crossorigin href="./assets/rotor-DRdrbjJx.js">
+  <link rel="stylesheet" crossorigin href="./assets/sharedFlightSetup-oD2ZcByr.css">
+  <link rel="stylesheet" crossorigin href="./assets/venusUnlock-Bc6ySIZa.css">
+  <link rel="stylesheet" crossorigin href="./assets/playerBackup-DvyoCKn9.css">
+  <link rel="stylesheet" crossorigin href="./assets/postcardActions-PWpP3qaD.css">
+  <link rel="stylesheet" crossorigin href="./assets/activityStats-CbK-7wA6.css">
+  <link rel="stylesheet" crossorigin href="./assets/flightEquipment-BSDVwL6e.css">
+  <link rel="stylesheet" crossorigin href="./assets/encyclopediaCopy-CRxS4Xyw.css">
+  <link rel="stylesheet" crossorigin href="./assets/game-B9jWCYAl.css">
+</head>
+  <body><script src="./loading-screen.js?v=1cfbfc2154cb"></script>
+    <div id="game"></div>
+  </body>
+</html>

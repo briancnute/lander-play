@@ -1,0 +1,1 @@
+var e={mercury:.387,venus:.723,earth:1,moon:1,mars:1.524},t=.01720209895**2;function n(e,n){let r=(e+n)/2;return Math.PI*Math.sqrt(r*r*r/t)}function r(t,r){let i=e[t],a=e[r];if(i===void 0||a===void 0)throw Error(`transferTime: unknown world ${t}→${r}`);let o=(t===`moon`?3:0)+(r===`moon`?3:0);return n(i,a)+o}function i(e,t){return Math.round(r(e,t))}export{i as t};

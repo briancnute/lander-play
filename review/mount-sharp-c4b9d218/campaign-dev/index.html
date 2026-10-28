@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ASTRA · Campaign Dev</title>  
+  <script type="module" crossorigin src="../assets/campaignDev-CEkfTNJE.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="../assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-DK_Qw_8p.js">
+  <link rel="modulepreload" crossorigin href="../assets/spine-DyfP_qGK.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-Bl7Bwdtb.js">
+  <link rel="modulepreload" crossorigin href="../assets/survey-N4KBkE4F.js">
+  <link rel="modulepreload" crossorigin href="../assets/thermal-DmAXXsjx.js">
+  <link rel="modulepreload" crossorigin href="../assets/siteFacts-blfXwjwM.js">
+  <link rel="modulepreload" crossorigin href="../assets/factSheets-HdAopLM-.js">
+  <link rel="modulepreload" crossorigin href="../assets/transferTime-CWAGzyo5.js">
+  <link rel="modulepreload" crossorigin href="../assets/campaignScript-BpCipVtO.js">
+  <link rel="modulepreload" crossorigin href="../assets/devJump-DiUP0XSt.js">
+  <link rel="modulepreload" crossorigin href="../assets/campaignAssets-BqhRLd0S.js">
+  <link rel="stylesheet" crossorigin href="../assets/campaignDev-BYi7fCJH.css">
+</head><body><main id="catalog"><header><a href="../">← Main menu</a><a href="../playtest/">Playtests</a></header><h1>Campaign Dev</h1><p>Jump straight to a scene or level. Reviews use temporary saves; your campaign stays intact.</p><form id="filters"><label>Search<input id="search" type="search" placeholder="Scene, location, activity…"></label><label>World<select id="world"><option value="">All worlds</option></select></label><label>Type<select id="kind"><option value="">All types</option></select></label><label>Status<select id="status"><option value="Current">Current</option><option value="">All</option><option>Legacy</option><option>Planned</option></select></label><button type="reset">Reset</button></form><p id="count" role="status"></p><div id="assets"></div></main><section id="player" hidden><nav><button id="back">← Catalog</button><strong id="title"></strong><div id="review-actions" hidden><button data-review="skip">Skip</button><button data-review="next">Next scene</button><button data-review="pause">Pause</button></div><button id="replay">Restart</button></nav><div id="slot"></div></section></body></html>
