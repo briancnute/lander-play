@@ -1,1 +1,0 @@
-var e=[{id:`risky-island-v1`,name:`Risky island`,par:4},{id:`crater`,name:`Crater`,par:3},{id:`long-gray-par5-v1`,name:`Long gray`,par:5}];export{e as t};

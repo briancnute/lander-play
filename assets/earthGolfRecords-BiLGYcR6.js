@@ -1,0 +1,1 @@
+import{n as e}from"./game-Bq4tt9j4.js";function t(){return e(`surface:earth-golf`,`Earth · Earth Golf`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
