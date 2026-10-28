@@ -1,0 +1,25 @@
+{
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Mars/MSL/MSL_Gale_DEM_Mosaic_1m_v3.tif",
+  "crs": "PROJCS[\"Mars_Equirectangular_clon0\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere_IAU_IAG\",3396190,0],AUTHORITY[\"ESRI\",\"106971\"]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "bounds": [
+    8127993.492786024,
+    -302221.075189438,
+    8160973.492786024,
+    -244781.075189438
+  ],
+  "transform": [
+    1.0,
+    0.0,
+    8127993.492786024,
+    0.0,
+    -1.0,
+    -244781.075189438,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "width": 32980,
+  "height": 57440,
+  "nodata": -32767.0,
+  "overviews": []
+}

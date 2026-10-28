@@ -1,0 +1,127 @@
+[
+  {
+    "site": "jezero",
+    "samples": 401301,
+    "sampleMetres": [
+      20.0,
+      20.0
+    ],
+    "coverageKm2": 160.0,
+    "levels": [
+      {
+        "gameLevel": 80,
+        "wetKm2": 19.824,
+        "wetPercent": 12.35
+      },
+      {
+        "gameLevel": 140,
+        "wetKm2": 25.126,
+        "wetPercent": 15.65
+      },
+      {
+        "gameLevel": 200,
+        "wetKm2": 31.866,
+        "wetPercent": 19.85
+      },
+      {
+        "gameLevel": 260,
+        "wetKm2": 38.856,
+        "wetPercent": 24.21
+      },
+      {
+        "gameLevel": 320,
+        "wetKm2": 43.284,
+        "wetPercent": 26.96
+      },
+      {
+        "gameLevel": 380,
+        "wetKm2": 48.223,
+        "wetPercent": 30.04
+      }
+    ],
+    "selectedGameLevel": 200,
+    "lakeCatchmentKm2": 130.66,
+    "edgeDrainingPercent": 18.6,
+    "maxNonLakeFillMetres": 40.724
+  },
+  {
+    "site": "gale",
+    "samples": 383801,
+    "sampleMetres": [
+      20.0,
+      20.0
+    ],
+    "coverageKm2": 153.0,
+    "levels": [
+      {
+        "gameLevel": 53.33333333333333,
+        "wetKm2": 28.26,
+        "wetPercent": 18.41
+      },
+      {
+        "gameLevel": 133.33333333333331,
+        "wetKm2": 52.366,
+        "wetPercent": 34.11
+      },
+      {
+        "gameLevel": 213.33333333333331,
+        "wetKm2": 57.57,
+        "wetPercent": 37.5
+      },
+      {
+        "gameLevel": 293.3333333333333,
+        "wetKm2": 62.011,
+        "wetPercent": 40.39
+      },
+      {
+        "gameLevel": 373.3333333333333,
+        "wetKm2": 65.396,
+        "wetPercent": 42.6
+      }
+    ],
+    "selectedGameLevel": 213.33333333333331,
+    "lakeCatchmentKm2": 138.859,
+    "edgeDrainingPercent": 9.55,
+    "maxNonLakeFillMetres": 10.491
+  },
+  {
+    "site": "gale-summit",
+    "samples": 111531,
+    "sampleMetres": [
+      199.39024390243904,
+      199.4082890798354
+    ],
+    "coverageKm2": 4407.96,
+    "levels": [
+      {
+        "gameLevel": 53.33333333333333,
+        "wetKm2": 100.593,
+        "wetPercent": 2.27
+      },
+      {
+        "gameLevel": 133.33333333333331,
+        "wetKm2": 302.733,
+        "wetPercent": 6.83
+      },
+      {
+        "gameLevel": 213.33333333333331,
+        "wetKm2": 384.361,
+        "wetPercent": 8.67
+      },
+      {
+        "gameLevel": 293.3333333333333,
+        "wetKm2": 442.092,
+        "wetPercent": 9.97
+      },
+      {
+        "gameLevel": 373.3333333333333,
+        "wetKm2": 484.993,
+        "wetPercent": 10.94
+      }
+    ],
+    "selectedGameLevel": 213.33333333333331,
+    "lakeCatchmentKm2": 1305.084,
+    "edgeDrainingPercent": 70.57,
+    "maxNonLakeFillMetres": 98.065
+  }
+]

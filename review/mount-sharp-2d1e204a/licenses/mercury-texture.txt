@@ -1,0 +1,13 @@
+# Mercury approach texture
+
+`mercury.jpg`: Solar System Scope, **Mercury 2K**, downloaded 27 September 2026.
+Source: https://www.solarsystemscope.com/textures/
+File: https://www.solarsystemscope.com/textures/download/2k_mercury.jpg
+License: Creative Commons Attribution 4.0 International,
+https://creativecommons.org/licenses/by/4.0/
+
+Image unmodified; mapped to a sphere with authored cinematic lighting and rotation.
+The creator describes NASA imagery/elevation sources, adjusted color, and fictional
+terrain filling unmapped gaps. This is visual reference, not an exact reconstructed
+Caloris approach or a source for geographical measurements. On-screen attribution
+appears during the approach. No historical V1 rendering or cinematic code is reused.

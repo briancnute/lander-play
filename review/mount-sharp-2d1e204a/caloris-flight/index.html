@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#151718"><title>ASTRA · Caloris flight 2.0</title><link rel="stylesheet" href="../loading-screen.css?v=1cfbfc2154cb">  
+  <script type="module" crossorigin src="../assets/calorisFlight-DNWVz15p.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../assets/game-starts-QqQvrHY9.js">
+  <link rel="modulepreload" crossorigin href="../assets/essentialStorage-B7P2TWtx.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/tuning-Bj9UHqh4.js">
+  <link rel="modulepreload" crossorigin href="../assets/earthUnderwater-B68tVwc6.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightV21-CQRwJflN.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftAppearance-DsifwKBm.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightEquipment-CwbKCGjI.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusSite-DQA_3wB4.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-BGrGSBXR.js">
+  <link rel="modulepreload" crossorigin href="../assets/pad-G1V3Vace.js">
+  <link rel="modulepreload" crossorigin href="../assets/collector-CIzd_PQl.js">
+  <link rel="modulepreload" crossorigin href="../assets/masteryScoring-28QCknFV.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-Bl7Bwdtb.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-DfcGX4ba.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightTuning-DJnRbxFb.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-D10mTwXF.js">
+  <link rel="modulepreload" crossorigin href="../assets/FlightSetup-wtJfaG_Z.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightV3-COHkwoCM.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-CJm_g_Xe.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusAscent-BbJSr4T6.js">
+  <link rel="modulepreload" crossorigin href="../assets/scoreMedal-BAu2Vkxz.js">
+  <link rel="modulepreload" crossorigin href="../assets/sharedFlightSetup-CIPTCAkS.js">
+  <link rel="modulepreload" crossorigin href="../assets/esm-BPhzIRZy.js">
+  <link rel="modulepreload" crossorigin href="../assets/playerBackup-cGoZEq6E.js">
+  <link rel="modulepreload" crossorigin href="../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../assets/craft-YONYm_io.js">
+  <link rel="modulepreload" crossorigin href="../assets/emojiCraft-CHlMK1k6.js">
+  <link rel="modulepreload" crossorigin href="../assets/pixelCraft-BLRHrUNC.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftPreview-DkcMnz7S.js">
+  <link rel="modulepreload" crossorigin href="../assets/postcardActions-CLUNEFie.js">
+  <link rel="modulepreload" crossorigin href="../assets/completionFeedback-B-NQsjRB.js">
+  <link rel="modulepreload" crossorigin href="../assets/siteFacts-blfXwjwM.js">
+  <link rel="modulepreload" crossorigin href="../assets/missionLessons-YXn9ae0E.js">
+  <link rel="modulepreload" crossorigin href="../assets/planetFacts-CbIU0w-n.js">
+  <link rel="modulepreload" crossorigin href="../assets/missionCards-CD02ysg7.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusMissionComms-DbftZjRM.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryChapter-nFNtlIKH.js">
+  <link rel="modulepreload" crossorigin href="../assets/audio-w_jQncOE.js">
+  <link rel="modulepreload" crossorigin href="../assets/chapterBridge-CgJQg8Oz.js">
+  <link rel="modulepreload" crossorigin href="../assets/moonGolfCourse-CKiYQSwL.js">
+  <link rel="modulepreload" crossorigin href="../assets/lunarCourse-BA9F72FH.js">
+  <link rel="modulepreload" crossorigin href="../assets/primaryScoring-Crly2MWr.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-DK_Qw_8p.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="../assets/contact-FuwFdITk.js">
+  <link rel="modulepreload" crossorigin href="../assets/survey-N4KBkE4F.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisFlight-C1EEsenz.js">
+  <link rel="modulepreload" crossorigin href="../assets/calorisPresentation-tFY_Kt-Q.js">
+  <link rel="modulepreload" crossorigin href="../assets/thermal-DmAXXsjx.js">
+  <link rel="modulepreload" crossorigin href="../assets/pilotProfile-B2b7qnp2.js">
+  <link rel="modulepreload" crossorigin href="../assets/RoundedBoxGeometry-DKuhJw5K.js">
+  <link rel="modulepreload" crossorigin href="../assets/transporter-Bsf_B1rw.js">
+  <link rel="modulepreload" crossorigin href="../assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="../assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="../assets/Reflector-DDZkkKQg.js">
+  <link rel="modulepreload" crossorigin href="../assets/atmosphere-Bz8qoRSK.js">
+  <link rel="modulepreload" crossorigin href="../assets/lake-hNtQtuUx.js">
+  <link rel="modulepreload" crossorigin href="../assets/camera-HXgMub8l.js">
+  <link rel="modulepreload" crossorigin href="../assets/visualSky-BLUknQCY.js">
+  <link rel="modulepreload" crossorigin href="../assets/surfaceSolar-uhWk5G_y.js">
+  <link rel="modulepreload" crossorigin href="../assets/siteLighting-DFnwZBYb.js">
+  <link rel="modulepreload" crossorigin href="../assets/sharedGround-D0_9K103.js">
+  <link rel="modulepreload" crossorigin href="../assets/golfFlag-YDmAL_Ss.js">
+  <link rel="modulepreload" crossorigin href="../assets/carrier-A8MxrqpG.js">
+  <link rel="modulepreload" crossorigin href="../assets/world-BX5o3D7B.js">
+  <link rel="modulepreload" crossorigin href="../assets/SpecialRunBook-CkLsT1Qb.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryDusk-2accxqnI.js">
+  <link rel="modulepreload" crossorigin href="../assets/moonGolfRoster-BURoYNl-.js">
+  <link rel="modulepreload" crossorigin href="../assets/activityStats-zvDXato0.js">
+  <link rel="modulepreload" crossorigin href="../assets/freeRoamDestinations-CVAEK7Zs.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightEquipment-bHvseNaX.js">
+  <link rel="modulepreload" crossorigin href="../assets/activityScorePersistence-CYg43ofd.js">
+  <link rel="modulepreload" crossorigin href="../assets/transfer-CrwriKNM.js">
+  <link rel="modulepreload" crossorigin href="../assets/spine-DyfP_qGK.js">
+  <link rel="modulepreload" crossorigin href="../assets/SaveManager-bRKruEtp.js">
+  <link rel="modulepreload" crossorigin href="../assets/appStorage-CDvUquN1.js">
+  <link rel="modulepreload" crossorigin href="../assets/landscapeLaunch-BKz6F14_.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryMissionComms-qEKvVrYx.js">
+  <link rel="stylesheet" crossorigin href="../assets/sharedFlightSetup-oD2ZcByr.css">
+  <link rel="stylesheet" crossorigin href="../assets/playerBackup-DvyoCKn9.css">
+  <link rel="stylesheet" crossorigin href="../assets/postcardActions-PWpP3qaD.css">
+  <link rel="stylesheet" crossorigin href="../assets/activityStats-CbK-7wA6.css">
+  <link rel="stylesheet" crossorigin href="../assets/flightEquipment-BSDVwL6e.css">
+  <link rel="stylesheet" crossorigin href="../assets/calorisFlight-D59WWpwH.css">
+  <link rel="stylesheet" crossorigin href="../assets/v3-D-ppNTfS.css">
+</head><body><script src="../loading-screen.js?v=1cfbfc2154cb"></script><script>if(new URLSearchParams(location.search).get('quick')==='1'||new URLSearchParams(location.search).get('v2')==='1'){document.documentElement.classList.add('quick-flight');}</script><style>.quick-flight body:not(.flight-ready)>:not(.astra-loading):not(script):not(style):not(canvas):not(#vignette){visibility:hidden!important}.quick-flight body{background:#101416}</style>
+<canvas id="world" aria-label="Caloris Basin flight view"></canvas><div id="vignette"></div>
+<section id="minimal-hud" hidden aria-label="Flight status"><div><span id="flight-clock">◷ 0.0s</span><span id="sample-count"></span></div><div class="mini-row"><i><b id="mini-fuel"></b></i><span id="mini-fuel-value">100%</span></div><div class="mini-row mini-thermal"><span>HEAT</span><i role="meter" aria-label="Hull heat" aria-valuemin="0" aria-valuemax="100" id="mini-heat-meter"><b id="mini-heat"></b></i></div></section><span id="thrust-power-hud" aria-label="Thrust power"></span><div id="craft-cue" hidden role="status"></div><div id="orb-hint" hidden></div>
+<header><div><small id="site">MERCURY / CALORIS BASIN</small><h1 id="title">Lander 2.0</h1></div><button id="pause" aria-label="Pause flight">Ⅱ</button></header>
+<section id="instruments" aria-label="Flight instruments"><div><small>ALTITUDE</small><strong id="altitude">60 m</strong></div><div><small>VERTICAL</small><strong id="vertical">0.0 m/s</strong></div><div><small>DRIFT</small><strong id="drift">0.0 m/s</strong></div><div><small>FUEL</small><strong id="fuel">100%</strong><i><b id="fuel-fill"></b></i></div></section>
+<div id="mission"><small id="phase">DESCENT</small><p id="objective">Bring her down gently.</p><span id="temperature"></span><i><b id="heat-fill"></b></i></div>
+<div id="target"><b>⌄</b><span id="target-name">HOME / CALORIS</span></div><div id="attitude"><span id="heading">0°</span><i id="horizon"></i></div>
+<div id="message" role="status"></div><div id="controls"><div class="turns"><button id="left" aria-label="Rotate left">↶</button><button id="right" aria-label="Rotate right">↷</button></div><div class="engines"><button id="reverse" aria-label="Reverse thrust">↓<small>REVERSE</small></button><button id="thrust">↑<small>THRUST</small></button></div><div id="tiers" aria-label="Thrust power"><button id="lower">LOW</button><button id="upper">MED</button></div></div>
+<dialog id="welcome"><small class="eyebrow">PROJECT ASTRA / FLIGHT STUDY</small><h2 id="welcome-title">A familiar flight.<br>A new horizon.</h2><p id="setting"></p><p id="brief"></p><label>Flight<select id="activity"><option value="lander">Lander 2.0 · Descent</option><option value="collector">Collector 2.0 · Gather and return</option></select></label><div class="instructions"><b>Point the craft. Hold to burn.</b><span>A / D or ← / → rotate. Release to hold your heading.</span><span>Space / W: thrust · ↑ / ↓: power · Esc: pause</span><span id="extra-help"></span></div><p class="fine">One site, two flights. Terrain is an illustrative reconstruction, not a surveyed landing site.</p><button id="launch" class="primary">Begin flight →</button><button id="welcome-exit">Back to playtests</button></dialog>
+<dialog id="pause-dialog"><small class="eyebrow">FLIGHT PAUSED</small><h2>Holding here.</h2><p id="best">Your flight is paused.</p><button id="resume" class="primary">Resume flight</button><label>Hull accent<select id="accent"><option value="amber">Mission amber</option><option value="ivory">Ceramic ivory</option><option value="teal">Survey teal</option></select></label><label>Mission patch<select id="badge"><option>ASTRA</option><option>CALORIS</option><option>SURVEY</option></select></label><label class="check"><input type="checkbox" id="sound" checked> Engine and instrument audio</label><button id="restart">Restart flight</button><button id="exit">Back to playtests</button></dialog>
+<dialog id="result"><small class="eyebrow" id="result-kicker"></small><h2 id="result-title"></h2><strong id="result-score"></strong><p id="result-detail"></p><button class="primary" id="retry">Fly again →</button><button id="other">Try Collector 2.0 →</button><button id="result-exit">Back to playtests</button></dialog>
+<dialog id="error"><h2>Flight view unavailable</h2><p>This device could not start the 3D view. Close other graphics-heavy tabs and reload to try again.</p><a href="../playtest/">Back to playtests</a></dialog></body></html>

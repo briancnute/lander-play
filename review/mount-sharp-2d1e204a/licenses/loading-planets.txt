@@ -1,0 +1,22 @@
+ASTRA loading globes
+
+These WebP rotation strips are rendered derivatives of ASTRA's existing
+src/render/globe.ts and its established surface data. They retain the same
+surface colours, spherical projection and lighting; no new source imagery was
+acquired. Generated at 128px, with 36 views plus a repeated first frame.
+
+Source credits recorded in the existing renderer:
+- Earth coastlines: world-atlas land-110m / Natural Earth; procedural surface,
+  clouds, ocean and lighting by ASTRA.
+- Mercury albedo: MESSENGER / NASA / JHUAPL-derived global mosaic.
+- Moon and Mars maps: Solar System Scope / real lunar and Mars imagery.
+- Venus cloud deck: Solar System Scope / NASA New Horizons mosaic.
+
+Solar System Scope: https://www.solarsystemscope.com/textures/
+Creative Commons Attribution 4.0 International:
+https://creativecommons.org/licenses/by/4.0/
+NASA: https://www.nasa.gov/
+Natural Earth: https://www.naturalearthdata.com/
+
+Rendering, resizing, grading and WebP encoding are ASTRA adaptations.
+The decorative three-second rotation is illustrative, not real planetary time.

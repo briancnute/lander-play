@@ -1,0 +1,20 @@
+<!doctype html><html lang="en">
+<script type="module" crossorigin src="../assets/qteFeedback-AbJH3G4S.js"></script>
+<link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
+<link rel="stylesheet" crossorigin href="../assets/qteFeedback-Beoa15-N.css">
+
+
+<script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ASTRA · QTE feedback options</title><style>
+*{box-sizing:border-box}body{margin:0;background:#101b20;color:#e5eee9;font:16px system-ui;padding:24px}main{max-width:1100px;margin:auto}h1{font-size:28px}p{line-height:1.5;color:#bcd0c6}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}button{background:#283b3a;color:#f5edda;border:1px solid #77938b;border-radius:8px;padding:12px;font:inherit;cursor:pointer}button[aria-pressed=true]{background:#b8d7c5;color:#10231d}.options{display:grid;gap:24px}.option{position:relative;border:1px solid #547067;border-radius:14px;overflow:hidden;background:#23332f}.scene{height:310px;position:relative;background:#483629}.scene::before{content:'';position:absolute;inset:0 0 105px;background:linear-gradient(#0003,#0003),url('../play2/lighting/gale-ski-day.jpg') center 60%/cover}.option h2{margin:16px 20px 4px;font-size:21px}.option p{margin:0 20px 16px}.scene .jump-rail{--icon-size:48px;position:absolute;left:2%;top:auto;bottom:18px;transform:none;width:96%;height:160px;background:linear-gradient(#10241eb8,#10241eb8) 0 48px/100% calc(100% - 48px) no-repeat;contain:layout paint}.scene .jump-target,.scene .rail-note,.scene .rail-burst{top:87px}.note{font-size:14px}.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;font-weight:800}.legend span:nth-child(1){color:#ffe16a}.legend span:nth-child(2){color:#57d9ff}.legend span:nth-child(3){color:#73efad}.legend span:nth-child(4){color:#ffba69}.legend span:nth-child(5){color:#ff6868}@media(min-width:1100px){.options{grid-template-columns:1fr 1fr}}@media(max-width:500px){body{padding:12px}.scene{height:260px}}
+</style><main><a href="../?go=mars-sites" style="color:#b8d7c5">← Back to Play</a><h1>QTE feedback · two visual options</h1><p>Same timing and colors in both. Choose a grade to preview it on every press, or let Mixed cycle through them. The rover stays visible above the feedback.</p><div class="legend"><span>★ Perfect</span><span>◆ Great</span><span>✓ Good</span><span>● Basic</span><span>× Miss / wrong</span></div><div class="controls" aria-label="Preview result"></div><div class="options"></div><p class="note">A is the current game treatment. B is an alternative for comparison. These animated examples use the actual game’s icon and feedback renderer.</p></main></html>

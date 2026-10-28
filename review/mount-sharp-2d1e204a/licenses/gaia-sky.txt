@@ -1,0 +1,14 @@
+ASTRA diffuse Solar sky texture
+
+Source: The colour of the sky from Gaia's Early Data Release 3 (equirectangular)
+https://www.esa.int/ESA_Multimedia/Images/2020/12/The_colour_of_the_sky_from_Gaia_s_Early_Data_Release_32
+Credit: ESA/Gaia/DPAC. Acknowledgement: A. Moitinho.
+License: Creative Commons Attribution-ShareAlike 3.0 IGO
+https://creativecommons.org/licenses/by-sa/3.0/igo/
+
+The adapted asset textures/sky/gaia-diffuse.webp is distributed under the same license.
+ASTRA modifications: resize to 1024 x 512, median filter and gentle blur to suppress
+resolved star points, suppress the small M31 footprint, WebP compression. Displayed
+at reduced brightness. The Magellanic Clouds remain part of the original panorama.
+Reproducible preprocessing: tools/data/gaia-diffuse.mjs in the source repository.
+The diffuse map is observational data, not a live sky image.
