@@ -1,3 +1,4 @@
+import {PACE,paceAir,capSkiPace} from './pace-trial.js';
 import {stepMeasuredGround} from './slalom-scale-trial.js';
 import {maybeBeginJump,stepJump,captureJump} from './jump/run.js';
 import {stepLandingPrompt,scoreSkiLanding} from './ski-landing.js';
@@ -90,10 +91,12 @@ export function stepSki(r,course,input,dt){
  const crossGrade=clamp((surfaceAt(r,course,0,12)-surfaceAt(r,course,0,-12))/24,-.8,.8);
  if(!r.air)stepSkiGround(r,grade,crossGrade,{...input,brake:!!input.both||!!(course.timedJump||course.timeTrial)&&!!input.brake},dt,course.drive);
  else if(r.airMode==='turn'){const angle=air.yaw*dt,c=Math.cos(angle),sn=Math.sin(angle),v=r.v;r.v=v*c-r.side*sn;r.side=v*sn+r.side*c;}
+ if(course.paceTrial&&r.air)paceAir(r,input,dt);
  holdBoostSpeed(r);
+ if(course.horizontalLimit)capSkiPace(r,course.horizontalLimit);
  // The broad mountain is traversable: no invisible shoulder spring or speed tax.
  advancePosition(r,course,dt);
- const ground=surfaceAt(r,course),nextZ=r.z+r.vz*dt-GRAVITY*dt*dt/2;
+ const ground=surfaceAt(r,course),nextZ=r.z+r.vz*dt-GRAVITY*dt*dt/2+(course.paceTrial&&r.down?PACE.down*PACE.units*dt*dt/2:0);
  // The archived descent suppresses takeoff on untagged survey facets.
  // Current games instead preserve bounded tangent momentum on natural crests.
  const onJump=(course.relief?.(oldS,oldU)??0)>.1;

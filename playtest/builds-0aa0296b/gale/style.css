@@ -47,3 +47,8 @@ body[data-ski]:not([data-ski=roam]) header{justify-content:flex-end}
 body[data-ski=run][data-physical-ski=true] #speed{display:block;font-variant-numeric:tabular-nums}
 
 #ski-measured-speed{position:fixed;left:20px;top:48px;font-size:15px;font-weight:700;color:#fff3db;text-shadow:0 1px 4px #231b15;font-variant-numeric:tabular-nums}
+
+/* Opt-in measured strip: instruments remain outside the driving view. */
+#scale-strip-hud{position:fixed;left:20px;top:65px;display:flex;flex-direction:column;gap:3px;font-size:13px;text-shadow:0 1px 4px #000;pointer-events:none}#scale-strip-actions{position:fixed;left:50%;top:12px;transform:translateX(-50%);display:flex;gap:5px}#scale-strip-actions button{font-size:12px;padding:8px 10px;min-height:36px}#scale-strip-info{max-height:85dvh;overflow:auto;width:min(580px,90vw)}#scale-strip-info p{font-size:14px;line-height:1.45}#scale-strip-info button{width:100%}@media(max-height:480px){#scale-strip-hud{top:55px;font-size:11px}#scale-strip-actions{top:9px;left:auto;right:78px;transform:none}#scale-strip-actions button{font-size:11px;padding:6px 8px}}
+
+.scale-calibration header h1{font-size:18px}.scale-calibration #place,.scale-calibration #target-hud,.scale-calibration #toast{display:none!important}

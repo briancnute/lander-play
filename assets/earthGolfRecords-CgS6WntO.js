@@ -1,1 +1,0 @@
-import{n as e}from"./game-B82jSliM.js";function t(){return e(`surface:earth-golf`,`Earth · Earth Golf`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
