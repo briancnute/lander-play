@@ -1,3 +1,4 @@
+import {stepMeasuredGround} from './slalom-scale-trial.js';
 import {maybeBeginJump,stepJump,captureJump} from './jump/run.js';
 import {stepLandingPrompt,scoreSkiLanding} from './ski-landing.js';
 import {skiVisualPose} from './ski-poses.js';
@@ -39,6 +40,7 @@ function bank(r){const points=Math.round(r.pending*Math.min(8,Math.max(1,r.chain
 /** Ground motion follows momentum: edge harder to trade speed for a tighter turn.
  * Thrust drives along the current heading; airborne motion stays drag-free. */
 export function stepSkiGround(r,grade,crossGrade,input,dt,drive={}){
+ if(drive.measured)return stepMeasuredGround(r,grade,crossGrade,input,dt);
  const steer=clamp(input.steer||0,-1,1),edge=Math.abs(steer),brake=!!input.brake;
  r.brakePressure=(r.brakePressure??0)+((brake?1:0)-(r.brakePressure??0))*(1-Math.exp(-dt*(brake?5:9)));
  const powered=!brake&&(!!input.gas||r.boost>0),speed=Math.hypot(r.v,r.side);
@@ -96,7 +98,7 @@ export function stepSki(r,course,input,dt){
  // Current games instead preserve bounded tangent momentum on natural crests.
  const onJump=(course.relief?.(oldS,oldU)??0)>.1;
  if(course.contactMode==='slalom-terrain'&&!r.air){
-  stepTerrainSlalomContact(r,previous,ground,course.worldHeight,dt,GRAVITY);
+  stepTerrainSlalomContact(r,previous,ground,course.worldHeight,dt,GRAVITY,course.takeoffProbe);
   if(!r.air&&r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};
  }
  else if(course.contactMode==='slalom-exceptions'&&!r.air){
