@@ -1,6 +1,6 @@
 // An explicitly selected Gediz comparison. Distances remain shared-world metres;
 // neither the terrain nor gravity is rescaled to shorten the course or flights.
-export const SCALE_TRIAL={units:8/3,bladeLength:4,cameraBack:16,cameraLift:5,launchSpeed:6,thrust:.8,thrustFade:50/3.6,grip:3,brake:2.4,friction:.12};
+export const SCALE_TRIAL={units:8/3,bladeLength:4,cameraBack:8,cameraLift:1.25,launchSpeed:6,thrust:.8,thrustFade:50/3.6,grip:3,brake:2.4,friction:.12};
 export function scaleTrial(course){
  if(course.activity!=='ski-gediz-descent')return course;
  const U=SCALE_TRIAL.units,v=SCALE_TRIAL.launchSpeed*U;
