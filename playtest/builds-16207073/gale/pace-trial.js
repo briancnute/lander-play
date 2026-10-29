@@ -1,4 +1,5 @@
-// Opt-in local comparison. Coordinates, gravity and approved courses stay intact.
+// Approved default. Explicit legacy and calibration links remain available.
+export function approvedPaceEnabled(search=''){const p=new URLSearchParams(search);return p.get('paceTrial')==='1'||p.get('paceTrial')!=='0'&&p.get('scaleTrial')!=='1'&&p.get('scaleStrip')!=='1';}
 export const PACE={units:8/3,skiKmh:300,roamKmh:120,cameraBack:16,cameraLift:3,strafe:4,down:12,turn:.18};
 export function paceTrial(course){return {...course,paceTrial:true,scaleTrial:false,title:course.title+' · 300 km/h',courseVersion:1,trialKey:`astra.gale.${course.activity}.pace-trial.v1`,drive:{...course.drive,limit:PACE.skiKmh/3.6*PACE.units},horizontalLimit:PACE.skiKmh/3.6*PACE.units};}
 export function capSkiPace(r,limit){const speed=Math.hypot(r.v,r.side);if(speed>limit){r.v*=limit/speed;r.side*=limit/speed;}}
