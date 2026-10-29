@@ -1,3 +1,4 @@
+import {scaleTrial} from './slalom-scale-trial.js';
 import {slalomLandmarks} from './slalom-landmarks.js';
 import {gradeGediz,gedizDetailTile} from './gediz-grading.js';
 import {gradeVeraRubin,veraRubinDetailTile} from './vera-rubin-grading.js';
@@ -75,7 +76,7 @@ export async function loadArea({ski=false,freeSki=false,slalomVariant='classic'}
   }
   else {const anchor=toGame(...route.stops[slalomChoice(slalomVariant)?.anchor??10].pos);mountain=compactMountain(fine,broad,anchor,slalomVariant,false,new URLSearchParams(globalThis.location?.search??'').get('activity')!=='crater');fine.skipCell=mountain.inside;surface={...fine,height:mountain.height};}
  }
- if(measuredSlalom&&slalomVariant==='gediz-descent')trial=gedizDescent(surface.height);
+ if(measuredSlalom&&slalomVariant==='gediz-descent'){trial=gedizDescent(surface.height);if(new URLSearchParams(globalThis.location?.search??'').get('scaleTrial')==='1')trial=scaleTrial(trial);}
  if(measuredSlalom&&slalomVariant==='vera-rubin')trial=veraRubinDescent(surface.height);
  if(measuredSlalom&&slalomVariant==='corridor-a')trial=corridorA(surface.height);
  if(sharedWorld&&trial){trial.worldHeight=surface.height;trial.height=(s,u=0)=>{const p=trial.point(s,u);return surface.height(p.x,p.y);};}

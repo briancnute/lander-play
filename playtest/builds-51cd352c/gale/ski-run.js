@@ -1,3 +1,4 @@
+import {stepMeasuredGround} from './slalom-scale-trial.js';
 import {maybeBeginJump,stepJump,captureJump} from './jump/run.js';
 import {stepLandingPrompt,scoreSkiLanding} from './ski-landing.js';
 import {skiVisualPose} from './ski-poses.js';
@@ -6,6 +7,7 @@ import {stepScoreCourse} from './score-events.js';
 import {newLunarRotation,rotationInput,stepLunarRotation,ROTATION_SECONDS} from '../shared/ride-rotation.js';
 import {skiContact} from './ski-contact.js';
 import {stepPhysicalSki} from './physical-ski.js';
+import {stepTerrainSlalomContact,SLALOM_CREST} from './slalom-terrain-contact.js';
 import {stepSlalomContact} from './slalom-contact.js';
 // Summit descent. Local Mars gravity, shared Moon trick grammar, optional boost lines.
 import {newTrickInput,trickControlInput,readTrickInput,queueTrickInput,advanceMove,releaseGrab,movePoints,moveRepeatKey,moonTrickPose} from '../shared/ride-tricks.js';
@@ -38,6 +40,7 @@ function bank(r){const points=Math.round(r.pending*Math.min(8,Math.max(1,r.chain
 /** Ground motion follows momentum: edge harder to trade speed for a tighter turn.
  * Thrust drives along the current heading; airborne motion stays drag-free. */
 export function stepSkiGround(r,grade,crossGrade,input,dt,drive={}){
+ if(drive.measured)return stepMeasuredGround(r,grade,crossGrade,input,dt);
  const steer=clamp(input.steer||0,-1,1),edge=Math.abs(steer),brake=!!input.brake;
  r.brakePressure=(r.brakePressure??0)+((brake?1:0)-(r.brakePressure??0))*(1-Math.exp(-dt*(brake?5:9)));
  const powered=!brake&&(!!input.gas||r.boost>0),speed=Math.hypot(r.v,r.side);
@@ -94,7 +97,11 @@ export function stepSki(r,course,input,dt){
  // The archived descent suppresses takeoff on untagged survey facets.
  // Current games instead preserve bounded tangent momentum on natural crests.
  const onJump=(course.relief?.(oldS,oldU)??0)>.1;
- if(course.contactMode==='slalom-exceptions'&&!r.air){
+ if(course.contactMode==='slalom-terrain'&&!r.air){
+  stepTerrainSlalomContact(r,previous,ground,course.worldHeight,dt,GRAVITY,course.takeoffProbe);
+  if(!r.air&&r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};
+ }
+ else if(course.contactMode==='slalom-exceptions'&&!r.air){
   const dx=r.worldX-previous.x,dy=r.worldY-previous.y;
   const zone=course.launchAllowed?.(previous.x,previous.y)||course.launchAllowed?.(r.worldX,r.worldY);
   const behind=zone?course.worldHeight(previous.x-dx,previous.y-dy):0;
@@ -109,7 +116,7 @@ export function stepSki(r,course,input,dt){
  else if(!r.air){r.z=ground;const vertical=(ground-oldZ)/dt;r.vz=onJump?clamp(vertical,-45,18):Math.min(0,vertical);if(r.s-r.safe.s>350&&Math.abs(r.u)<WIDTH*.8&&Math.abs(grade)<.35)r.safe={s:r.s,u:r.u};}
  else {r.z=nextZ;r.vz-=(GRAVITY+(air.dive?32:0))*dt;}
  if(r.air&&r.trick){const t=r.trick,cycles=t.cycles,done=t.kind?advanceMove(t,!!input.brake,dt,!t.secret&&trickFits(r,course,t.duration)):(t.age+=dt)>=t.duration;if(t.cycles>cycles)completeTrick(r,t);if(done){completeTrick(r,t);r.trick=null;r.feedback='Trick complete';}}
- if(r.air&&r.z<=ground){scoreSkiLanding(r,course,skiVisualPose(r.trick));r.z=ground;r.air=false;r.down=false;const clean=!r.trick;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=0;r.contactVelocity=undefined;r.contactLock=.25;r.crestAge=0;resetSkiInput(r);r.input.gas=!!input.brake;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
+ if(r.air&&r.z<=ground){scoreSkiLanding(r,course,skiVisualPose(r.trick));r.z=ground;r.air=false;r.down=false;const clean=!r.trick;if(clean)bank(r);else{r.v*=.65;r.feedback='Unfinished trick · combo lost';r.pending=r.chain=0;}r.trick=null;r.vz=0;r.contactVelocity=undefined;r.contactLock=.25;if(course.contactMode==='slalom-terrain')r.terrainContactLock=SLALOM_CREST.cooldown;r.crestAge=0;resetSkiInput(r);r.input.gas=!!input.brake;r.input.steer=Math.sign(input.steer||0);r.input.left=!!input.both||input.steer<0;r.input.right=!!input.both||input.steer>0;r.airControl.held=!!input.gas;r.airControl.brakeHeld=!!input.brake;r.airControl.grounded=true;}
  r.rotationAngle=stepLunarRotation(r.rotation,dt,r.air);
  const items=course.items??ITEMS;for(let i=0;i<items.length;i++){const p=items[i];if(!r.items.includes(i)&&oldS<=p.s&&r.s>=p.s){const t=(p.s-oldS)/Math.max(.001,r.s-oldS),u=oldU+(r.u-oldU)*t,z=oldZ+(r.z-oldZ)*t;if(Math.abs(u-p.u)<(p.radius??65)&&Math.abs(z-itemAltitude(course,p))<40&&(p.kind!=='slalom-boost'||!oldAir&&!r.air)){r.items.push(i);if(p.kind==='slalom-boost')collectSlalomBoost(r);else{r.boost=p.boost;r.score+=100;r.feedback='Boost · +100';}}}}
  if(course.arena&&Math.hypot(r.worldX-course.arena.x,r.worldY-course.arena.y)>course.arena.radius){r.safe={s:0,u:0};recoverSki(r,course);r.feedback='Back to crater park · combo lost';}
