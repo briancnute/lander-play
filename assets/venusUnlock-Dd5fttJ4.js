@@ -1,0 +1,1 @@
+import{a as e,c as t,r as n}from"./activityChoices-DyO10vxx.js";import{n as r}from"./SaveManager-Bg-kVrB-.js";function i(){return t(new r(localStorage).load(),localStorage).unlocked}function a(t){let i=n(e(`venus`,new r(localStorage).load(),localStorage));return i.addEventListener(`close`,t,{once:!0}),{destroy:()=>i.close()}}export{i as n,a as t};

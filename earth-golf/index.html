@@ -10,17 +10,45 @@
  Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
 })();
 </script>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Earth Golf</title><link rel="stylesheet" href="../loading-screen.css?v=91b86841ac19">  
-  <script type="module" crossorigin src="../assets/earthGolf-WDivgj-s.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Pitch n Putt</title><link rel="stylesheet" href="../loading-screen.css?v=91b86841ac19">  
+  <script type="module" crossorigin src="../assets/earthGolf-CyHSFHyd.js"></script>
   <link rel="modulepreload" crossorigin href="../assets/browserInput-BBHdG_eQ.js">
-  <link rel="modulepreload" crossorigin href="../assets/golfCourseRound-Du6IsusF.js">
+  <link rel="modulepreload" crossorigin href="../assets/displayPreferences-BZpA9Vup.js">
+  <link rel="modulepreload" crossorigin href="../assets/collector-BO9Fr7mS.js">
+  <link rel="modulepreload" crossorigin href="../assets/masteryScoring-CxGlepIq.js">
+  <link rel="modulepreload" crossorigin href="../assets/worlds-ChcjGzsg.js">
+  <link rel="modulepreload" crossorigin href="../assets/flightTuning-FVc1lSVw.js">
+  <link rel="modulepreload" crossorigin href="../assets/explorationMoment-BZe3BR0m.js">
+  <link rel="modulepreload" crossorigin href="../assets/preload-helper-hAUes0ZX.js">
+  <link rel="modulepreload" crossorigin href="../assets/storm-DsMj0pBx.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-DTOuK5CW.js">
+  <link rel="modulepreload" crossorigin href="../assets/FlightSetup-CcP24Hxg.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-ChgLh1as.js">
+  <link rel="modulepreload" crossorigin href="../assets/essentialStorage-B7P2TWtx.js">
+  <link rel="modulepreload" crossorigin href="../assets/SpecialRunBook-DnkIXXKa.js">
+  <link rel="modulepreload" crossorigin href="../assets/textures-CfoVhTFt.js">
+  <link rel="modulepreload" crossorigin href="../assets/globe-wiLaC3rc.js">
+  <link rel="modulepreload" crossorigin href="../assets/visualSky-BMB0IuJe.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="../assets/mercuryDusk-DkbFA2hm.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-l9RvsYEG.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusSite-B4YyVsw4.js">
+  <link rel="modulepreload" crossorigin href="../assets/craftAppearance-DsifwKBm.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusAscent-p2Ch3dlT.js">
+  <link rel="modulepreload" crossorigin href="../assets/primaryScoring-BA72UKtm.js">
+  <link rel="modulepreload" crossorigin href="../assets/collectorLevels-Ds7NcyJK.js">
+  <link rel="modulepreload" crossorigin href="../assets/spine-DyfP_qGK.js">
+  <link rel="modulepreload" crossorigin href="../assets/SaveManager-Bg-kVrB-.js">
+  <link rel="modulepreload" crossorigin href="../assets/activityChoices-DyO10vxx.js">
+  <link rel="modulepreload" crossorigin href="../assets/surfaceSolar-B4Pl6Dq9.js">
+  <link rel="modulepreload" crossorigin href="../assets/surfaceAccess-BXXjRusI.js">
   <link rel="modulepreload" crossorigin href="../assets/moonGolfCourse-CKiYQSwL.js">
   <link rel="modulepreload" crossorigin href="../assets/lunarCourse-BA9F72FH.js">
+  <link rel="modulepreload" crossorigin href="../assets/lunarCollision-8Ulz7Ond.js">
   <link rel="modulepreload" crossorigin href="../assets/three.module-BGrGSBXR.js">
-  <link rel="modulepreload" crossorigin href="../assets/golfAim-Ca76P85D.js">
+  <link rel="modulepreload" crossorigin href="../assets/golfAim-DIU7FyaR.js">
   <link rel="modulepreload" crossorigin href="../assets/game-starts-QqQvrHY9.js">
-  <link rel="modulepreload" crossorigin href="../assets/essentialStorage-B7P2TWtx.js">
-  <link rel="modulepreload" crossorigin href="../assets/SpecialRunBook-CkLsT1Qb.js">
   <link rel="modulepreload" crossorigin href="../assets/golfFlag-YDmAL_Ss.js">
+  <link rel="stylesheet" crossorigin href="../assets/activityChoices-D8RO-Vhz.css">
   <link rel="stylesheet" crossorigin href="../assets/earthGolf-CHUsAkHK.css">
 </head><body><script src="../loading-screen.js?v=91b86841ac19"></script><canvas id="course" aria-label="Crater Garden golf course"></canvas><header><span>ASTRA <b>EARTH GOLF</b></span><span id="score"></span><button id="pause">Pause</button></header><span class="preview-label" id="flag-waypoint" hidden aria-label="Flag">⚑</span><span class="preview-label" id="preview-you" hidden>YOU</span><span class="preview-label" id="preview-flag" hidden>FLAG</span><span class="preview-label" id="preview-landing" hidden>REST</span><div id="toast" role="status"></div><section id="shot"><div class="shotline"><span id="lie"></span><button id="preview">Shot preview</button></div><div id="preview-power" hidden></div><div id="meter"><i id="power-guide" aria-label="Green distance"></i><i id="locked" hidden></i><i id="impact" hidden><i id="impact-midpoint"></i></i><i id="cursor"></i></div><div class="actions"><button id="left" data-game-control aria-label="Aim left">◀</button><button id="swing" data-game-control>Swing</button><button id="right" data-game-control aria-label="Aim right">▶</button></div><small><output id="power"></output></small><p id="caption"></p></section><div id="flight" hidden><small id="flight-phase">IN FLIGHT</small><strong id="flight-stat"></strong><span>Hold screen / Space: 8× · Hold Shift 1s: 24×</span></div><section id="setup" class="overlay"><div class="panel"><div class="eyebrow">PROJECT ASTRA / EARTH</div><h1>Earth Golf</h1><h2 id="hole-name">Crater Garden</h2><select id="hole-picker" aria-label="Choose hole" hidden></select><p id="setup-summary">Par 3 · <span id="length"></span> · calm conditions</p><p id="setup-description">Moon Golf's three-tap swing.<br>Earth gravity. Grass under the ball.</p><canvas id="golfer-preview" aria-label="Preview of selected golfer"></canvas><label for="golfer-look">Your golfer</label><select id="golfer-look" aria-label="Your golfer"></select><p class="fine">← → / A D aim · Space / Swing: start, lock, strike<br>Shift: shot preview · Hold screen / Space: 8×</p><button id="start">Play Crater Garden</button><button id="resume" hidden>Resume saved hole</button><button class="exit">Return to Play</button></div></section><section id="paused" class="overlay" hidden><div class="panel"><h2>Paused</h2><p>Aim with ← → or A / D. Three taps: start, lock power, strike at the gold mark. Aim locks during the swing.</p><p id="pause-preview">Each putt gets one preview: your aim at distance-to-flag divided by the putter’s fixed range. Adjust your aim after closing it; the preview stays used until your next shot. Shift opens and closes the preview.</p><p id="pause-lie">Green lies select a putter. Hold Space or the course while the ball moves to speed up.</p><button id="continue">Resume</button><button id="restart">Restart hole</button><button id="courses">Course selection</button><button class="exit">Return to Play</button></div></section><section id="shot-result" hidden><small id="shot-label">EARTH / THE GARDEN</small><h2 id="shot-distance" aria-live="polite"></h2><p id="shot-detail"></p><button id="next-shot">Next shot</button><button id="shot-restart">Restart hole · from tee</button><button class="exit">Return to Play</button></section><section id="result" class="overlay" hidden><div class="panel"><div class="eyebrow"><span id="result-hole">THE GARDEN · PAR 3</span></div><h1 id="result-title"></h1><p id="result-score"></p><p id="best"></p><button id="replay">Replay</button><button id="selection">Course selection</button><button class="exit">Return to Play</button></div></section></body></html>
