@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<script type="module" crossorigin src="../../assets/jupiterFoundation-C-sbWvK4.js"></script>
+<link rel="modulepreload" crossorigin href="../../assets/browserInput-BBHdG_eQ.js">
+<link rel="modulepreload" crossorigin href="../../assets/explorationMoment-BZe3BR0m.js">
+<link rel="modulepreload" crossorigin href="../../assets/observationMoment-gZHhg_lu.js">
+<link rel="modulepreload" crossorigin href="../../assets/displayPreferences-CHsmsYHS.js">
+<link rel="modulepreload" crossorigin href="../../assets/playLighting-CAs8A-U2.js">
+<link rel="modulepreload" crossorigin href="../../assets/settings-D5D7qCIA.js">
+
+
+<script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASTRA · Jupiter playtest</title>
+<style>
+body{margin:0;background:#0b1018;color:#e8e5df;font:17px/1.55 system-ui,sans-serif}main{max-width:680px;margin:8vh auto;padding:24px}h1{font-size:clamp(26px,5vw,40px);line-height:1.15}p{color:#bfc8d4}a{color:#b8d9ff}nav{display:grid;gap:12px;margin:28px 0}nav a{padding:18px;border:1px solid #455569;border-radius:12px;text-decoration:none;background:#172230}a:focus-visible{outline:3px solid #ffc477;outline-offset:4px}small{display:block;color:#bfc8d4}nav a:hover{background:#22334a}
+button,select,input{font:inherit;color:inherit;background:#172230;border:1px solid #455569;border-radius:7px;padding:9px;min-height:44px;box-sizing:border-box;color-scheme:dark}button,select{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #ffc477;outline-offset:3px}.view-settings{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.view-settings label{display:grid;gap:4px;font-size:14px}#date-choice{font-size:14px}#date-label{font-size:13px}.settings{background:#10202b;color:#e1edef;border:1px solid #456371;border-radius:15px;width:430px;max-width:calc(100vw - 48px);max-height:85dvh;padding:20px;font:14px system-ui;overflow:auto}.settings::backdrop{background:#000b;backdrop-filter:blur(6px)}.settings form{display:grid;gap:14px}.settinghead,.settingactions,.bookmarkedit,.savedrow{display:flex;gap:9px;align-items:center;justify-content:space-between}.settings h2{margin:0;font-size:21px}.settings label{display:grid;gap:7px;color:#acc1cb}.settings input,.settings select{width:100%;min-width:0}.settings p{font-size:12px;line-height:1.6;margin:0}.settings details p{margin-top:10px}.settings .moment-editor{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}.settings .picker-row{display:flex;min-width:0;align-items:center}.settings .picker-row input{padding:10px 3px;font-size:13px;border-right:0;border-radius:7px 0 0 7px}.settings .picker-row button{min-width:30px;padding:4px;border-left:0;border-radius:0 7px 7px 0}.settings .picker-row svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}.settings .picker-row input::-webkit-calendar-picker-indicator{display:none}.settings .date-zone{display:inline;font-size:11px;cursor:pointer;text-decoration:underline}.settings #zone-options{display:grid;gap:10px}.settings .checkrow{display:flex;align-items:center}.settings .checkrow input{width:auto}.settings #apply{background:#9bbeac;color:#0c201c}.settings .bookmarkedit input,.settings .savedrow button:first-child{flex:1}.settings #savedlist{max-height:150px;overflow:auto}.settings #bookmarks h2{font-size:14px}.settings #status:empty,[hidden]{display:none!important}
+</style>
+<main>
+<small>ASTRA · LOCAL PLAYTEST</small>
+<h1>Explore Jupiter</h1>
+<p>Descend through Jupiter’s clouds, collect polar research capsules and return HOME, or explore the Galilean moons in Visual.</p>
+<div class="view-settings"><label>Lighting<select id="surface-light" aria-label="Lighting"></select></label><button id="date-choice" type="button">Date &amp; time</button></div>
+<p id="date-label"></p>
+<nav aria-label="Jupiter activities">
+<a href="../../caloris-flight/?world=jupiter&amp;version=2.1&amp;v2=1&amp;site=grs&amp;mode=lander&amp;quick=1">Great Red Spot Overlook<small>A short, skippable Red Spot arrival, then descend through a cloud clearing to the powered station. Retries go straight to the flight.</small></a>
+<a href="../../caloris-flight/?world=jupiter&amp;version=2.1&amp;v2=1&amp;site=pole&amp;mode=collector&amp;quick=1">Polar Cyclone Ring Collector<small>Fly among layered polar clouds, recover three research capsules, then return to the same HOME platform. 45 seconds from first thrust.</small></a>
+<a href="../../visual/index.html?world=jupiter&amp;galilean=1">Galilean moons<small>Choose a moon to inspect its full globe. Io and Europa offer PLAY; Ganymede and Callisto have short introductions.</small></a>
+</nav>
+<p><a href="../../?go=jupiter-visual">Open Jupiter in ASTRA Visual</a> · The same three homes are available from encyclopedia Play and ASTRA → All activities.</p>
+<p>Lander/Collector: A/D or arrows turn; Space thrusts; Shift gives LOW on approach. Io: A/D turn, Space thrusts, Shift boosts. Europa: A/D propel left/right, Space rises, Shift dives. Touch controls support simultaneous inputs.</p>
+<p>The lander and collector retain separate records and postcards. Io and Europa save their new five-orb missions separately from the earlier probe courses. Historical records are preserved.</p>
+<details><summary>About the view</summary><p>The arrival shows a natural-color Juno image from 2017. The flight then enters an imagined clearing within the Red Spot’s clouds, with deeper weather visible below. Observations support cloud openings, but this is an artistic reconstruction rather than a measured view or a confirmed calm eye. The platform and flight stabilization are game fiction. Altitude measures clearance above the station; Jupiter has no solid landing surface here. The polar collector explores an imagined opening among pale northern cloud layers, with deeper swirling weather below; the complete cyclone ring extends beyond the local view. Selected-date sunlight uses Jupiter’s rotation at an approximate fixed longitude; the real Great Red Spot drifts. The polar reference is 84.5° N. Day, Dusk and Night are lighting presets; cloud motion follows game time, not historical weather.</p><p>Arrival image: NASA/JPL-Caltech/SwRI/MSSS/Björn Jónsson · <a href="https://science.nasa.gov/resource/jupiters-great-red-spot-in-true-color/" target="_blank" rel="noopener">Juno’s natural-color Red Spot</a>. Local clearing scenery is generated illustration.</p></details>
+<p>Quick activity checks: <a href="../../jupiter-moons/?moon=io&amp;play=1">Io Volcano Run</a> · <a href="../../jupiter-moons/?moon=europa&amp;play=1">Europa Ocean Dive</a></p>
+<a href="../../">Back to ASTRA</a>
+</main>
+</html>
