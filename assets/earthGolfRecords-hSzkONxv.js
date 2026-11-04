@@ -1,1 +1,0 @@
-import{b as e}from"./missions-DBLsgcoL.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
