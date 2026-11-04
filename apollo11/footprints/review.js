@@ -1,0 +1,45 @@
+const ids=[11,12,14,15,16,17],colors=['#6dd0cc','#ef9a76','#b1a1ef','#b7d77b'];
+const current={11:[220,180,1],12:[500,380,1],14:[370,260,6],15:[320,380,20],16:[320,390,20],17:[410,310,25]};
+const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const prose=v=>Array.isArray(v)?v.map(prose).join('; '):v&&typeof v==='object'?Object.entries(v).map(([k,x])=>`${k}: ${prose(x)}`).join(' · '):String(v??'Not established');
+const segments=r=>r.segments??[r.points];
+const length=r=>segments(r).reduce((sum,ps)=>sum+ps.slice(1).reduce((s,p,i)=>s+Math.hypot(p[0]-ps[i][0],p[1]-ps[i][1]),0),0);
+const dim=m=>m>=1000?`${+(m/1000).toFixed(2)} km`:`${Math.round(m)} m`;
+const dims=(w,h)=>w>=1000||h>=1000?`${+(w/1000).toFixed(2)} × ${+(h/1000).toFixed(2)} km`:`${Math.round(w)} × ${Math.round(h)} m`;
+const placeName=d=>d.title.replace(new RegExp(`^Apollo ${d.mission}\\s*[·—-]\\s*`),'');
+let records=[],selected=Number(new URLSearchParams(location.search).get('mission'))||11;
+function mapSvg(d,large=false){
+ const b=d.boundary,w=b.east-b.west,h=b.north-b.south,same=$('same-scale').checked&&!large,maxW=Math.max(...records.map(r=>r.boundary.east-r.boundary.west)),maxH=Math.max(...records.map(r=>r.boundary.north-r.boundary.south));
+ const extentW=same?maxW:w,extentH=same?maxH:h,pad=Math.max(extentW,extentH)*.1,x=(b.east+b.west-extentW)/2-pad,y=-(b.north+b.south+extentH)/2-pad,vw=extentW+pad*2,vh=extentH+pad*2,k=Math.max(vw,vh)/(large?650:300),r=d.map.registration,m=r.metresPerPixel;
+ const image=d.map.registeredToRoutes===false?'':`<g transform="rotate(${-r.northRotationDegrees})"><image class="source-image ${$('source-visible').checked?'':'off'}" href="${esc(d.map.image)}" x="${-r.originPixel[0]*m}" y="${-r.originPixel[1]*m}" width="${d.map.width*m}" height="${d.map.height*m}"/></g>`;
+ const route=d.routes.map((route,i)=>segments(route).map(points=>`<polyline points="${points.map(p=>`${p[0]},${-p[1]}`).join(' ')}" fill="none" stroke="${colors[i%colors.length]}" stroke-width="${k*(large?2:1.6)}" stroke-linejoin="round"><title>${esc(route.name)} — ${esc(route.accuracy)}; mapped line ${dim(length(route))}</title></polyline>`).join('')).join('');
+ const photoStations=new Set(d.photos.map(p=>p.stationId));
+ const stations=d.stations.map(s=>{const photo=photoStations.has(s.id),title=`${s.name} · E ${s.east} m, N ${s.north} m · ${s.accuracy}`;return `<g><circle cx="${s.east}" cy="${-s.north}" r="${k*(large?3:1.8)}" fill="${photo?'#ffe0a1':'#e8eeeb'}"><title>${esc(title)}</title></circle>${photo?`<rect x="${s.east-6*k}" y="${-s.north-6*k}" width="${12*k}" height="${12*k}" fill="none" stroke="#ffe0a1" stroke-width="${k}"><title>${esc(title)}</title></rect>`:''}${large&&(photo||s.id==='lm'||$('station-labels').checked)?`<text class="station-label" x="${s.east+7*k}" y="${-s.north-5*k}" fill="#eee" font-size="${10*k}">${esc(s.name)}</text>`:''}</g>`;}).join('');
+ const overlay=large&&$('terrain-overlay').value!=='none'?d.terrain[Number($('terrain-overlay').value||0)]:null;
+ const terrain=overlay?.coverage.polygons?.map(poly=>`<polygon points="${poly.map(p=>`${p[0]},${-p[1]}`).join(' ')}" fill="#72b9cb" fill-opacity=".13" stroke="#72b9cb" stroke-opacity=".65" stroke-width="${k}"><title>${esc(overlay.name)} outer footprint; valid-pixel coverage not audited</title></polygon>`).join('')||'';
+ const cameras=large?d.photos.filter(p=>Number.isFinite(p.camera.east)&&Number.isFinite(p.camera.north)).map(p=>`<path d="M${p.camera.east-4*k} ${-p.camera.north}h${8*k}M${p.camera.east} ${-p.camera.north-4*k}v${8*k}" stroke="#fff" stroke-width="${k*1.5}"><title>${esc(p.photoId)} mapped camera XY; orientation pending</title></path>`).join(''):'';
+ const scale=10**Math.floor(Math.log10(w/4)),scaleLength=w/4/scale>=5?5*scale:w/4/scale>=2?2*scale:scale;
+ return `<svg viewBox="${x} ${y} ${vw} ${vh}" role="img" aria-label="Apollo ${d.mission} mission footprint, ${dims(w,h)}"><defs><clipPath id="clip-${d.mission}-${large}"><rect x="${b.west}" y="${-b.north}" width="${w}" height="${h}"/></clipPath></defs><g clip-path="url(#clip-${d.mission}-${large})">${image}${terrain}${route}${stations}${cameras}</g><rect x="${b.west}" y="${-b.north}" width="${w}" height="${h}" fill="none" stroke="#dfbf7d" stroke-width="${k*1.6}" stroke-dasharray="${k*6} ${k*4}"/><path d="M${b.west} ${-b.south+pad*.52}h${scaleLength}" stroke="#ddd" stroke-width="${k*2}"/><text x="${b.west}" y="${-b.south+pad*.85}" fill="#ddd" font-size="${k*11}">${dim(scaleLength)}</text><text x="${b.east}" y="${-b.north-pad*.3}" text-anchor="end" fill="#ddd" font-size="${k*12}">N ↑</text></svg>`;
+}
+function renderCards(){
+ $('missions').innerHTML=records.map(d=>`<button class="mission" data-mission="${d.mission}" aria-pressed="${d.mission===selected}"><h3>Apollo ${d.mission}</h3><p>${esc(placeName(d))} · ${dims(d.boundary.east-d.boundary.west,d.boundary.north-d.boundary.south)}</p>${mapSvg(d)}</button>`).join('');
+ $('missions').querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=Number(b.dataset.mission);history.replaceState(null,'',`?mission=${selected}`);render();});
+}
+function render(){
+ const d=records.find(r=>r.mission===selected)||records[0];selected=d.mission;renderCards();
+ $('detail').hidden=false;$('title').textContent=`Apollo ${d.mission} · ${placeName(d)}`;$('play').href=`/apollo11/?region=${d.mission}&activity=free-ride`;
+ const w=d.boundary.east-d.boundary.west,h=d.boundary.north-d.boundary.south,c=current[d.mission];
+ $('metrics').innerHTML=`<div><strong>${dims(w,h)}</strong><span>Proposed full region · real dimensions</span></div><div><strong>${+(w*h/1e6).toFixed(4)} km²</strong><span>Boundary area · not distance traveled</span></div><div><strong>${dims(c[0],c[1])}</strong><span>Current playable rectangle · ${c[2]}:1 travel compression</span></div>`;
+ const oldOverlay=$('terrain-overlay').value;$('terrain-overlay').innerHTML=d.terrain.map((t,i)=>`<option value="${i}">${esc(t.name)}${t.coverage.polygons?'':' (geometry unavailable)'}</option>`).join('')+'<option value="none">Hide</option>';
+ if(oldOverlay==='none'||d.terrain[Number(oldOverlay)])$('terrain-overlay').value=oldOverlay||'0';
+ $('large-map').innerHTML=mapSvg(d,true);$('legend').innerHTML=d.routes.map((r,i)=>`<span><i style="background:${colors[i%colors.length]}"></i>${esc(r.name)} · ${dim(length(r))} mapped</span>`).join('');
+ $('registration').textContent=`${d.routes[0].accuracy} ${d.map.registeredToRoutes===false?'The old traverse map is available below as context; it is not stretched to fit these newer mapped paths.':d.map.uncertaintyM!=null?`Manual-trace position allowance: about ±${d.map.uncertaintyM} m.`:'Position uncertainty has not been quantified.'} ${d.frame.note||''}`;
+ $('boundary-note').textContent=d.boundary.rationale;$('gaps').innerHTML=d.gaps.map(g=>`<li>${esc(g)}</li>`).join('');$('source-map').href=d.map.image;
+ $('terrain').innerHTML=d.terrain.map(t=>`<article class="evidence"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.name)}</a><p>${t.resolutionM!=null?`${t.resolutionM} m pixels`:'Resolution unconfirmed'} · ${esc(t.projection)}</p><p>Elevation: ${esc(t.elevationDatum)}</p><p>${esc(t.coverage.status)} — ${esc(t.coverage.note)}</p></article>`).join('');
+ $('photos').innerHTML=d.photos.map(p=>`<article class="photo"><figure>${p.image?`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener"><img src="${esc(p.image)}" alt="${esc(p.subject)}" loading="lazy"></a>`:'Source image pending'}</figure><div class="body"><h4>${esc(p.subject)}</h4><a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">${esc(p.photoId)}</a><p>${esc(p.moment)}</p><details><summary>Scene evidence</summary><p><b>People:</b> ${esc(prose(p.actors))}</p><p><b>Equipment:</b> ${esc(prose(p.equipment))}</p><p><b>Camera:</b> ${esc(prose(p.camera))}</p><p>${esc(p.note)}</p></details></div></article>`).join('');
+ $('stations').innerHTML=`<table><thead><tr><th>Mapped station / landmark</th><th>East (m)</th><th>North (m)</th><th>Accuracy</th></tr></thead><tbody>${d.stations.map(s=>`<tr><td>${esc(s.name)}</td><td>${s.east}</td><td>${s.north}</td><td>${esc(s.accuracy)}</td></tr>`).join('')}</tbody></table>`;
+ $('sources').innerHTML='<ul>'+d.sources.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')+'</ul>';$('raw').href=`./${d.mission}.json`;
+}
+try{records=await Promise.all(ids.map(async id=>{const r=await fetch(`./${id}.json`);if(!r.ok)throw Error(`Apollo ${id}: source record unavailable (${r.status})`);return r.json();}));render();$('status').textContent='Research package only. Route traces and proposed boundaries still require terrain-mask and camera-station audits before final construction.';}catch(e){$('status').textContent=e.message;}
+$('same-scale').onchange=renderCards;$('source-visible').onchange=()=>records.length&&render();
+$('terrain-overlay').onchange=$('station-labels').onchange=()=>{$('large-map').innerHTML=mapSvg(records.find(r=>r.mission===selected),true);};

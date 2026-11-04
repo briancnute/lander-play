@@ -1,0 +1,460 @@
+{
+  "generated": "2026-11-03T16:35:12.342Z",
+  "method": "Offline containment, identity and evidence-asset checks. Does not certify exact camera geometry or valid elevation pixels.",
+  "missions": [
+    {
+      "mission": 11,
+      "dimensionsM": [
+        220,
+        180
+      ],
+      "areaKm2": 0.0396,
+      "routeStats": [
+        {
+          "id": "eva-1-cdr",
+          "segments": 235,
+          "vertices": 644,
+          "mappedLengthM": 631
+        },
+        {
+          "id": "eva-1-lmp",
+          "segments": 218,
+          "vertices": 456,
+          "mappedLengthM": 588
+        }
+      ],
+      "stations": 9,
+      "photos": 4,
+      "recordSha256": "192007f3f9b5a5454d2f0408a681d31c3fbba3e6d7d80195c642304a5d2a802d"
+    },
+    {
+      "mission": 12,
+      "dimensionsM": [
+        750,
+        650
+      ],
+      "areaKm2": 0.4875,
+      "routeStats": [
+        {
+          "id": "eva-1-cdr",
+          "segments": 166,
+          "vertices": 464,
+          "mappedLengthM": 1391
+        },
+        {
+          "id": "eva-1-lmp",
+          "segments": 166,
+          "vertices": 516,
+          "mappedLengthM": 1541
+        },
+        {
+          "id": "eva-2-cdr",
+          "segments": 233,
+          "vertices": 787,
+          "mappedLengthM": 1933
+        },
+        {
+          "id": "eva-2-lmp",
+          "segments": 268,
+          "vertices": 953,
+          "mappedLengthM": 2285
+        }
+      ],
+      "stations": 25,
+      "photos": 4,
+      "recordSha256": "77ec9f77faf1fa03fe5ff87df718b9d328cb1a4cfa9f54654006df11874a3101"
+    },
+    {
+      "mission": 14,
+      "dimensionsM": [
+        1900,
+        1300
+      ],
+      "areaKm2": 2.47,
+      "routeStats": [
+        {
+          "id": "eva-1-cdr",
+          "segments": 209,
+          "vertices": 707,
+          "mappedLengthM": 1422
+        },
+        {
+          "id": "eva-1-lmp",
+          "segments": 207,
+          "vertices": 622,
+          "mappedLengthM": 1150
+        },
+        {
+          "id": "eva-2-cdr",
+          "segments": 202,
+          "vertices": 1197,
+          "mappedLengthM": 4005
+        },
+        {
+          "id": "eva-2-lmp",
+          "segments": 201,
+          "vertices": 1155,
+          "mappedLengthM": 3771
+        }
+      ],
+      "stations": 34,
+      "photos": 4,
+      "recordSha256": "7437d929c8f019899adb9ab20a311664f308f61bb0e9d0b46e7d1540d3fe4146"
+    },
+    {
+      "mission": 15,
+      "dimensionsM": [
+        4000,
+        6000
+      ],
+      "areaKm2": 24,
+      "routeStats": [
+        {
+          "id": "eva-1",
+          "segments": 1,
+          "vertices": 26,
+          "mappedLengthM": 8443
+        },
+        {
+          "id": "eva-2",
+          "segments": 1,
+          "vertices": 42,
+          "mappedLengthM": 10418
+        },
+        {
+          "id": "eva-3",
+          "segments": 1,
+          "vertices": 22,
+          "mappedLengthM": 4102
+        }
+      ],
+      "stations": 19,
+      "photos": 4,
+      "recordSha256": "8167e3a4c4c12f86ab08445fb017b27191c9f0f521db8de8237a7b40a70aa722"
+    },
+    {
+      "mission": 16,
+      "dimensionsM": [
+        3000,
+        10000
+      ],
+      "areaKm2": 30,
+      "routeStats": [
+        {
+          "id": "eva-1",
+          "segments": 1,
+          "vertices": 13,
+          "mappedLengthM": 3094
+        },
+        {
+          "id": "eva-2",
+          "segments": 1,
+          "vertices": 31,
+          "mappedLengthM": 9018
+        },
+        {
+          "id": "eva-3",
+          "segments": 1,
+          "vertices": 37,
+          "mappedLengthM": 9804
+        }
+      ],
+      "stations": 16,
+      "photos": 4,
+      "recordSha256": "69db883a5e9d1aef9b1fd653bd596b34c260d30ad8d48bcfb356f6d66e1a82b9"
+    },
+    {
+      "mission": 17,
+      "dimensionsM": [
+        12000,
+        8000
+      ],
+      "areaKm2": 96,
+      "routeStats": [
+        {
+          "id": "eva-1",
+          "segments": 3,
+          "vertices": 120,
+          "mappedLengthM": 2623
+        },
+        {
+          "id": "eva-2",
+          "segments": 4,
+          "vertices": 562,
+          "mappedLengthM": 18120
+        },
+        {
+          "id": "eva-3",
+          "segments": 2,
+          "vertices": 445,
+          "mappedLengthM": 10592
+        }
+      ],
+      "stations": 14,
+      "photos": 4,
+      "recordSha256": "f865d404c15ee9ac2bcd7bc6658333f3d61bd0f33d27fc2f5e46d17753a24eb2"
+    }
+  ],
+  "assets": [
+    {
+      "path": "public/apollo11/reference/traverse-map.png",
+      "bytes": 326288,
+      "sha256": "feab90822c1dfafef5d4b09002dd996d0835f26bec5dc9679f4515462735af7a"
+    },
+    {
+      "path": "public/apollo11/photos/as11-40-5868.jpg",
+      "bytes": 197957,
+      "sha256": "0d2181ea9b360dc0052351396088baabbddae6aae4369e1a9201064e9fd60e98"
+    },
+    {
+      "path": "public/apollo11/photos/as11-40-5875.jpg",
+      "bytes": 238465,
+      "sha256": "7dd5e5efabf515286e5cf6a98fd47f95dc4eab31a31781fe89e9b9dc5621a640"
+    },
+    {
+      "path": "public/apollo11/photos/as11-40-5951.jpg",
+      "bytes": 187695,
+      "sha256": "1631cdfc59ca82f8e2864bdcb811dc6a72518c91c0625583d2085f27dc245bb4"
+    },
+    {
+      "path": "public/apollo11/photos/as11-40-5961.jpg",
+      "bytes": 75770,
+      "sha256": "62beaf4ab96700a88c342656eea87f9efb340c7abeb024de8db3a2171fda5e9b"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/12-alsj-2011.png",
+      "bytes": 222809,
+      "sha256": "3f62c6884ad356fa2cadcab04375fd2ecfa7ada5f994b51b1b61d980cd40c3c7"
+    },
+    {
+      "path": "public/apollo11/regions/12-0.jpg",
+      "bytes": 229777,
+      "sha256": "c2ac67dcb13396b8ddc51c322de6c9636c658bc75b10130e3dd5efc5e86e163e"
+    },
+    {
+      "path": "public/apollo11/regions/12-1.jpg",
+      "bytes": 134818,
+      "sha256": "ca7c8f9c40725f2c00749899dab21f9385b1ce01fc185d64ee7fedb45690c1f9"
+    },
+    {
+      "path": "public/apollo11/regions/12-4.jpg",
+      "bytes": 208742,
+      "sha256": "9fd87bce12e30a79204526f50b437543151ef04018a52f1d20ff2f5a696b019f"
+    },
+    {
+      "path": "public/apollo11/regions/12-2.jpg",
+      "bytes": 199152,
+      "sha256": "47b48b0b2b3e13b4b805b8446e98f7a696b0589de526eedc42a47aa8a78ef845"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/14-usgs-postflight.jpg",
+      "bytes": 4326823,
+      "sha256": "ed53e37a330d9381e261b9238ea680d315e4b9905cd11ae4caab0fb1ccbb7518"
+    },
+    {
+      "path": "public/apollo11/regions/14-0.jpg",
+      "bytes": 97914,
+      "sha256": "e9743143843cd569f0a8366952163829df1e1b3902becd40d84d797eae05cc60"
+    },
+    {
+      "path": "public/apollo11/regions/14-1.jpg",
+      "bytes": 31578,
+      "sha256": "aa85d1b3ee2cab729c7ff4665331c9760ce58d0c34a7ac7b0c66891a0a9e1884"
+    },
+    {
+      "path": "public/apollo11/regions/14-2.jpg",
+      "bytes": 63237,
+      "sha256": "210001eceb8f0ef8b13421c8cf45db37f8e92b5d8dc03d8e1482561f2cf7549f"
+    },
+    {
+      "path": "public/apollo11/regions/14-3.jpg",
+      "bytes": 119950,
+      "sha256": "6777384d2ed99ed6c397927862d5445e641fafe80eea8be1500aa8e22590a0cd"
+    },
+    {
+      "path": "public/apollo11/regions/15-map.png",
+      "bytes": 561326,
+      "sha256": "661183ddacb6fca5f86c7259ec7950c50537377c604dfb6e1ec42b499c4f7fa0"
+    },
+    {
+      "path": "public/apollo11/regions/15-0.jpg",
+      "bytes": 109683,
+      "sha256": "e3ecc1e55a07229c040aa854745d708484843dc9e24121fcc5ac1678f1182e0d"
+    },
+    {
+      "path": "public/apollo11/regions/15-2.jpg",
+      "bytes": 130567,
+      "sha256": "de3e9b2cf37f29053081101e3b140094b44043f9beb0cac3024c712ad0a03638"
+    },
+    {
+      "path": "public/apollo11/regions/15-1.jpg",
+      "bytes": 236374,
+      "sha256": "abe7c5b9016f0a055632770592aa67474ba13fb31c348e9fbf39f73d990e4670"
+    },
+    {
+      "path": "public/apollo11/footprints/AS15-82-11147.jpg",
+      "bytes": 219124,
+      "sha256": "6d5b93e61be37f76314e14bde9674eacc75e0c6ea63d52147830b0905cf3ea68"
+    },
+    {
+      "path": "public/apollo11/regions/16-map.png",
+      "bytes": 423336,
+      "sha256": "e6bb5e3af17d8e686b2bb37db55068d4da5c3cda10aa6cb882471a41df4f3123"
+    },
+    {
+      "path": "public/apollo11/regions/16-0.jpg",
+      "bytes": 153208,
+      "sha256": "3c2f3498225aa7eb203e1c3933b6d79e3876baeb2adf0ff38fa47340a012bf9e"
+    },
+    {
+      "path": "public/apollo11/regions/16-1.jpg",
+      "bytes": 155374,
+      "sha256": "ae2dbe96d02aa73223da7b16b74e7b67371a22b737fd25bb2a6d9bab2d72f9b9"
+    },
+    {
+      "path": "public/apollo11/regions/16-2.jpg",
+      "bytes": 157317,
+      "sha256": "f85e465317ac95365ac6a98108a1bee25276c9b68ac603b68615d03fe005d5df"
+    },
+    {
+      "path": "public/apollo11/regions/16-3.jpg",
+      "bytes": 174654,
+      "sha256": "679434729bcf46d4c7ce4f25c79a9caedacc122dfea7e8325367304dd56b5378"
+    },
+    {
+      "path": "public/apollo11/footprints/17-gis-source.zip",
+      "bytes": 25742,
+      "sha256": "aa81e446f54b1504bbbdc656c4455474e94d8257e3cb7293ffb1ef7ea228890b"
+    },
+    {
+      "path": "public/apollo11/regions/17-map.jpg",
+      "bytes": 106746,
+      "sha256": "542c4c42e4d921e4520f9f5c2f3a4d629733bc5dd54dd7ce975e6492fe5baeee"
+    },
+    {
+      "path": "public/apollo11/regions/17-0.jpg",
+      "bytes": 101780,
+      "sha256": "6e23b33f84350c108b6b9c8e0d5219259fc48d38873e801ff84221f7e356b610"
+    },
+    {
+      "path": "public/apollo11/regions/17-3.jpg",
+      "bytes": 158949,
+      "sha256": "6d047f725ca6cccf6134ffb3ee4754add9be181200206dd7f0f0cfdf603efdd6"
+    },
+    {
+      "path": "public/apollo11/regions/17-1.jpg",
+      "bytes": 176337,
+      "sha256": "62907c008b87f25b1b4c8165c174d97a2e489fc36b96fb91e6f36d5ac96cee44"
+    },
+    {
+      "path": "public/apollo11/regions/17-2.jpg",
+      "bytes": 122955,
+      "sha256": "cb9e4a4bdef888f1a91b874f8be074987002626f4541d0c52d681db11da9ac2e"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/11-DTM-LABEL.TXT",
+      "bytes": 4568,
+      "sha256": "dca3848e7728348dd48dec4ed61cfa4c83ee725b23bd6d6afb75c89331c98475"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/11-DTM-README.TXT",
+      "bytes": 8641,
+      "sha256": "175d0fe1dc363d733c4e5dcbc44b8e0f2aae21a9172e9725a853f0e021a6925d"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/12-DTM-LABEL.TXT",
+      "bytes": 4576,
+      "sha256": "e7543f1e07b9d39e3e6b1fde74d63da5cfea65cb96b29f68e7a06faaabc47525"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/12-DTM-README.TXT",
+      "bytes": 8564,
+      "sha256": "4c0b005dd6aa0135c68b8d915eff43e5c2cc5c543d69409c55bc88977fd14da3"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/12-alsj-2011.pdf",
+      "bytes": 338363,
+      "sha256": "d1cf6264543b2df7d506d5c05016e9846565035a946d040c6d3075c95ecba13b"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/14-DTM-LABEL.TXT",
+      "bytes": 4586,
+      "sha256": "4cb3c9a013ca1525233612cfc56cd870de46311679910f3830164538d2c63258"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/14-DTM-README.TXT",
+      "bytes": 8564,
+      "sha256": "24bddb814a22bd34c083003a28ea7232b77be36b2442e699600eaa72e2797ae5"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/APOLLO_11.ZIP",
+      "bytes": 116096,
+      "sha256": "b1f63da2a1764cb17d99c73206f3448a7cb8d36d70323563a80c200ec852f767"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/APOLLO_12.ZIP",
+      "bytes": 313003,
+      "sha256": "f37d068ccc628226bff6068a48555722de659bedfc64b3fb994039a61f727591"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/APOLLO_14.ZIP",
+      "bytes": 274213,
+      "sha256": "08d30bc5abdfc4c53f0b51fcaf41b1cd1ed3a1895002a235cf5ca6b5e0bcda8d"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO15.LBL",
+      "bytes": 3569,
+      "sha256": "9a8efbafc3c704b2195950561f1e02a586d23d0cb5c3a5eecb056db98e19ca72"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO15_2.LBL",
+      "bytes": 3584,
+      "sha256": "0b5cc36a854c8d5b7f553873fa75e636fd2e487922f4ce36ad0f87ee7c5c1505"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO15_2_README.TXT",
+      "bytes": 8665,
+      "sha256": "b414bfe89f45eacc2e054ec3f1e11a364082e9ae2ef710a1d3454d2af15256b7"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO15_README.TXT",
+      "bytes": 8657,
+      "sha256": "7382559ee214f08e1c5f399773c7d6b4c29f96c5c0376ed3d3417141dfdc424e"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO16.LBL",
+      "bytes": 3570,
+      "sha256": "4f0ebfe199122158f2f3619b2c8cbd0c399e85295272aef4df12ab562cdbe1ee"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO16_README.TXT",
+      "bytes": 8986,
+      "sha256": "193c30878cd1563665e52678f760d10665069a40393da318d3e6547e9176f8b1"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO17.LBL",
+      "bytes": 3652,
+      "sha256": "b5ba3ece9ec66486df1a7bedce0bf2e610f8e4a4a96c174cdc36534446c58c25"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO17_2M.LBL",
+      "bytes": 3608,
+      "sha256": "4b8e721e59b162d5d1a26182fd154aa1d4775c2006dc13cfa204ff9885ced454"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO17_2M_README.TXT",
+      "bytes": 9253,
+      "sha256": "6d6e2e8daeb18b3455b80aafa08e5ae043be0087ef1d9e322e2374bfe82b00f6"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/NAC_DTM_APOLLO17_README.TXT",
+      "bytes": 9567,
+      "sha256": "84eefc7ab0bad79620ee7616861c8debc637c9d78bd3b6c020a495973e3d8e98"
+    },
+    {
+      "path": "public/apollo11/footprints/sources/dtm-footprints-index.json",
+      "bytes": 2153671,
+      "sha256": "2069efe28c1b5877ff613f8a229de3fd317d44f25b2dac64a063fc8148968339"
+    }
+  ]
+}

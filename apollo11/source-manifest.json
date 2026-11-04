@@ -1,0 +1,80 @@
+{
+  "site": "Apollo 11",
+  "era": "Time-neutral exploration layer with selected July 1969 reconstruction scenes; not an exact present-day remains survey",
+  "retrieved": "2026-10-30",
+  "scale": {
+    "realMetresPerGameMetre": 1,
+    "sceneUnitsPerMetre": 1
+  },
+  "map": {
+    "title": "Apollo 11 Preliminary Science Report, NASA SP-214",
+    "url": "https://ntrs.nasa.gov/api/citations/19700000726/downloads/19700000726.pdf",
+    "sha256": "99b1984f2e0e66682d2a33331f39915447e89032055683d283620c52b2f9fdcb",
+    "credit": "NASA / USGS",
+    "figures": [
+      "3-15",
+      "3-16"
+    ],
+    "printedPages": [
+      51,
+      52
+    ],
+    "pdfPagesOneBased": [
+      59,
+      60
+    ],
+    "processing": "Full pages rasterized at 1.6 pixels per PDF point; no image crop or geometric correction.",
+    "registration": {
+      "image": "reference/traverse-map.png",
+      "pixels": [
+        980,
+        1233
+      ],
+      "eagleCenter": [
+        438,
+        443
+      ],
+      "pixelsPerMetre": 12,
+      "northVector": [
+        -1,
+        -46
+      ]
+    },
+    "equipmentPixels": {
+      "tv": [
+        288,
+        250
+      ],
+      "flag": [
+        363,
+        374
+      ],
+      "solar": [
+        380,
+        359
+      ],
+      "reflector": [
+        426,
+        643
+      ],
+      "seismometer": [
+        455,
+        695
+      ]
+    },
+    "limitations": "Manual digitization of a preliminary map. Use at least a 2 m interpretation allowance; not a modern geodetic survey. Figure 3-15 notes camera-position uncertainty around 1.5 m and azimuth errors of 3 degrees or more. The allowance is not a statistical accuracy guarantee."
+  },
+  "comparison": {
+    "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a11/a11Photogrammetry.html",
+    "credit": "Vladislav Pustynski and Eric M. Jones, NASA-hosted Apollo Lunar Surface Journal",
+    "use": "Read for mapping limitations and revised Little West panorama interpretation. Newer coordinates were not substituted into the preliminary equipment map.",
+    "littleWest": "Approximate 30\u201333 m crater diameter and ~60 m panorama distance. Panorama (57 E, 15 S) and crater center (70 E, 1 N) are interpreted anchors, not digitized high-precision coordinates."
+  },
+  "routes": "Simplified centerlines through figure 3-16 disturbed corridors; connection to Little West interpreted. Individual prints are enlarged authored symbols. Former dotted connectors are retained only as an authored safe QA route; gameplay now uses destination circles and an offscreen indicator.",
+  "terrain": "Crater plan outlines constrained by the report; depths, rim heights, microrelief, unrecorded stones and distant relief are representative. One shared triangle sampler for rendering and contact.",
+  "lighting": "Fixed approximate low eastern mission sunlight (about 14 degrees), not a validated astronomical ephemeris. Black daytime sky. No present-day wear state.",
+  "equipment": "Simplified geometry informed by mission photographs. The flag stays visible as a historical landmark, without claiming a present-day upright flag. Other hardware and interpreted astronaut poses appear during historical reveals only. Each stop selects a task tableau; these do not represent one simultaneous mission moment. Camera framings and actor poses are authored photo-inspired interpretations, not validated photogrammetric reconstructions.",
+  "photos": "See photo-sources.json for original NASA asset IDs, download URLs and credits. JSC2008E040725 is a stitched and retouched panorama, not one frame.",
+  "gameplay": "Fictional Astra scooter, enlarged footprints, lesson order, collision margins and exploration boundary are deliberate adaptations. Viewing stops are spaced around the work area for riding clearance and are not claimed as exact astronaut task positions. Historical equipment remains in its registered positions. No horizontal distance compression. Expedition cap 10 m/s, Free Ride 12 m/s, with a 4 m/s cap within 4 m of the persistent flagpole. Four required readings and a return summary; 74 m opening approach, 292.3 m authored itinerary. Stopping with half the oriented scooter footprint inside a 0.76 m shimmering ring triggers the Expedition scene immediately. Apparition-only equipment has no physical collision or camera obstruction. Free Ride has no equipment reveals. The scooter faces the scene and leaves a bounded wheel trail. Both modes reuse the unscored Scoot Attack interpreter; Brake becomes Trick in the air. Boundary exit gives three seconds with progressive grayscale, then safe recovery.",
+  "expansion": "Apollo 11 source registration retained. Six-region expansion provenance and compression: regions/README.md and regions/sources.json. Later regions have independent saves."
+}

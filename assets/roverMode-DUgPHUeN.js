@@ -1,0 +1,1 @@
+import{s as e,t}from"./fullMode-vqEdbUw5.js";var n=e((typeof location>`u`?new URLSearchParams:new URLSearchParams(location.search)).get(`region`)),r=n===16?16:n===17?17:15,i=(n===15||n===16||n===17)&&!t,a=r===17?`/apollo11/terrain17/manifest.json`:`/apollo11/rover-terrain/${r}/manifest.json`;export{i as n,a as t};

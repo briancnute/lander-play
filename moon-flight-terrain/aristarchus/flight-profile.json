@@ -1,0 +1,422 @@
+{
+  "headingDeg": 0,
+  "lengthM": 204,
+  "points": [
+    {
+      "distanceM": 0.0,
+      "eastM": 0,
+      "northM": -102.0,
+      "heightM": -1829.3553466796875
+    },
+    {
+      "distanceM": 3.0,
+      "eastM": 0,
+      "northM": -99.0,
+      "heightM": -1829.4112548828125
+    },
+    {
+      "distanceM": 6.0,
+      "eastM": 0,
+      "northM": -96.0,
+      "heightM": -1829.4288330078125
+    },
+    {
+      "distanceM": 9.0,
+      "eastM": 0,
+      "northM": -93.0,
+      "heightM": -1829.458740234375
+    },
+    {
+      "distanceM": 12.0,
+      "eastM": 0,
+      "northM": -90.0,
+      "heightM": -1829.5198974609375
+    },
+    {
+      "distanceM": 15.0,
+      "eastM": 0,
+      "northM": -87.0,
+      "heightM": -1829.5970458984375
+    },
+    {
+      "distanceM": 18.0,
+      "eastM": 0,
+      "northM": -84.0,
+      "heightM": -1829.6846923828125
+    },
+    {
+      "distanceM": 21.0,
+      "eastM": 0,
+      "northM": -81.0,
+      "heightM": -1829.7979736328125
+    },
+    {
+      "distanceM": 24.0,
+      "eastM": 0,
+      "northM": -78.0,
+      "heightM": -1829.954345703125
+    },
+    {
+      "distanceM": 27.0,
+      "eastM": 0,
+      "northM": -75.0,
+      "heightM": -1830.1490478515625
+    },
+    {
+      "distanceM": 30.0,
+      "eastM": 0,
+      "northM": -72.0,
+      "heightM": -1830.2974853515625
+    },
+    {
+      "distanceM": 33.0,
+      "eastM": 0,
+      "northM": -69.0,
+      "heightM": -1830.4000244140625
+    },
+    {
+      "distanceM": 36.0,
+      "eastM": 0,
+      "northM": -66.0,
+      "heightM": -1830.43798828125
+    },
+    {
+      "distanceM": 39.0,
+      "eastM": 0,
+      "northM": -63.0,
+      "heightM": -1830.375
+    },
+    {
+      "distanceM": 42.0,
+      "eastM": 0,
+      "northM": -60.0,
+      "heightM": -1830.3245849609375
+    },
+    {
+      "distanceM": 45.0,
+      "eastM": 0,
+      "northM": -57.0,
+      "heightM": -1830.35107421875
+    },
+    {
+      "distanceM": 48.0,
+      "eastM": 0,
+      "northM": -54.0,
+      "heightM": -1830.440185546875
+    },
+    {
+      "distanceM": 51.0,
+      "eastM": 0,
+      "northM": -51.0,
+      "heightM": -1830.5142822265625
+    },
+    {
+      "distanceM": 54.0,
+      "eastM": 0,
+      "northM": -48.0,
+      "heightM": -1830.5185546875
+    },
+    {
+      "distanceM": 57.0,
+      "eastM": 0,
+      "northM": -45.0,
+      "heightM": -1830.4769287109375
+    },
+    {
+      "distanceM": 60.0,
+      "eastM": 0,
+      "northM": -42.0,
+      "heightM": -1830.4013671875
+    },
+    {
+      "distanceM": 63.0,
+      "eastM": 0,
+      "northM": -39.0,
+      "heightM": -1830.306640625
+    },
+    {
+      "distanceM": 66.0,
+      "eastM": 0,
+      "northM": -36.0,
+      "heightM": -1830.2086181640625
+    },
+    {
+      "distanceM": 69.0,
+      "eastM": 0,
+      "northM": -33.0,
+      "heightM": -1830.110595703125
+    },
+    {
+      "distanceM": 72.0,
+      "eastM": 0,
+      "northM": -30.0,
+      "heightM": -1830.1048583984375
+    },
+    {
+      "distanceM": 75.0,
+      "eastM": 0,
+      "northM": -27.0,
+      "heightM": -1830.12548828125
+    },
+    {
+      "distanceM": 78.0,
+      "eastM": 0,
+      "northM": -24.0,
+      "heightM": -1830.15771484375
+    },
+    {
+      "distanceM": 81.0,
+      "eastM": 0,
+      "northM": -21.0,
+      "heightM": -1830.2481689453125
+    },
+    {
+      "distanceM": 84.0,
+      "eastM": 0,
+      "northM": -18.0,
+      "heightM": -1830.31787109375
+    },
+    {
+      "distanceM": 87.0,
+      "eastM": 0,
+      "northM": -15.0,
+      "heightM": -1830.3680419921875
+    },
+    {
+      "distanceM": 90.0,
+      "eastM": 0,
+      "northM": -12.0,
+      "heightM": -1830.381591796875
+    },
+    {
+      "distanceM": 93.0,
+      "eastM": 0,
+      "northM": -9.0,
+      "heightM": -1830.3638916015625
+    },
+    {
+      "distanceM": 96.0,
+      "eastM": 0,
+      "northM": -6.0,
+      "heightM": -1830.3404541015625
+    },
+    {
+      "distanceM": 99.0,
+      "eastM": 0,
+      "northM": -3.0,
+      "heightM": -1830.3134765625
+    },
+    {
+      "distanceM": 102.0,
+      "eastM": 0,
+      "northM": 0.0,
+      "heightM": -1830.25390625
+    },
+    {
+      "distanceM": 105.0,
+      "eastM": 0,
+      "northM": 3.0,
+      "heightM": -1830.15966796875
+    },
+    {
+      "distanceM": 108.0,
+      "eastM": 0,
+      "northM": 6.0,
+      "heightM": -1830.0635986328125
+    },
+    {
+      "distanceM": 111.0,
+      "eastM": 0,
+      "northM": 9.0,
+      "heightM": -1829.997314453125
+    },
+    {
+      "distanceM": 114.0,
+      "eastM": 0,
+      "northM": 12.0,
+      "heightM": -1829.9539794921875
+    },
+    {
+      "distanceM": 117.0,
+      "eastM": 0,
+      "northM": 15.0,
+      "heightM": -1829.9561767578125
+    },
+    {
+      "distanceM": 120.0,
+      "eastM": 0,
+      "northM": 18.0,
+      "heightM": -1830.0216064453125
+    },
+    {
+      "distanceM": 123.0,
+      "eastM": 0,
+      "northM": 21.0,
+      "heightM": -1830.103759765625
+    },
+    {
+      "distanceM": 126.0,
+      "eastM": 0,
+      "northM": 24.0,
+      "heightM": -1830.161865234375
+    },
+    {
+      "distanceM": 129.0,
+      "eastM": 0,
+      "northM": 27.0,
+      "heightM": -1830.183349609375
+    },
+    {
+      "distanceM": 132.0,
+      "eastM": 0,
+      "northM": 30.0,
+      "heightM": -1830.1893310546875
+    },
+    {
+      "distanceM": 135.0,
+      "eastM": 0,
+      "northM": 33.0,
+      "heightM": -1830.1973876953125
+    },
+    {
+      "distanceM": 138.0,
+      "eastM": 0,
+      "northM": 36.0,
+      "heightM": -1830.206787109375
+    },
+    {
+      "distanceM": 141.0,
+      "eastM": 0,
+      "northM": 39.0,
+      "heightM": -1830.3077392578125
+    },
+    {
+      "distanceM": 144.0,
+      "eastM": 0,
+      "northM": 42.0,
+      "heightM": -1830.544921875
+    },
+    {
+      "distanceM": 147.0,
+      "eastM": 0,
+      "northM": 45.0,
+      "heightM": -1830.806884765625
+    },
+    {
+      "distanceM": 150.0,
+      "eastM": 0,
+      "northM": 48.0,
+      "heightM": -1831.0009765625
+    },
+    {
+      "distanceM": 153.0,
+      "eastM": 0,
+      "northM": 51.0,
+      "heightM": -1831.1175537109375
+    },
+    {
+      "distanceM": 156.0,
+      "eastM": 0,
+      "northM": 54.0,
+      "heightM": -1831.155029296875
+    },
+    {
+      "distanceM": 159.0,
+      "eastM": 0,
+      "northM": 57.0,
+      "heightM": -1831.1136474609375
+    },
+    {
+      "distanceM": 162.0,
+      "eastM": 0,
+      "northM": 60.0,
+      "heightM": -1831.049072265625
+    },
+    {
+      "distanceM": 165.0,
+      "eastM": 0,
+      "northM": 63.0,
+      "heightM": -1830.97021484375
+    },
+    {
+      "distanceM": 168.0,
+      "eastM": 0,
+      "northM": 66.0,
+      "heightM": -1830.804443359375
+    },
+    {
+      "distanceM": 171.0,
+      "eastM": 0,
+      "northM": 69.0,
+      "heightM": -1830.615234375
+    },
+    {
+      "distanceM": 174.0,
+      "eastM": 0,
+      "northM": 72.0,
+      "heightM": -1830.459228515625
+    },
+    {
+      "distanceM": 177.0,
+      "eastM": 0,
+      "northM": 75.0,
+      "heightM": -1830.2655029296875
+    },
+    {
+      "distanceM": 180.0,
+      "eastM": 0,
+      "northM": 78.0,
+      "heightM": -1830.1031494140625
+    },
+    {
+      "distanceM": 183.0,
+      "eastM": 0,
+      "northM": 81.0,
+      "heightM": -1830.006591796875
+    },
+    {
+      "distanceM": 186.0,
+      "eastM": 0,
+      "northM": 84.0,
+      "heightM": -1829.9105224609375
+    },
+    {
+      "distanceM": 189.0,
+      "eastM": 0,
+      "northM": 87.0,
+      "heightM": -1829.8238525390625
+    },
+    {
+      "distanceM": 192.0,
+      "eastM": 0,
+      "northM": 90.0,
+      "heightM": -1829.7066650390625
+    },
+    {
+      "distanceM": 195.0,
+      "eastM": 0,
+      "northM": 93.0,
+      "heightM": -1829.49267578125
+    },
+    {
+      "distanceM": 198.0,
+      "eastM": 0,
+      "northM": 96.0,
+      "heightM": -1829.2257080078125
+    },
+    {
+      "distanceM": 201.0,
+      "eastM": 0,
+      "northM": 99.0,
+      "heightM": -1829.0072021484375
+    },
+    {
+      "distanceM": 204.0,
+      "eastM": 0,
+      "northM": 102.0,
+      "heightM": -1828.8348388671875
+    }
+  ],
+  "reliefM": 2.3201904296875,
+  "note": "Measured ground profile only, no landing pad flattening or collision authoring."
+}

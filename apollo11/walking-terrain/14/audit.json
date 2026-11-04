@@ -1,0 +1,290 @@
+{
+  "mission": 14,
+  "nodes": 1034241,
+  "validNodes": 1034241,
+  "noData": 0,
+  "artificialFillNodes": 0,
+  "trustedNodes": 922317,
+  "lowOrUnknownConfidenceNodes": 111924,
+  "confidenceContributors": {
+    "3": 185928,
+    "10": 3288,
+    "11": 19948,
+    "12": 128402,
+    "13": 870533,
+    "14": 2928865
+  },
+  "outputConfidence": {
+    "3": 111924,
+    "10": 1631,
+    "11": 10043,
+    "12": 60068,
+    "13": 305498,
+    "14": 545077
+  },
+  "playable": {
+    "nodes": 619101,
+    "noData": 0,
+    "lowOrUnknownConfidenceNodes": 69230,
+    "minHeightM": -46.75130844116211,
+    "maxHeightM": 118.64627075195312,
+    "slope95Degrees": 15.768139839172363,
+    "maxSlopeDegrees": 52.21603012084961
+  },
+  "orthophoto": {
+    "validNodes": 1034241,
+    "invalidNodes": 0,
+    "playableInvalidNodes": 0,
+    "displayBlack": 0.01637683090181347,
+    "displayWhite": 0.05611660589510942
+  },
+  "routes": [
+    {
+      "id": "eva-1-cdr",
+      "name": "EVA 1 \u00b7 Shepard",
+      "samples": 1462,
+      "valid": 1462,
+      "outsidePlayable": 0,
+      "lowConfidence": 538,
+      "confidence": {
+        "3": 538,
+        "12": 81,
+        "13": 407,
+        "14": 436
+      },
+      "slope95Degrees": 13.694521972098803,
+      "maxSlopeDegrees": 15.734943359226348
+    },
+    {
+      "id": "eva-1-lmp",
+      "name": "EVA 1 \u00b7 Mitchell",
+      "samples": 1221,
+      "valid": 1221,
+      "outsidePlayable": 0,
+      "lowConfidence": 555,
+      "confidence": {
+        "3": 555,
+        "10": 3,
+        "11": 2,
+        "12": 57,
+        "13": 293,
+        "14": 311
+      },
+      "slope95Degrees": 14.285679971404408,
+      "maxSlopeDegrees": 15.812669857841902
+    },
+    {
+      "id": "eva-2-cdr",
+      "name": "EVA 2 \u00b7 Shepard",
+      "samples": 3488,
+      "valid": 3488,
+      "outsidePlayable": 0,
+      "lowConfidence": 411,
+      "confidence": {
+        "3": 411,
+        "10": 1,
+        "11": 40,
+        "12": 136,
+        "13": 1065,
+        "14": 1835
+      },
+      "slope95Degrees": 12.33898140651347,
+      "maxSlopeDegrees": 15.713736135820827
+    },
+    {
+      "id": "eva-2-lmp",
+      "name": "EVA 2 \u00b7 Mitchell",
+      "samples": 3334,
+      "valid": 3334,
+      "outsidePlayable": 0,
+      "lowConfidence": 289,
+      "confidence": {
+        "3": 289,
+        "10": 1,
+        "11": 56,
+        "12": 121,
+        "13": 1062,
+        "14": 1805
+      },
+      "slope95Degrees": 11.930143354380204,
+      "maxSlopeDegrees": 18.629382153331935
+    }
+  ],
+  "sourceCameraAnchors": [
+    {
+      "name": "LM",
+      "east": 0.0,
+      "north": 0.0,
+      "heightM": 0.0,
+      "slopeDegrees": 14.471245806674132,
+      "confidence": 3,
+      "trusted": false
+    },
+    {
+      "name": "AS14-66-9305",
+      "east": -15.68,
+      "north": 2.04,
+      "heightM": -1.537320767270785,
+      "slopeDegrees": 2.875789147695559,
+      "confidence": 14,
+      "trusted": true
+    },
+    {
+      "name": "AS14-66-9256",
+      "east": 8.29,
+      "north": 9.65,
+      "heightM": -1.9761946099515626,
+      "slopeDegrees": 1.838401721568652,
+      "confidence": 13,
+      "trusted": true
+    },
+    {
+      "name": "AS14-68-9453",
+      "east": 1269.67,
+      "north": 455.01,
+      "heightM": 100.52920598979892,
+      "slopeDegrees": 3.0032020430642703,
+      "confidence": 13,
+      "trusted": true
+    }
+  ],
+  "sourceRanges": {
+    "height": {
+      "product": "NAC_DTM_APOLLO14_E034S3425",
+      "kind": "height",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO14/NAC_DTM_APOLLO14_E034S3425.IMG",
+      "sourceWidth": 2156,
+      "sourceHeight": 14400,
+      "firstRow": 9707,
+      "rowCount": 904,
+      "dtype": "<f4",
+      "transform": [
+        2.0000000000006,
+        0,
+        4919932.000001476,
+        0,
+        -2.0000000000006,
+        -89856.00000002695,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",-3.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO14_E034S3425.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/124194224",
+        "etag": "\"adae500176e8f15baa232062c5f727ca\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:56 GMT",
+        "bytes": 16384,
+        "sha256": "d6458cf07e04381bf40f4a39d500d0b6bbe293119b5e5ed1e68ea786d9e36f58",
+        "elapsedSeconds": 0.4
+      },
+      "range": {
+        "contentRange": "bytes 83721792-91517887/124194224",
+        "etag": "\"adae500176e8f15baa232062c5f727ca\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:56 GMT",
+        "bytes": 7796096,
+        "sha256": "539f7bd7bee2424d1817c499a5292b912e1a5bbfb740b1374c05e4b65aa260cd",
+        "elapsedSeconds": 2.1
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO14_E034S3425.LBL"
+    },
+    "confidence": {
+      "product": "NAC_DTM_APOLLO14_CONF",
+      "kind": "confidence",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO14/NAC_DTM_APOLLO14_CONF.IMG",
+      "sourceWidth": 2156,
+      "sourceHeight": 14400,
+      "firstRow": 9707,
+      "rowCount": 904,
+      "dtype": "uint8",
+      "transform": [
+        2.0000000000006,
+        0,
+        4919932.000001476,
+        0,
+        -2.0000000000006,
+        -89856.00000002695,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",-3.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO14_CONF.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/31052868",
+        "etag": "\"608926c04cafa936516f3beef2e7be4a\"",
+        "lastModified": "Fri, 14 Aug 2026 18:35:13 GMT",
+        "bytes": 16384,
+        "sha256": "994f533aa7c54f6481e9301102b234b535dd5d9d3a05a936f2b4e03d67280dc7",
+        "elapsedSeconds": 0.5
+      },
+      "range": {
+        "contentRange": "bytes 20934760-22883783/31052868",
+        "etag": "\"608926c04cafa936516f3beef2e7be4a\"",
+        "lastModified": "Fri, 14 Aug 2026 18:35:13 GMT",
+        "bytes": 1949024,
+        "sha256": "12b74dde8e232cb7754f329784d29cd53ae1bc848e6ba4392593372b86f3e840",
+        "elapsedSeconds": 0.7
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO14_CONF.LBL"
+    },
+    "ortho": {
+      "product": "NAC_DTM_APOLLO14_M150633128_2M",
+      "kind": "ortho",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO14/NAC_DTM_APOLLO14_M150633128_2M.IMG",
+      "sourceWidth": 2156,
+      "sourceHeight": 14400,
+      "firstRow": 9707,
+      "rowCount": 904,
+      "dtype": "<u2",
+      "transform": [
+        2.0000000000006,
+        0,
+        4919932.000001476,
+        0,
+        -2.0000000000006,
+        -89856.00000002695,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",-3.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO14_M150633128_2M.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/62101424",
+        "etag": "\"b972f19f578ea5765be9a1d5359b3eb0\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:53 GMT",
+        "bytes": 16384,
+        "sha256": "65b99feb1ebd14aa16ccc44c7333600cf36d9f7be2c7eaaf376cb45734d6dada",
+        "elapsedSeconds": 0.7
+      },
+      "range": {
+        "contentRange": "bytes 41865208-45763255/62101424",
+        "etag": "\"b972f19f578ea5765be9a1d5359b3eb0\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:53 GMT",
+        "bytes": 3898048,
+        "sha256": "32fc197924ebe1341afa0699e269228ef5d6722c5241a567c6970298d6a5e2cc",
+        "elapsedSeconds": 0.9
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO14_M150633128_2M.LBL",
+      "sampleFactor": 0.00016750418760469,
+      "sampleOffset": -0.0050251256281407
+    }
+  },
+  "footprintSha256": "7437d929c8f019899adb9ab20a311664f308f61bb0e9d0b46e7d1540d3fe4146",
+  "confidenceMeaning": {
+    "0": "NoData",
+    "1": "shadow",
+    "2": "saturated",
+    "3": "suspicious",
+    "4": "interpolated/extrapolated",
+    "10-14": "successful correlation",
+    "15": "manual edit",
+    "other": "undocumented; untrusted"
+  },
+  "confidenceRule": "All four bilinear contributors must be classes10\u201315. Unknown codes propagate as untrusted."
+}

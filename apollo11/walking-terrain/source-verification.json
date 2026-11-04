@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "sites": [
+    {
+      "mission": 11,
+      "passed": true,
+      "nodes": 82497,
+      "sha256": "22e2bf852d4e40fe2139e352412908ddfca5f7f70c7722dffca79627fcaa968d",
+      "projectedOriginDifferenceM": 0.00014601368204345685,
+      "independentSampleMaxDifferenceM": 4.641872237698408e-07,
+      "sourceRouteSamples": 1677,
+      "noData": 0,
+      "artificialFills": 0
+    },
+    {
+      "mission": 12,
+      "passed": true,
+      "nodes": 328833,
+      "sha256": "91485b2b3d464d9a659d6b2c976dbf1c54882e4223137056203cf94345c686fb",
+      "projectedOriginDifferenceM": 0.00011656170673111784,
+      "independentSampleMaxDifferenceM": 8.965441793407081e-07,
+      "sourceRouteSamples": 6462,
+      "noData": 0,
+      "artificialFills": 0
+    },
+    {
+      "mission": 14,
+      "passed": true,
+      "nodes": 1034241,
+      "sha256": "62952ab1269b4169470431edfe78a2b01ab99ea7e99486e0ecbea52464020952",
+      "projectedOriginDifferenceM": 0.00013526682798037048,
+      "independentSampleMaxDifferenceM": 3.4593783766467823e-06,
+      "sourceRouteSamples": 9505,
+      "noData": 0,
+      "artificialFills": 0
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "id": "shackleton",
+  "label": "Shackleton Rim",
+  "anchor": {
+    "latDeg": -89.77932620903054,
+    "lonDeg": 203.61924322973306,
+    "heightM": 1738.0306302216986
+  },
+  "grid": {
+    "width": 1001,
+    "height": 1001,
+    "spacingM": 4,
+    "westM": -2000,
+    "northM": 2000,
+    "file": "heights.f32",
+    "url": "heights.f32",
+    "encoding": "float32-le",
+    "bytes": 4008004,
+    "sha256": "151bae7c0a4f9662ddba08be4e095ffe299192241615d03b5210729986b016c1",
+    "minHeightM": 236.89167711690104,
+    "maxHeightM": 1739.3047648190932
+  },
+  "context": {
+    "width": 501,
+    "height": 501,
+    "spacingM": 80,
+    "westM": -28000,
+    "northM": 16000,
+    "file": "context.f32",
+    "url": "context.f32",
+    "encoding": "float32-le",
+    "bytes": 1004004,
+    "sha256": "aeed69d1e99105a0c5b8ce4f7a420c3eb6e2e0602d5f7534ffd3b248da9bf6de",
+    "minHeightM": -2865.780661045485,
+    "maxHeightM": 1957.6124250305402
+  },
+  "frame": {
+    "type": "spherical-azimuthal-equidistant",
+    "radiusM": 1737400.0,
+    "x": "east metres",
+    "z": "north metres",
+    "rowOrder": "north-to-south",
+    "columnOrder": "west-to-east",
+    "heightDatum": "metres above lunar reference sphere radius1737400m",
+    "reference": "MOON_ME / DE421 source frame; legacy NAC source registration limits retained"
+  },
+  "sourcePoint004": {
+    "latDeg": -89.78,
+    "lonDeg": 204.27,
+    "selectedOffsetEastM": -76,
+    "selectedOffsetNorthM": 20
+  },
+  "view": {
+    "lookAzimuthDeg": 265,
+    "sunAzimuthDeg": 20,
+    "sunElevationDeg": 1.4,
+    "cameraOffsetEastM": 650,
+    "cameraOffsetNorthM": 60,
+    "cameraHeightAboveAnchorM": 180,
+    "lookTargetEastM": -7000,
+    "lookTargetNorthM": -600,
+    "lookTargetHeightAboveAnchorM": -900,
+    "lightingInterpretation": "Selected plausible low-Sun geometry for an authored scenario, not a NASA mission date or forecast.",
+    "terrainInterpretation": "Measured rim and whole-crater relief at1:1; game landing pad/course and microdetail remain authored."
+  },
+  "confidenceFile": "confidence.u8",
+  "provenanceFile": "provenance.u8",
+  "auditFile": "audit.json",
+  "sources": [
+    {
+      "id": "NAC_DTM_ESALL_SR12",
+      "page": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_ESALL_SR12",
+      "gridSpacingM": 2,
+      "credit": "NASA/GSFC/Arizona State University/DLR",
+      "limits": "Legacy2012 stereo solution,0.5m reported LOLA tie RMS; orthophotos have metre-scale horizontal misalignment."
+    },
+    {
+      "id": "LOLA_Site04",
+      "page": "https://pgda.gsfc.nasa.gov/products/78",
+      "gridSpacingM": 5,
+      "credit": "NASA/GSFC/LOLA",
+      "limits": "Surface interpolation between sparse laser tracks; uncertainty exported in audit."
+    },
+    {
+      "id": "LDEM_80S_80MPP_ADJ",
+      "page": "https://pgda.gsfc.nasa.gov/products/90",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_80MPP_ADJ.TIF",
+      "gridSpacingM": 80,
+      "credit": "NASA/GSFC/LOLA",
+      "cropPolarBoundsM": [
+        -40000,
+        -40000,
+        40000,
+        40000
+      ]
+    }
+  ]
+}

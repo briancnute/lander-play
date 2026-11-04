@@ -1,0 +1,18 @@
+{
+  "feature": "Cone Crater full rim context",
+  "approximateVisualEnclosure": {
+    "west": 970,
+    "east": 1380,
+    "south": 480,
+    "north": 860
+  },
+  "minimumPlayableMarginM": 170,
+  "method": "Conservative visual review of registered original 2 m LROC orthophoto and measured height contours.",
+  "limitation": "This rectangle encloses the rim; it is not a digitized or surveyed rim measurement. Ejecta extends beyond it.",
+  "sourceProduct": "NAC_DTM_APOLLO14_M150633128_2M",
+  "sourceCameraC1": {
+    "east": 1269.67,
+    "north": 455.01
+  },
+  "historicalCaveat": "The astronauts reached C1/Saddle Rock south of Cone, not the rim. Optional player access is exploration beyond the historic traverse."
+}

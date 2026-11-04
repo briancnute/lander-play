@@ -1,0 +1,564 @@
+{
+ "currentVersion": 11.1,
+ "cimVersion": "3.1.0",
+ "id": 1,
+ "name": "A16 Instruments",
+ "type": "Feature Layer",
+ "description": "",
+ "geometryType": "esriGeometryPoint",
+ "sourceSpatialReference": {
+  "wkt": "PROJCS[\"Moon2000_Equidistant_Cylindrical_C0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",0.0],UNIT[\"Meter\",1.0]]",
+  "xyTolerance": 0.001,
+  "zTolerance": 0.001,
+  "mTolerance": 0.001,
+  "falseX": 467768.56382369366,
+  "falseY": -276674.3607681326,
+  "xyUnits": 9.816013543315276E11,
+  "falseZ": -100000,
+  "zUnits": 10000,
+  "falseM": -100000,
+  "mUnits": 10000
+ },
+ "copyrightText": "",
+ "parentLayer": null,
+ "subLayers": [],
+ "minScale": 0,
+ "maxScale": 0,
+ "referenceScale": 0.0,
+ "drawingInfo": {
+  "renderer": {
+   "type": "uniqueValue",
+   "field1": "DataType",
+   "uniqueValueInfos": [
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "27b72e8bc3c644e4b423fd8644db6f6e",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA7ElEQVQYlWNhIAGwkK24IczBxVhRqpmZkeE/iP/y47fvD9/c9mxYffUXhmIDOYkWJ20Fcxj//38GhgUHf7UwMFwtQ1HcE+eab6MhB1a47MhlBi0ZUQYDBQkGSzWZ1BJfs+k9m0/dhytWFxeO42RjYfjw9QdD6qzNDC66SgwbSyMYNKREBBTFRHIZGBiK4Ipvv3i/zErjj5EANwdYkZK4IFj81rO3n56//TAVxRlFi3f2qkgKRjjrKJmATIW5+cTdJ3NbNhy7i+HBi49f17IwM7fC+K8/ff328vfXKqxBV7t87w4GBgYQJhzOhAAAcuhQ2JLLxF8AAAAASUVORK5CYII=",
+      "contentType": "image/png",
+      "width": 8,
+      "height": 8,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "9",
+     "label": "ALSEP Instruments"
+    },
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "2e44e3ea3d3cf12f9e547a69bd4d6562",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAhklEQVQokWNhoACwUEXz/6uNOxgEDOwJ6vhw4SCjdr0Hqs3sIv8ZpPw4CGr+/uQ/hs3kABbaaH66noHh9UEGBhFbBgaZYBI1vz7IwHB7IgPD/z9kaBaFBjzIZpKdLR0IwXgACwMFgIU6mh8s2MPw7tQhgjo+XfuFoZnR5XQvA8NpMm0mAwAA1X4ggAXsvzoAAAAASUVORK5CYII=",
+      "contentType": "image/png",
+      "width": 11,
+      "height": 11,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "6",
+     "label": "Lunar Roving Vehicle"
+    },
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "c465847643d0a40092aac960f9da73e0",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAMCAYAAABfnvydAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAqElEQVQYlWNhIABYiFKw6n8o859vqhX/GRhMwKKMDDdZf7N1hfE3vAMrCGNc/XfZ1ypjBgaGALCC/wx3RfkYatCtOMvAwBAIZV92ZGz4g6LgPwODDJJiaQw3/P7G4I2kwHDx1yrJWO6253A3LPpeY8/07682w39GdYb//7ff5WF/iWJFHGfL/f3/Gx6/+Pb7RSRP2zWs4QBy2PKvZc/wBlQkdxd+BegAAD3UO70XoWDoAAAAAElFTkSuQmCC",
+      "contentType": "image/png",
+      "width": 6,
+      "height": 9,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "7",
+     "label": "Penetrometer"
+    },
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "c8d36a449c7203ed2ac74066338d9aeb",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABJElEQVQokWNhIBGwUKqBS9NWbh6vEJcxIzMD86fX3+4+vP4m/tubb8+waWCV1hC57VNoKWXgrgwWeHnvvWKH7/JbggIcGk/vvHuCokHbXn5qXI+b1O5ZZxlEZPkYeIS5GNa1HWao3h7NPTtr69Knd97Zo2hg52a1lNESZYjrcWOYn7+D4fuXXwzJkzwYuPg5GPjFuVUxnMTIyAimP736yvD75x8GDm5Whg8vv4I1/P/HwIShgYObdcfhZZd1ruy9z5AwwZ2BlZ2FYUHhTgbLMC2G3z//XsbQcHTVtdL3L74GeWSbKnHysoPFXFKNGGZnbf0krMYdgjVYrx16qCyuJDj16MprHoyMDMxMLIwXTJ2UIlf3H/+OKx4Y9i+4kI072siIaQCwtl6w9VynewAAAABJRU5ErkJggg==",
+      "contentType": "image/png",
+      "width": 9,
+      "height": 9,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "15",
+     "label": "Lunar Portable Magnetometer"
+    },
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "2994eec8290263ea20f6ec542e6bbcf9",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA3klEQVQokWNhIBGw4BBnZGBgEGRgYHhHlAZlExmPP79+2zy89LKaKA18IhyZjMycIg8vvcTrJBM5bdFZ2g4K/HxiPCICEtxM4goCd++df/Hz0cWXzd+//lqOruHMs5uvc0XkBXrCGhyU2LhYGRYU7nz4+NrrPphiDCf9+cNw9M/vv09ePXj/9cv7nz8/vfn25duHH/Pw+uHVvfcmveFrZv35zfCEmfl/BQMDgwADA8MHXBok3jz8nPbnz5/dIA4bG8NOVlYGld+/Gc7g0vDiz58/L2CcX78YruILJaIAAAdEWnoPZzoaAAAAAElFTkSuQmCC",
+      "contentType": "image/png",
+      "width": 9,
+      "height": 8,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "16",
+     "label": "Solar Wind Composition Spectrometer"
+    },
+    {
+     "symbol": {
+      "type": "esriPMS",
+      "url": "9e5e9725b4ae991dcec72cc107f1472d",
+      "imageData": "iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAdklEQVQYla3QsQnCYBCG4ecgtdhlB3ewtxBxB3ELm+AazuAkDiGWYifYXgiY5k+aRK/7uJfvXq4yYarZcKY9ln3ENcJ7AGc641SUHTJtInzK5uPI5TVWuP3mbAL8QF3sO9fXGLzFBYtv7r7RRLgP4AhP7P7m3AKUWxTQGDhRIwAAAABJRU5ErkJggg==",
+      "contentType": "image/png",
+      "width": 8,
+      "height": 8,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0
+     },
+     "value": "99",
+     "label": "Others"
+    }
+   ],
+   "fieldDelimiter": ",",
+   "authoringInfo": {
+    "colorRamp": {
+     "type": "multipart",
+     "colorRamps": [
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        215,
+        247,
+        252,
+        255
+       ],
+       "toColor": [
+        215,
+        247,
+        252,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        245,
+        179,
+        252,
+        255
+       ],
+       "toColor": [
+        245,
+        179,
+        252,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        251,
+        252,
+        182,
+        255
+       ],
+       "toColor": [
+        251,
+        252,
+        182,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        252,
+        184,
+        179,
+        255
+       ],
+       "toColor": [
+        252,
+        184,
+        179,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        179,
+        196,
+        252,
+        255
+       ],
+       "toColor": [
+        179,
+        196,
+        252,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        189,
+        252,
+        203,
+        255
+       ],
+       "toColor": [
+        189,
+        252,
+        203,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        252,
+        215,
+        242,
+        255
+       ],
+       "toColor": [
+        252,
+        215,
+        242,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        252,
+        228,
+        207,
+        255
+       ],
+       "toColor": [
+        252,
+        228,
+        207,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        237,
+        252,
+        215,
+        255
+       ],
+       "toColor": [
+        237,
+        252,
+        215,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        229,
+        199,
+        252,
+        255
+       ],
+       "toColor": [
+        229,
+        199,
+        252,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        194,
+        252,
+        233,
+        255
+       ],
+       "toColor": [
+        194,
+        252,
+        233,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        252,
+        182,
+        225,
+        255
+       ],
+       "toColor": [
+        252,
+        182,
+        225,
+        255
+       ]
+      },
+      {
+       "type": "algorithmic",
+       "algorithm": "esriCIELabAlgorithm",
+       "fromColor": [
+        197,
+        223,
+        252,
+        255
+       ],
+       "toColor": [
+        197,
+        223,
+        252,
+        255
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "scaleSymbols": true,
+  "transparency": 0,
+  "labelingInfo": [
+   {
+    "labelExpression": "[FileNames]",
+    "labelPlacement": "esriServerPointLabelPlacementAboveRight",
+    "deconflictionStrategy": "dynamic",
+    "removeDuplicates": "none",
+    "stackLabel": false,
+    "useCodedValues": true,
+    "maxScale": 0,
+    "minScale": 0,
+    "name": "Default",
+    "priority": 5,
+    "symbol": {
+     "type": "esriTS",
+     "color": [
+      255,
+      255,
+      255,
+      255
+     ],
+     "backgroundColor": null,
+     "borderLineColor": null,
+     "borderLineSize": null,
+     "verticalAlignment": "bottom",
+     "horizontalAlignment": "center",
+     "rightToLeft": false,
+     "angle": 0,
+     "xoffset": 0,
+     "yoffset": 0,
+     "kerning": true,
+     "haloColor": null,
+     "haloSize": null,
+     "font": {
+      "family": "Arial",
+      "size": 9,
+      "style": "normal",
+      "weight": "bold",
+      "decoration": "none"
+     }
+    }
+   }
+  ]
+ },
+ "defaultVisibility": true,
+ "extent": {
+  "xmin": 468527.20094220917,
+  "ymin": -275988.7423302597,
+  "xmax": 470453.95771117305,
+  "ymax": -267612.02841005824,
+  "spatialReference": {
+   "wkt": "PROJCS[\"Moon2000_Equidistant_Cylindrical_C0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",0.0],UNIT[\"Meter\",1.0]]",
+   "xyTolerance": 0.001,
+   "zTolerance": 0.001,
+   "mTolerance": 0.001,
+   "falseX": -5458400,
+   "falseY": -2729300,
+   "xyUnits": 8.250768773579245E8,
+   "falseZ": -100000,
+   "zUnits": 10000,
+   "falseM": -100000,
+   "mUnits": 10000
+  }
+ },
+ "hasAttachments": false,
+ "htmlPopupType": "esriServerHTMLPopupTypeNone",
+ "displayField": "FileNames",
+ "typeIdField": null,
+ "subtypeFieldName": null,
+ "subtypeField": null,
+ "defaultSubtypeCode": null,
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID",
+   "domain": null
+  },
+  {
+   "name": "Shape",
+   "type": "esriFieldTypeGeometry",
+   "alias": "Shape",
+   "domain": null
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeDouble",
+   "alias": "Id",
+   "domain": null
+  },
+  {
+   "name": "X_East",
+   "type": "esriFieldTypeDouble",
+   "alias": "X_East",
+   "domain": null
+  },
+  {
+   "name": "Y_North",
+   "type": "esriFieldTypeDouble",
+   "alias": "Y_North",
+   "domain": null
+  },
+  {
+   "name": "Features",
+   "type": "esriFieldTypeString",
+   "alias": "Features",
+   "length": 254,
+   "domain": null
+  },
+  {
+   "name": "FileNames",
+   "type": "esriFieldTypeString",
+   "alias": "FileNames",
+   "length": 254,
+   "domain": null
+  },
+  {
+   "name": "DataType",
+   "type": "esriFieldTypeDouble",
+   "alias": "DataType",
+   "domain": null
+  },
+  {
+   "name": "Details",
+   "type": "esriFieldTypeString",
+   "alias": "Details",
+   "length": 254,
+   "domain": null
+  },
+  {
+   "name": "SampleID",
+   "type": "esriFieldTypeString",
+   "alias": "SampleID",
+   "length": 254,
+   "domain": null
+  },
+  {
+   "name": "DTypeTxt",
+   "type": "esriFieldTypeString",
+   "alias": "DTypeTxt",
+   "length": 128,
+   "domain": null
+  }
+ ],
+ "geometryField": {
+  "name": "Shape",
+  "type": "esriFieldTypeGeometry",
+  "alias": "Shape"
+ },
+ "indexes": [
+  {
+   "name": "FDO_OBJECTID",
+   "fields": "OBJECTID",
+   "isAscending": true,
+   "isUnique": true,
+   "description": ""
+  },
+  {
+   "name": "FDO_Shape",
+   "fields": "Shape",
+   "isAscending": true,
+   "isUnique": false,
+   "description": ""
+  }
+ ],
+ "subtypes": [],
+ "relationships": [],
+ "canModifyLayer": true,
+ "canScaleSymbols": false,
+ "hasLabels": true,
+ "capabilities": "Map,Query,Data",
+ "maxRecordCount": 2000,
+ "supportsStatistics": true,
+ "supportsExceedsLimitStatistics": true,
+ "supportsAdvancedQueries": true,
+ "supportedQueryFormats": "JSON, geoJSON, PBF",
+ "isDataVersioned": false,
+ "ownershipBasedAccessControlForFeatures": {"allowOthersToQuery": true},
+ "useStandardizedQueries": true,
+ "supportedSpatialRelationships": [
+  "esriSpatialRelIntersects",
+  "esriSpatialRelContains",
+  "esriSpatialRelCrosses",
+  "esriSpatialRelEnvelopeIntersects",
+  "esriSpatialRelIndexIntersects",
+  "esriSpatialRelOverlaps",
+  "esriSpatialRelTouches",
+  "esriSpatialRelWithin",
+  "esriSpatialRelRelation"
+ ],
+ "advancedQueryCapabilities": {
+  "useStandardizedQueries": true,
+  "supportsStatistics": true,
+  "supportsPercentileStatistics": true,
+  "supportsHavingClause": true,
+  "supportsOrderBy": true,
+  "supportsDistinct": true,
+  "supportsCountDistinct": true,
+  "supportsPagination": true,
+  "supportsLod": false,
+  "supportsQueryWithLodSR": false,
+  "supportsTrueCurve": true,
+  "supportsQueryWithDatumTransformation": true,
+  "supportsReturningQueryExtent": true,
+  "supportsQueryWithDistance": true,
+  "supportsSqlExpression": true,
+  "supportsTimeRelation": true,
+  "supportsSqlFormat": false,
+  "supportsQueryAnalytic": false
+ },
+ "supportsDatumTransformation": true,
+ "dateFieldsTimeReference": null,
+ "preferredTimeReference": null,
+ "datesInUnknownTimezone": false,
+ "hasMetadata": true,
+ "isDataArchived": false,
+ "archivingInfo": {
+  "supportsQueryWithHistoricMoment": false,
+  "startArchivingMoment": -1
+ },
+ "supportsCoordinatesQuantization": true,
+ "supportsDynamicLegends": true
+}

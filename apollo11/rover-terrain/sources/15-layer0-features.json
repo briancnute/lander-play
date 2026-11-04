@@ -1,0 +1,5188 @@
+{
+ "displayFieldName": "FileNames",
+ "fieldAliases": {
+  "Features": "Features",
+  "FileNames": "FileNames",
+  "DataType": "DataType",
+  "Details": "Details",
+  "SampleID": "SampleID",
+  "DTypeTxt": "DTypeTxt",
+  "Id": "Id",
+  "OBJECTID": "OBJECTID"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon_Equirectangular_Apollo15_CLat0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "Features",
+   "type": "esriFieldTypeString",
+   "alias": "Features",
+   "length": 50
+  },
+  {
+   "name": "FileNames",
+   "type": "esriFieldTypeString",
+   "alias": "FileNames",
+   "length": 50
+  },
+  {
+   "name": "DataType",
+   "type": "esriFieldTypeString",
+   "alias": "DataType",
+   "length": 50
+  },
+  {
+   "name": "Details",
+   "type": "esriFieldTypeString",
+   "alias": "Details",
+   "length": 50
+  },
+  {
+   "name": "SampleID",
+   "type": "esriFieldTypeString",
+   "alias": "SampleID",
+   "length": 50
+  },
+  {
+   "name": "DTypeTxt",
+   "type": "esriFieldTypeString",
+   "alias": "DTypeTxt",
+   "length": 50
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeString",
+   "alias": "Id",
+   "length": 50
+  },
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15075",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15075",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 1
+   },
+   "geometry": {
+    "x": 109368.16009999998,
+    "y": 789318.1727
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-4",
+    "FileNames": "Panorama D-4",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "1",
+    "OBJECTID": 2
+   },
+   "geometry": {
+    "x": 109334.86409999989,
+    "y": 789326.53200000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15065",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15065",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 3
+   },
+   "geometry": {
+    "x": 109342.36440000031,
+    "y": 789317.7788999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15076",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15076",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 4
+   },
+   "geometry": {
+    "x": 109368.16009999998,
+    "y": 789318.1727
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15085",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15085",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 5
+   },
+   "geometry": {
+    "x": 109390.91889999993,
+    "y": 789311.39199999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15086",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15086",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 6
+   },
+   "geometry": {
+    "x": 109390.91889999993,
+    "y": 789311.39199999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15087",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15087",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 7
+   },
+   "geometry": {
+    "x": 109390.91889999993,
+    "y": 789311.39199999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15088",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15088",
+    "DTypeTxt": "rck",
+    "Id": "1",
+    "OBJECTID": 8
+   },
+   "geometry": {
+    "x": 109390.91889999993,
+    "y": 789311.39199999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15070",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15070",
+    "DTypeTxt": "soi",
+    "Id": "1",
+    "OBJECTID": 9
+   },
+   "geometry": {
+    "x": 109368.16009999998,
+    "y": 789318.1727
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15080",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15080",
+    "DTypeTxt": "soi",
+    "Id": "1",
+    "OBJECTID": 10
+   },
+   "geometry": {
+    "x": 109390.91889999993,
+    "y": 789311.39199999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-5(b)",
+    "FileNames": "Panorama D-5(b)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "2",
+    "OBJECTID": 11
+   },
+   "geometry": {
+    "x": 108788.92650000006,
+    "y": 788793.76450000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-5(a)",
+    "FileNames": "Panorama D-5(a)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "2",
+    "OBJECTID": 12
+   },
+   "geometry": {
+    "x": 108795.53809999954,
+    "y": 788793.93030000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15100",
+    "DataType": "2",
+    "Details": "Rake Sample",
+    "SampleID": "15100",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 13
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15105",
+    "DataType": "1",
+    "Details": "Fine-grained olivine normal mare basalt",
+    "SampleID": "15105",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 14
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15119",
+    "DataType": "1",
+    "Details": "fine olivine normal mare basalt&regolith breccia",
+    "SampleID": "15119",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 15
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15115",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15115",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 16
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15116",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15116",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 17
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15117",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15117",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 18
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15125",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15125",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 19
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15135",
+    "DataType": "1",
+    "Details": "Agglutinate",
+    "SampleID": "15135",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 20
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15145",
+    "DataType": "1",
+    "Details": "Olivine-normal mare basalt breccia",
+    "SampleID": "15145",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 21
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15146",
+    "DataType": "1",
+    "Details": "Mare basalt breccia",
+    "SampleID": "15146",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 22
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15147",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15147",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 23
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15148",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15148",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 24
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15007",
+    "DataType": "5",
+    "Details": "Single core sample at St. George Crater",
+    "SampleID": "15007",
+    "DTypeTxt": "cor",
+    "Id": "2",
+    "OBJECTID": 25
+   },
+   "geometry": {
+    "x": 108782.29389999993,
+    "y": 788780.45289999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15008",
+    "DataType": "5",
+    "Details": "Single core sample at St. George Crater",
+    "SampleID": "15008",
+    "DTypeTxt": "cor",
+    "Id": "2",
+    "OBJECTID": 26
+   },
+   "geometry": {
+    "x": 108782.29389999993,
+    "y": 788780.45289999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15090",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15090",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 27
+   },
+   "geometry": {
+    "x": 108773.93259999994,
+    "y": 788782.05390000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15095",
+    "DataType": "1",
+    "Details": "Polymict breccia, glass coated",
+    "SampleID": "15095",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 28
+   },
+   "geometry": {
+    "x": 108773.93259999994,
+    "y": 788782.05390000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15200",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15200",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 29
+   },
+   "geometry": {
+    "x": 108773.04600000009,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15205",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15205",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 30
+   },
+   "geometry": {
+    "x": 108773.18609999958,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15206",
+    "DataType": "1",
+    "Details": "Melted regolith breccia",
+    "SampleID": "15206",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 31
+   },
+   "geometry": {
+    "x": 108773.18609999958,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15210",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15210",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 32
+   },
+   "geometry": {
+    "x": 108773.18609999958,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15220",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15220",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 33
+   },
+   "geometry": {
+    "x": 108773.18609999958,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15230",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15230",
+    "DTypeTxt": "soi",
+    "Id": "2",
+    "OBJECTID": 34
+   },
+   "geometry": {
+    "x": 108773.18609999958,
+    "y": 788784.79650000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-5(c)",
+    "FileNames": "Panorama D-5(c)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "2",
+    "OBJECTID": 35
+   },
+   "geometry": {
+    "x": 108789.30810000002,
+    "y": 788780.02400000021
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15016",
+    "DataType": "1",
+    "Details": "medium grained olivine normal mare basalt",
+    "SampleID": "15016",
+    "DTypeTxt": "rck",
+    "Id": "3",
+    "OBJECTID": 36
+   },
+   "geometry": {
+    "x": 109661.48440000042,
+    "y": 790563.32580000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-7",
+    "FileNames": "Panorama D-7",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "3",
+    "OBJECTID": 37
+   },
+   "geometry": {
+    "x": 109661.45399999991,
+    "y": 790568.25240000011
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15485",
+    "DataType": "1",
+    "Details": "vitrophyric quartz-normal mare basalt",
+    "SampleID": "15485",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 38
+   },
+   "geometry": {
+    "x": 111029.88939999975,
+    "y": 789320.0318
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15486",
+    "DataType": "1",
+    "Details": "vitrophyric quartz-normal mare basalt",
+    "SampleID": "15486",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 39
+   },
+   "geometry": {
+    "x": 111029.88939999975,
+    "y": 789320.0318
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15499",
+    "DataType": "1",
+    "Details": "vitrophyric quartz-normal mare basalt",
+    "SampleID": "15499",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 40
+   },
+   "geometry": {
+    "x": 111029.88939999975,
+    "y": 789320.0318
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15498",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15498",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 41
+   },
+   "geometry": {
+    "x": 111026.95440000016,
+    "y": 789321.21670000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15470",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15470",
+    "DTypeTxt": "soi",
+    "Id": "4",
+    "OBJECTID": 42
+   },
+   "geometry": {
+    "x": 111019.60570000019,
+    "y": 789289.4487999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-6",
+    "FileNames": "Panorama D-6",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "4",
+    "OBJECTID": 43
+   },
+   "geometry": {
+    "x": 111025.90699999966,
+    "y": 789293.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15475",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15475",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 44
+   },
+   "geometry": {
+    "x": 111019.60570000019,
+    "y": 789289.4487999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15476",
+    "DataType": "1",
+    "Details": "porphyritic radiate quartz-normal mare basalt",
+    "SampleID": "15476",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 45
+   },
+   "geometry": {
+    "x": 111019.60570000019,
+    "y": 789289.4487999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15495",
+    "DataType": "1",
+    "Details": "porphyritic radiate quartz-normal mare basalt",
+    "SampleID": "15495",
+    "DTypeTxt": "rck",
+    "Id": "4",
+    "OBJECTID": 46
+   },
+   "geometry": {
+    "x": 111019.60570000019,
+    "y": 789289.4487999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15259",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15259",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 47
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15009",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15009",
+    "DTypeTxt": "cor",
+    "Id": "6",
+    "OBJECTID": 48
+   },
+   "geometry": {
+    "x": 111597.73029999994,
+    "y": 787707.46100000013
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15012",
+    "DataType": "2",
+    "Details": "Trench",
+    "SampleID": "15012",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 49
+   },
+   "geometry": {
+    "x": 111600.78280000016,
+    "y": 787691.81259999983
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15255",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15255",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 50
+   },
+   "geometry": {
+    "x": 111576.6222000001,
+    "y": 787672.68740000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15256",
+    "DataType": "1",
+    "Details": "Shock-melted olivine-normal mare basalt",
+    "SampleID": "15256",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 51
+   },
+   "geometry": {
+    "x": 111576.6222000001,
+    "y": 787672.68740000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15257",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15257",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 52
+   },
+   "geometry": {
+    "x": 111576.6222000001,
+    "y": 787672.68740000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15299",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15299",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 53
+   },
+   "geometry": {
+    "x": 111579.99230000004,
+    "y": 787667.85199999996
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15298",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15298",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 54
+   },
+   "geometry": {
+    "x": 111602.95590000041,
+    "y": 787662.88090000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15295",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15295",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 55
+   },
+   "geometry": {
+    "x": 111600.79889999982,
+    "y": 787656.62119999994
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15290",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15290",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 56
+   },
+   "geometry": {
+    "x": 111600.79889999982,
+    "y": 787656.62119999994
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15240",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15240",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 57
+   },
+   "geometry": {
+    "x": 111612.67109999992,
+    "y": 787658.88409999991
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15245",
+    "DataType": "1",
+    "Details": "Fragments of regolith breccia and glass",
+    "SampleID": "15245",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 58
+   },
+   "geometry": {
+    "x": 111612.67109999992,
+    "y": 787658.88409999991
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15250",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15250",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 59
+   },
+   "geometry": {
+    "x": 111613.68659999967,
+    "y": 787657.16669999994
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15265",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15265",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 60
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15266",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15266",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 61
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15267",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15267",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 62
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15268",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15268",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 63
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15269",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15269",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 64
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15285",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15285",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 65
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15286",
+    "DataType": "1",
+    "Details": "Glass and regolith breccia",
+    "SampleID": "15286",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 66
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15287",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15287",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 67
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15288",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15288",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 68
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15289",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15289",
+    "DTypeTxt": "rck",
+    "Id": "6",
+    "OBJECTID": 69
+   },
+   "geometry": {
+    "x": 111604.48259999976,
+    "y": 787703.53700000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15260",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15260",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 70
+   },
+   "geometry": {
+    "x": 111600.78280000016,
+    "y": 787691.81259999983
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-9(a)",
+    "FileNames": "Panorama D-9(a)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "6",
+    "OBJECTID": 71
+   },
+   "geometry": {
+    "x": 111603.74000000022,
+    "y": 787676.32530000014
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15270",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15270",
+    "DTypeTxt": "soi",
+    "Id": "6",
+    "OBJECTID": 72
+   },
+   "geometry": {
+    "x": 111610.29470000044,
+    "y": 787675.50680000009
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-9(b)",
+    "FileNames": "Panorama D-9(b)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "6",
+    "OBJECTID": 73
+   },
+   "geometry": {
+    "x": 111573.42310000025,
+    "y": 787674.87770000007
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15400",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15400",
+    "DTypeTxt": "soi",
+    "Id": "6a",
+    "OBJECTID": 74
+   },
+   "geometry": {
+    "x": 111317.06759999972,
+    "y": 787689.07500000019
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15405",
+    "DataType": "1",
+    "Details": "fine-grained impact melt (KREEP)",
+    "SampleID": "15405",
+    "DTypeTxt": "rck",
+    "Id": "6a",
+    "OBJECTID": 75
+   },
+   "geometry": {
+    "x": 111317.06759999972,
+    "y": 787689.07500000019
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-10",
+    "FileNames": "Panorama D-10",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "6a",
+    "OBJECTID": 76
+   },
+   "geometry": {
+    "x": 111310.30020000041,
+    "y": 787685.55990000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-11",
+    "FileNames": "Panorama D-11",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "7",
+    "OBJECTID": 77
+   },
+   "geometry": {
+    "x": 111212.74920000043,
+    "y": 787897.16729999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15459",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15459",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 78
+   },
+   "geometry": {
+    "x": 111211.84360000025,
+    "y": 787884.87520000013
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15300",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15300",
+    "DTypeTxt": "soi",
+    "Id": "7",
+    "OBJECTID": 79
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15445",
+    "DataType": "1",
+    "Details": "fine-grained impact melt with pristine clasts",
+    "SampleID": "15445",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 80
+   },
+   "geometry": {
+    "x": 111179.99450000003,
+    "y": 787899.1817999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15465",
+    "DataType": "1",
+    "Details": "glass with regolith breccia clasts",
+    "SampleID": "15465",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 81
+   },
+   "geometry": {
+    "x": 111186.75590000022,
+    "y": 787900.09629999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15425",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15425",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 82
+   },
+   "geometry": {
+    "x": 111197.13489999995,
+    "y": 787901.7407999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15310",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15310",
+    "DTypeTxt": "soi",
+    "Id": "7",
+    "OBJECTID": 83
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15306",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15306",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 84
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15307",
+    "DataType": "1",
+    "Details": "Hollow glass sphere",
+    "SampleID": "15307",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 85
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15308",
+    "DataType": "1",
+    "Details": "glassy impact melt",
+    "SampleID": "15308",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 86
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15315",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15315",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 87
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15316",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15316",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 88
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15317",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15317",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 89
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15318",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15318",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 90
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15319",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15319",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 91
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15320",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15320",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 92
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15321",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15321",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 93
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15322",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15322",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 94
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15323",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15323",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 95
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15324",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15324",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 96
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15325",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15325",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 97
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15326",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15326",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 98
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15327",
+    "DataType": "1",
+    "Details": "clast-rich glassy melt breccia",
+    "SampleID": "15327",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 99
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15328",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15328",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 100
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15329",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15329",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 101
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15330",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15330",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 102
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15331",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15331",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 103
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15332",
+    "DataType": "1",
+    "Details": "agglutinate",
+    "SampleID": "15332",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 104
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15333",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15333",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 105
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15334",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15334",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 106
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15335",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15335",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 107
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15336",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15336",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 108
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15337",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15337",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 109
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15338",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15338",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 110
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15339",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15339",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 111
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15340",
+    "DataType": "1",
+    "Details": "glass/regolith breccia",
+    "SampleID": "15340",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 112
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15341",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15341",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 113
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15342",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15342",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 114
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15343",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15343",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 115
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15344",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15344",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 116
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15345",
+    "DataType": "1",
+    "Details": "vesicular glass/breccia clast",
+    "SampleID": "15345",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 117
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15346",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15346",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 118
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15347",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15347",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 119
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15348",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15348",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 120
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15349",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15349",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 121
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15350",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15350",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 122
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15351",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15351",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 123
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15352",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15352",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 124
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15353",
+    "DataType": "1",
+    "Details": "regoltih breccia",
+    "SampleID": "15353",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 125
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15354",
+    "DataType": "1",
+    "Details": "regoltih breccia",
+    "SampleID": "15354",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 126
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15355",
+    "DataType": "1",
+    "Details": "regoltih breccia",
+    "SampleID": "15355",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 127
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15356",
+    "DataType": "1",
+    "Details": "fine-grained impact melt",
+    "SampleID": "15356",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 128
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15357",
+    "DataType": "1",
+    "Details": "fine-grained impact melt",
+    "SampleID": "15357",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 129
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15358",
+    "DataType": "1",
+    "Details": "glassy breccia with KREEP basalt clasts",
+    "SampleID": "15358",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 130
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15359",
+    "DataType": "1",
+    "Details": "fine-grained impact melt",
+    "SampleID": "15359",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 131
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15360",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15360",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 132
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15361",
+    "DataType": "1",
+    "Details": "anorthosite",
+    "SampleID": "15361",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 133
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15362",
+    "DataType": "1",
+    "Details": "cataclastic anorthosite",
+    "SampleID": "15362",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 134
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15363",
+    "DataType": "1",
+    "Details": "anorthosite",
+    "SampleID": "15363",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 135
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15364",
+    "DataType": "1",
+    "Details": "anorthositic breccia",
+    "SampleID": "15364",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 136
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15365",
+    "DataType": "1",
+    "Details": "indurated green glass clod",
+    "SampleID": "15365",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 137
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15366",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15366",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 138
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15367",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15367",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 139
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15368",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15368",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 140
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15369",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15369",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 141
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15370",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15370",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 142
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15371",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15371",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 143
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15372",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15372",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 144
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15373",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15373",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 145
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15374",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15374",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 146
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15375",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15375",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 147
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15376",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15376",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 148
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15377",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15377",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 149
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15378",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15378",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 150
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15379",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15379",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 151
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15380",
+    "DataType": "1",
+    "Details": "fine-grained olivine normal marea basalt",
+    "SampleID": "15380",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 152
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15381",
+    "DataType": "1",
+    "Details": "fine-grained basalt",
+    "SampleID": "15381",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 153
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15382",
+    "DataType": "1",
+    "Details": "KREEP basalt",
+    "SampleID": "15382",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 154
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15383",
+    "DataType": "1",
+    "Details": "glass with monomict basalt clast assemblage",
+    "SampleID": "15383",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 155
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15384",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15384",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 156
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15385",
+    "DataType": "1",
+    "Details": "feldspathic peridotite mare basalt",
+    "SampleID": "15385",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 157
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15386",
+    "DataType": "1",
+    "Details": "KREEP basalt",
+    "SampleID": "15386",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 158
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15387",
+    "DataType": "1",
+    "Details": "feldspathic peridotite mare basalt",
+    "SampleID": "15387",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 159
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15388",
+    "DataType": "1",
+    "Details": "feldspathic microgabbro",
+    "SampleID": "15388",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 160
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15389",
+    "DataType": "1",
+    "Details": "agglutinate",
+    "SampleID": "15389",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 161
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15390",
+    "DataType": "1",
+    "Details": "vesicular glass and breccia",
+    "SampleID": "15390",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 162
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15391",
+    "DataType": "1",
+    "Details": "glass",
+    "SampleID": "15391",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 163
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15392",
+    "DataType": "1",
+    "Details": "glass",
+    "SampleID": "15392",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 164
+   },
+   "geometry": {
+    "x": 111215.76549999975,
+    "y": 787886.31689999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15466",
+    "DataType": "1",
+    "Details": "glass with regolith breccia clasts",
+    "SampleID": "15466",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 165
+   },
+   "geometry": {
+    "x": 111186.75590000022,
+    "y": 787900.09629999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15467",
+    "DataType": "1",
+    "Details": "regolith breccia/glass",
+    "SampleID": "15467",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 166
+   },
+   "geometry": {
+    "x": 111186.75590000022,
+    "y": 787900.09629999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15468",
+    "DataType": "1",
+    "Details": "glassy breccia",
+    "SampleID": "15468",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 167
+   },
+   "geometry": {
+    "x": 111186.75590000022,
+    "y": 787900.09629999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15455",
+    "DataType": "1",
+    "Details": "fine-grained impact melt with pristine clasts",
+    "SampleID": "15455",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 168
+   },
+   "geometry": {
+    "x": 111192.03280000016,
+    "y": 787896.43600000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15415",
+    "DataType": "1",
+    "Details": "ferroan anorthosite",
+    "SampleID": "15415",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 169
+   },
+   "geometry": {
+    "x": 111193.89340000041,
+    "y": 787896.38169999979
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15435",
+    "DataType": "1",
+    "Details": "regolith clod",
+    "SampleID": "15435",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 170
+   },
+   "geometry": {
+    "x": 111193.89340000041,
+    "y": 787896.38169999979
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15436",
+    "DataType": "1",
+    "Details": "fine-grained impact melt",
+    "SampleID": "15436",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 171
+   },
+   "geometry": {
+    "x": 111193.89340000041,
+    "y": 787896.38169999979
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15437",
+    "DataType": "1",
+    "Details": "ferroan anorthosite",
+    "SampleID": "15437",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 172
+   },
+   "geometry": {
+    "x": 111193.89340000041,
+    "y": 787896.38169999979
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15426",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15426",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 173
+   },
+   "geometry": {
+    "x": 111197.13489999995,
+    "y": 787901.7407999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15427",
+    "DataType": "1",
+    "Details": "green glass clod",
+    "SampleID": "15427",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 174
+   },
+   "geometry": {
+    "x": 111197.13489999995,
+    "y": 787901.7407999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15417",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15417",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 175
+   },
+   "geometry": {
+    "x": 111200.6771999998,
+    "y": 787901.75510000018
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15410",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15410",
+    "DTypeTxt": "soi",
+    "Id": "7",
+    "OBJECTID": 176
+   },
+   "geometry": {
+    "x": 111200.6771999998,
+    "y": 787901.75510000018
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15418",
+    "DataType": "1",
+    "Details": "shocked/melted breccia",
+    "SampleID": "15418",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 177
+   },
+   "geometry": {
+    "x": 111200.6771999998,
+    "y": 787901.75510000018
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15419",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15419",
+    "DTypeTxt": "rck",
+    "Id": "7",
+    "OBJECTID": 178
+   },
+   "geometry": {
+    "x": 111200.6771999998,
+    "y": 787901.75510000018
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15059",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15059",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 179
+   },
+   "geometry": {
+    "x": 110077.15020000003,
+    "y": 792457.35919999983
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15058",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15058",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 180
+   },
+   "geometry": {
+    "x": 110093.82210000046,
+    "y": 792472.1390999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-16",
+    "FileNames": "Panorama D-16",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 181
+   },
+   "geometry": {
+    "x": 110075.86050000042,
+    "y": 792470.82310000015
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15013",
+    "DataType": "2",
+    "Details": "Special Enironment Sample Container",
+    "SampleID": "15013",
+    "DTypeTxt": "soi",
+    "Id": "8",
+    "OBJECTID": 182
+   },
+   "geometry": {
+    "x": 110098.43580000009,
+    "y": 792465.06770000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15030",
+    "DataType": "2",
+    "Details": "Trench",
+    "SampleID": "15030",
+    "DTypeTxt": "soi",
+    "Id": "8",
+    "OBJECTID": 183
+   },
+   "geometry": {
+    "x": 110098.43580000009,
+    "y": 792465.06770000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15040",
+    "DataType": "2",
+    "Details": "Trench",
+    "SampleID": "15040",
+    "DTypeTxt": "soi",
+    "Id": "8",
+    "OBJECTID": 184
+   },
+   "geometry": {
+    "x": 110098.43580000009,
+    "y": 792465.06770000001
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-12(b)",
+    "FileNames": "Panorama D-12(b)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 185
+   },
+   "geometry": {
+    "x": 110100.76769999973,
+    "y": 792465.06240000017
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-12(a)",
+    "FileNames": "Panorama D-12(a)",
+    "DataType": "3",
+    "Details": " ",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 186
+   },
+   "geometry": {
+    "x": 110096.83100000024,
+    "y": 792462.66360000009
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15001",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15001",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 187
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15002",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15002",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 188
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15003",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15003",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 189
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15004",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15004",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 190
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15005",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15005",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 191
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15006",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15006",
+    "DTypeTxt": "cor",
+    "Id": "8",
+    "OBJECTID": 192
+   },
+   "geometry": {
+    "x": 110100.2845999999,
+    "y": 792462.12449999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15118",
+    "DataType": "1",
+    "Details": "porphyritic subophitic quartz-normal mare basalt",
+    "SampleID": "15118",
+    "DTypeTxt": "rck",
+    "Id": "2",
+    "OBJECTID": 193
+   },
+   "geometry": {
+    "x": 108781.71470000036,
+    "y": 788785.92130000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-2(b)",
+    "FileNames": "Panorama D-2(b)",
+    "DataType": "3",
+    "Details": "Panorama D-2(b)",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 194
+   },
+   "geometry": {
+    "x": 110173.06479999982,
+    "y": 792434.25050000008
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-2(a)",
+    "FileNames": "Panorama D-2(a)",
+    "DataType": "3",
+    "Details": "Panorama D-2(a)",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 195
+   },
+   "geometry": {
+    "x": 110155.34630000032,
+    "y": 792425.3254999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15558",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15558",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 196
+   },
+   "geometry": {
+    "x": 110148.56039999984,
+    "y": 792425.99369999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15015",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15015",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 197
+   },
+   "geometry": {
+    "x": 110146.83619999979,
+    "y": 792424.79410000006
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-1",
+    "FileNames": "Panorama D-1",
+    "DataType": "3",
+    "Details": "Panorama D-1",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 198
+   },
+   "geometry": {
+    "x": 110167.13819999993,
+    "y": 792420.48609999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-2(c)",
+    "FileNames": "Panorama D-2(c)",
+    "DataType": "3",
+    "Details": "Panorama D-2(c)",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "8",
+    "OBJECTID": 199
+   },
+   "geometry": {
+    "x": 110173.65350000001,
+    "y": 792412.88549999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15025",
+    "DataType": "1",
+    "Details": "Regolith breccia",
+    "SampleID": "15025",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 200
+   },
+   "geometry": {
+    "x": 110154.34130000044,
+    "y": 792420.96100000013
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15026",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15026",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 201
+   },
+   "geometry": {
+    "x": 110154.34130000044,
+    "y": 792420.96100000013
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15020",
+    "DataType": "2",
+    "Details": "Contingency bag Surface",
+    "SampleID": "15020",
+    "DTypeTxt": "soi",
+    "Id": "8",
+    "OBJECTID": 202
+   },
+   "geometry": {
+    "x": 110154.34130000044,
+    "y": 792420.96100000013
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15017",
+    "DataType": "1",
+    "Details": "Glass shell",
+    "SampleID": "15017",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 203
+   },
+   "geometry": {
+    "x": 110164.28749999963,
+    "y": 792418.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15018",
+    "DataType": "1",
+    "Details": "vesicular glass",
+    "SampleID": "15018",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 204
+   },
+   "geometry": {
+    "x": 110164.28749999963,
+    "y": 792418.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15019",
+    "DataType": "1",
+    "Details": "Agglutinitic breccia",
+    "SampleID": "15019",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 205
+   },
+   "geometry": {
+    "x": 110164.28749999963,
+    "y": 792418.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15027",
+    "DataType": "1",
+    "Details": "regolith breccia/vesicular glass",
+    "SampleID": "15027",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 206
+   },
+   "geometry": {
+    "x": 110164.28749999963,
+    "y": 792418.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15028",
+    "DataType": "1",
+    "Details": "regolith breccia, glass coated",
+    "SampleID": "15028",
+    "DTypeTxt": "rck",
+    "Id": "8",
+    "OBJECTID": 207
+   },
+   "geometry": {
+    "x": 110164.28749999963,
+    "y": 792418.39800000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15014",
+    "DataType": "2",
+    "Details": "Contaminated Sample",
+    "SampleID": "15014",
+    "DTypeTxt": "soi",
+    "Id": "8",
+    "OBJECTID": 208
+   },
+   "geometry": {
+    "x": 110168.85429999977,
+    "y": 792420.91250000009
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-13",
+    "FileNames": "Panorama D-13",
+    "DataType": "3",
+    "Details": "Panorama D-13",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "9",
+    "OBJECTID": 209
+   },
+   "geometry": {
+    "x": 108340.12459999975,
+    "y": 792382.95200000005
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15510",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15510",
+    "DTypeTxt": "soi",
+    "Id": "9",
+    "OBJECTID": 210
+   },
+   "geometry": {
+    "x": 108337.6074000001,
+    "y": 792382.97149999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15515",
+    "DataType": "1",
+    "Details": "regolith clods",
+    "SampleID": "15515",
+    "DTypeTxt": "rck",
+    "Id": "9",
+    "OBJECTID": 211
+   },
+   "geometry": {
+    "x": 108337.6074000001,
+    "y": 792382.97149999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15500",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15500",
+    "DTypeTxt": "soi",
+    "Id": "9",
+    "OBJECTID": 212
+   },
+   "geometry": {
+    "x": 108325.92320000008,
+    "y": 792379.90989999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15505",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15505",
+    "DTypeTxt": "rck",
+    "Id": "9",
+    "OBJECTID": 213
+   },
+   "geometry": {
+    "x": 108325.92320000008,
+    "y": 792379.90989999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15505",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15506",
+    "DTypeTxt": "rck",
+    "Id": "9",
+    "OBJECTID": 214
+   },
+   "geometry": {
+    "x": 108325.92320000008,
+    "y": 792379.90989999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15507",
+    "DataType": "1",
+    "Details": "glass, vesicular ellipsoid",
+    "SampleID": "15507",
+    "DTypeTxt": "rck",
+    "Id": "9",
+    "OBJECTID": 215
+   },
+   "geometry": {
+    "x": 108325.92320000008,
+    "y": 792379.90989999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15508",
+    "DataType": "1",
+    "Details": "Regolith breccia, glass coated",
+    "SampleID": "15508",
+    "DTypeTxt": "rck",
+    "Id": "9",
+    "OBJECTID": 216
+   },
+   "geometry": {
+    "x": 108325.92320000008,
+    "y": 792379.90989999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-14",
+    "FileNames": "Panorama D-14",
+    "DataType": "3",
+    "Details": "Panorama D-14",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "9a",
+    "OBJECTID": 217
+   },
+   "geometry": {
+    "x": 108076.58320000023,
+    "y": 792381.87710000016
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15010",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15010",
+    "DTypeTxt": "cor",
+    "Id": "9a",
+    "OBJECTID": 218
+   },
+   "geometry": {
+    "x": 108068.57620000001,
+    "y": 792368.71739999996
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Drive Core",
+    "FileNames": "15011",
+    "DataType": "5",
+    "Details": " ",
+    "SampleID": "15011",
+    "DTypeTxt": "cor",
+    "Id": "9a",
+    "OBJECTID": 219
+   },
+   "geometry": {
+    "x": 108068.57620000001,
+    "y": 792368.71739999996
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15528",
+    "DataType": "1",
+    "Details": "regolith breccia",
+    "SampleID": "15528",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 220
+   },
+   "geometry": {
+    "x": 108082.41949999984,
+    "y": 792377.63929999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15529",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15529",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 221
+   },
+   "geometry": {
+    "x": 108082.41949999984,
+    "y": 792377.63929999992
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15556",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15556",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 222
+   },
+   "geometry": {
+    "x": 108093.36139999982,
+    "y": 792377.44570000004
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15595",
+    "DataType": "1",
+    "Details": "porphyritic spherulitic quartz-normal mare basalt",
+    "SampleID": "15595",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 223
+   },
+   "geometry": {
+    "x": 108017.57959999982,
+    "y": 792365.94730000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15596",
+    "DataType": "1",
+    "Details": "porphyritic spherulitic quartz-normal mare basalt",
+    "SampleID": "15596",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 224
+   },
+   "geometry": {
+    "x": 108017.57959999982,
+    "y": 792365.94730000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15597",
+    "DataType": "1",
+    "Details": "vitrophyric quartz-normal mare basalt",
+    "SampleID": "15597",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 225
+   },
+   "geometry": {
+    "x": 108017.57959999982,
+    "y": 792365.94730000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15598",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15598",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 226
+   },
+   "geometry": {
+    "x": 108017.57959999982,
+    "y": 792365.94730000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15557",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15557",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 227
+   },
+   "geometry": {
+    "x": 108053.98990000039,
+    "y": 792383.60609999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15545",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15545",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 228
+   },
+   "geometry": {
+    "x": 108062.43030000012,
+    "y": 792363.84049999993
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15546",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal basalt",
+    "SampleID": "15546",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 229
+   },
+   "geometry": {
+    "x": 108062.43030000012,
+    "y": 792363.84049999993
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15547",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal basalt",
+    "SampleID": "15547",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 230
+   },
+   "geometry": {
+    "x": 108062.43030000012,
+    "y": 792363.84049999993
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15548",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15548",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 231
+   },
+   "geometry": {
+    "x": 108062.43030000012,
+    "y": 792363.84049999993
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15555",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15555",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 232
+   },
+   "geometry": {
+    "x": 108062.43030000012,
+    "y": 792363.84049999993
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15530",
+    "DataType": "2",
+    "Details": " ",
+    "SampleID": "15530",
+    "DTypeTxt": "soi",
+    "Id": "9a",
+    "OBJECTID": 233
+   },
+   "geometry": {
+    "x": 108023.87390000001,
+    "y": 792361.36390000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15535",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15535",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 234
+   },
+   "geometry": {
+    "x": 108023.87390000001,
+    "y": 792361.36390000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15536",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15536",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 235
+   },
+   "geometry": {
+    "x": 108023.87390000001,
+    "y": 792361.36390000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15537",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15537",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 236
+   },
+   "geometry": {
+    "x": 108023.87390000001,
+    "y": 792361.36390000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15538",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15538",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 237
+   },
+   "geometry": {
+    "x": 108023.87390000001,
+    "y": 792361.36390000023
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15606",
+    "DataType": "1",
+    "Details": "medium-grained olivine normal basalt",
+    "SampleID": "15606",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 238
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15607",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15607",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 239
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15608",
+    "DataType": "1",
+    "Details": "porphyritic spherulitic quartz-normal mare basalt",
+    "SampleID": "15608",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 240
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15609",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15609",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 241
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15610",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal mare basalt",
+    "SampleID": "15610",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 242
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15612",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15612",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 243
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Soil Sample",
+    "FileNames": "15600",
+    "DataType": "2",
+    "Details": "Comprehensive soil",
+    "SampleID": "15600",
+    "DTypeTxt": "soi",
+    "Id": "9a",
+    "OBJECTID": 244
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15605",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal basalt",
+    "SampleID": "15605",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 245
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15614",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal mare basalt",
+    "SampleID": "15614",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 246
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15613",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15613",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 247
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15615",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15615",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 248
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15616",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15616",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 249
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15617",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15617",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 250
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15618",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15618",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 251
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15619",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15619",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 252
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15620",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15620",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 253
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15621",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15621",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 254
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15622",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15622",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 255
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15623",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15623",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 256
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15624",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15624",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 257
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15625",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15625",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 258
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15626",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15626",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 259
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15627",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15627",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 260
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15628",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15628",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 261
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15629",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15629",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 262
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15630",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15630",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 263
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15632",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15632",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 264
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15633",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal mare basalt",
+    "SampleID": "15633",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 265
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15634",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal basalt",
+    "SampleID": "15634",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 266
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15635",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15635",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 267
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15636",
+    "DataType": "1",
+    "Details": "coarse-grained olivine-normal mare basalt",
+    "SampleID": "15636",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 268
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15637",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15637",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 269
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15638",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15638",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 270
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15639",
+    "DataType": "1",
+    "Details": "coarse-graind olivine-normal mare basalt",
+    "SampleID": "15639",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 271
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15640",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15640",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 272
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15641",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15641",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 273
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15642",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15642",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 274
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15643",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15643",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 275
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15644",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15644",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 276
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15645",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15645",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 277
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15647",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15647",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 278
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15648",
+    "DataType": "1",
+    "Details": "brecciated/melted medium-grained olivine-normal",
+    "SampleID": "15648",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 279
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15649",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15649",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 280
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15650",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15650",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 281
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15651",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15651",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 282
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15652",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15652",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 283
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15653",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15653",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 284
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15654",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15654",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 285
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15655",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15655",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 286
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15656",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15656",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 287
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15658",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15658",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 288
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15659",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15659",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 289
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15660",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15660",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 290
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15661",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15661",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 291
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15662",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15662",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 292
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15663",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15663",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 293
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15664",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15664",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 294
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15665",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15665",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 295
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15666",
+    "DataType": "1",
+    "Details": "porphyritic variolitic quartz-normal mare basalt",
+    "SampleID": "15666",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 296
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15667",
+    "DataType": "1",
+    "Details": "porphyritic variolitic quartz-normal mare basalt",
+    "SampleID": "15667",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 297
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15668",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15668",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 298
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15669",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15669",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 299
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15670",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15670",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 300
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15671",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15671",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 301
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15672",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15672",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 302
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15673",
+    "DataType": "1",
+    "Details": "medium-grained olivine-normal mare basalt",
+    "SampleID": "15673",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 303
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15674",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15674",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 304
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15675",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15675",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 305
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15676",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15676",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 306
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15677",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15677",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 307
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15678",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15678",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 308
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15679",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15679",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 309
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15680",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15680",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 310
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15681",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15681",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 311
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15682",
+    "DataType": "1",
+    "Details": "porphyritic spherulitic quartz-normal mare basalt",
+    "SampleID": "15682",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 312
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15683",
+    "DataType": "1",
+    "Details": "fine-grained olivine-normal mare basalt",
+    "SampleID": "15683",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 313
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15684",
+    "DataType": "1",
+    "Details": "glass containing mare basalt clasts",
+    "SampleID": "15684",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 314
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15685",
+    "DataType": "1",
+    "Details": "regolith breccia/glass",
+    "SampleID": "15685",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 315
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15686",
+    "DataType": "1",
+    "Details": "regolith breccia/glass",
+    "SampleID": "15686",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 316
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15687",
+    "DataType": "1",
+    "Details": "agglutinate glass",
+    "SampleID": "15687",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 317
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15688",
+    "DataType": "1",
+    "Details": "agglutinate glass",
+    "SampleID": "15688",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 318
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Rock Sample",
+    "FileNames": "15689",
+    "DataType": "1",
+    "Details": "regoltih breccia",
+    "SampleID": "15689",
+    "DTypeTxt": "rck",
+    "Id": "9a",
+    "OBJECTID": 319
+   },
+   "geometry": {
+    "x": 108073.05910000019,
+    "y": 792365.63200000022
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Panorama D-15",
+    "FileNames": "Panorama D-15",
+    "DataType": "3",
+    "Details": "Panorama D-15",
+    "SampleID": "0",
+    "DTypeTxt": "pan",
+    "Id": "10",
+    "OBJECTID": 320
+   },
+   "geometry": {
+    "x": 107914.02120000031,
+    "y": 792553.97060000012
+   }
+  }
+ ]
+}

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "startedAt": "2026-11-04T15:26:12.484Z",
+  "completedAt": "2026-11-04T15:26:59.884Z",
+  "durationMs": 47401,
+  "nodeVersion": "v24.18.0",
+  "script": "tools/surveys/moon-flight/shackleton_shadows.mjs",
+  "scriptSha256": "327b492ff51a2c970839c045b4550c170d9ee1c8dadee64050448413c10e69e1",
+  "sampler": "src/systems/moonFlightTerrain.ts",
+  "samplerSha256": "39324a3c58743396c93a0b4ef08fc206dcccc4092833d18111acfbeee1bd71e2",
+  "manifestSha256": "83cfc60ad1c433af769dab00bd5d5af133ba02cc9e100173cfe650121389a44a",
+  "sourceHeights": [
+    {
+      "file": "heights.f32",
+      "bytes": 4008004,
+      "sha256": "151bae7c0a4f9662ddba08be4e095ffe299192241615d03b5210729986b016c1",
+      "grid": {
+        "width": 1001,
+        "height": 1001,
+        "spacingM": 4,
+        "westM": -2000,
+        "northM": 2000,
+        "file": "heights.f32",
+        "url": "heights.f32",
+        "encoding": "float32-le",
+        "bytes": 4008004,
+        "sha256": "151bae7c0a4f9662ddba08be4e095ffe299192241615d03b5210729986b016c1",
+        "minHeightM": 236.89167711690104,
+        "maxHeightM": 1739.3047648190932
+      }
+    },
+    {
+      "file": "context.f32",
+      "bytes": 1004004,
+      "sha256": "aeed69d1e99105a0c5b8ce4f7a420c3eb6e2e0602d5f7534ffd3b248da9bf6de",
+      "grid": {
+        "width": 501,
+        "height": 501,
+        "spacingM": 80,
+        "westM": -28000,
+        "northM": 16000,
+        "file": "context.f32",
+        "url": "context.f32",
+        "encoding": "float32-le",
+        "bytes": 1004004,
+        "sha256": "aeed69d1e99105a0c5b8ce4f7a420c3eb6e2e0602d5f7534ffd3b248da9bf6de",
+        "minHeightM": -2865.780661045485,
+        "maxHeightM": 1957.6124250305402
+      }
+    }
+  ],
+  "solarAngles": {
+    "azimuthDeg": 20,
+    "elevationDeg": 1.4,
+    "radiusDeg": 0.266
+  },
+  "viewLookAzimuthDeg": 265,
+  "receiverBiasM": 0.02,
+  "method": "sunVisibility(x,z,height(x,z)); source-aware ray steps at half source-cell spacing, 42 km maximum; uniform solar-disc area above central-azimuth terrain horizon",
+  "limitations": [
+    "Single-azimuth horizon approximation; does not integrate an irregular silhouette across every solar-disc azimuth.",
+    "Selected plausible solar geometry, not a dated ephemeris or calibrated photometry.",
+    "Unknown terrain beyond available source coverage is assumed unoccluded.",
+    "Source terrain and authored landing pad are unchanged; texture spacing does not increase terrain survey resolution.",
+    "Linear texture filtering supplies subpixel edge smoothing; PNG values are quantized to 8 bits."
+  ],
+  "textures": [
+    {
+      "file": "shadow-near.png",
+      "width": 1025,
+      "height": 1025,
+      "halfM": 256,
+      "spacingM": 0.5,
+      "boundsRenderM": {
+        "westX": -256,
+        "eastX": 256,
+        "firstRowZ": 256,
+        "lastRowZ": -256
+      },
+      "encoding": "PNG RGBA8; equal RGB channels encode linear sunlight fraction 0–255; alpha=255",
+      "colorSpace": "NoColorSpace / linear scalar data",
+      "textureFlipY": true,
+      "uv": "(renderXZ + halfM) / (2 * halfM)",
+      "bytes": 107986,
+      "sha256": "f3ec8d9c17c9d7bb5fa47c594af204dfc9d336440700e3a7ccd16121cc8526e0",
+      "receiverCount": 1050625,
+      "minVisibility": 0,
+      "maxVisibility": 1,
+      "fullSun": 331995,
+      "partialSun": 31545,
+      "fullShadow": 687085,
+      "durationMs": 22017
+    },
+    {
+      "file": "shadow-mid.png",
+      "width": 1025,
+      "height": 1025,
+      "halfM": 1024,
+      "spacingM": 2,
+      "boundsRenderM": {
+        "westX": -1024,
+        "eastX": 1024,
+        "firstRowZ": 1024,
+        "lastRowZ": -1024
+      },
+      "encoding": "PNG RGBA8; equal RGB channels encode linear sunlight fraction 0–255; alpha=255",
+      "colorSpace": "NoColorSpace / linear scalar data",
+      "textureFlipY": true,
+      "uv": "(renderXZ + halfM) / (2 * halfM)",
+      "bytes": 127782,
+      "sha256": "15a98c05421fd3de67b9b38b4495a33224e9bd6617982fb0e8bd3412ce0dc0b9",
+      "receiverCount": 1050625,
+      "minVisibility": 0,
+      "maxVisibility": 1,
+      "fullSun": 281730,
+      "partialSun": 95328,
+      "fullShadow": 673567,
+      "durationMs": 25334
+    }
+  ]
+}

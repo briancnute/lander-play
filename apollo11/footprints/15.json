@@ -1,0 +1,1361 @@
+{
+  "schemaVersion": 1,
+  "mission": 15,
+  "title": "Hadley–Apennine",
+  "prepared": "2026-11-03",
+  "frame": {
+    "origin": "LM",
+    "axes": "east-north",
+    "units": "m",
+    "landing": {
+      "lat": 26.132,
+      "lon": 3.633
+    },
+    "note": "Planning frame uses NASA landing-site anchor and source-map scale; game renderer conversion is x=east, z=-north. Not a surveyed geodetic transform."
+  },
+  "map": {
+    "image": "/apollo11/regions/15-map.png",
+    "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+    "width": 697,
+    "height": 716,
+    "sha256": "661183ddacb6fca5f86c7259ec7950c50537377c604dfb6e1ec42b499c4f7fa0",
+    "registration": {
+      "originPixel": [
+        402,
+        91
+      ],
+      "metresPerPixel": 9.174311926605505,
+      "northRotationDegrees": 0,
+      "scaleBarPixels": [
+        [
+          471,
+          704
+        ],
+        [
+          689,
+          704
+        ]
+      ],
+      "scaleBarMetres": 2000
+    },
+    "accuracy": "Manual tracing of the published overview; source geometry, symbol width and registration limit accuracy.",
+    "uncertaintyM": 100,
+    "role": "overview-trace-source",
+    "registeredToRoutes": true
+  },
+  "boundary": {
+    "west": -2400,
+    "east": 1600,
+    "south": -5200,
+    "north": 800,
+    "marginM": 300,
+    "rationale": "Rounded construction envelope contains the traced completed traverses, near-base work and local station operating areas. Margin is a design allowance, not a historical limit. Distant mountains remain a separate non-playable backdrop."
+  },
+  "routes": [
+    {
+      "id": "eva-1",
+      "name": "EVA 1 · Elbow and St. George",
+      "travel": "rover",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -192.7,
+          -247.7
+        ],
+        [
+          -385.3,
+          -495.4
+        ],
+        [
+          -614.7,
+          -807.3
+        ],
+        [
+          -935.8,
+          -1146.8
+        ],
+        [
+          -990.8,
+          -1321.1
+        ],
+        [
+          -908.3,
+          -1614.7
+        ],
+        [
+          -678.9,
+          -2036.7
+        ],
+        [
+          -688.1,
+          -2330.3
+        ],
+        [
+          -743.1,
+          -2743.1
+        ],
+        [
+          -669.7,
+          -3091.7
+        ],
+        [
+          -761.5,
+          -3339.4
+        ],
+        [
+          -990.8,
+          -3357.8
+        ],
+        [
+          -1137.6,
+          -3467.9
+        ],
+        [
+          -1183.5,
+          -3688.1
+        ],
+        [
+          -954.1,
+          -3596.3
+        ],
+        [
+          -779.8,
+          -3440.4
+        ],
+        [
+          -669.7,
+          -3091.7
+        ],
+        [
+          -550.5,
+          -2678.9
+        ],
+        [
+          -412.8,
+          -2156.0
+        ],
+        [
+          -385.3,
+          -1862.4
+        ],
+        [
+          -357.8,
+          -1467.9
+        ],
+        [
+          -220.2,
+          -1009.2
+        ],
+        [
+          -91.7,
+          -568.8
+        ],
+        [
+          0.0,
+          -156.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "sourcePixels": [
+        [
+          402,
+          91
+        ],
+        [
+          381,
+          118
+        ],
+        [
+          360,
+          145
+        ],
+        [
+          335,
+          179
+        ],
+        [
+          300,
+          216
+        ],
+        [
+          294,
+          235
+        ],
+        [
+          303,
+          267
+        ],
+        [
+          328,
+          313
+        ],
+        [
+          327,
+          345
+        ],
+        [
+          321,
+          390
+        ],
+        [
+          329,
+          428
+        ],
+        [
+          319,
+          455
+        ],
+        [
+          294,
+          457
+        ],
+        [
+          278,
+          469
+        ],
+        [
+          273,
+          493
+        ],
+        [
+          298,
+          483
+        ],
+        [
+          317,
+          466
+        ],
+        [
+          329,
+          428
+        ],
+        [
+          342,
+          383
+        ],
+        [
+          357,
+          326
+        ],
+        [
+          360,
+          294
+        ],
+        [
+          363,
+          251
+        ],
+        [
+          378,
+          201
+        ],
+        [
+          392,
+          153
+        ],
+        [
+          402,
+          108
+        ],
+        [
+          402,
+          91
+        ]
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate overview-map trace; not a wheel-track survey.",
+      "note": "Station 3 was not a full planned stop; the belt sample was collected on the return. Near-base ALSEP drives are represented separately.",
+      "traceLengthM": 8443
+    },
+    {
+      "id": "eva-2",
+      "name": "EVA 2 · Apennine Front and Spur",
+      "travel": "rover",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -9.2,
+          -174.3
+        ],
+        [
+          119.3,
+          -367.0
+        ],
+        [
+          64.2,
+          -623.9
+        ],
+        [
+          64.2,
+          -1009.2
+        ],
+        [
+          137.6,
+          -1385.3
+        ],
+        [
+          165.1,
+          -1623.9
+        ],
+        [
+          183.5,
+          -1816.5
+        ],
+        [
+          256.9,
+          -1990.8
+        ],
+        [
+          330.3,
+          -2422.0
+        ],
+        [
+          412.8,
+          -2798.2
+        ],
+        [
+          486.2,
+          -2981.7
+        ],
+        [
+          642.2,
+          -3110.1
+        ],
+        [
+          697.2,
+          -3330.3
+        ],
+        [
+          715.6,
+          -3513.8
+        ],
+        [
+          807.3,
+          -3697.2
+        ],
+        [
+          926.6,
+          -4036.7
+        ],
+        [
+          1000.0,
+          -4403.7
+        ],
+        [
+          1284.4,
+          -4623.9
+        ],
+        [
+          1284.4,
+          -4678.9
+        ],
+        [
+          1064.2,
+          -4715.6
+        ],
+        [
+          972.5,
+          -4477.1
+        ],
+        [
+          1000.0,
+          -4403.7
+        ],
+        [
+          926.6,
+          -4036.7
+        ],
+        [
+          807.3,
+          -3697.2
+        ],
+        [
+          816.5,
+          -3458.7
+        ],
+        [
+          807.3,
+          -3119.3
+        ],
+        [
+          706.4,
+          -3110.1
+        ],
+        [
+          486.2,
+          -2981.7
+        ],
+        [
+          412.8,
+          -2798.2
+        ],
+        [
+          330.3,
+          -2422.0
+        ],
+        [
+          256.9,
+          -1990.8
+        ],
+        [
+          311.9,
+          -1743.1
+        ],
+        [
+          238.5,
+          -1578.0
+        ],
+        [
+          165.1,
+          -1550.5
+        ],
+        [
+          137.6,
+          -1385.3
+        ],
+        [
+          64.2,
+          -1009.2
+        ],
+        [
+          64.2,
+          -623.9
+        ],
+        [
+          119.3,
+          -477.1
+        ],
+        [
+          137.6,
+          -394.5
+        ],
+        [
+          0.0,
+          -174.3
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "sourcePixels": [
+        [
+          402,
+          91
+        ],
+        [
+          401,
+          110
+        ],
+        [
+          415,
+          131
+        ],
+        [
+          409,
+          159
+        ],
+        [
+          409,
+          201
+        ],
+        [
+          417,
+          242
+        ],
+        [
+          420,
+          268
+        ],
+        [
+          422,
+          289
+        ],
+        [
+          430,
+          308
+        ],
+        [
+          438,
+          355
+        ],
+        [
+          447,
+          396
+        ],
+        [
+          455,
+          416
+        ],
+        [
+          472,
+          430
+        ],
+        [
+          478,
+          454
+        ],
+        [
+          480,
+          474
+        ],
+        [
+          490,
+          494
+        ],
+        [
+          503,
+          531
+        ],
+        [
+          511,
+          571
+        ],
+        [
+          542,
+          595
+        ],
+        [
+          542,
+          601
+        ],
+        [
+          518,
+          605
+        ],
+        [
+          508,
+          579
+        ],
+        [
+          511,
+          571
+        ],
+        [
+          503,
+          531
+        ],
+        [
+          490,
+          494
+        ],
+        [
+          491,
+          468
+        ],
+        [
+          490,
+          431
+        ],
+        [
+          479,
+          430
+        ],
+        [
+          455,
+          416
+        ],
+        [
+          447,
+          396
+        ],
+        [
+          438,
+          355
+        ],
+        [
+          430,
+          308
+        ],
+        [
+          436,
+          281
+        ],
+        [
+          428,
+          263
+        ],
+        [
+          420,
+          260
+        ],
+        [
+          417,
+          242
+        ],
+        [
+          409,
+          201
+        ],
+        [
+          409,
+          159
+        ],
+        [
+          415,
+          143
+        ],
+        [
+          417,
+          134
+        ],
+        [
+          402,
+          110
+        ],
+        [
+          402,
+          91
+        ]
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate overview-map trace; not a wheel-track survey.",
+      "note": "Numbered science stops 6, 6A, 7 and 4; red A and D are brief sample stops. Small loops follow the published route line, not surveyed wheel tracks. Near-base Station 8 sampling belongs in the ALSEP operating area; its short local movements are unregistered.",
+      "traceLengthM": 10418
+    },
+    {
+      "id": "eva-3",
+      "name": "EVA 3 · Hadley Rille",
+      "travel": "rover",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -229.4,
+          -27.5
+        ],
+        [
+          -440.4,
+          27.5
+        ],
+        [
+          -633.0,
+          82.6
+        ],
+        [
+          -752.3,
+          100.9
+        ],
+        [
+          -981.7,
+          110.1
+        ],
+        [
+          -1201.8,
+          91.7
+        ],
+        [
+          -1367.0,
+          -27.5
+        ],
+        [
+          -1550.5,
+          -100.9
+        ],
+        [
+          -1807.3,
+          -110.1
+        ],
+        [
+          -1889.9,
+          45.9
+        ],
+        [
+          -1733.9,
+          73.4
+        ],
+        [
+          -1568.8,
+          45.9
+        ],
+        [
+          -1339.4,
+          91.7
+        ],
+        [
+          -1119.3,
+          174.3
+        ],
+        [
+          -908.3,
+          247.7
+        ],
+        [
+          -660.6,
+          266.1
+        ],
+        [
+          -513.8,
+          275.2
+        ],
+        [
+          -394.5,
+          137.6
+        ],
+        [
+          -385.3,
+          82.6
+        ],
+        [
+          -192.7,
+          55.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "sourcePixels": [
+        [
+          402,
+          91
+        ],
+        [
+          377,
+          94
+        ],
+        [
+          354,
+          88
+        ],
+        [
+          333,
+          82
+        ],
+        [
+          320,
+          80
+        ],
+        [
+          295,
+          79
+        ],
+        [
+          271,
+          81
+        ],
+        [
+          253,
+          94
+        ],
+        [
+          233,
+          102
+        ],
+        [
+          205,
+          103
+        ],
+        [
+          196,
+          86
+        ],
+        [
+          213,
+          83
+        ],
+        [
+          231,
+          86
+        ],
+        [
+          256,
+          81
+        ],
+        [
+          280,
+          72
+        ],
+        [
+          303,
+          64
+        ],
+        [
+          330,
+          62
+        ],
+        [
+          346,
+          61
+        ],
+        [
+          359,
+          76
+        ],
+        [
+          360,
+          82
+        ],
+        [
+          381,
+          85
+        ],
+        [
+          402,
+          91
+        ]
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate overview-map trace; not a wheel-track survey.",
+      "note": "Stations 9, 9A and 10; B and C are short sampling stops. Outbound/return overlap is simplified at the resolution of this map.",
+      "traceLengthM": 4102
+    }
+  ],
+  "stations": [
+    {
+      "id": "lm",
+      "name": "Falcon",
+      "east": 0.0,
+      "north": 0.0,
+      "sourcePixel": [
+        402,
+        91
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-1",
+      "name": "1 · Elbow",
+      "east": -669.7,
+      "north": -3091.7,
+      "sourcePixel": [
+        329,
+        428
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-2",
+      "name": "2 · St. George",
+      "east": -1183.5,
+      "north": -3688.1,
+      "sourcePixel": [
+        273,
+        493
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-3",
+      "name": "3 · belt sample",
+      "east": -403.7,
+      "north": -1862.4,
+      "sourcePixel": [
+        358,
+        294
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-4",
+      "name": "4 · Dune",
+      "east": 807.3,
+      "north": -3119.3,
+      "sourcePixel": [
+        490,
+        431
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-6",
+      "name": "6 · Apennine Front",
+      "east": 1284.4,
+      "north": -4678.9,
+      "sourcePixel": [
+        542,
+        601
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-6a",
+      "name": "6A · green boulder",
+      "east": 1064.2,
+      "north": -4715.6,
+      "sourcePixel": [
+        518,
+        605
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-7",
+      "name": "7 · Spur",
+      "east": 972.5,
+      "north": -4477.1,
+      "sourcePixel": [
+        508,
+        579
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-9",
+      "name": "9 · fresh crater",
+      "east": -1550.5,
+      "north": -100.9,
+      "sourcePixel": [
+        233,
+        102
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-9a",
+      "name": "9A · Hadley Rille",
+      "east": -1807.3,
+      "north": -110.1,
+      "sourcePixel": [
+        205,
+        103
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "station-10",
+      "name": "10 · Rim Crater",
+      "east": -1889.9,
+      "north": 45.9,
+      "sourcePixel": [
+        196,
+        86
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "sample-a",
+      "name": "A · brief sample",
+      "east": 1284.4,
+      "north": -4623.9,
+      "sourcePixel": [
+        542,
+        595
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "sample-b",
+      "name": "B · brief sample",
+      "east": -752.3,
+      "north": 100.9,
+      "sourcePixel": [
+        320,
+        80
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "sample-c",
+      "name": "C · brief sample",
+      "east": -513.8,
+      "north": 275.2,
+      "sourcePixel": [
+        346,
+        61
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "sample-d",
+      "name": "D · brief sample",
+      "east": 137.6,
+      "north": -477.1,
+      "sourcePixel": [
+        417,
+        143
+      ],
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_14_lunar_traverses_on_lroc_image.png",
+      "accuracy": "Approximate station centre from overview map; about 100 m uncertainty.",
+      "operatingRadiusM": 100
+    },
+    {
+      "id": "alsep",
+      "name": "ALSEP / deep core",
+      "east": -100,
+      "north": 45,
+      "sourceUrl": "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
+      "accuracy": "Approximate near-base anchor only; not resolved by the overview map.",
+      "operatingRadiusM": 150
+    },
+    {
+      "id": "flag",
+      "name": "Flag / near-base photos",
+      "east": 0,
+      "north": 0,
+      "sourceUrl": "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
+      "accuracy": "Approximate near-base anchor only; not resolved by the overview map.",
+      "operatingRadiusM": 150
+    },
+    {
+      "id": "lrv-final",
+      "name": "Final LRV / memorial area",
+      "east": 90,
+      "north": -120,
+      "sourceUrl": "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/",
+      "accuracy": "Approximate near-base anchor only; not resolved by the overview map.",
+      "operatingRadiusM": 150
+    },
+    {
+      "id": "station-8",
+      "name": "8 · ALSEP-area trench / sampling",
+      "east": -100,
+      "north": 45,
+      "sourceUrl": "https://apollojournals.org/alsj/a15/a15.sta8.html",
+      "accuracy": "Approximate ALSEP-area anchor only; individual trench and walk positions are unregistered.",
+      "operatingRadiusM": 150
+    }
+  ],
+  "photos": [
+    {
+      "stopId": "eagle",
+      "photoId": "AS15-86-11603",
+      "image": "/apollo11/regions/15-0.jpg",
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_20_eva1_final_irwin_rover_mt_hadley_as15-86-11603hr.jpg",
+      "stationId": "lm",
+      "subject": "Irwin with LRV and Mount Hadley",
+      "actors": [
+        "Jim Irwin at rover; Scott behind camera"
+      ],
+      "equipment": [
+        "LRV with TV camera pointed down in stowed position",
+        "Dish antenna",
+        "Sample collection bags and tools on rear rack"
+      ],
+      "camera": {
+        "status": "station identified; exact camera transform pending",
+        "note": "Scott stood in the LM shadow southwest of the rover; match the photographed rover side, Irwin and mountain silhouette. Exact position and FOV pending."
+      },
+      "moment": "End of EVA 1, around GET 125:45:12, near Falcon",
+      "note": "Falcon is not visible in this photo. Do not turn it into a generic lander shot. Retain stop save ID eagle, but photo scene subject is rover at base.",
+      "horizon": "Mount Hadley dominates background; requires distant relief beyond playable boundary.",
+      "sha256": "e3ecc1e55a07229c040aa854745d708484843dc9e24121fcc5ac1678f1182e0d",
+      "credit": "NASA",
+      "reconstructionStatus": "photo inspected; future shot layout not implemented",
+      "interpretationSourceUrl": "https://apollojournals.org/alsj/a15/images15.html"
+    },
+    {
+      "stopId": "rover",
+      "photoId": "AS15-85-11411",
+      "image": "/apollo11/regions/15-2.jpg",
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_17_eva1_rover_at_station_1_w_scott_as15-85-11411hr.jpg",
+      "stationId": "station-1",
+      "subject": "Scott and the rover at Elbow",
+      "actors": [
+        "Dave Scott cropped at left; Irwin behind camera"
+      ],
+      "equipment": [
+        "LRV close foreground; gnomon beside Scott"
+      ],
+      "camera": {
+        "status": "station identified; exact camera transform pending",
+        "note": "Close composition with wheel and vehicle filling right side; angle must come from this image."
+      },
+      "moment": "EVA 1, Station 1",
+      "note": "Documented station matches; rebuild the current generic rover tableau to fit the close crop.",
+      "horizon": "No sky/horizon in this crop; sloping ground behind.",
+      "sha256": "de3e9b2cf37f29053081101e3b140094b44043f9beb0cac3024c712ad0a03638",
+      "credit": "NASA",
+      "reconstructionStatus": "photo inspected; future shot layout not implemented",
+      "interpretationSourceUrl": "https://apollojournals.org/alsj/a15/images15.html"
+    },
+    {
+      "stopId": "spur",
+      "photoId": "AS15-86-11671",
+      "image": "/apollo11/regions/15-1.jpg",
+      "sourceUrl": "https://www.nasa.gov/wp-content/uploads/2021/07/apollo_15_moon_landing_26_eva2_station_7_genesis_rock_as15-86-11671hr.jpg",
+      "stationId": "station-7",
+      "subject": "Genesis Rock before collection",
+      "actors": [],
+      "equipment": [
+        "Gnomon / colour scale"
+      ],
+      "camera": {
+        "status": "station identified; exact camera transform pending",
+        "note": "Downward close shot; exact camera position within sampling area pending."
+      },
+      "moment": "EVA 2, Station 7",
+      "note": "No standing astronaut or rover in frame. Rock and gnomon spacing must follow the photo, not generic boulder sizing.",
+      "horizon": "No horizon; regolith fills frame.",
+      "sha256": "abe7c5b9016f0a055632770592aa67474ba13fb31c348e9fbf39f73d990e4670",
+      "credit": "NASA",
+      "reconstructionStatus": "photo inspected; future shot layout not implemented",
+      "interpretationSourceUrl": "https://apollojournals.org/alsj/a15/images15.html"
+    },
+    {
+      "stopId": "rille",
+      "photoId": "AS15-82-11147",
+      "image": "/apollo11/footprints/AS15-82-11147.jpg",
+      "sourceUrl": "https://apollojournals.org/alsj/a15/AS15-82-11147.jpg",
+      "stationId": "station-9a",
+      "subject": "Looking south along Hadley Rille",
+      "actors": [],
+      "equipment": [],
+      "camera": {
+        "status": "station identified; exact camera transform pending",
+        "note": "South-looking locator from Station 9A; 60 mm lens, catalogue sun azimuth113°/elevation39°. ALSJ identifies Irwin as photographer despite CDR camera column in catalogue. Exact position within station pending."
+      },
+      "moment": "EVA 3, around GET 165:50:49",
+      "note": "Verified replacement candidate for the wrong Station1 photograph; keep runtime unchanged until shot rebuild. Sources: NASA SP-289 fig3-29/5-29 and photo index.",
+      "horizon": "Foreground basalt boulders, near/far rille walls, Hadley Delta and partial St. George; no astronaut/rover in frame.",
+      "sha256": "6d5b93e61be37f76314e14bde9674eacc75e0c6ea63d52147830b0905cf3ea68",
+      "credit": "NASA; scan: Kipp Teague / Apollo Lunar Surface Journal",
+      "reconstructionStatus": "photo inspected; future shot layout not implemented",
+      "interpretationSourceUrl": "https://apollojournals.org/alsj/a15/images15.html"
+    }
+  ],
+  "terrain": [
+    {
+      "name": "NAC_DTM_APOLLO15",
+      "url": "https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_APOLLO15",
+      "resolutionM": 2.0,
+      "projection": "Equirectangular; planetocentric latitude, east-positive longitude; reference sphere 1,737,400 m. Centre latitude 26°, central meridian 180° (verified PDS label).",
+      "elevationDatum": "Metres above the 1,737,400 m lunar reference sphere; tied to LOLA. Radius/height conversion verified against the LROC NAC Processing Guide.",
+      "coverage": {
+        "status": "outer-footprint-verified",
+        "note": "Official LROC outer polygon covers approximately 91.3% of the proposed rectangle; 2 route vertices fall outside. This checks the product outline, not per-pixel shadow, interpolation or NoDATA/confidence holes.",
+        "bounds": {
+          "west": -3539,
+          "east": 1562,
+          "south": -16356,
+          "north": 12250
+        },
+        "polygons": [
+          [
+            [
+              -2400.0,
+              -5200.0
+            ],
+            [
+              -2400.0,
+              800.0
+            ],
+            [
+              1274.3,
+              800.0
+            ],
+            [
+              1226.6,
+              -3928.0
+            ],
+            [
+              1270.1,
+              -5200.0
+            ]
+          ]
+        ],
+        "areaPercent": 91.3,
+        "sourceUrl": "https://data.lroc.im-ldi.com/lroc/view_rdr/SHAPEFILE_NAC_DTMS",
+        "sourceArchiveUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/EXTRAS/SHAPEFILE/NAC_DTMS/NAC_DTMS_360.ZIP",
+        "sourceArchiveSha256": "2235e1561df50e8412f4879c81e08172c7ff02a7b20a0ba5ba7f832fa0208394",
+        "sourceCrs": "Moon_2000 geographic; local equirectangular approximation at the package LM latitude. Overview registration uncertainty still applies.",
+        "outsideRouteVertices": [
+          {
+            "routeId": "eva-2",
+            "vertex": 18,
+            "point": [
+              1284.4,
+              -4623.9
+            ]
+          },
+          {
+            "routeId": "eva-2",
+            "vertex": 19,
+            "point": [
+              1284.4,
+              -4678.9
+            ]
+          }
+        ]
+      },
+      "status": "Metadata and outer polygon verified; terrain raster and per-pixel confidence not downloaded or ingested.",
+      "metadata": {
+        "labelUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO15/NAC_DTM_APOLLO15.LBL",
+        "readmeUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO15/NAC_DTM_APOLLO15_README.TXT",
+        "relativeLinearErrorM": 1.06,
+        "lolaRmsM": 1.74,
+        "guideUrl": "https://www.lroc.asu.edu/data/support/downloads/LROC_NAC_Processing_Guide.pdf"
+      },
+      "metadataFiles": [
+        "/apollo11/footprints/sources/NAC_DTM_APOLLO15.LBL",
+        "/apollo11/footprints/sources/NAC_DTM_APOLLO15_README.TXT"
+      ]
+    },
+    {
+      "name": "NAC_DTM_APOLLO15_2",
+      "url": "https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_APOLLO15_2",
+      "resolutionM": 5.0,
+      "projection": "Equirectangular; planetocentric latitude, east-positive longitude; reference sphere 1,737,400 m. Centre latitude 26°, central meridian 180° (verified PDS label).",
+      "elevationDatum": "Metres above the 1,737,400 m lunar reference sphere; tied to LOLA. Radius/height conversion verified against the LROC NAC Processing Guide.",
+      "coverage": {
+        "status": "outer-footprint-verified",
+        "note": "Official LROC outer polygon covers approximately 100.0% of the proposed rectangle; 0 route vertices fall outside. This checks the product outline, not per-pixel shadow, interpolation or NoDATA/confidence holes.",
+        "bounds": {
+          "west": -8236,
+          "east": 5274,
+          "south": -30845,
+          "north": 22355
+        },
+        "polygons": [
+          [
+            [
+              -2400.0,
+              -5200.0
+            ],
+            [
+              -2400.0,
+              800.0
+            ],
+            [
+              1600.0,
+              800.0
+            ],
+            [
+              1600.0,
+              -5200.0
+            ]
+          ]
+        ],
+        "areaPercent": 100.0,
+        "sourceUrl": "https://data.lroc.im-ldi.com/lroc/view_rdr/SHAPEFILE_NAC_DTMS",
+        "sourceArchiveUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/EXTRAS/SHAPEFILE/NAC_DTMS/NAC_DTMS_360.ZIP",
+        "sourceArchiveSha256": "2235e1561df50e8412f4879c81e08172c7ff02a7b20a0ba5ba7f832fa0208394",
+        "sourceCrs": "Moon_2000 geographic; local equirectangular approximation at the package LM latitude. Overview registration uncertainty still applies.",
+        "outsideRouteVertices": []
+      },
+      "status": "Metadata and outer polygon verified; terrain raster and per-pixel confidence not downloaded or ingested.",
+      "metadata": {
+        "labelUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO15_2/NAC_DTM_APOLLO15_2.LBL",
+        "readmeUrl": "https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO15_2/NAC_DTM_APOLLO15_2_README.TXT",
+        "relativeLinearErrorM": 2.71,
+        "lolaRmsM": 1.79,
+        "guideUrl": "https://www.lroc.asu.edu/data/support/downloads/LROC_NAC_Processing_Guide.pdf"
+      },
+      "metadataFiles": [
+        "/apollo11/footprints/sources/NAC_DTM_APOLLO15_2.LBL",
+        "/apollo11/footprints/sources/NAC_DTM_APOLLO15_2_README.TXT"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "NASA mission traverse map and image captions",
+      "url": "https://www.nasa.gov/history/50-years-ago-apollo-15-on-the-moon-at-hadley-apennine/"
+    },
+    {
+      "title": "NASA LRV totals and ranges",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+    },
+    {
+      "title": "Apollo Lunar Surface Journal",
+      "url": "https://apollojournals.org/alsj/a15/a15.html"
+    },
+    {
+      "title": "LROC DTM outer-footprint index",
+      "url": "https://data.lroc.im-ldi.com/lroc/view_rdr/SHAPEFILE_NAC_DTMS"
+    },
+    {
+      "title": "LROC NAC Processing Guide",
+      "url": "https://www.lroc.asu.edu/data/support/downloads/LROC_NAC_Processing_Guide.pdf"
+    },
+    {
+      "title": "NASA SP-289, Station9A photograph fig3-29/5-29",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a15/as15psr.pdf"
+    },
+    {
+      "title": "NASA Apollo15 70mm photograph index",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/a15/a15.photidx.pdf"
+    },
+    {
+      "title": "ALSJ Station9A photo sequence",
+      "url": "https://apollojournals.org/alsj/a15/images15.html#11147"
+    }
+  ],
+  "gaps": [
+    "North is assumed up for the NASA/LROC overview; scale is read from its 2 km bar. Re-register against the controlled ortho before placing exact camera stations.",
+    "Station 3 was a brief belt-sample stop, not completion of all its planned tasks. Planned unvisited stations must not become historical visits.",
+    "ALSEP and final LRV markers are approximate bearing/range anchors from mission narrative; local driving, Grand Prix and individual sampling walks are not recoverable from this overview. Their operating areas fit the boundary.",
+    "The narrow 2 m product misses part of the eastern margin and two mountain-front route vertices. The verified broader 5 m APOLLO15_2 footprint covers the proposed area; blend/resample after a confidence-mask audit, rather than inventing measured detail.",
+    "Routes depict driven corridors; add bootprints only at documented walking work areas. No individual footprint placement is claimed.",
+    "Per-pixel DTM confidence, shadow/interpolation artifacts, real surface grades, and precise image-station registration remain construction prerequisites.",
+    "The source overview covers the mission region but cannot reconstruct every short movement within sampling sites. Operating disks reserve space without presenting invented paths."
+  ],
+  "distanceAudit": {
+    "documentedRoverDistanceKm": 27.8,
+    "documentedMaxRangeKm": 5.0,
+    "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html",
+    "tracedCorridorDistanceKm": 22.96,
+    "differenceKm": -4.84,
+    "note": "Trace length is a QA diagnostic, not a reconstructed odometer. Overview simplification and unregistered local manoeuvres can contribute to the discrepancy; exact accounting is unresolved. Do not stretch geometry to force agreement."
+  },
+  "scaleRecommendation": {
+    "gameMetresPerRealMetre": 1,
+    "status": "Recommendation for prototype, not a runtime change or final pacing approval.",
+    "widthM": 4000,
+    "heightM": 6000,
+    "areaKm2": 24.0
+  },
+  "localOperations": {
+    "status": "areas reserved; detailed walked routes unregistered",
+    "note": "ALSEP, instrument deployment, final LRV parking and sampling walks are spatially within the construction envelope. Overview routes represent the long traverses; station operating radii are design allowances, not measured visited polygons."
+  },
+  "coverageAudit": {
+    "routeBoundsM": {
+      "west": -1889.9,
+      "east": 1284.4,
+      "south": -4715.6,
+      "north": 275.2
+    },
+    "allMappedBoundsM": {
+      "west": -1889.9,
+      "east": 1284.4,
+      "south": -4715.6,
+      "north": 275.2
+    },
+    "routeVertexCount": 90,
+    "mappedEvas": 3,
+    "routeSegmentCount": 3,
+    "allRetainedVerticesInside": true,
+    "noSyntheticConnectors": true,
+    "note": "17 preserves original GIS components; 15/16 retain reviewed overview polylines. Station operating areas are reserved design space, not measured walked polygons."
+  }
+}

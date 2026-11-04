@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "mission": 17,
+  "url": "heights.i16",
+  "bounds": {
+    "west": -8192,
+    "east": 4096,
+    "south": -4096,
+    "north": 4096
+  },
+  "width": 3073,
+  "height": 2049,
+  "gridStepM": 4,
+  "encoding": "int16-le",
+  "heightScaleM": 0.1,
+  "heightOffsetM": 0,
+  "rowOrder": "north-to-south",
+  "columnOrder": "west-to-east",
+  "bytes": 12593154,
+  "sha256": "b6781fec522105ab16bf5cad3e1752c674910b4fdea68914c54867649aaf7abf",
+  "minHeightM": -140.3,
+  "maxHeightM": 1091.8,
+  "quantizationMaximumErrorM": 0.05,
+  "playableBounds": {
+    "west": -8000,
+    "east": 4000,
+    "south": -4000,
+    "north": 4000
+  },
+  "tileSizeM": 512,
+  "sourceHeightAtLmM": -2626.81591796875,
+  "context": {
+    "url": "context.i16",
+    "bounds": {
+      "west": -16384,
+      "east": 8192,
+      "south": -8192,
+      "north": 8192
+    },
+    "width": 385,
+    "height": 257,
+    "gridStepM": 64,
+    "encoding": "int16-le",
+    "heightScaleM": 0.1,
+    "heightOffsetM": 0,
+    "rowOrder": "north-to-south",
+    "columnOrder": "west-to-east",
+    "bytes": 197890,
+    "sha256": "77c04e5d98a9e3b87fc1d0eb9b7d0441a55fad48c23ef22555efbf395a18fee3",
+    "minHeightM": -307.0,
+    "maxHeightM": 2428.9,
+    "quantizationMaximumErrorM": 0.05
+  },
+  "frame": {
+    "origin": "LM",
+    "axes": "east-north",
+    "units": "m",
+    "landing": {
+      "lat": 20.190908635758028,
+      "lon": 30.771679833445546
+    },
+    "note": "Local true east/north metres at surveyed LM. Original routes use spherical Transverse Mercator (radius 1,737,400 m, central meridian 30.7\u00b0, false easting 500,000 m, scale factor 1). Subtract the projected LM and rotate by local grid convergence. Decimal precision preserves source coordinates; it does not imply millimetre accuracy.",
+    "sourceProjection": {
+      "name": "Spherical Transverse Mercator",
+      "radiusM": 1737400,
+      "centralMeridianDegrees": 30.7,
+      "falseEastingM": 500000,
+      "falseNorthingM": 0,
+      "scaleFactor": 1,
+      "originProjectedM": [
+        502040.0022904089,
+        612256.4383794001
+      ],
+      "gridConvergenceRadians": 0.0004317988948409319,
+      "wkt": "PROJCS[\"UTM_MOON\",GEOGCS[\"GCS_MOON\",DATUM[\"D_MOON\",SPHEROID[\"MOON\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"false_easting\",500000.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",30.7],PARAMETER[\"scale_factor\",1.0],PARAMETER[\"latitude_of_origin\",0.0],UNIT[\"Meter\",1.0]]"
+    }
+  },
+  "axes": {
+    "x": "east",
+    "y": "elevation relative to LM",
+    "z": "negative north"
+  },
+  "source": {
+    "primary": "NAC_DTM_APOLLO17_2M",
+    "fallback": "NAC_DTM_APOLLO17",
+    "primaryResolutionM": 2,
+    "fallbackResolutionM": 5,
+    "datum": "Heights above the 1,737,400 m lunar reference sphere; LOLA-tied.",
+    "fallbackBiasM": 0.0009765625,
+    "blendWidthM": 64,
+    "outerContextBlendWidthM": 128,
+    "confidenceSource": "Original PDS IMG classes; contrast-stretched browse TIFFs are not used.",
+    "confidenceRule": "All four bilinear contributors must have documented classes 10\u201315 to count as trusted; any unknown class is retained as untrusted.",
+    "samplingVersion": 2,
+    "contextFilledNodes": 17,
+    "contextFillAttempts": 18,
+    "auditUrl": "audit.json",
+    "provenanceUrl": "provenance.png"
+  },
+  "limitations": [
+    "4 m bilinear resampling and decimetre quantization are prototype processing, not 4 m survey accuracy.",
+    "Published low-confidence elevations remain marked where neither source has a reliable alternative.",
+    "17 isolated context nodes retain a bounded local plane from measured neighbours (18 fill attempts; interior overlap is replaced by the canonical field); no ride-field gap is filled this way.",
+    "Source surface is rendered in a local map plane; no lunar-curvature correction is applied.",
+    "No procedural hills, rocks or fabricated elevation substitute is included."
+  ]
+}

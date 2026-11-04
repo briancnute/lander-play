@@ -1,0 +1,191 @@
+{
+ "displayFieldName": "id",
+ "fieldAliases": {
+  "OBJECTID_1": "OBJECTID_1",
+  "OBJECTID": "OBJECTID",
+  "id": "id",
+  "Station": "Station",
+  "X_East": "X_East",
+  "Y_North": "Y_North"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon2000_Equidistant_Cylindrical_C0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "OBJECTID_1",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID_1"
+  },
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeInteger",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "id",
+   "type": "esriFieldTypeString",
+   "alias": "id",
+   "length": 4
+  },
+  {
+   "name": "Station",
+   "type": "esriFieldTypeString",
+   "alias": "Station",
+   "length": 13
+  },
+  {
+   "name": "X_East",
+   "type": "esriFieldTypeSingle",
+   "alias": "X_East"
+  },
+  {
+   "name": "Y_North",
+   "type": "esriFieldTypeSingle",
+   "alias": "Y_North"
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID_1": 1,
+    "OBJECTID": 1,
+    "id": "0",
+    "Station": "10",
+    "X_East": 0,
+    "Y_North": 0
+   },
+   "geometry": {
+    "x": 469954.88144449459,
+    "y": -272163.44649300922
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 2,
+    "OBJECTID": 13,
+    "id": "12",
+    "Station": "1",
+    "X_East": -1399.1500244140625,
+    "Y_North": -48.859001159667969
+   },
+   "geometry": {
+    "x": 468574.14095248171,
+    "y": -272190.99737427657
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 3,
+    "OBJECTID": 15,
+    "id": "14",
+    "Station": "2",
+    "X_East": -798.90399169921875,
+    "Y_North": -41.868999481201172
+   },
+   "geometry": {
+    "x": 469237.94025049452,
+    "y": -272154.34779920668
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 4,
+    "OBJECTID": 40,
+    "id": "39",
+    "Station": "4",
+    "X_East": 428.56698608398438,
+    "Y_North": -4077.5400390625
+   },
+   "geometry": {
+    "x": 470442.02480594168,
+    "y": -275923.15076546808
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 5,
+    "OBJECTID": 42,
+    "id": "41",
+    "Station": "5",
+    "X_East": 426.54299926757812,
+    "Y_North": -3473.909912109375
+   },
+   "geometry": {
+    "x": 470369.32255698275,
+    "y": -275375.28890635382
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 6,
+    "OBJECTID": 44,
+    "id": "43",
+    "Station": "6",
+    "X_East": 162.24099731445312,
+    "Y_North": -3095.75
+   },
+   "geometry": {
+    "x": 470097.74031845474,
+    "y": -274978.12652869249
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 7,
+    "OBJECTID": 49,
+    "id": "48",
+    "Station": "8",
+    "X_East": -553.34600830078125,
+    "Y_North": -2846.719970703125
+   },
+   "geometry": {
+    "x": 469347.27964868821,
+    "y": -274882.85063045495
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 8,
+    "OBJECTID": 50,
+    "id": "49",
+    "Station": "9",
+    "X_East": -316.8599853515625,
+    "Y_North": -2580.6201171875
+   },
+   "geometry": {
+    "x": 469528.6786162894,
+    "y": -274524.40749587625
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 9,
+    "OBJECTID": 69,
+    "id": "68",
+    "Station": "11",
+    "X_East": -78.536003112792969,
+    "Y_North": 4499.31005859375
+   },
+   "geometry": {
+    "x": 469877.22976447945,
+    "y": -267708.80944166955
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID_1": 10,
+    "OBJECTID": 72,
+    "id": "71",
+    "Station": "13",
+    "X_East": 265.07501220703125,
+    "Y_North": 3790.739990234375
+   },
+   "geometry": {
+    "x": 470272.99861762911,
+    "y": -268376.87511569617
+   }
+  }
+ ]
+}

@@ -1,0 +1,2348 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" /><title>
+	Apollo 16 Landing Site Map
+</title><link rel="stylesheet" href="https://js.arcgis.com/3.31/dijit/themes/claro/claro.css" /><link rel="stylesheet" href="https://js.arcgis.com/3.31/esri/css/esri.css" /><link href="anApolloMap.css" rel="stylesheet" /><link href="../css/apollo.css" rel="stylesheet" />
+  <style>
+    </style>
+  <script src="https://js.arcgis.com/3.31/"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    type="text/javascript"></script>
+</head>
+<body class="claro">
+  <form name="form1" method="post" action="./apMap.aspx?m=16" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNDEyNTI3MTY5ZGRLKBvDoZT/XQK8khkRzCIXeWzx0wUVhvYYdOo93r4crQ==" />
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="2FAB232E" />
+    <div id="content"
+      data-dojo-type="dijit/layout/BorderContainer"
+      data-dojo-props="design:'headline', gutters:true"
+      style="width: 100%; height: 100%; margin: 0;">
+      <div id="LeftPane"
+        data-dojo-type="dijit/layout/ContentPane"
+        data-dojo-props="region:'left'">
+        <div data-dojo-type="dijit/layout/AccordionContainer">
+          <div data-dojo-type="dijit/layout/ContentPane" id="legendPane" data-dojo-props="title:'Control panel', selected:true">
+            <fieldset id="gs" data-dojo-type="dijit/Fieldset">
+              <legend><b>Station finder</b></legend>
+              <div id="divStation" data-dojo-type="dijit/layout/ContentPane" style="display: block;">
+                <span id="Label2" class="qLabel">Station</span>
+                <select name="labelStation" id="labelStation"></select>
+                <input type="button" id="buttonStationx" onclick="Go2Station()" value="View" />
+                <!--<input type="button" id="buttonReset" onclick="ResetMap()" value ="Reset Map" >-->
+              </div>
+            </fieldset>
+            <fieldset id="qy" data-dojo-type="dijit/Fieldset">
+              <legend><b>Query</b></legend>
+              <div class="instructions">
+                Click 'Samples' or 'Instruments' to query, then select the desired objects and stations from the drop down menus. Click on a record in the table to highlight the record on the map. You can also click on the marker of a sample or an instrument on the map to identify the results and link to more detailed information.
+              </div>
+              <div data-dojo-type="dijit/layout/AccordionContainer"
+                data-dojo-props="style: {padding: 0,  height: '700px'}">
+                <div id="tabsquery" data-dojo-type="dijit/layout/TabContainer" data-dojo-props="title:'Query and results', style:{padding: 0, height: '700px', width: '400px'}">
+                  <div id="tabs-1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title: 'Samples', selected:true">
+                    <div class="controls">
+                      <div class="qOption">
+                        <label for="ObjLab" class="qLabel"><b>Type</b></label>
+                        <select name="expObj" id="expObj" onchange="clickObj('tab1')">
+                          <option value="All">All</option>
+                          <option value="cor">Drive Core</option>
+                          <option value="pan">Panorama</option>
+                          <option value="rck">Rock</option>
+                          <option value="soi">Soil</option>
+                        </select>
+                      </div>
+                      <div class="qOption">
+                        <label for="StaLab" class="qLabel"><b>Station</b></label>
+                        <select name="Optsta" id="Optsta" selectonblur="false" onchange="staquery('tab1');">
+                          <option value="All">All</option>
+                        </select>
+                      </div>
+                      <div class="qCounts">
+                        <label id="totalSta">objects</label>
+                      </div>
+                      <input type="button" id="ButtonSample" onclick="SampleQuery('tab1')" value="Search" />
+                      <input type="button" id="ButtonClear1" onclick="ClearQuery('tab1')" value="Reset" />
+                    </div>
+                    <table id="ftclcTab" class="TFtable"></table>
+                  </div>
+                  <div id="tabs-2"
+                    data-dojo-type="dijit/layout/ContentPane"
+                    data-dojo-props="title: 'Instruments'">
+                    <div class="controls">
+                      <div class="qOption">
+                        <label for="ObjLab" class="qLabel"><b>Instrument</b></label>
+                        <select name="instObj"
+                          id="instObj"
+                          onchange="clickObj('tab2')">
+                          <option value="All">All</option>
+                          <option value="hfe">Heat Flow Experiment</option>
+                          <option value="sum">Lunar Roving Vehicle</option>
+                          <option value="swc">Solar Wind Composition</option>
+                          <option value="pse">Passive Seismic Experiment</option>
+                          <option value="cst">ALSEP Central Station</option>
+                          <option value="lsm">Lunar Surface Magnetometer</option>
+                          <option value="sid">Suprathermal Ion Detector Experiment
+                          </option>
+                          <option value="lrr">Laser Ranging Retroreflector</option>
+                          <option value="sws">Solar Wind Spectrometer
+                          </option>
+                        </select>
+                      </div>
+                      <div class="qOption">
+                        <label for="StaLab" class="qLabel"><b>Station</b></label>
+                        <select name="Optsta"
+                          id="Optsta2"
+                          onchange="staquery('tab2');">
+                          <option value="All">All stations</option>
+                        </select>
+                      </div>
+                      <div class="qCounts">
+                        <label id="totalSta2"><b>objects</b></label>
+                      </div>
+                      <input type="button" id="ButtonInstrument" onclick="SampleQuery('tab2')" value="Search" />
+                      <input type="button" id="ButtonClear2" onclick="ClearQuery('tab2')" value="Reset" />
+                    </div>
+                    <table id="ftclcTab2" class="TFtable"></table>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset id="lc" data-dojo-type="dijit/Fieldset" data-dojo-props="open:false">
+              <div data-dojo-type="dijit/layout/AccordionContainer">
+                <legend><b>Map settings</b></legend>
+                <!--   <button
+                   onclick="divexp('lcsub')"
+                   id="lcbutton"
+                   style="font-size: 18px; color: white; padding: 0; border: none; background-color: #4CAF50;}"
+                 >
+                   Show details
+                 </button>-->
+                <div id="lcsub" style="display: block">
+                  <div class="instructions">
+                    Adjust display setting to turn on/off layers and view legends.
+                  </div>
+                  <div id="legendDiv"></div>
+                  <label for="Label Size"><b>Label size:</b></label>
+                  <select name="labelSize" id="labelSize" onchange="changeLab()">
+                    <option value="small">small</option>
+                    <option value="medium">medium</option>
+                    <option value="large">large</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset id="is" data-dojo-type="dijit/Fieldset" data-dojo-props="open:false">
+              <div data-dojo-type="dijit/layout/AccordionContainer">
+                <legend><b>Data sources</b></legend>
+                <!--  <button
+                  onclick="divexp('issub')"
+                  id="isbutton"
+                  style="font-size: 18px; color: white; padding: 0; border: none; background-color: #4CAF50;}"
+                >
+                  Show details
+                </button>-->
+                <div id="issub" style="display: block">
+                  <div class="instructions">
+                    The background image is clipped from the LRO LROC WAC monochrome global mosaic (<a href="https://www.lroc.asu.edu/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/WAC_GLOBAL/WAC_GLOBAL_E300S0450_100M.IMG">WAC_GLOBAL_E300S0450_100M, 100m/pixel</a>). The middle of the map is clipped from the LROC NAC high-resolution controlled mosaics (<a href="https://www.lroc.asu.edu/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_ROI/APOLLO16LOA/NAC_ROI_APOLLO16LOA_E090S0155.IMG">NAC_ROI_APOLLO16LOA_E090S0155, 0.9m/pixel</a> and <a href="https://www.lroc.asu.edu/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/BDR/NAC_ROI/APOLLO16HIA/NAC_ROI_APOLLO16HIA_E091S0152.IMG">NAC_ROI_APOLLO16HIA_E091S0152, 0.5m/pixel</a>) and LROC ortho-image (<a href="https://www.lroc.asu.edu/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO16_2/NAC_DTM_APOLLO16_2_M152770233_50CM.IMG">NAC_DTM_APOLLO16_2_M152770233_50CM, 0.5m/pixel</a>) covering Apollo 16 landing site. The traverse line is from Phil Stooke, University of Western Ontario. It was created by tracing tracks visible in the LROC data as well as using surface photos and descriptions.
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div id="map"
+        data-dojo-type="dijit/layout/ContentPane"
+        data-dojo-props="region:'center'"
+        style="overflow: hidden;">
+        <span id="info"
+          style="position: absolute; right: 15px; bottom: 15px; color: black; background-color: White; font-style: normal; font-size: 16px; font-family: Arial; font-weight: bold; z-index: 50;"></span>
+      </div>
+    </div>
+
+    <div id="identifyTabs"
+      dojotype="dijit/layout/ContentPane"
+      style="width: 320px; height: 200px; background-color: White;">
+      <div id="stopPntsTab" dojotype="dijit/layout/ContentPane"></div>
+    </div>
+    <div id="navIC"
+      dojotype="dijit/layout/ContentPane"
+      color="transparent"
+      background-color="transparent"
+      style="width: 70px; height: 100px;">
+    </div>
+
+    <script>
+      var urIcon = "<img src='images/ur12.png'></img>";
+
+      var map,
+        imagery,
+        featLayer,
+        labels,
+        fealyr0,
+        fealyr1,
+        fealyr2,
+        fealyr3,
+        fealyr4,
+        fealyr5,
+        fealyr6,
+        lablyr0,
+        lablyr1,
+        lablyr2,
+        lablyr3,
+        lablyr4,
+        lablyr5,
+        lablyr6,
+        mvImgDir,
+        initExtent,
+        fullExtent,
+        queryTask;
+      var mission = "16";
+      var windowObjectReference = null;
+      var strShpLayer ="https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer";
+      var boolTab1 = true;
+      var boolTab2 = false;
+      var strQueLayerId,
+        strQueStaId,
+        strQueObjId,
+        strShowLabelId,
+        strQueStaName,
+        strQueObjName,
+        strQueResTable;
+      var mapCenterPnt, mapSpan, sr, ovExtent;
+      var numQueTotal;
+      require([
+        "esri/map",
+        "esri/Color",
+        "esri/InfoTemplate",
+        "esri/SpatialReference",
+        "esri/geometry/Extent",
+        "esri/geometry/Point",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/UniqueValueRenderer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/PictureMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/layers/LabelLayer",
+        "esri/symbols/TextSymbol",
+        "esri/symbols/Font",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/dijit/Scalebar",
+        "esri/dijit/Legend",
+        "esri/dijit/LayerList",
+        "esri/tasks/IdentifyTask",
+        "esri/tasks/IdentifyParameters",
+        "esri/dijit/Popup",
+        "esri/layers/ArcGISDynamicMapServiceLayer",
+        "esri/layers/ArcGISTiledMapServiceLayer",
+        "dojo/dom-construct",
+        "dijit/registry",
+        "dojo/dnd/Moveable",
+        "dojo/on",
+        "dojo/fx",
+        "dojo/_base/fx",
+        "dojo/fx/easing",
+        "dojo/_base/array",
+        "dojo/parser",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/layout/TabContainer",
+        "dijit/layout/AccordionContainer",
+        "dijit/Fieldset",
+        "dojo/domReady!"
+      ], function (
+        Map,
+        Color,
+        InfoTemplate,
+        SpatialReference,
+        Extent,
+        Point,
+        FeatureLayer,
+        UniqueValueRenderer,
+        SimpleRenderer,
+        PictureMarkerSymbol,
+        SimpleLineSymbol,
+        SimpleFillSymbol,
+        LabelLayer,
+        TextSymbol,
+        Font,
+        SimpleMarkerSymbol,
+        Scalebar,
+        Legend,
+        LayerList,
+        IdentifyTask,
+        IdentifyParameters,
+        Popup,
+        ArcGISDynamicMapServiceLayer,
+        ArcGISTiledMapServiceLayer,
+        domConstruct,
+        registry,
+        Moveable,
+        on,
+        coreFx,
+        fx,
+        easing,
+        arrayUtils,
+        parser
+      ) {
+        parser.parse();
+
+        sr = new SpatialReference({ "wkt":'PROJCS["Moon2000_Equidistant_Cylindrical_C0",GEOGCS["GCS_Moon_2000",DATUM["D_Moon_2000",SPHEROID["Moon_2000_IAU_IAG",1737400.0,0.0]],PRIMEM["Reference_Meridian",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Plate_Carree"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],UNIT["Meter",1.0]]' });
+        ovExtent = new Extent(460086, -275386, 476472, -266873, new SpatialReference(sr));
+        mapCenterPnt = new Point(470020.64, -272140.48);
+        mapSpan = 6000;
+
+        map = new Map("map", {
+          isDoubleClickZoom: true,
+          autoResize: false,
+          isClickRecenter: true,
+          isScrollWheelZoom: true,
+          extent: ovExtent,
+          fitExtent: true,
+          center: mapCenterPnt,
+          zoom: 2,
+          logo: false,
+          sliderStyle: "large"
+        });
+
+        imagery = new ArcGISTiledMapServiceLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_basemap/MapServer");
+        imagery.spatialReference = sr;
+        map.addLayer(imagery);
+
+        var featureLayerOptions = {
+          mode: FeatureLayer.MODE_AUTO,
+          outFields: ["*"]
+        };
+
+        var uniqueValueRenderer = new UniqueValueRenderer(null, "DataType");
+
+        uniqueValueRenderer.addValue({
+          value: "2",
+          symbol: createSymbol("2"),
+          label: "Soil Sample"
+        });
+        uniqueValueRenderer.addValue({
+          value: "5",
+          symbol: createSymbol("5"),
+          label: "Drive Core"
+        });
+        uniqueValueRenderer.addValue({
+          value: "3",
+          symbol: createSymbol("3"),
+          label: "Panorama"
+        });
+        uniqueValueRenderer.addValue({
+          value: "1",
+          symbol: createSymbol("1"),
+          label: "Rock Sample"
+        });
+        if (mission === "16" || mission === "17") {
+          uniqueValueRenderer.addValue({
+            value: "4",
+            symbol: createSymbol("4"),
+            label: "Deep Drill Core"
+          });
+        }
+
+
+        fealyr0 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/0", { id: "Samples", mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["*"] });
+        fealyr0.setRenderer(uniqueValueRenderer);
+        fealyr0.setVisibility(true);
+        map.addLayer(fealyr0);
+
+        fealyr1 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/1", { id: "Instruments", mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["*"] });
+        var renderer = new UniqueValueRenderer(null, "DataType");
+        switch (mission) {
+          case "11":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "6", symbol: createSymbol("6"), label: "Lunar Module" });
+            renderer.addValue({ value: "16", symbol: createSymbol("16"), label: "Solar Wind Composition" });
+            renderer.addValue({ value: "99", symbol: createSymbol("99"), label: "Others" });
+            break;
+          case "12":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "6", symbol: createSymbol("6"), label: "Lunar Module" });
+            renderer.addValue({ value: "16", symbol: createSymbol("16"), label: "Solar Wind Composition" });
+            renderer.addValue({ value: "99", symbol: createSymbol("99"), label: "Others" });
+            break;
+          case "14":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "7", symbol: createSymbol("7"), label: "Simple Penetrometer" });
+            renderer.addValue({ value: "15", symbol: createSymbol("15"), label: "Lunar Portable Magnetometer" });
+            renderer.addValue({ value: "16", symbol: createSymbol("16"), label: "Solar Wind Composition" });
+            break;
+          case "15":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "6", symbol: createSymbol("6"), label: "Lunar Roving Vehicle" });
+            break;
+          case "16":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "6", symbol: createSymbol("6"), label: "Lunar Roving Vehicle" });
+            renderer.addValue({ value: "7", symbol: createSymbol("7"), label: "Penetrometer" });
+            renderer.addValue({ value: "15", symbol: createSymbol("15"), label: "Lunar Portable Magnetometer" });
+            renderer.addValue({ value: "16", symbol: createSymbol("16"), label: "Solar Wind Composition" });
+            renderer.addValue({ value: "99", symbol: createSymbol("99"), label: "Others" });
+            break;
+          case "17":
+            renderer.addValue({ value: "9", symbol: createSymbol("9"), label: "ALSEP Instruments" });
+            renderer.addValue({ value: "6", symbol: createSymbol("6"), label: "Lunar Roving Vehicle" });
+            renderer.addValue({ value: "17", symbol: createSymbol("17"), label: "Cosmic Ray Experiment" });
+            renderer.addValue({ value: "18", symbol: createSymbol("18"), label: "Lunar Neutron Probe" });
+            break;
+        }
+
+        fealyr1.setRenderer(renderer);
+        fealyr1.setVisibility(true);
+        map.addLayer(fealyr1);
+
+        fealyr3 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/3", { id: "Features", mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["*"] });
+        var featSymbol3 = new PictureMarkerSymbol({
+          angle: 0,
+          xoffset: 0,
+          yoffset: 0,
+          type: "esriPMS",
+          url: "../images/symbol/feature.png",
+          contentType: "image/png",
+          width: 12,
+          height: 12
+        });
+
+        var featRenderer3 = new SimpleRenderer(featSymbol3);
+        fealyr3.setRenderer(featRenderer3);
+        map.addLayer(fealyr3);
+
+        if ("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/4" !== "") {
+          fealyr4 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/4",
+            { id: "Feature outlines", mode: FeatureLayer.MODE_AUTO, outFields: ["*"] });
+
+          var featSymbol4 = new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 1.5);
+
+          var featRenderer4 = new SimpleRenderer(featSymbol4);
+          fealyr4.setRenderer(featRenderer4);
+          map.addLayer(fealyr4);
+        }
+
+        if ("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/5" !== "") {
+          fealyr5 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/5",
+            { id: "Stations", mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["*"] });
+
+          var featSymbol5 = new PictureMarkerSymbol({
+            angle: 0,
+            xoffset: 0,
+            yoffset: 0,
+            type: "esriPMS",
+            url: "../images/symbol/sta.png",
+            contentType: "image/png",
+            width: 16,
+            height: 16
+          });
+
+          var featRenderer5 = new SimpleRenderer(featSymbol5);
+          fealyr5.setRenderer(featRenderer5);
+          fealyr5.setVisibility(true);
+          map.addLayer(fealyr5);
+        }
+
+        if ("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/6" !== "") {
+          fealyr6 = new FeatureLayer("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/6",
+            { id: "Traverse", mode: FeatureLayer.MODE_AUTO, outFields: ["OBJECTID", "Shape", "Shape_Length"] });
+          var featSymbol6 = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 2.0);
+          var featRenderer6 = new SimpleRenderer(featSymbol6);
+          fealyr6.setRenderer(featRenderer6);
+          map.addLayer(fealyr6);
+        }
+
+        if (mission === "17") {
+          fealyr2 = new FeatureLayer("",
+            { mode: FeatureLayer.MODE_AUTO, outFields: ["*"] });
+          var featSymbol2 = new PictureMarkerSymbol({
+            "angle": 0,
+            "xoffset": 0,
+            "yoffset": 0,
+            "type": "esriPMS",
+            "url": "../images/symbol/sta0.png",
+            "contentType": "image/png",
+            "width": 14,
+            "height": 14
+          });
+          var featRenderer2 = new SimpleRenderer(featSymbol2);
+          fealyr2.setRenderer(featRenderer2);
+          fealyr2.setVisibility(true);
+          map.addLayer(fealyr2);
+        }
+
+
+        map.on("load", mapReady);
+        map.on("mouse-move", showCoordinates);
+        map.on("mouse-drag", showCoordinates);
+        map.on("show", function () {
+          dijit.byId("identifyTabs").resize();
+        });
+
+        var identifyTask, identifyParams;
+
+        function mapCenter() {
+          var newExtent = new Extent();
+          newExtent.xmin = mapCenterPnt.x - mapSpan;
+          newExtent.ymin = mapCenterPnt.y - mapSpan;
+          newExtent.xmax = mapCenterPnt.x + mapSpan;
+          newExtent.ymax = mapCenterPnt.y + mapSpan;
+          //alert(xMin + " " + yMin + " " + xMax + " " + yMax);
+          newExtent.spatialReference = map.spatialReference;
+          map.setExtent(newExtent);
+          initExtent = newExtent;
+        }
+
+        function mapReady() {
+          if (initExtent == undefined) {
+            //initExtent = map.extent;
+            mapCenter();
+          }
+          if (fullExtent == undefined) {
+            fullExtent = imagery.fullExtent;
+          }
+          showPanIcons();
+          map.on("click", executeIdentifyTask);
+          //create identify tasks and setup parameters
+          identifyTask = new IdentifyTask("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer");
+
+          identifyParams = new IdentifyParameters();
+          identifyParams.tolerance = 3;
+          identifyParams.returnGeometry = true;
+          identifyParams.layerIds = [0, 1];
+          identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
+          identifyParams.width = map.width;
+          identifyParams.height = map.height;
+
+          map.infoWindow.resize(350, 220);
+          map.infoWindow.setContent(dijit.byId("identifyTabs").domNode);
+          map.infoWindow.setTitle("Results");
+        }
+
+        function executeIdentifyTask(event) {
+          identifyParams.geometry = event.mapPoint;
+          identifyParams.mapExtent = map.extent;
+
+          var deferred = identifyTask.execute(
+            identifyParams,
+            function (idResults) {
+              addToMap(idResults, event);
+            },
+            dIError
+          );
+        }
+
+        function dIError(results, evt) {
+          var xxx = 3;
+          alert("Oops. If you are using IE, upgrade to the latest version. If not, let us know about this error if your have a moment.");
+        }
+
+        function addToMap(idResults, evt) {
+          //            alert("here is ok"); //for debug in IE
+          var stopPnts = { displayFieldName: null, features: [] };
+          var ileng = idResults.length;
+          var myLayerID;
+
+          if (ileng > 0) {
+            //adding graphic from clicking position
+            if (labels) map.removeLayer(labels);
+            map.graphics.clear();
+            var mPnt = new Point(evt.mapPoint);
+            var markerSymbol = new SimpleMarkerSymbol(
+              SimpleMarkerSymbol.STYLE_CIRCLE,
+              30,
+              new SimpleLineSymbol(
+                SimpleLineSymbol.STYLE_SOLID,
+                new dojo.Color([0, 255, 0, 0.1]),
+                1
+              ),
+              new dojo.Color([255, 69, 0, 0.65])
+            );
+            var g = new esri.Graphic(mPnt, markerSymbol);
+            map.graphics.add(g);
+            animateGraphic(g);
+
+            for (var i = 0; i < ileng; i++) {
+              var idResult = idResults[i];
+              myLayerID = idResult.layerId;
+              if (idResult.layerId === 0 || idResult.layerId === 1) {
+                if (!stopPnts.displayFieldName) {
+                  stopPnts.displayFieldName = idResult.displayFieldName;
+                }
+                stopPnts.features.push(idResult.feature);
+              }
+            }
+            dijit
+              .byId("stopPntsTab")
+              .setContent(layerTabContent(stopPnts, "stopPnts", myLayerID));
+
+            map.infoWindow.setTitle("Identified Results");
+            map.infoWindow.show(
+              evt.screenPoint,
+              map.getInfoWindowAnchor(evt.screenPoint)
+            );
+            map.infoWindow.on("hide", function () {
+              map.graphics.clear();
+            });
+          }
+        }
+
+        ////reference to : http://sowanch.blogspot.com/2016/07/flashing-graphic-using-jsapi.html
+        function animateGraphic(graphicFlash) {
+          var shape = graphicFlash.getDojoShape().getNode();
+
+          var animA = fx.fadeOut({
+            node: shape,
+            duration: 200,
+            easing: easing.linear
+          });
+
+          var animB = fx.fadeIn({
+            node: shape,
+            easing: easing.linear,
+            duration: 200
+          });
+
+          coreFx
+            .chain([animB, animA, animB, animA, animB, animA, animB])
+            .play();
+        }
+
+        function layerTabContent(layerResults, layerName, idMyLayer) {
+          var content = "";
+          if (idMyLayer === 0) {
+            setTab1();
+            switch (layerName) {
+              case "stopPnts":
+                content = "<i>Total features returned: " + layerResults.features.length + "</i>";
+                content += "<table border='1'><tr><th>Sample</th><th>Station</th><th>Feature</th><th>Description</th></tr>";
+                for (
+                  var i = 0, il = layerResults.features.length;
+                  i < il;
+                  i++
+                ) {
+                  content += '<tr><td><class="hlStd" onclick="openSampleLink(\'' +
+                    layerResults.features[i].attributes["SampleID"] + "','" +
+                    layerResults.features[i].attributes["Id"] + "','" +
+                    layerResults.features[i].attributes["DTypeTxt"] + "')\">" +
+                    layerResults.features[i].attributes["SampleID"] + "</span></td>";
+                  content += "<td>" + layerResults.features[i].attributes["Id"] + "</td>";
+                  content += "<td>" + layerResults.features[i].attributes["Features"] + "</td>";
+                  content += "<td>" + layerResults.features[i].attributes["Details"] + "</td></tr>";
+                }
+                content += "</table>";
+                break;
+            }
+            return content;
+          } else if (idMyLayer === 1) {
+            setTab2();
+            switch (layerName) {
+              case "stopPnts":
+                content = "<i>Total features returned: " + layerResults.features.length + "</i>";
+                content += "<table border='1'><tr><th>URL</th><th>Station</th><th>Feature</th></tr>";
+                for (var i = 0, il = layerResults.features.length; i < il; i++
+                ) {
+                  content += '<tr><td><span class="hlStd" onclick="openSampleLink(\'' +
+                    layerResults.features[i].attributes["SampleID"] + "','" +
+                    layerResults.features[i].attributes["Id"] + "','" +
+                    layerResults.features[i].attributes["DTypeTxt"] + "')\">Detail link</span></td>";
+                  content += "<td>" + layerResults.features[i].attributes["Id"] + "</td>";
+                  content += "<td>" + layerResults.features[i].attributes["Features"] + "</td></tr>";
+                }
+                content += "</table>";
+                break;
+            }
+            return content;
+          } else {
+            return content;
+          }
+        }
+
+        var layerList;
+        switch (mission) {
+          case "11":
+            layerList = new LayerList({
+              map: map, showLegend: true, showSubLayers: false, showOpacitySlider: false,
+              layers: [
+                { layer: fealyr4, title: "Feature outlines", visibility: false, id: "Feature outlines" },
+                { layer: fealyr3, title: "Features", id: "Features" },
+                { layer: fealyr1, title: "Instruments", id: "Instruments" },
+                { layer: fealyr0, title: "Samples", id: "Samples" }
+              ],
+            }, "legendDiv");
+            break;
+          case "12":
+            layerList = new LayerList({
+              map: map, showLegend: true, showSubLayers: false, showOpacitySlider: false,
+              layers: [
+                { layer: fealyr4, title: "Feature outlines", visibility: false, id: "Feature outlines" },
+                { layer: fealyr3, title: "Features", id: "Features" },
+                { layer: fealyr6, title: "Traverse", id: "Traverse" },
+                { layer: fealyr1, title: "Instruments", id: "Instruments" },
+                { layer: fealyr0, title: "Samples", id: "Samples" }
+              ],
+            }, "legendDiv");
+            break;
+          case "15":
+            layerList = new LayerList({
+              map: map, showLegend: true, showSubLayers: false, showOpacitySlider: false,
+              layers: [
+                { layer: fealyr3, title: "Features", id: "Features" },
+                { layer: fealyr5, title: "Stations", id: "Stations" },
+                { layer: fealyr6, title: "Traverse", id: "Traverse" },
+                { layer: fealyr1, title: "Instruments", id: "Instruments" },
+                { layer: fealyr0, title: "Samples", id: "Samples" }
+              ],
+            }, "legendDiv");
+            break;
+          case "14":
+          case "16":
+          case "17":
+            layerList = new LayerList({
+              map: map, showLegend: true, showSubLayers: false, showOpacitySlider: false,
+              layers: [
+                { layer: fealyr4, title: "Feature outlines", visibility: false, id: "Feature outlines" },
+                { layer: fealyr3, title: "Features", id: "Features" },
+                { layer: fealyr5, title: "Stations", id: "Stations" },
+                { layer: fealyr6, title: "Traverse", id: "Traverse" },
+                { layer: fealyr1, title: "Instruments", id: "Instruments" },
+                { layer: fealyr0, title: "Samples", id: "Samples" }
+              ]
+            }, "legendDiv");
+            break;
+        }
+        layerList.startup();
+
+        ////working on labels
+        lablyr0 = new LabelLayer({ id: "lablyr0" });
+        var fntsNum = "12";
+        var fontColor = new dojo.Color([173, 255, 47, 1.0]);
+        var fntstyle = "Normal";
+        var fntwgt = "WEIGHT_NORMAL";
+
+        var flabSymbol0 = new TextSymbol();
+        flabSymbol0.setColor(fontColor);
+        flabSymbol0.font.setSize(fntsNum);
+        flabSymbol0.font.setFamily("arial");
+        flabSymbol0.font.setStyle(fntstyle);
+        var flabRenderer0 = new SimpleRenderer(flabSymbol0);
+        var labOptions = { pointPriorities: "AboveRight" };
+
+        lablyr0.addFeatureLayer(fealyr0, flabRenderer0, "{FileNames}", labOptions);
+        map.addLayer(lablyr0);
+
+
+        lablyr1 = new LabelLayer({ id: "lablyr1" });
+        fntsNum = "13";
+        fontColor = new dojo.Color([217, 239, 139, 1.0]);
+        fntstyle = "Normal";
+        fntwgt = "WEIGHT_NORMAL";
+        var flabSymbol1 = new TextSymbol();
+        flabSymbol1.setColor(fontColor);
+        flabSymbol1.font.setSize(fntsNum);
+        flabSymbol1.font.setFamily("arial");
+        flabSymbol1.font.setStyle(fntstyle);
+        var flabRenderer1 = new SimpleRenderer(flabSymbol1);
+        labOptions = { pointPriorities: "AboveLeft" };
+
+        lablyr1.addFeatureLayer(fealyr1, flabRenderer1, "{FileNames}", labOptions);
+        map.addLayer(lablyr1);
+
+        lablyr3 = new LabelLayer({ id: "lablyr3" });
+        fntsNum = "15";
+        fontColor = new dojo.Color([255, 69, 0, 1.0]);
+        fntstyle = "Normal";
+        fntwgt = "BOLD";
+        var flabSymbol3 = new TextSymbol();
+        flabSymbol3.setColor(fontColor);
+        flabSymbol3.font.setSize(fntsNum);
+        flabSymbol3.font.setFamily("arial");
+        flabSymbol3.font.setStyle(fntstyle);
+        flabSymbol3.font.setWeight(fntwgt);
+        var flabRenderer3 = new SimpleRenderer(flabSymbol3);
+        labOptions = { pointPriorities: "BelowLeft" };
+
+        lablyr3.addFeatureLayer(fealyr3, flabRenderer3,"{Name}", labOptions);
+        map.addLayer(lablyr3);
+
+        if (fealyr4) {
+          lablyr4 = new LabelLayer({ id: "lablyr4" });
+          fntsNum = "13";
+          fontColor = new dojo.Color([255, 0, 0, 1.0]);
+          fntstyle = "Normal";
+          var flabSymbol4 = new TextSymbol({
+            "xoffset": 3,
+            "yoffset": 3
+          });
+          flabSymbol4.setColor(fontColor);
+          flabSymbol4.font.setSize(fntsNum);
+          flabSymbol4.font.setFamily("arial");
+          flabSymbol4.font.setStyle(fntstyle);
+          var flabRenderer4 = new SimpleRenderer(flabSymbol4);
+          labOptions = { pointPriorities: "BelowCenter" };
+
+          lablyr4.addFeatureLayer(fealyr4, flabRenderer4, "{Details}", labOptions);
+          map.addLayer(lablyr4);
+        }
+
+        if (fealyr5) {
+          lablyr5 = new LabelLayer({ id: "lablyr5" });
+          fntsNum = "14";
+          fontColor = new dojo.Color([124, 252, 0, 1.0]);
+          fntstyle = "Normal";
+          fntwgt = "BOLD";
+          var flabSymbol5 = new TextSymbol();
+          flabSymbol5.setColor(fontColor);
+          flabSymbol5.font.setSize(fntsNum);
+          flabSymbol5.font.setFamily("arial");
+          flabSymbol5.font.setStyle(fntstyle);
+          flabSymbol5.font.setWeight(fntwgt);
+          var flabRenderer5 = new SimpleRenderer(flabSymbol5);
+          labOptions = { pointPriorities: "BelowCenter" };
+
+          lablyr5.addFeatureLayer(fealyr5, flabRenderer5, "Station {Station}", labOptions);
+          map.addLayer(lablyr5);
+        }
+
+        if (fealyr2) {
+          //for 17 only
+          lablyr2 = new LabelLayer({ id: "lablyr2" });
+          fntsNum = "13";
+          fontColor = new dojo.Color([217, 239, 139, 1.0]);
+          fntstyle = "Normal";
+          fntwgt = "BOLD";
+          var flabSymbol2 = new TextSymbol();
+          flabSymbol2.setColor(fontColor);
+          flabSymbol2.font.setSize(fntsNum);
+          flabSymbol2.font.setFamily("arial");
+          flabSymbol2.font.setStyle(fntstyle);
+          flabSymbol2.font.setWeight(fntwgt);
+          var flabRenderer2 = new SimpleRenderer(flabSymbol2);
+          labOptions = { pointPriorities: "AboveCenter" };
+
+          lablyr2.addFeatureLayer(fealyr2, flabRenderer2, "{Station}", labOptions);
+          map.addLayer(lablyr2);
+        }
+
+        //initial the default query results
+        objquery();
+        //var panel = registry.byId('tabsquery');   //get dijit from its source dom element
+        //on(panel, "change", function (event) {   //for some reason onClick event doesn't work
+        //    //alert(panel.selectedChildWidget.id);
+        //    objquery();
+        //});
+
+        var handle = map.infoWindow.domNode.querySelector(".title");
+        var dnd = new Moveable(map.infoWindow.domNode, {
+          handle: handle
+        });
+
+        // when the infoWindow is moved, hide the arrow:
+        dnd.on(
+          "FirstMove",
+          function () {
+            // hide pointer and outerpointer (used depending on where the pointer is shown)
+            var arrowNode = map.infoWindow.domNode.querySelector(
+              ".outerPointer"
+            );
+            arrowNode.classList.add("hidden");
+
+            arrowNode = map.infoWindow.domNode.querySelector(".pointer");
+            arrowNode.classList.add("hidden");
+          }.bind(this)
+        );
+
+        var scalebar = new Scalebar({
+          map: map,
+          scalebarUnit: "metric",
+          attachTo: "bottom-left"
+        });
+
+        function showCoordinates(evt) {
+          //get mapPoint from event
+          var mp = evt.mapPoint;
+          if (mp.x && mp.y)
+            dojo.byId("info").innerHTML =
+              "East: " + mp.x.toFixed(2) + ", North: " + mp.y.toFixed(2);
+        }
+
+        function showPanIcons() {
+          esriConfig.defaults.map.panDuration = 500;
+          esriConfig.defaults.map.panRate = 1.0;
+
+          var mapCon = document.getElementById("map");
+          var navIcon = document.getElementById("navIC");
+          navIcon.style.position = "absolute";
+          navIcon.style.top = mapCon.clientTop + 15 + "px";
+          navIcon.style.left = mapCon.clientLeft + 15 + "px";
+
+          var panLeft = document.createElement("img");
+          panLeft.style.position = "absolute";
+          panLeft.style.top = 2 + "px";
+          panLeft.style.left = 1 + "px";
+          panLeft.src = resolveUrl(mvImgDir, "pBL.png");
+          //panLeft.onclick = function () { map.panLeft(); };
+          panLeft.onclick = function () {
+            customPan(-1, 0);
+          };
+          navIcon.appendChild(panLeft);
+
+          var panRight = document.createElement("img");
+          panRight.style.position = "absolute";
+          panRight.style.top = 2 + "px";
+          panRight.style.left = 46 + "px";
+          panRight.src = resolveUrl(mvImgDir, "pBR.png");
+          //panRight.onclick = function () { map.panRight(); };
+          panRight.onclick = function () {
+            customPan(1, 0);
+          };
+          navIcon.appendChild(panRight);
+
+          var panHome = document.createElement("img");
+          panHome.style.position = "absolute";
+          panHome.style.top = 21 + "px";
+          panHome.style.left = 20 + "px";
+          panHome.src = resolveUrl(mvImgDir, "pBH.png");
+          panHome.onclick = function () {
+            onHome();
+          };
+          navIcon.appendChild(panHome);
+
+          var panUp = document.createElement("img");
+          panUp.style.position = "absolute";
+          panUp.style.top = 2 + "px";
+          panUp.style.left = 20 + "px";
+          panUp.src = resolveUrl(mvImgDir, "pBU.png");
+          panUp.onclick = function () {
+            customPan(0, 1);
+          };
+          navIcon.appendChild(panUp);
+
+          var panDown = document.createElement("img");
+          panDown.style.position = "absolute";
+          panDown.style.top = 47 + "px";
+          panDown.style.left = 20 + "px";
+          panDown.src = resolveUrl(mvImgDir, "pBD.png");
+          panDown.onclick = function () {
+            customPan(0, -1);
+          };
+          navIcon.appendChild(panDown);
+
+          mapCon.appendChild(navIcon);
+        }
+
+        function onHome() {
+          var fitExtent = true;
+          map.setExtent(initExtent, fitExtent);
+        }
+
+        mvImgDir = "../images/";
+        function resolveUrl(prefix, url) {
+          return prefix ? prefix + url : url;
+        }
+
+        function customPan(xfact, yfact) {
+          var currExtent = map.extent;
+          var cMapHeigh = currExtent.getHeight();
+          var cMapWidth = currExtent.getWidth();
+          var offsetx = xfact * 0.1 * cMapWidth;
+          var offsety = yfact * 0.1 * cMapHeigh;
+          var newExt = currExtent.offset(offsetx, offsety);
+          map.setExtent(newExt);
+        }
+
+        function createSymbol(labInd) {
+          var symbol;
+          switch (labInd) {
+            case "1":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/rock.png", width: 13, height: 13 });
+              break;
+            case "2":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/soil.png", width: 13, height: 13 });
+              break;
+            case "3":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/pano.png", width: 13, height: 13 });
+              break;
+            case "4":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/drill_core.png", width: 13, height: 13 });
+              break;
+            case "5":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/drive_core.png", width: 13, height: 13 });
+              break;
+            case "6":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/lrv.png", width: 16, height: 16 });
+              break;
+            case "7":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/pene.png", width: 16, height: 16 });
+              break;
+            case "9":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/alsep.png", width: 16, height: 16 });
+              break;
+            case "15":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/magn.png", width: 16, height: 16 });
+              break;
+            case "16":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/solar.png", width: 16, height: 16 });
+              break;
+            case "17":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/cosray.png", width: 16, height: 16 });
+              break;
+            case "18":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/lnp.png", width: 16, height: 16 });
+              break;
+            case "19":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/tge.png", width: 16, height: 16 });
+              break;
+            case "99":
+              symbol = new PictureMarkerSymbol({ angle: 0, xoffset: 0, yoffset: 0, type: "esriPMS", url: "../images/symbol/others.png", width: 16, height: 16 });
+              break;
+          }
+          return symbol;
+        }
+      });
+
+      function changeLab() {
+        if (lablyr0) map.removeLayer(lablyr0);
+        if (lablyr1) map.removeLayer(lablyr1);
+        if (lablyr2) map.removeLayer(lablyr2);
+        if (lablyr3) map.removeLayer(lablyr3);
+        var labsz = document.getElementById("labelSize").value;
+        var fntsz;
+        switch (labsz) {
+          case "small":
+            fntsz = 14;
+            break;
+          case "medium":
+            fntsz = 18;
+            break;
+          case "large":
+            fntsz = 22;
+            break;
+        }
+        var stafnt = fntsz + 2;
+        var feafnt = fntsz + 3;
+        var lndfnt = fntsz + 4;
+        var otlfnt = fntsz - 1;
+
+        var fontz = new esri.symbol.Font(
+          fntsz,
+          esri.symbol.Font.STYLE_NORMAL,
+          esri.symbol.Font.VARIANT_NORMAL,
+          esri.symbol.Font.WEIGHT_BOLD,
+          "Helvetica"
+        );
+
+        lablyr0 = new esri.layers.LabelLayer({ id: "lablyr0" });
+        var fntsNumcl = fntsz;
+        var fntstylecl = "Normal";
+        var fntwgtcl = "WEIGHT_NORMAL";
+        var fontColorcl = new dojo.Color([173, 255, 47, 1.0]);
+        var flabSymbolcl0 = new esri.symbol.TextSymbol();
+        flabSymbolcl0.setColor(fontColorcl);
+        flabSymbolcl0.font.setSize(fntsNumcl);
+        flabSymbolcl0.font.setFamily("arial");
+        flabSymbolcl0.font.setStyle(fntstylecl);
+        var flabRenderercl0 = new esri.renderer.SimpleRenderer(flabSymbolcl0);
+        var labOptionscl0 = { pointPriorities: "AboveRight" };
+
+        lablyr0.addFeatureLayer(
+          fealyr0,
+          flabRenderercl0,
+          "{FileNames}",
+          labOptionscl0
+        );
+        map.addLayer(lablyr0);
+
+        lablyr1 = new esri.layers.LabelLayer({ id: "lablyr1" });
+        var fntsNumcl1 = lndfnt;
+        var fontColorcl1 = new dojo.Color([217, 239, 139, 1.0]);
+        var fntstylecl1 = "Normal";
+        var fntwgtcl1 = "WEIGHT_BOLDER";
+
+        var flabSymbolcl1 = new esri.symbol.TextSymbol();
+        flabSymbolcl1.setColor(fontColorcl1);
+        flabSymbolcl1.font.setSize(fntsNumcl1);
+        flabSymbolcl1.font.setFamily("arial");
+        flabSymbolcl1.font.setStyle(fntstylecl1);
+        flabSymbolcl1.font.setWeight(fntwgtcl1);
+        var flabRenderercl1 = new esri.renderer.SimpleRenderer(flabSymbolcl1);
+        var labOptionscl1 = { pointPriorities: "AboveLeft" };
+
+        lablyr1.addFeatureLayer(fealyr1, flabRenderercl1, "{FileNames}", labOptionscl1);
+        map.addLayer(lablyr1);
+
+
+        lablyr3 = new esri.layers.LabelLayer({ id: "lablyr3" });
+        var fntsNumcl3 = feafnt;
+        var fontColorcl3 = new dojo.Color([255, 69, 0, 1.0]);
+        var fntstylecl3 = "Normal";
+        var fntwgtcl3 = "WEIGHT_BOLD";
+
+        var flabSymbolcl3 = new esri.symbol.TextSymbol().setColor(fontColorcl3);
+        flabSymbolcl3.font.setSize(fntsNumcl3);
+        flabSymbolcl3.font.setFamily("arial");
+        flabSymbolcl3.font.setStyle(fntstylecl3);
+        flabSymbolcl3.font.setWeight(fntwgtcl3);
+        var flabRenderercl3 = new esri.renderer.SimpleRenderer(flabSymbolcl3);
+        var labOptionscl3 = { pointPriorities: "BelowLeft" };
+
+        lablyr3.addFeatureLayer(fealyr3, flabRenderercl3, "{Name}", labOptionscl3);
+        map.addLayer(lablyr3);
+
+        if (fealyr4) {
+          lablyr4 = new esri.layers.LabelLayer({ id: "lablyr4" });
+          var fntsNumcl4 = otlfnt;
+          var fontColorcl4 = new dojo.Color([255, 0, 0, 1.0]);
+          var fntstylecl4 = "Normal";
+
+          var flabSymbolcl4 = new esri.symbol.TextSymbol().setColor(fontColorcl4);
+          flabSymbolcl4.font.setSize(fntsNumcl4);
+          flabSymbolcl4.font.setFamily("arial");
+          flabSymbolcl4.font.setStyle(fntstylecl4);
+          var flabRenderercl4 = new esri.renderer.SimpleRenderer(flabSymbolcl4);
+          var labOptionscl4 = { pointPriorities: "BelowCenter" };
+
+          lablyr4.addFeatureLayer(fealyr4, flabRenderercl4, "{Details}", labOptionscl4);
+          map.addLayer(lablyr4);
+        }
+        if (fealyr5) {
+          lablyr5 = new esri.layers.LabelLayer({ id: "lablyr5" });
+          var fntsNumcl5 = stafnt;
+          var fontColorcl5 = new dojo.Color([124, 252, 0, 1.0]);
+          var fntstylecl5 = "Normal";
+
+          var flabSymbolcl5 = new esri.symbol.TextSymbol().setColor(fontColorcl5);
+          flabSymbolcl5.font.setSize(fntsNumcl5);
+          flabSymbolcl5.font.setFamily("arial");
+          flabSymbolcl5.font.setStyle(fntstylecl5);
+          var flabRenderercl5 = new esri.renderer.SimpleRenderer(flabSymbolcl5);
+          var labOptionscl5 = { pointPriorities: "BelowCenter" };
+
+          lablyr5.addFeatureLayer(fealyr5, flabRenderercl5, "Station {Station}", labOptionscl5);
+          map.addLayer(lablyr5);
+        }
+
+        if (fealyr2) {
+          lablyr2 = new esri.layers.LabelLayer({ id: "lablyr2" });
+          var fntsNumcl2 = stafnt;
+          var fontColorcl2 = new dojo.Color([217, 239, 139, 1.0]);
+          var fntstylecl2 = "Normal";
+
+          var flabSymbolcl2 = new esri.symbol.TextSymbol().setColor(fontColorcl2);
+          flabSymbolcl2.font.setSize(fntsNumcl2);
+          flabSymbolcl2.font.setFamily("arial");
+          flabSymbolcl2.font.setStyle(fntstylecl2);
+          var flabRenderercl2 = new esri.renderer.SimpleRenderer(flabSymbolcl2);
+          var labOptionscl2 = { pointPriorities: "AboveCenter" };
+
+          lablyr2.addFeatureLayer(fealyr2, flabRenderercl2, "{Station}", labOptionscl2);
+          map.addLayer(lablyr2);
+        }
+
+      }
+
+      function openSampleLink(sampId, statID, strDataType) {
+        var windowName, windowTitle, url, tmpstr0;
+        var strObj = replaceObjLabel(strDataType);
+        if (boolTab2 === true) {
+          //instrument
+          if (strDataType === "sum" || strDataType.substring(0, 3) === "exp") {
+            url = "https://an.rsl.wustl.edu/apollo/mainnavSp.aspx?m=A16&tab=station&station=" + statID;
+          } else {
+            url = "https://an.rsl.wustl.edu/apollo/inst.aspx?mission=A16&station=" + statID + "&inst=" + strDataType;
+
+          }
+          windowName = strDataType + "_" + statID;
+          windowTitle = "<html><head><title>Instrument_" + strObj + "_Station " + statID + "</title></head><body> <embed src =" + url + " height='100%' width='100%'/></body></html>";
+        } else if (boolTab1 === true) {
+          //sample
+          if (sampId == "0" || sampId == "") {
+            //url = "https://an.rsl.wustl.edu/apollo/mainnavSp.aspx?m=A15&tab=station&station=" + statID;
+            //url = "https://an.rsl.wustl.edu/apollo/mainnavSp.aspx?m=A16&tab=station&station=" + statID;
+            url = "https://an.rsl.wustl.edu/apollo/stationOverview.aspx?mission=A16&station=" + statID;
+            tmpstr0 = statID;
+          } else {
+            //url = "https://an.rsl.wustl.edu/apollo/samples.aspx?mission=A15&sampleId=" + sampId;
+            url = "https://an.rsl.wustl.edu/apollo/samples.aspx?mission=A16&sampleId=" + sampId;
+            tmpstr0 = sampId;
+          }
+          windowName = strDataType + "_" + tmpstr0;
+          windowTitle = "<html><head><title>" + strObj + "_" + tmpstr0 + "</title></head><body> <embed src =" + url + " height='100%' width='100%'/></body></html>";
+        }
+        window.open(url, windowName, "width=800,height=600");
+        //openPopups(url, windowName, windowTitle);
+      }
+
+      //reference: https://developer.mozilla.org/en-US/docs/Web/API/Window/open#Best_practices
+      function openPopups(link, winName, winTitle) {
+        if (windowObjectReference == null || windowObjectReference.closed) {
+          /* if the pointer to the window object in memory does not exist
+                   or if such pointer exists but the window was closed */
+          windowObjectReference = window.open(link, winName, "width=800,height=600,");
+          if (windowObjectReference.document) {
+            windowObjectReference.document.write(winTitle);
+          }
+        } else {
+          windowObjectReference.focus();
+        }
+        windowObjectReference = null;
+      }
+
+      function updatefpTab2(results) {
+        map.graphics.clear();
+        map.infoWindow.hide();
+        var frmTab = document.getElementById("ftclcTab2");
+        var text = "";
+
+        text +=
+          '<table id="ftclcTab2" width="100%" class="TFtable" ><tr><th>Station</th><th colspan="3">Feature</th></tr>';
+
+        var reclength = results.features.length;
+
+        for (var i = 0; i < reclength; i++) {
+          var evenodd = i % 2;
+          var trcss = "";
+          if (evenodd === 0) {
+            trcss = "treven";
+          } else {
+            trcss = "trodd";
+          }
+
+          var mpoint = results.features[i].geometry.x + "&" + results.features[i].geometry.y;
+
+          text += '<tr class="' + trcss + '"><td class="station"><span>' + results.features[i].attributes["Id"] + "</span></td>";
+          text += '<td class="rSubCont"><table class="subtable" cellspacing="0" cellpadding="0"><tr>';
+          text += '<td align="left" colspan="3" class="rDesc"><span>' + results.features[i].attributes["Features"] + "</span></td></tr>";
+
+          text += '<tr><td class="rView"><span>Views:</span></td>';
+          text += '<td class="rMap"><span class="hlStd" onclick="highltqry(\'' + mpoint + "','" + results.features[i].attributes["Features"] + "');return false;\">On map</span></td>";
+          text += '<td class="rDetails"><span class="hlStd" onclick="openSampleLink(\'' + results.features[i].attributes["SampleID"] + "','" + results.features[i].attributes["Id"] + "','" + results.features[i].attributes["DTypeTxt"] + "');return false;\">Details"+urIcon+"</span></td></tr></table></td></tr>";
+        }
+
+        if (frmTab) {
+          frmTab.innerHTML = text;
+        }
+      }
+
+      function updatefpTab(results) {
+        map.graphics.clear();
+        map.infoWindow.hide();
+        var frmTab = document.getElementById("ftclcTab");
+        var text = '<table id="ftclcTab" width="100%" class="TFtable" ><tr><th>Station</th><th>Sample</th><th>Feature</th><th colspan="3">Description</th></tr>';
+
+        var reclength = results.features.length;
+
+        for (var i = 0; i < reclength; i++) {
+          var evenodd = i % 2;
+          var trcss = "";
+          if (evenodd === 0) {
+            trcss = "treven";
+          } else {
+            trcss = "trodd";
+          }
+
+          var mpoint =
+            results.features[i].geometry.x + "&" + results.features[i].geometry.y;
+          if (results.features[i].attributes["Details"] === " ") {
+            text += '<tr class="' + trcss + '"><td class="station"><span>' + results.features[i].attributes["Id"] + "</span></td>";
+            if (results.features[i].attributes["SampleID"] === "0") {
+              text += "<td></td>";
+            } else {
+              text += '<td align="center"><span>' + results.features[i].attributes["SampleID"] + "</span></td>";
+            }
+            text += '<td align="left"><span>' + results.features[i].attributes["Features"] + "</span></td>";
+            text += '<td class="rSubCont"><table class="subtable" cellspacing="0" cellpadding="0"><tr>';
+
+            text += '<td class="rView"><span>Views:</span></td>';
+            ////debug for the # sign
+            ////text += '<td class="rMap"><a href=# class="hlStd" onclick="highltqry(\'' + mpoint + "','" + results.features[i].attributes["SampleID"] + "')\"><span>On map</span></a></td>";
+            text += '<td class="rMap"><span class="hlStd" onclick="highltqry(\'' + mpoint + "','" + results.features[i].attributes["SampleID"] + "'); return false;\">On map</span></td>";
+            text += '<td class="rDetails"><span class="hlStd" onclick="openSampleLink(\'' + results.features[i].attributes["SampleID"] + "','" + results.features[i].attributes["Id"] + "','" + results.features[i].attributes["DTypeTxt"] + "');return false;\">Details" + urIcon +"</span></td></tr></table></td></tr>";
+          } else {
+            text += '<tr class="' + trcss + '"><td class="station"><span>' + results.features[i].attributes["Id"] + "</span></td>";
+            if (results.features[i].attributes["SampleID"] === "0") {
+              text += "<td></td>";
+            } else {
+              text += '<td align="center"><span>' + results.features[i].attributes["SampleID"] + "</span></td>";
+            }
+            text += '<td align="left"><span>' + results.features[i].attributes["Features"] + "</span></td>";
+            text += '<td class="rSubCont"><table class="subtable" cellspacing="0" cellpadding="0"><tr>';
+            text += '<td align="left" colspan="3" class="rDesc"><span>' + results.features[i].attributes["Details"] + "</span></td></tr>";
+            text += '<tr><td class="rView rTop"><span>Views:</span></td>';
+            ////debugging for the # sign
+            text += '<td class="rMap rTop"><span class="hlStd" onclick="highltqry(\'' + mpoint + "','" + results.features[i].attributes["SampleID"] + "'); return false;\">On map</span></td>";
+            text += '<td class="rDetails rTop"><span class="hlStd" onclick="openSampleLink(\'' + results.features[i].attributes["SampleID"] + "','" + results.features[i].attributes["Id"] + "','" + results.features[i].attributes["DTypeTxt"] + "');return false;\">Details" + urIcon +"</span></td></tr></table></td></tr>";
+          }
+        }
+        if (frmTab) {
+          frmTab.innerHTML = text;
+        }
+      }
+
+      function SampleQuery(strTab) {
+        var strLayerId, strLabelStaId, strLabelObjId, experNm, stationNm;
+        if (strTab === "tab1") {
+          //(boolTab1 === true)
+          setTab1();
+        } else {
+          setTab2();
+        }
+        strLayerId = strQueLayerId;
+        stationNm = strQueStaName;
+        experNm = strQueObjName;
+
+        queryTask = new esri.tasks.QueryTask(strShpLayer + strLayerId);
+        var query = new esri.tasks.Query();
+        query.returnGeometry = true;
+        query.outFields = ["*"];
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+
+        if (stationNm == "All") {
+          if (experNm == "All") {
+            query.where = dirty + "= " + dirty;
+          } else {
+            query.where = "DTypeTxt = '" + experNm + "'";
+          }
+        } else {
+          switch (mission) {
+            case "12":
+              if (experNm == "All") {
+                query.where = "ID ='" + stationNm + "'";
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND ID ='" + stationNm + "'";
+              }
+              break;
+            case "16":
+              if (experNm == "All") {
+                query.where = "Id =" + stationNm;
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND Id =" + stationNm;
+              }
+              break;
+            default:
+              if (experNm == "All") {
+                query.where = "Id ='" + stationNm + "'";
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND Id ='" + stationNm + "'";
+              }
+              break;
+          }
+
+        }
+        showResults(query.where);
+        if (boolTab1 === true) {
+          queryTask.execute(query, updatefpTab);
+        } else {
+          queryTask.execute(query, updatefpTab2);
+        }
+      }
+
+      function outanimateGraphic(graphicFlash) {
+        dojo.require("dojo.fx");
+        dojo.require("dojo._base.fx");
+        dojo.require("dojo.fx.easing");
+
+        var shape = graphicFlash.getDojoShape().getNode();
+
+        var animA = dojo._base.fx.fadeOut({
+          node: shape,
+          duration: 300,
+          easing: dojo.fx.easing.linear
+        });
+
+        var animB = dojo._base.fx.fadeIn({
+          node: shape,
+          easing: dojo.fx.easing.linear,
+          duration: 300
+        });
+
+        dojo.fx.chain([animB, animA, animB, animA, animB, animA]).play();
+      }
+
+      function highltqry(featCoord, SampID) {
+        if (labels) map.removeLayer(labels);
+        map.graphics.clear();
+        var TempArr = featCoord.split("&");
+        var xcor = parseFloat(TempArr[0]);
+        var ycor = parseFloat(TempArr[1]);
+        var mPnt = new esri.geometry.Point(xcor, ycor);
+        var markerSymbol = new esri.symbol.SimpleMarkerSymbol(
+          esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE,
+          20,
+          new esri.symbol.SimpleLineSymbol(
+            esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+            new dojo.Color([0, 255, 0, 0.1]),
+            1
+          ),
+          new dojo.Color([255, 0, 255, 0.65])
+        );
+
+        var g = new esri.Graphic(mPnt, markerSymbol);
+        map.graphics.add(g);
+
+        var displayText = SampID;
+        var font = new esri.symbol.Font(
+          "18pt",
+          esri.symbol.Font.STYLE_NORMAL,
+          esri.symbol.Font.VARIANT_NORMAL,
+          esri.symbol.Font.WEIGHT_BOLD,
+          "Helvetica"
+        );
+
+        var textSymbol = new esri.symbol.TextSymbol(
+          displayText,
+          font,
+          new dojo.Color([255, 0, 0, 1.0])
+        );
+        textSymbol.setOffset(-20, 20);
+        map.graphics.add(new esri.Graphic(mPnt, textSymbol));
+
+        var dist = 50.0;
+        var fxMin = xcor - dist;
+        var fyMin = ycor - dist;
+        var fxMax = xcor - -dist; // looks stupid, I know, but for some reason add wouldnt work!
+        var fyMax = ycor - -dist;
+        var newExtent = new esri.geometry.Extent();
+        newExtent.xmin = fxMin;
+        newExtent.ymin = fyMin;
+        newExtent.xmax = fxMax;
+        newExtent.ymax = fyMax;
+        newExtent.spatialReference = imagery.spatialReference;
+        map.setExtent(newExtent);
+        outanimateGraphic(g);
+      }
+
+      function showResults(strwh) {
+        //need to think about no query return situation
+        if (featLayer) map.removeLayer(featLayer);
+        if (labels) map.removeLayer(labels);
+        var tmpSr0 = strQueLayerId;
+        featLayer = new esri.layers.FeatureLayer(strShpLayer + tmpSr0, {
+          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          outFields: ["SampleID"] //,
+        });
+        featLayer.setDefinitionExpression(strwh);
+        featLayer.setScaleRange(20000, 0);
+
+        var featSymbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_DIAMOND, 15,
+          new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0, 0.5]), 1), new dojo.Color([255, 255, 0, 1.0])
+        );
+        var featRenderer = new esri.renderer.SimpleRenderer(featSymbol);
+        featLayer.setRenderer(featRenderer);
+        map.addLayer(featLayer);
+
+        labels = new esri.layers.LabelLayer({ id: "labels" });
+        var fntsNum = "14pt";
+        var fontColor = new dojo.Color([255, 255, 0, 1.0]);
+        var fntstyle = "Normal";
+        var fntwgt = "WEIGHT_NORMAL";
+
+        var flabSymbol = new esri.symbol.TextSymbol();
+        flabSymbol.setColor(fontColor);
+        flabSymbol.font.setSize(fntsNum);
+        flabSymbol.font.setFamily("arial");
+        flabSymbol.font.setStyle(fntstyle);
+        flabSymbol.font.setWeight(fntwgt);
+        var flabRenderer = new esri.renderer.SimpleRenderer(flabSymbol);
+        var labOptions = { pointPriorities: "AboveCenter" };
+
+        labels.addFeatureLayer(
+          featLayer,
+          flabRenderer,
+          "{FileNames}",
+          labOptions
+        );
+        map.addLayer(labels);
+      }
+
+      function SetLabelTxt(strObj, strMyLabelId, cnts, mystr, mystrsta) {
+        document.getElementById(strMyLabelId).innerHTML = "<i><b>   " + cnts + " " + mystr + " at selected " + mystrsta + "</b></i>";
+      }
+
+      function replaceObjLabel(strIn) {
+        var strOut = "";
+        switch (strIn) {
+          case 'All':
+            strOut = "All";
+            break;
+          case 'ase':
+            strOut = "Active Seismic Experiment";
+            break;
+          case 'ccg':
+            strOut = "Cold Cathode Gage";
+            break;
+          case 'cpe':
+            strOut = "Charged Particle Lunar Environment";
+            break;
+          case 'cor':
+            strOut = "Drive Core";
+            break;
+          case 'ldd':
+            strOut = "Dust Detector";
+            break;
+          case 'lsm':
+            strOut = "Magnetometer";
+            break;
+          case 'lpm':
+            strOut = "Lunar Portable Magnetometer";
+            break;
+          case 'lrr':
+            strOut = "Laser Ranging Retroreflector";
+            break;
+          case 'pan':
+            strOut = "Panorama";
+            break;
+          case 'pse':
+            strOut = "Passive Seismometer";
+            break;
+          case 'rck':
+            strOut = "Rock";
+            break;
+          case 'asp':
+            strOut = "Simple Penetrometer";
+            break;
+          case 'soi':
+            strOut = "Soil";
+            break;
+          case 'sws':
+            strOut = "Solar Wind Spectrometer";
+            break;
+          case 'swc':
+            strOut = "Solar Wind Composition";
+            break;
+          case 'sid':
+            strOut = "Suprathermal Ion Detector";
+            break;
+          case 'csp':
+            strOut = "Close-up stereoscopic photography";
+            break;
+          case 'afl':
+            strOut = "America Flag";
+            break;
+          case 'tva':
+            strOut = "TV Camera";
+            break;
+          case 'cst':
+            strOut = "ALSEP Central Station";
+            break;
+          case 'hfe':
+            strOut = "Heat Flow Experiment";
+            break;
+          case 'sum':
+            strOut = "Lunar Roving Vehicle";
+            break;
+          case 'mpa':
+            strOut = "Mortar Package Assembly";
+            break;
+          case 'rtg':
+            strOut = "Radioisotopic Thermoelectric Generator";
+            break;
+          case 'drl':
+            strOut = "Deep Drill Core";
+            break;
+          case 'lph':
+            strOut = "Lineation photographs";
+            break;
+          case 'lpp':
+            strOut = "Left polarization";
+            break;
+          case 'rpp':
+            strOut = "Right polarization";
+            break;
+          case 'lsp':
+            strOut = "Lunar Seismic Profile Experiment";
+            break;
+          case 'lnp':
+            strOut = "Lunar Neutron Probe Experiment";
+            break;
+          case 'lac':
+            strOut = "Lunar Atmospheric Composition Experiment (LACE)";
+            break;
+          case 'gom':
+            strOut = "Gomon";
+            break;
+          case 'tge':
+            strOut = "Traverse Gravimeter Measurement";
+            break;
+          case 'eam':
+            strOut = "Lunar Ejecta and Meteorite Experiment";
+            break;
+        }
+        return strOut;
+      }
+
+      function staquery(strTab) {
+        if (strTab === "tab1") {
+          //boolTab1 === true)
+          setTab1();
+        } else if (strTab === "tab2") {
+          setTab2();
+        }
+        var strLayerId = strQueLayerId;
+        var strLabelTxtId = strShowLabelId;
+        var stationNm = strQueStaName;
+        var experNm = strQueObjName;
+
+        SampleQuery(strTab);
+
+        var expObName = replaceObjLabel(experNm);
+
+        queryTask = new esri.tasks.QueryTask(strShpLayer + strLayerId);
+        var query = new esri.tasks.Query();
+        query.returnGeometry = false;
+        query.outFields = ["*"];
+
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+
+        if (stationNm !== "All") {
+          switch (mission) {
+            case "12":
+              if (experNm == "All") {
+                query.where = dirty + "=" + dirty + " AND ID ='" + stationNm + "'";
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND ID ='" + stationNm + "'";
+              }
+              break;
+            case "16":
+              if (experNm == "All") {
+                query.where = dirty + "=" + dirty + " AND Id =" + stationNm;
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND Id =" + stationNm;
+              }
+              break;
+            default:
+              if (experNm == "All") {
+                query.where = dirty + "=" + dirty + " AND Id ='" + stationNm + "'";
+              } else {
+                query.where = "DTypeTxt ='" + experNm + "'" + " AND Id ='" + stationNm + "'";
+              }
+              break;
+          }
+
+          queryTask.executeForCount(
+            query,
+            function (count) {
+              if (count > 1) {
+                window.setTimeout(
+                  SetLabelTxt(experNm, strLabelTxtId, count, "objects", "station"),
+                  500
+                );
+              } else if (count === 1) {
+                window.setTimeout(
+                  SetLabelTxt(experNm, strLabelTxtId, count, "object", "station"),
+                  500
+                );
+              } else {
+                document.getElementById(strLabelTxtId).className = "No object was found.";
+              }
+            },
+            function (error) {
+              console.log(error);
+            }
+          );
+        } else if (stationNm === "All") {
+          if (experNm === "All") {
+            query.where = dirty + "=" + dirty;
+          } else {
+            query.where = "DTypeTxt ='" + experNm + "'";
+          }
+          queryTask.executeForCount(
+            query,
+            function (count) {
+              if (count > 1) {
+                window.setTimeout(SetLabelTxt(experNm, strLabelTxtId, count, "objects", "stations"), 500);
+              } else if (count == 1) {
+                window.setTimeout(SetLabelTxt(experNm, strLabelTxtId, count, "object", "station"), 500);
+              } else {
+                document.getElementById(strLabelTxtId).className = "No object was found.";
+              }
+            },
+            function (error) {
+              console.log(error);
+            }
+          );
+        }
+      }
+
+      function updateGo2Station(results) {
+        var xcor = parseFloat(results.features[0].geometry.x);
+        var ycor = parseFloat(results.features[0].geometry.y);
+        var dist = 50.0;
+        var fxMin = xcor - dist;
+        var fyMin = ycor - dist;
+        var fxMax = xcor - -dist; // looks stupid, I know, but for some reason add wouldnt work!
+        var fyMax = ycor - -dist;
+        var newExtent = new esri.geometry.Extent();
+        newExtent.xmin = fxMin;
+        newExtent.ymin = fyMin;
+        newExtent.xmax = fxMax;
+        newExtent.ymax = fyMax;
+        newExtent.spatialReference = imagery.spatialReference;
+        map.setExtent(newExtent);
+      }
+
+      function setTab1Par() {
+        strQueLayerId = "/0";
+        strQueStaId = "Optsta";
+        strQueObjId = "expObj";
+        strShowLabelId = "totalSta";
+        strQueResTable = "ftclcTab";
+        numQueTotal = 165;
+        strQueStaName = document.getElementById(strQueStaId).value;
+        strQueObjName = document.getElementById(strQueObjId).value;
+      }
+
+      function setTab2Par() {
+        strQueLayerId = "/1";
+        strQueStaId = "Optsta2";
+        strQueObjId = "instObj";
+        strShowLabelId = "totalSta2";
+        strQueResTable = "ftclcTab2";
+        numQueTotal = 15;
+        strQueStaName = document.getElementById(strQueStaId).value;
+        strQueObjName = document.getElementById(strQueObjId).value;
+      }
+
+      function setTab1() {
+        boolTab1 = true;
+        boolTab2 = false;
+        setTab1Par();
+        //window.setTimeout(setTab1Par(), 100);
+      }
+
+      function setTab2() {
+        boolTab1 = false;
+        boolTab2 = true;
+        setTab2Par();
+        //window.setTimeout(setTab2Par(), 100);
+      }
+
+      function clickObj(strTab) {
+        //ClearQuery(strTab);
+
+        if (map.graphics) map.graphics.clear();
+        if (featLayer) map.removeLayer(featLayer);
+        if (labels) map.removeLayer(labels);
+        if (strQueResTable) {
+          var frmTab = document.getElementById(strQueResTable);
+
+          var tabCap = frmTab.createCaption();
+
+          var rowNum = frmTab.rows.length;
+          while (rowNum > 0) {
+            frmTab.deleteRow(0);
+            rowNum = frmTab.rows.length;
+          }
+        }
+
+        var strLayerId, strLabel0, experNm;
+        if (strTab === "tab1") {
+          //
+          setTab1();
+        } else if (strTab === "tab2") {
+          setTab2();
+        }
+        strLayerId = strQueLayerId;
+        experNm = strQueObjName;
+
+        queryTask = new esri.tasks.QueryTask(strShpLayer + strLayerId);
+        var query = new esri.tasks.Query();
+        query.returnGeometry = true; //false;
+        query.outFields = ["*"];
+
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+
+        if (experNm == "All") {
+          query.where = dirty + "=" + dirty;
+        } else {
+          query.where = "DTypeTxt ='" + experNm + "'";
+        }
+        queryTask.execute(query, objstaquery);
+      }
+
+      //copy from https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value-in-javascript
+      function dynamicSort(property) {
+        var sortOrder = 1;
+        if (property[0] === "-") {
+          sortOrder = -1;
+          property = property.substr(1);
+        }
+        return function (a, b) {
+          var result =
+            a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+          return result * sortOrder;
+        };
+      }
+
+      function listStations(results) {
+        var reclength = results.features.length;
+        var station;
+        var values = [];
+        var staVals = {};
+        var strIDLabel, strIDStation;
+        var totalNum = 0;
+        if (boolTab1 === true) {
+          setTab1Par();
+          totalNum = 16;
+        } else if (boolTab2 === true) {
+          setTab2Par();
+          totalNum = 3;
+        }
+        strIDLabel = strShowLabelId;
+        strIDStation = strQueStaId;
+        if (mission === "11" || mission === "12") {
+          document.getElementById(strIDLabel).innerHTML = "<i><b>   " + reclength + " objects at station LM</b></i>";
+        } else {
+          document.getElementById(strIDLabel).innerHTML = "<i><b>   " + reclength + " objects at selected stations</b></i>";
+        }
+
+
+        for (var i = 0; i < reclength; i++) {
+          station = results.features[i].attributes["Id"];
+          if (!staVals[station]) {
+            staVals[station] = true;
+            values.push({ name: station });
+          }
+        }
+        values.sort(dynamicSort("name"));
+        values.push({ name: "All" });
+
+        var staCount = values.length;
+        var staNum = staCount - 1;
+
+        var select = document.getElementById(strIDStation);
+        while (select.length > 0) {
+          select.remove(select.length - 1);
+        }
+        if (mission === "11" || mission === "12") {
+          //only 1 station
+          var context = "<option value=\"All\">LM</option>";
+          select.innerHTML = context;
+          select.disabled = true;
+        } else {
+          for (var i = 0; i < staCount; i++) {
+            var opt = document.createElement("option");
+            opt.value = values[i].name;
+
+            if (values[i].name === "All") {
+              if (staNum > 1) {
+                opt.innerHTML = " All";
+                opt.selected = true;
+              } else {
+                opt.innerHTML = " All";
+                opt.selected = true;
+              }
+            } else {
+              opt.innerHTML = values[i].name;
+            }
+            // add the new option
+            try {
+              select.add(opt); // this will fail in DOM browsers but is needed for IE
+            } catch (e) {
+              select.appendChild(opt);
+            }
+          }
+        }
+
+        if (staNum > 1) {
+          document.getElementById(strIDLabel).innerHTML = "<i><b>   " + reclength + " objects at " + staNum + " stations</b></i>";
+        } else {
+          //if (expObName == "All") {
+          if (mission === "11" || mission === "12") {
+            if (reclength > 1) {
+              document.getElementById(strIDLabel).innerHTML =
+                "<i><b>   " + reclength + " objects at station LM</b></i>";
+            } else {
+              document.getElementById(strIDLabel).innerHTML =
+                "<i><b>   " + reclength + " object at station LM</b></i>";
+            }
+          } else {
+            if (reclength > 1) {
+              document.getElementById(strIDLabel).innerHTML =
+                "<i><b>   " + reclength + " objects at selected station</b></i>";
+            } else {
+              document.getElementById(strIDLabel).innerHTML =
+                "<i><b>   " + reclength + " object at selected station" + "</b></i>";
+            }
+          }
+        }
+        document.getElementById(strIDLabel).className = "";
+      }
+
+      function initSetup() {
+        //set up dropdown options for different mission
+        var select = document.getElementById("expObj");
+
+        //for mission 16 and 17
+        if (mission === "16" || mission === "17") {
+          var opt = document.createElement("option");
+          opt.value = "drl";
+
+          opt.innerHTML = "Deep Drill Core";
+          // add the new option
+          try {
+            select.add(opt); // this will fail in DOM browsers but is needed for IE
+          } catch (e) {
+            select.appendChild(opt);
+          }
+        }
+
+        //set up dropdown options for different mission
+        var instselect = document.getElementById("instObj");
+        var context = "";
+        while (instselect.length > 0) {
+          instselect.remove(instselect.length - 1);
+        }
+
+        switch (mission) {
+          case "11":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"lrr\">Laser Ranging Retroreflector</option>";
+            context += "<option value=\"sum\">Lunar Module</option>";
+            context += "<option value=\"pse\">Passive Seismometer</option>";
+            context += "<option value=\"swc\">Solar Wind Composition</option>";
+            context += "<option value=\"afl\">American Flag</option>";
+            context += "<option value=\"tva\">TV Camera</option>";
+            instselect.innerHTML = context;
+            break;
+          case "12":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"sws\">Solar Wind Spectrometer</option>";
+            context += "<option value=\"ccg\">Cold Cathode Gage</option>";
+            context += "<option value=\"ldd\">Dust Detector</option>";
+            context += "<option value=\"lsm\">Magnetometer</option>";
+            context += "<option value=\"sum\">Lunar Module</option>";
+            context += "<option value=\"pse\">Passive Seismometer</option>";
+            context += "<option value=\"swc\">Solar Wind Composition</option>";
+            context += "<option value=\"sid\">Suprathermal Ion Detector</option>";
+            context += "<option value=\"csp\">Close-up stereoscopic photography</option>";
+            instselect.innerHTML = context;
+            break;
+          case "14":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"ase\">Active Seismic Experiment</option>";
+            context += "<option value=\"ccg\">Cold Cathode Gage</option>";
+            context += "<option value=\"cpe\">Charged Particle Lunar Environment</option>";
+            context += "<option value=\"ldd\">Lunar Dust Detector</option>";
+            context += "<option value=\"lpm\">Lunar Portable Magnetometer</option>";
+            context += "<option value=\"lrr\">Laser Ranging Retroreflector</option>";
+            context += "<option value=\"pse\">Passive Seismometer</option>";
+            context += "<option value=\"asp\">Simple Penetrometer</option>";
+            context += "<option value=\"swc\">Solar Wind Composition</option>";
+            context += "<option value=\"sid\">Suprathermal Ion Detector</option>";
+            instselect.innerHTML = context;
+            break;
+          case "15":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"hfe\">Heat Flow Experiment</option>";
+            context += "<option value=\"sum\">Lunar Roving Vehicle</option>";
+            context += "<option value=\"swc\">Solar Wind Composition</option>";
+            context += "<option value=\"pse\">Passive Seismic Experiment</option>";
+            context += "<option value=\"exp abb\">ALSEP Central Station</option>";
+            context += "<option value=\"lsm\">Lunar Surface Magnetometer</option>";
+            context += "<option value=\"sid\">Suprathermal Ion Detector Experiment</option>";
+            context += "<option value=\"lrr\">Laser Ranging Retroreflector</option>";
+            context += "<option value=\"sws\">Solar Wind Spectrometer</option>";
+            instselect.innerHTML = context;
+            break;
+          case "16":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"swc\">Solar Wind Composition</option>";
+            context += "<option value=\"lpm\">Lunar Portable Magnetometer</option>";
+            context += "<option value=\"exp abb\">ALSEP</option>";
+            context += "<option value=\"lsm\">Lunar Surface Magnetometer</option>";
+            context += "<option value=\"pse\">Passive Seismometer</option>";
+            context += "<option value=\"hfe\">Heat Flow Experiment</option>";
+            context += "<option value=\"srp\">Penetrometer</option>";
+            context += "<option value=\"sum\">Lunar Roving Vehicle</option>";
+
+            instselect.innerHTML = context;
+            break;
+          case "17":
+            context = "";
+            context += "<option value=\"All\">All</option>";
+            context += "<option value=\"crd\">Cosmic Ray Experiment</option>";
+            context += "<option value=\"eam\">Lunar Ejecta and Meteorite Experiment</option>";
+            context += "<option value=\"hfe\">Heat Flow Experiment</option>";
+            context += "<option value=\"lac\">Lunar Atmospheric Composition Experiment (LACE)</option>";
+            context += "<option value=\"lnp\">Lunar Neutron Probe Experiment</option>";
+            context += "<option value=\"lsp\">Lunar Seismic Profile Experiment</option>";
+            context += "<option value=\"tge\">Traverse Gravimeter Measurement</option>";
+            context += "<option value=\"sum\">ALSEP summary</option>";
+            instselect.innerHTML = context;
+            break;
+        }
+        if (mission === "11" || mission === "12") {
+          //only 1 station
+          var staselect = document.getElementById("labelStation");
+          while (staselect.length > 0) {
+            staselect.remove(staselect.length - 1);
+          }
+          context = "<option value=\"All\">LM</option>";
+          staselect.innerHTML = context;
+          staselect.disabled = true;
+
+          var gotostaButton = document.getElementById("buttonStationx");
+          gotostaButton.disabled = true;
+
+          var select0 = document.getElementById("Optsta");
+          while (select0.length > 0) {
+            select0.remove(select0.length - 1);
+          }
+          context = "<option value=\"All\">LM</option>";
+          select0.innerHTML = context;
+          select0.disabled = true;
+
+          var select1 = document.getElementById("Optsta2");
+          while (select1.length > 0) {
+            select1.remove(select1.length - 1);
+          }
+          context = "<option value=\"All\">LM</option>";
+          select1.innerHTML = context;
+          select1.disabled = true;
+
+
+        } else {
+          queryTask = new esri.tasks.QueryTask("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/5");
+          var query = new esri.tasks.Query();
+          query.returnGeometry = false;
+          query.outFields = ["*"];
+
+          var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+          query.where = dirty + "=" + dirty;
+
+          queryTask.execute(query, updateGo2Sta);
+        }
+
+
+      }
+
+      function updateGo2Sta(results) {
+        var reclength = results.features.length;
+        var station;
+        var values = [];
+        var staVals = {};
+
+        for (var i = 0; i < reclength; i++) {
+          station = results.features[i].attributes["Station"];
+          if (!staVals[station]) {
+            staVals[station] = true;
+            values.push({ name: station });
+          }
+        }
+        values.sort(dynamicSort("name"));
+
+        var staCount = values.length;
+        var staNum = staCount - 1;
+
+        var select = document.getElementById("labelStation");
+        while (select.length > 0) {
+          select.remove(select.length - 1);
+        }
+
+        for (var i = 0; i < staCount; i++) {
+          var opt = document.createElement("option");
+          var stastr = values[i].name;
+          if (stastr.includes("Station ")) stastr = stastr.replace("Station ", "");
+          opt.value = stastr;
+
+          opt.innerHTML = stastr;
+
+          // add the new option
+          try {
+            select.add(opt); // this will fail in DOM browsers but is needed for IE
+          } catch (e) {
+            select.appendChild(opt);
+          }
+        }
+      }
+
+      function objquery2() {
+        queryTask = new esri.tasks.QueryTask("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/1");
+        var query = new esri.tasks.Query();
+        query.returnGeometry = false;
+        query.outFields = ["*"];
+
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+        query.where = dirty + "=" + dirty;
+
+        queryTask.execute(query, updateLab);
+      }
+
+      function updateLab(results) {
+        var reclength = results.features.length;
+        var station;
+        var values = [];
+        var staVals = {};
+        var totalNum = 0;
+
+        for (var i = 0; i < reclength; i++) {
+          station = results.features[i].attributes["Id"];
+          if (!staVals[station]) {
+            staVals[station] = true;
+            values.push({ name: station });
+          }
+        }
+        values.sort(dynamicSort("name"));
+        values.push({ name: "All" });
+        var staCount = values.length;
+        var staNum = staCount - 1;
+
+        var select = document.getElementById("Optsta2");
+        while (select.length > 0) {
+          select.remove(select.length - 1);
+        }
+        if (mission === "11" || mission === "12") {
+          //only 1 station
+          var context = "<option value=\"All\">LM</option>";
+          select.innerHTML = context;
+          select.disabled = true;
+        } else {
+          for (var i = 0; i < staCount; i++) {
+            var opt = document.createElement("option");
+            opt.value = values[i].name;
+
+            if (values[i].name == "All") {
+              if (staNum > 1) {
+                opt.innerHTML = "All";
+                opt.selected = true;
+                //}
+              } else {
+                opt.innerHTML = "All";
+                opt.selected = true;
+              }
+            } else {
+              opt.innerHTML = values[i].name;
+            }
+            // add the new option
+            try {
+              select.add(opt); // this will fail in DOM browsers but is needed for IE
+            } catch (e) {
+              select.appendChild(opt);
+            }
+          }
+        }
+        if (staNum > 1) {
+          document.getElementById("totalSta2").innerHTML = "<i><b>   " + reclength + " objects at " + staNum + " stations</b></i>";
+        } else {
+          //if (expObName == "All") {
+          if (mission === "11" || mission === "12") {
+            if (reclength > 1) {
+              document.getElementById("totalSta2").innerHTML =
+                "<i><b>   " + reclength + " objects at station LM</b></i>";
+            } else {
+              document.getElementById("totalSta2").innerHTML =
+                "<i><b>   " + reclength + " object at station LM</b></i>";
+            }
+          } else {
+            if (reclength > 1) {
+              document.getElementById("totalSta2").innerHTML =
+                "<i><b>   " + reclength + " objects at selected station</b></i>";
+            } else {
+              document.getElementById("totalSta2").innerHTML =
+                "<i><b>   " + reclength + " object at selected station</b></i>";
+            }
+          }
+        }
+        document.getElementById("totalSta2").className = "";
+      }
+
+      function objquery() {
+
+        //update the select option of "go to station" feildset
+        initSetup();
+        //update the initail results of Instrument query
+        objquery2();
+
+        if (
+          dijit.byId("tabsquery").selectedChildWidget == dijit.byId("tabs-1")
+        ) {
+          boolTab1 = true;
+          boolTab2 = false;
+
+          var experNm = document.getElementById("expObj").value;
+
+          queryTask = new esri.tasks.QueryTask("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/0");
+          var query = new esri.tasks.Query();
+          query.returnGeometry = false;
+          query.outFields = ["*"];
+
+          var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+
+          if (experNm == "All") {
+            query.where = dirty + "=" + dirty;
+          } else {
+            query.where = "DTypeTxt ='" + experNm + "'";
+          }
+
+          queryTask.execute(query, objstaquery);
+        }
+      }
+      function objstaquery(results) {
+        listStations(results);
+      }
+
+      function Go2Station() {
+        var ChosedStation = document.getElementById("labelStation").value;
+        //update the map extent after choosing a Station
+        queryTask = new esri.tasks.QueryTask("https://anms.rsl.wustl.edu/arcgis/rest/services/Apollo/Apollo16_vec/MapServer/5");
+        var query2 = new esri.tasks.Query();
+        query2.returnGeometry = true;
+        query2.outFields = ["*"];
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+
+        var str1 = "";
+        if (ChosedStation.includes("Total") || ChosedStation.includes("All")) {
+          query2.where = dirty + "= " + dirty;
+          ResetMap();
+        } else {
+          switch (mission) {
+            case "14":
+              if (ChosedStation !== "LM" && ChosedStation !== "ALSEP") {
+                str1 = "Station " + ChosedStation;
+              } else {
+                str1 = ChosedStation;
+              }
+              break;
+            case "15":
+              str1 = "Station " + ChosedStation;
+              break;
+            case "16":
+              str1 = ChosedStation;
+              break;
+            case "17":
+              if (ChosedStation.includes("LRV")) {
+                str1 = ChosedStation;
+              } else {
+                str1 = "Station " + ChosedStation;
+              }
+              break;
+          }
+          query2.where = "Station = '" + str1 + "'";
+          queryTask.execute(query2, updateGo2Station);
+        }
+      }
+
+      function ResetMap() {
+        map.setExtent(initExtent);
+        document.getElementById("labelSize").value = "small";
+        changeLabel();
+      }
+
+      function QueryReset() {
+        var num0 = numQueTotal;
+        var strlayerID = strQueLayerId;
+        var strIDLabel = strShowLabelId;
+
+        queryTask = new esri.tasks.QueryTask(strShpLayer + strlayerID);
+        var query = new esri.tasks.Query();
+        query.returnGeometry = true; //false;
+        query.outFields = ["*"];
+
+        var dirty = new Date().getTime(); //work around for the query bug in 10.1 SP1
+        query.where = dirty + "=" + dirty;
+
+        queryTask.execute(query, objstaquery);
+        if (mission === "11" || mission === "12") {
+          document.getElementById(strIDLabel).innerHTML = "<i><b>   " + " " + num0 + " objects at station LM</b></i>";
+        } else {
+          document.getElementById(strIDLabel).innerHTML = "<i><b>   " + " " + num0 + " objects at selected stations</b></i>";
+        }
+
+      }
+
+      function ClearQuery(strTab) {
+        var str1 = "All";
+        if (strTab === "tab1") {
+          // (boolTab1 === true)
+          setTab1();
+        } else {
+          setTab2();
+        }
+        var strTableId = strQueResTable;
+        var strLabelSamp = strQueObjId;
+        var strLabelSta = strQueStaId;
+
+        map.graphics.clear();
+        if (featLayer) map.removeLayer(featLayer);
+        if (labels) map.removeLayer(labels);
+        var frmTab = document.getElementById(strTableId);
+        var tabCap = frmTab.createCaption();
+
+        var rowNum = frmTab.rows.length;
+        while (rowNum > 0) {
+          frmTab.deleteRow(0);
+          rowNum = frmTab.rows.length;
+        }
+
+        QueryReset();
+        document.getElementById(strLabelSamp).value = str1;
+        document.getElementById(strLabelSta).value = str1;
+      }
+
+      function createClickHandler2(fcoord, SId, STId, TypeTd) {
+        $("#ftclcTab2")
+          .find("tr")
+          .click(function () {
+            $("#ftclcTab2")
+              .find("tr")
+              .removeClass("highlighted");
+            $("#ftclcTab2")
+              .find("tr")
+              .addClass("TFtable");
+            $(this).addClass("highlighted");
+          });
+
+        return function () {
+          highltqry(fcoord, STId);
+        };
+      }
+
+      function createClickHandler1(fcoord, SId, STId, TypeTd) {
+        $("#ftclcTab")
+          .find("tr")
+          .click(function () {
+            $("#ftclcTab")
+              .find("tr")
+              .removeClass("highlighted");
+            $("#ftclcTab")
+              .find("tr")
+              .addClass("TFtable");
+            $(this).addClass("highlighted");
+          });
+
+        return function () {
+          highltqry(fcoord, SId);
+        };
+      }
+
+      function divexp(divname) {
+        var x = document.getElementById(divname);
+        var buttonName = divname.replace("sub", "button");
+        var y = document.getElementById(buttonName);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          y.textContent = "Hide details";
+          y.style.backgroundColor = "#ff9999";
+          y.style.color = "white";
+        } else {
+          x.style.display = "none";
+          y.textContent = "Show details";
+          y.style.backgroundColor = "#4CAF50";
+          y.style.color = "white";
+        }
+      }
+    </script>
+  </form>
+</body>
+</html>

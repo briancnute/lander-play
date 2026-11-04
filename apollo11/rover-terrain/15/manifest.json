@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "mission": 15,
+  "bounds": {
+    "west": -2560,
+    "east": 2048,
+    "south": -5632,
+    "north": 1024
+  },
+  "width": 1153,
+  "height": 1665,
+  "gridStepM": 4,
+  "encoding": "float32-le",
+  "heightScaleM": 1,
+  "heightOffsetM": 0,
+  "url": "heights.f32",
+  "sha256": "a42a68eaab0b65b19e2610a7e6a836db15744f08767f31f689eb26a7ffbbf3ee",
+  "bytes": 7678980,
+  "minHeightM": -312.826416015625,
+  "maxHeightM": 617.44580078125,
+  "playableBounds": {
+    "west": -2400,
+    "east": 1600,
+    "south": -5200,
+    "north": 800,
+    "marginM": 300,
+    "rationale": "Rounded construction envelope contains the traced completed traverses, near-base work and local station operating areas. Margin is a design allowance, not a historical limit. Distant mountains remain a separate non-playable backdrop."
+  },
+  "tileSizeM": 512,
+  "context": {
+    "bounds": {
+      "west": -8192,
+      "east": 24576,
+      "south": -16384,
+      "north": 32768
+    },
+    "width": 257,
+    "height": 385,
+    "gridStepM": 128,
+    "encoding": "float32-le",
+    "heightScaleM": 1,
+    "heightOffsetM": 0,
+    "url": "context.f32",
+    "sha256": "ed7fa60e6331483049708c4e9d768db91541b486dbbf282edd857b641a94a55c",
+    "bytes": 395780,
+    "minHeightM": -311.40380859375,
+    "maxHeightM": 4076.8154296875
+  },
+  "sourceHeightAtLmM": -1927.62646484375,
+  "axes": {
+    "x": "east",
+    "z": "negative north",
+    "y": "metres above sampled LM"
+  },
+  "frame": {
+    "origin": "LM",
+    "units": "m",
+    "axes": "east-north",
+    "landing": {
+      "lat": 26.132360593930848,
+      "lon": 3.6332288107668864
+    },
+    "sourceProjection": {
+      "wkt": "PROJCS[\"Moon_Equirectangular_Apollo15_CLat0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],UNIT[\"Meter\",1.0]]",
+      "originProjectedM": [
+        110171.67040000018,
+        792420.7277000002
+      ]
+    },
+    "conversion": "Source Plate Carree x=R*longitude,y=R*latitude; subtract LM then multiply east by cos(LM latitude). x=east,z=-north in game.",
+    "note": "Source decimal precision is retained, not a claim of centimetre accuracy. Source near-base layers can disagree by tens of metres; photograph geometry remains interpreted."
+  },
+  "geometryScale": 1,
+  "auditFile": "audit.json",
+  "confidenceFile": "confidence.u8",
+  "confidenceSha256": "16789bf18925ccfa6078cc004c36a812dce17732297da5e3fe84c5da15f18031",
+  "provenanceFile": "provenance.u8",
+  "sourceProducts": [
+    "NAC_DTM_APOLLO15_2_E260N0036"
+  ],
+  "sourceGridStepM": 4.9999999999999005,
+  "accuracy": "Source-registered orbital stereo terrain resampled to 4m, not 4m geodetic accuracy. Low/unknown source confidence retained and audited. Context is measured SLDEM2015, not invented mountains.",
+  "orthophoto": {
+    "file": "orthophoto.png",
+    "bounds": {
+      "west": -2560,
+      "east": 2048,
+      "south": -5632,
+      "north": 1024
+    },
+    "width": 1153,
+    "height": 1665,
+    "validNodes": 1919739,
+    "sha256": "5d4399668860ae8c3633fe6f51fd65497ef6745aa72c429e50cf1e80aa06c598",
+    "use": "Orbital lighting; registration reference only"
+  }
+}

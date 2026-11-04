@@ -1,0 +1,388 @@
+{
+ "displayFieldName": "FileNames",
+ "fieldAliases": {
+  "Features": "Features",
+  "FileNames": "FileNames",
+  "DataType": "DataType",
+  "Details": "Details",
+  "SampleID": "SampleID",
+  "DTypeTxt": "DTypeTxt",
+  "Id": "Id",
+  "OBJECTID": "OBJECTID"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon_Equirectangular_Apollo15_CLat0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "Features",
+   "type": "esriFieldTypeString",
+   "alias": "Features",
+   "length": 50
+  },
+  {
+   "name": "FileNames",
+   "type": "esriFieldTypeString",
+   "alias": "FileNames",
+   "length": 50
+  },
+  {
+   "name": "DataType",
+   "type": "esriFieldTypeString",
+   "alias": "DataType",
+   "length": 50
+  },
+  {
+   "name": "Details",
+   "type": "esriFieldTypeString",
+   "alias": "Details",
+   "length": 50
+  },
+  {
+   "name": "SampleID",
+   "type": "esriFieldTypeString",
+   "alias": "SampleID",
+   "length": 50
+  },
+  {
+   "name": "DTypeTxt",
+   "type": "esriFieldTypeString",
+   "alias": "DTypeTxt",
+   "length": 50
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeString",
+   "alias": "Id",
+   "length": 50
+  },
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "1",
+    "OBJECTID": 1
+   },
+   "geometry": {
+    "x": 109334.20760000031,
+    "y": 789319.98620000016
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "2",
+    "OBJECTID": 2
+   },
+   "geometry": {
+    "x": 108780.48249999993,
+    "y": 788794.04009999987
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "3",
+    "OBJECTID": 3
+   },
+   "geometry": {
+    "x": 109663.26989999972,
+    "y": 790569.17309999978
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "4",
+    "OBJECTID": 4
+   },
+   "geometry": {
+    "x": 111023.10769999959,
+    "y": 789291.30759999994
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "6",
+    "OBJECTID": 5
+   },
+   "geometry": {
+    "x": 111607.03890000004,
+    "y": 787673.52380000008
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "6a",
+    "OBJECTID": 6
+   },
+   "geometry": {
+    "x": 111300.91610000003,
+    "y": 787683.76789999986
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "7",
+    "OBJECTID": 7
+   },
+   "geometry": {
+    "x": 111211.65560000017,
+    "y": 787894.02100000018
+   }
+  },
+  {
+   "attributes": {
+    "Features": "ALSEP",
+    "FileNames": "ALSEP Central Station",
+    "DataType": "9",
+    "Details": "ALSEP Central Station",
+    "SampleID": " ",
+    "DTypeTxt": "exp abb",
+    "Id": "8",
+    "OBJECTID": 8
+   },
+   "geometry": {
+    "x": 110075.05449999962,
+    "y": 792472.45019999985
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "8",
+    "OBJECTID": 9
+   },
+   "geometry": {
+    "x": 110096.11060000025,
+    "y": 792460.28289999999
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Passive Seismic Experiment",
+    "FileNames": "Passive Seismic Experiment",
+    "DataType": "9",
+    "Details": "Passive Seismic Experiment",
+    "SampleID": "pse",
+    "DTypeTxt": "pse",
+    "Id": "8",
+    "OBJECTID": 10
+   },
+   "geometry": {
+    "x": 110072.77469999995,
+    "y": 792472.59409999987
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Heat Flow Experiment",
+    "FileNames": "Heat Flow Experiment",
+    "DataType": "9",
+    "Details": "Heat Flow Experiment",
+    "SampleID": "hfe",
+    "DTypeTxt": "hfe",
+    "Id": "8",
+    "OBJECTID": 11
+   },
+   "geometry": {
+    "x": 110080.30339999963,
+    "y": 792477.93690000009
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Solar Wind Spectrometer",
+    "FileNames": "Solar Wind Spectrometer",
+    "DataType": "9",
+    "Details": "Solar Wind Spectrometer",
+    "SampleID": "sws",
+    "DTypeTxt": "sws",
+    "Id": "8",
+    "OBJECTID": 12
+   },
+   "geometry": {
+    "x": 110076.29110000003,
+    "y": 792474.57879999978
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Surface Magnetometer",
+    "FileNames": "Lunar Surface Magnetometer",
+    "DataType": "9",
+    "Details": "Lunar Surface Magnetometer",
+    "SampleID": "lsm",
+    "DTypeTxt": "lsm",
+    "Id": "8",
+    "OBJECTID": 13
+   },
+   "geometry": {
+    "x": 110070.29040000029,
+    "y": 792484.25499999989
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Suprathermal Ion Detector Experiment",
+    "FileNames": "Suprathermal Ion Detector Experiment",
+    "DataType": "9",
+    "Details": "Suprathermal Ion Detector Experiment",
+    "SampleID": "sid",
+    "DTypeTxt": "sid",
+    "Id": "8",
+    "OBJECTID": 14
+   },
+   "geometry": {
+    "x": 110089.03780000005,
+    "y": 792474.15810000012
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Laser Ranging Retroreflector",
+    "FileNames": "Laser Ranging Retroreflector",
+    "DataType": "9",
+    "Details": "Laser Ranging Retroreflector",
+    "SampleID": "lrr",
+    "DTypeTxt": "lrr",
+    "Id": "8",
+    "OBJECTID": 15
+   },
+   "geometry": {
+    "x": 110039.68269999977,
+    "y": 792451.76069999998
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Solar Wind Composition",
+    "FileNames": "Solar Wind Composition",
+    "DataType": "9",
+    "Details": "Solar Wind Composition",
+    "SampleID": "swc",
+    "DTypeTxt": "swc",
+    "Id": "8",
+    "OBJECTID": 16
+   },
+   "geometry": {
+    "x": 110157.92080000043,
+    "y": 792436.66779999994
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "9",
+    "OBJECTID": 17
+   },
+   "geometry": {
+    "x": 108305.96910000034,
+    "y": 792378.88879999984
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": " ",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "9a",
+    "OBJECTID": 18
+   },
+   "geometry": {
+    "x": 108082.45480000041,
+    "y": 792372.53849999979
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Roving Vehicle",
+    "DataType": "6",
+    "Details": "Lunar Roving Vehicle",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "10",
+    "OBJECTID": 19
+   },
+   "geometry": {
+    "x": 107910.93929999974,
+    "y": 792562.8909
+   }
+  },
+  {
+   "attributes": {
+    "Features": "Lunar Roving Vehicle",
+    "FileNames": "Lunar Module",
+    "DataType": "6",
+    "Details": "Lunar Module",
+    "SampleID": "summ",
+    "DTypeTxt": "sum",
+    "Id": "8",
+    "OBJECTID": 20
+   },
+   "geometry": {
+    "x": 110171.67040000018,
+    "y": 792420.72770000016
+   }
+  }
+ ]
+}

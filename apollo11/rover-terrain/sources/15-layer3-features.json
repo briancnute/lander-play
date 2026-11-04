@@ -1,0 +1,260 @@
+{
+ "displayFieldName": "Navigation",
+ "fieldAliases": {
+  "Navigation": "Navigation",
+  "Navigati_1": "Navigati_1",
+  "Index_ID": "Index_ID",
+  "Event": "Event",
+  "EVA": "EVA",
+  "X_East": "X_East",
+  "Y_North": "Y_North",
+  "Station": "Station",
+  "OBJECTID": "OBJECTID"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon_Equirectangular_Apollo15_CLat0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "Navigation",
+   "type": "esriFieldTypeString",
+   "alias": "Navigation",
+   "length": 4
+  },
+  {
+   "name": "Navigati_1",
+   "type": "esriFieldTypeString",
+   "alias": "Navigati_1",
+   "length": 4
+  },
+  {
+   "name": "Index_ID",
+   "type": "esriFieldTypeString",
+   "alias": "Index_ID",
+   "length": 4
+  },
+  {
+   "name": "Event",
+   "type": "esriFieldTypeString",
+   "alias": "Event",
+   "length": 36
+  },
+  {
+   "name": "EVA",
+   "type": "esriFieldTypeString",
+   "alias": "EVA",
+   "length": 22
+  },
+  {
+   "name": "X_East",
+   "type": "esriFieldTypeSingle",
+   "alias": "X_East"
+  },
+  {
+   "name": "Y_North",
+   "type": "esriFieldTypeSingle",
+   "alias": "Y_North"
+  },
+  {
+   "name": "Station",
+   "type": "esriFieldTypeString",
+   "alias": "Station",
+   "length": 12
+  },
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "Navigation": "11",
+    "Navigati_1": "3.2",
+    "Index_ID": "6",
+    "Event": "Arrive at Station 1",
+    "EVA": "1",
+    "X_East": -600,
+    "Y_North": -3000,
+    "Station": "Station 1",
+    "OBJECTID": 1
+   },
+   "geometry": {
+    "x": 109334.30489999987,
+    "y": 789320.01239999989
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "17",
+    "Navigati_1": "3.9",
+    "Index_ID": "8",
+    "Event": "Arrive at Station 2",
+    "EVA": "1",
+    "X_East": -1000,
+    "Y_North": -4000,
+    "Station": "Station 2",
+    "OBJECTID": 2
+   },
+   "geometry": {
+    "x": 108780.40749999974,
+    "y": 788793.98820000002
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "13",
+    "Navigati_1": "1.6",
+    "Index_ID": "11",
+    "Event": " ",
+    "EVA": "1",
+    "X_East": -400,
+    "Y_North": -2000,
+    "Station": "Station 3",
+    "OBJECTID": 3
+   },
+   "geometry": {
+    "x": 109663.23649999965,
+    "y": 790569.10589999985
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "343",
+    "Navigati_1": "5",
+    "Index_ID": "26",
+    "Event": "Stop on the Front",
+    "EVA": "2",
+    "X_East": 1000,
+    "Y_North": -5000,
+    "Station": "Station 6",
+    "OBJECTID": 4
+   },
+   "geometry": {
+    "x": 111606.92100000009,
+    "y": 787673.6510999999
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "347",
+    "Navigati_1": "5",
+    "Index_ID": "28",
+    "Event": "Stop on the Front",
+    "EVA": "2",
+    "X_East": 1000,
+    "Y_North": -5000,
+    "Station": "Station 6a",
+    "OBJECTID": 5
+   },
+   "geometry": {
+    "x": 111300.8356999997,
+    "y": 787683.82420000015
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "350",
+    "Navigati_1": "4.3",
+    "Index_ID": "32",
+    "Event": "On tracks",
+    "EVA": "2",
+    "X_East": 700,
+    "Y_North": -4000,
+    "Station": "Station 7",
+    "OBJECTID": 6
+   },
+   "geometry": {
+    "x": 111211.61919999961,
+    "y": 787894.04589999979
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "347",
+    "Navigati_1": "3.4",
+    "Index_ID": "33",
+    "Event": "Arrive/Leave at Station 4",
+    "EVA": "2",
+    "X_East": 800,
+    "Y_North": -3000,
+    "Station": "Station 4",
+    "OBJECTID": 7
+   },
+   "geometry": {
+    "x": 111023.14979999978,
+    "y": 789291.3544999999
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "87",
+    "Navigati_1": "1.5",
+    "Index_ID": "46",
+    "Event": " ",
+    "EVA": "3",
+    "X_East": -2000,
+    "Y_North": -40,
+    "Station": "Station 9",
+    "OBJECTID": 8
+   },
+   "geometry": {
+    "x": 108305.90330000035,
+    "y": 792378.81680000015
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "88",
+    "Navigati_1": "1.8",
+    "Index_ID": "50",
+    "Event": "Arrive at Station 9",
+    "EVA": "3",
+    "X_East": -2000,
+    "Y_North": -20,
+    "Station": "Station 9a",
+    "OBJECTID": 9
+   },
+   "geometry": {
+    "x": 108082.33239999972,
+    "y": 792372.5858
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "93",
+    "Navigati_1": "2",
+    "Index_ID": "52",
+    "Event": "Arrive at Station 10",
+    "EVA": "3",
+    "X_East": -2000,
+    "Y_North": 100,
+    "Station": "Station 10",
+    "OBJECTID": 10
+   },
+   "geometry": {
+    "x": 107910.86259999964,
+    "y": 792563.03890000004
+   }
+  },
+  {
+   "attributes": {
+    "Navigation": "32",
+    "Navigati_1": "0",
+    "Index_ID": "54",
+    "Event": "Arrive at LM",
+    "EVA": "3",
+    "X_East": -100,
+    "Y_North": 40,
+    "Station": "Station 8",
+    "OBJECTID": 11
+   },
+   "geometry": {
+    "x": 110096.06070000026,
+    "y": 792460.35749999993
+   }
+  }
+ ]
+}

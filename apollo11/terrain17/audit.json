@@ -1,0 +1,784 @@
+{
+  "schemaVersion": 1,
+  "mission": 17,
+  "sourceHeightAtLmM": -2626.81591796875,
+  "samplingVersion": 2,
+  "confidenceRule": "Every bilinear corner must be a documented class 10\u201315 to count as trusted. Any undocumented corner propagates an undocumented code; otherwise the minimum documented code is retained.",
+  "sampleCounts": {
+    "source2m": {
+      "0": 179648,
+      "3": 775814,
+      "10": 103097,
+      "11": 321686,
+      "12": 935179,
+      "13": 2094781,
+      "14": 1886372
+    },
+    "source5m": {
+      "0": 116,
+      "1": 45651,
+      "2": 84253,
+      "3": 104145,
+      "4": 97786,
+      "5": 218526,
+      "6": 130549,
+      "7": 109630,
+      "8": 95267,
+      "9": 163479,
+      "10": 361007,
+      "11": 648183,
+      "12": 1116696,
+      "13": 1959588,
+      "14": 950609,
+      "15": 179,
+      "16": 184375,
+      "17": 24405,
+      "18": 2108,
+      "19": 25
+    },
+    "selection": {
+      "1": 723120,
+      "2": 5111785,
+      "3": 425730,
+      "4": 82,
+      "5": 35860
+    }
+  },
+  "overlapDifferenceM": {
+    "count": 4618459,
+    "min": -1.2984619140625,
+    "max": 1.3250732421875,
+    "mean": 6.39956197119318e-05,
+    "median": 0.0009765625,
+    "p05": -0.078369140625,
+    "p95": 0.073974609375,
+    "p99": 0.238525390625,
+    "rms": 0.06831793356536582
+  },
+  "applied5mBiasM": 0.0009765625,
+  "unresolvedCanonicalSamples": 0,
+  "unresolvedContextSamples": 0,
+  "contextFilledNodes": [
+    {
+      "row": 0,
+      "col": 140,
+      "east": -7424,
+      "north": 8192,
+      "sourceDistanceMaximumM": 128.0,
+      "estimateDatumM": -1718.7607658140128,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.8067060531966385,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 22,
+      "col": 119,
+      "east": -8768,
+      "north": 6784,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2276.4281921386714,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.7845035779178925,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 59,
+      "col": 117,
+      "east": -8896,
+      "north": 4416,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2295.6606140136714,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 1.5724554493243355,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 155,
+      "col": 170,
+      "east": -5504,
+      "north": -1728,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2516.213684082031,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 4.660681293010187,
+      "retainedInFinalContext": false
+    },
+    {
+      "row": 202,
+      "col": 88,
+      "east": -10752,
+      "north": -4736,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -345.4737014770507,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 2.7392112234028727,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 206,
+      "col": 101,
+      "east": -9920,
+      "north": -4992,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -549.8531761169432,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.946006719404972,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 231,
+      "col": 362,
+      "east": 6784,
+      "north": -6592,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2812.5084228515616,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 5.672495581433722,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 238,
+      "col": 352,
+      "east": 6144,
+      "north": -7040,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2799.1938476562495,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.4532146803582809,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 239,
+      "col": 382,
+      "east": 8064,
+      "north": -7104,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2839.20181274414,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.25158171977690774,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 241,
+      "col": 374,
+      "east": 7552,
+      "north": -7232,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2822.0838012695312,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 1.5583266923364698,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 242,
+      "col": 360,
+      "east": 6656,
+      "north": -7296,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2814.018951416015,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.9524252818370562,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 245,
+      "col": 382,
+      "east": 8064,
+      "north": -7488,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2842.0926818847647,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.3600059430948912,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 247,
+      "col": 355,
+      "east": 6336,
+      "north": -7616,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2809.8311767578116,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.6734519498179096,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 248,
+      "col": 364,
+      "east": 6912,
+      "north": -7680,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2829.5794372558594,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.8709258367088621,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 251,
+      "col": 358,
+      "east": 6528,
+      "north": -7872,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2821.9727172851553,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.8327718067247163,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 251,
+      "col": 368,
+      "east": 7168,
+      "north": -7872,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2834.496368408202,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.22691688349454345,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 254,
+      "col": 355,
+      "east": 6336,
+      "north": -8064,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2817.1432495117183,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.24983090155532214,
+      "retainedInFinalContext": true
+    },
+    {
+      "row": 254,
+      "col": 358,
+      "east": 6528,
+      "north": -8064,
+      "sourceDistanceMaximumM": 90.50966799187809,
+      "estimateDatumM": -2821.071746826171,
+      "supportingNodes": 8,
+      "fitResidualRmsM": 0.3118468457417881,
+      "retainedInFinalContext": true
+    }
+  ],
+  "contextRetainedInterpolatedNodes": 17,
+  "contextFillAttempts": 18,
+  "contextOriginalConfidenceCounts": {
+    "0": 18,
+    "1": 507,
+    "2": 1083,
+    "3": 2520,
+    "4": 1198,
+    "5": 2826,
+    "6": 1593,
+    "7": 1342,
+    "8": 1115,
+    "9": 2009,
+    "10": 4628,
+    "11": 8673,
+    "12": 17152,
+    "13": 33544,
+    "14": 18274,
+    "15": 4,
+    "16": 2199,
+    "17": 239,
+    "18": 21
+  },
+  "lowOrUnknownConfidenceContributionNodes": 537659,
+  "lowOrUnknownConfidenceWeightedFraction": 0.08538909256458282,
+  "confidenceClassLegend": {
+    "0": "NoData",
+    "1": "shadow",
+    "2": "saturated",
+    "3": "suspicious",
+    "4": "interpolated/extrapolated",
+    "10-14": "successful correlation",
+    "15": "manual edit",
+    "other": "undocumented in readme; treated as untrusted"
+  },
+  "provenanceLegend": {
+    "0": "unresolved (forbidden in delivered field)",
+    "1": "trusted 2 m",
+    "2": "blend; inspect both confidence rasters",
+    "3": "trusted 5 m",
+    "4": "low/unknown-confidence 2 m",
+    "5": "low/unknown-confidence 5 m"
+  },
+  "finalElevationRelativeLmM": {
+    "count": 6296577,
+    "min": -140.3000030517578,
+    "max": 1091.800048828125,
+    "mean": 86.46644592285156,
+    "median": 51.20000076293945,
+    "p05": -78.5,
+    "p95": 323.20001220703125,
+    "p99": 597.7999877929688,
+    "rms": 167.36628954801202
+  },
+  "finalSlopeDegrees": {
+    "count": 6296577,
+    "min": 0.0,
+    "max": 47.79239273071289,
+    "mean": 8.095569610595703,
+    "median": 5.575958728790283,
+    "p05": 1.0128121376037598,
+    "p95": 23.766197204589844,
+    "p99": 29.0402889251709,
+    "rms": 10.736539255141833
+  },
+  "routes": [
+    {
+      "id": "eva-1",
+      "sampleSpacingMaximumM": 4,
+      "samples": 708,
+      "allFinite": true,
+      "elevationRelativeLmM": {
+        "count": 708,
+        "min": -12.284928726992021,
+        "max": 5.155049983382208,
+        "mean": -5.461888568843097,
+        "median": -5.953918269728232,
+        "p05": -11.542235085752328,
+        "p95": 1.6984880085988994,
+        "p99": 4.556208220731559,
+        "rms": 6.734672038653969
+      },
+      "localSurfaceSlopeDegrees": {
+        "count": 708,
+        "min": 0.0,
+        "max": 9.546127319335938,
+        "mean": 3.0445024967193604,
+        "median": 2.8624024391174316,
+        "p05": 1.012749433517456,
+        "p95": 6.574010372161865,
+        "p99": 8.3217134475708,
+        "rms": 3.495193539309652
+      },
+      "provenanceCounts": {
+        "1": 76,
+        "2": 606,
+        "3": 26
+      },
+      "source2mConfidenceCounts": {
+        "3": 90,
+        "11": 22,
+        "12": 66,
+        "13": 244,
+        "14": 286
+      },
+      "source5mConfidenceCounts": {
+        "1": 2,
+        "2": 6,
+        "3": 19,
+        "4": 11,
+        "5": 26,
+        "6": 21,
+        "7": 3,
+        "8": 11,
+        "9": 16,
+        "10": 37,
+        "11": 40,
+        "12": 90,
+        "13": 244,
+        "14": 157,
+        "16": 21,
+        "17": 4
+      }
+    },
+    {
+      "id": "eva-2",
+      "sampleSpacingMaximumM": 4,
+      "samples": 4807,
+      "allFinite": true,
+      "elevationRelativeLmM": {
+        "count": 4807,
+        "min": -1.7746172449936197,
+        "max": 190.2252042220423,
+        "mean": 80.62381143563381,
+        "median": 72.45587211439845,
+        "p05": 8.334127138314924,
+        "p95": 176.3317062171936,
+        "p99": 188.04430678722377,
+        "rms": 96.35786467336116
+      },
+      "localSurfaceSlopeDegrees": {
+        "count": 4807,
+        "min": 0.0,
+        "max": 20.84627342224121,
+        "mean": 4.400709629058838,
+        "median": 3.851022243499756,
+        "p05": 1.0127348899841309,
+        "p95": 10.02498722076416,
+        "p99": 15.128095626831055,
+        "rms": 5.287598194823913
+      },
+      "provenanceCounts": {
+        "1": 484,
+        "2": 3931,
+        "3": 350,
+        "5": 42
+      },
+      "source2mConfidenceCounts": {
+        "0": 217,
+        "3": 466,
+        "10": 70,
+        "11": 207,
+        "12": 603,
+        "13": 1516,
+        "14": 1728
+      },
+      "source5mConfidenceCounts": {
+        "1": 21,
+        "2": 50,
+        "3": 75,
+        "4": 46,
+        "5": 145,
+        "6": 87,
+        "7": 86,
+        "8": 60,
+        "9": 80,
+        "10": 245,
+        "11": 441,
+        "12": 774,
+        "13": 1588,
+        "14": 942,
+        "16": 153,
+        "17": 13,
+        "18": 1
+      }
+    },
+    {
+      "id": "eva-3",
+      "sampleSpacingMaximumM": 4,
+      "samples": 2879,
+      "allFinite": true,
+      "elevationRelativeLmM": {
+        "count": 2879,
+        "min": -37.43445974998478,
+        "max": 60.943124738693335,
+        "mean": -5.392176986632031,
+        "median": -8.026931766060107,
+        "p05": -35.19186429619398,
+        "p95": 36.410389225213876,
+        "p99": 52.22022422655759,
+        "rms": 23.96783033893288
+      },
+      "localSurfaceSlopeDegrees": {
+        "count": 2879,
+        "min": 0.0,
+        "max": 19.794034957885742,
+        "mean": 5.145499229431152,
+        "median": 4.289153099060059,
+        "p05": 1.0127506256103516,
+        "p95": 12.470118522644043,
+        "p99": 15.909862518310547,
+        "rms": 6.223626204632281
+      },
+      "provenanceCounts": {
+        "1": 299,
+        "2": 2472,
+        "3": 108
+      },
+      "source2mConfidenceCounts": {
+        "3": 293,
+        "10": 25,
+        "11": 96,
+        "12": 285,
+        "13": 930,
+        "14": 1250
+      },
+      "source5mConfidenceCounts": {
+        "1": 11,
+        "2": 33,
+        "3": 32,
+        "4": 37,
+        "5": 83,
+        "6": 46,
+        "7": 24,
+        "8": 17,
+        "9": 52,
+        "10": 136,
+        "11": 232,
+        "12": 352,
+        "13": 962,
+        "14": 713,
+        "16": 119,
+        "17": 28,
+        "18": 2
+      }
+    }
+  ],
+  "stations": [
+    {
+      "id": "station-1",
+      "name": "1 \u00b7 Steno",
+      "east": 422.747,
+      "north": -1031.165,
+      "elevationRelativeLmM": -8.068700193591578,
+      "slopeDegrees": 3.703945899328156
+    },
+    {
+      "id": "station-2",
+      "name": "2 \u00b7 Nansen / South Massif",
+      "east": -6872.845,
+      "north": -2777.306,
+      "elevationRelativeLmM": 179.43352032640465,
+      "slopeDegrees": 9.293135985710759
+    },
+    {
+      "id": "station-3",
+      "name": "3 \u00b7 Ballet / Lara",
+      "east": -5866.781,
+      "north": -508.453,
+      "elevationRelativeLmM": 126.67530305917218,
+      "slopeDegrees": 9.320493104549426
+    },
+    {
+      "id": "station-4",
+      "name": "4 \u00b7 Shorty",
+      "east": -4194.672,
+      "north": 741.969,
+      "elevationRelativeLmM": 78.99451766539764,
+      "slopeDegrees": 10.490555834440379
+    },
+    {
+      "id": "station-5",
+      "name": "5 \u00b7 Camelot",
+      "east": -1296.98,
+      "north": -157.307,
+      "elevationRelativeLmM": 36.55700543976781,
+      "slopeDegrees": 3.190723975539136
+    },
+    {
+      "id": "station-6",
+      "name": "6 \u00b7 Split Rock",
+      "east": 804.532,
+      "north": 3002.621,
+      "elevationRelativeLmM": 61.01979973697675,
+      "slopeDegrees": 18.23878266797846
+    },
+    {
+      "id": "station-7",
+      "name": "7 \u00b7 North Massif boulder",
+      "east": 1292.786,
+      "north": 3036.499,
+      "elevationRelativeLmM": 33.93975105333563,
+      "slopeDegrees": 13.87811468033495
+    },
+    {
+      "id": "station-8",
+      "name": "8 \u00b7 Sculptured Hills",
+      "east": 3010.708,
+      "north": 2600.286,
+      "elevationRelativeLmM": 1.4239500060791226,
+      "slopeDegrees": 12.498406059570808
+    },
+    {
+      "id": "station-9",
+      "name": "9 \u00b7 Van Serg",
+      "east": 1734.458,
+      "north": 1228.291,
+      "elevationRelativeLmM": -25.808820035727198,
+      "slopeDegrees": 12.835769896967552
+    },
+    {
+      "id": "lm",
+      "name": "LM",
+      "east": 0.0,
+      "north": 0.0,
+      "elevationRelativeLmM": 0.0,
+      "slopeDegrees": 4.044691562652588
+    },
+    {
+      "id": "alsep",
+      "name": "ALSEP C/S",
+      "east": -192.398,
+      "north": 35.736,
+      "elevationRelativeLmM": 5.119899933099754,
+      "slopeDegrees": 3.5805323494617953
+    },
+    {
+      "id": "flag",
+      "name": "US flag",
+      "east": -5.464,
+      "north": 18.323,
+      "elevationRelativeLmM": 1.068094566234998,
+      "slopeDegrees": 2.6784112555613797
+    },
+    {
+      "id": "sep",
+      "name": "SEP transmitter",
+      "east": 128.546,
+      "north": 26.744,
+      "elevationRelativeLmM": -0.31775000946760623,
+      "slopeDegrees": 2.0248684236671926
+    },
+    {
+      "id": "lrv-final",
+      "name": "Final LRV parking",
+      "east": 132.629,
+      "north": -43.319,
+      "elevationRelativeLmM": -2.6174750483035947,
+      "slopeDegrees": 4.576144780221402
+    }
+  ],
+  "sourceRanges": [
+    {
+      "product": "APOLLO17_2M",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO17_2M/NAC_DTM_APOLLO17_2M.TIF",
+      "sourceWidth": 12049,
+      "sourceHeight": 19760,
+      "firstRow": 6669,
+      "rowCount": 4363,
+      "dtype": "<f4",
+      "transform": [
+        2.0000000000006,
+        0.0,
+        -4265914.0000013,
+        0.0,
+        -2.0000000000006,
+        629952.00000019,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crs": "PROJCS[\"Equirectangular Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",20],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "nodata": -3.4028226550889045e+38,
+      "header": {
+        "contentRange": "bytes 0-262143/952511711",
+        "etag": "\"e66eba38f13fa80d4bbdc3f46cb3e62b\"",
+        "lastModified": "Fri, 14 Aug 2026 18:41:14 GMT",
+        "bytes": 262144,
+        "sha256": "35d2b1fcd42c2dac2dd3b617b9d1132f7e53a0168ec013dacd0b526cb2972e9f",
+        "elapsedSeconds": 0.7
+      },
+      "range": {
+        "contentRange": "bytes 321577875-531857022/952511711",
+        "etag": "\"e66eba38f13fa80d4bbdc3f46cb3e62b\"",
+        "lastModified": "Fri, 14 Aug 2026 18:41:14 GMT",
+        "bytes": 210279148,
+        "sha256": "2fca28d06c63266326f3a615480d0b808c040fbe8e0aaee12ce08fea4408219c",
+        "elapsedSeconds": 5.9
+      },
+      "dataFile": "APOLLO17_2M.rows.bin"
+    },
+    {
+      "product": "APOLLO17_2M_CONF",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO17_2M/NAC_DTM_APOLLO17_2M_CONF.IMG",
+      "sourceWidth": 12049,
+      "sourceHeight": 19760,
+      "firstRow": 6669,
+      "rowCount": 4363,
+      "dtype": "uint8",
+      "transform": [
+        2.0000000000006,
+        0.0,
+        -4265914.0000013,
+        0.0,
+        -2.0000000000006,
+        629952.00000019,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crs": "PROJCS[\"Equirectangular Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",20],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "nodata": 0,
+      "header": {
+        "contentRange": "bytes 0-16383/238100289",
+        "etag": "\"f400d14e58f07da8ff7ba48e2ba2b6de\"",
+        "lastModified": "Fri, 14 Aug 2026 18:27:00 GMT",
+        "bytes": 16384,
+        "sha256": "3f3ed6f631be5d5c350fb59e817a540c3b6fb9afa706408415f5c17439f5e0be",
+        "elapsedSeconds": 0.9
+      },
+      "range": {
+        "contentRange": "bytes 80366830-132936616/238100289",
+        "etag": "\"f400d14e58f07da8ff7ba48e2ba2b6de\"",
+        "lastModified": "Fri, 14 Aug 2026 18:27:00 GMT",
+        "bytes": 52569787,
+        "sha256": "8d1860de740f9aef4897fc63eaf62420f17cb6962a9dfd2c79bea822527592f0",
+        "elapsedSeconds": 1.8
+      },
+      "dataFile": "APOLLO17_2M_CONF.pds-rows.bin",
+      "classValues": "Original PDS values, not stretched browse TIFF values.",
+      "labelFile": "APOLLO17_2M_CONF.LBL"
+    },
+    {
+      "product": "APOLLO17",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO17/NAC_DTM_APOLLO17.TIF",
+      "sourceWidth": 9985,
+      "sourceHeight": 11600,
+      "firstRow": 3420,
+      "rowCount": 6665,
+      "dtype": "<f4",
+      "transform": [
+        4.9999999999999,
+        0.0,
+        -4276879.9999999,
+        0.0,
+        -4.9999999999999,
+        645989.99999999,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crs": "PROJCS[\"Equirectangular Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",20],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "nodata": -3.4028226550889045e+38,
+      "header": {
+        "contentRange": "bytes 0-262143/463397471",
+        "etag": "\"bad9caf6deacda4a3aa5c5c9e33b6fe5\"",
+        "lastModified": "Fri, 14 Aug 2026 18:27:01 GMT",
+        "bytes": 262144,
+        "sha256": "9730a0cb7b7d85518ddaabff891ecff3cbdfe3d3b8473339d7c91a3d3d99df77",
+        "elapsedSeconds": 0.7
+      },
+      "range": {
+        "contentRange": "bytes 136688271-402888370/463397471",
+        "etag": "\"bad9caf6deacda4a3aa5c5c9e33b6fe5\"",
+        "lastModified": "Fri, 14 Aug 2026 18:27:01 GMT",
+        "bytes": 266200100,
+        "sha256": "1c8f9c56ef5d6597dc7813bd4f8e1c73b11139eab291f6eaed8c03161d45a806",
+        "elapsedSeconds": 6.8
+      },
+      "dataFile": "APOLLO17.rows.bin"
+    },
+    {
+      "product": "APOLLO17_CONF",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO17/NAC_DTM_APOLLO17_CONF.IMG",
+      "sourceWidth": 9985,
+      "sourceHeight": 11600,
+      "firstRow": 3420,
+      "rowCount": 6665,
+      "dtype": "uint8",
+      "transform": [
+        4.9999999999999,
+        0.0,
+        -4276879.9999999,
+        0.0,
+        -4.9999999999999,
+        645989.99999999,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crs": "PROJCS[\"Equirectangular Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",20],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "nodata": 0,
+      "header": {
+        "contentRange": "bytes 0-16383/115835985",
+        "etag": "\"1af3426b23da8d89f18f9cb40981830d\"",
+        "lastModified": "Fri, 14 Aug 2026 18:23:39 GMT",
+        "bytes": 16384,
+        "sha256": "5581e04474cd0fceb37aef557983917936e2d7288c3fbd1a4627c14f2774ee03",
+        "elapsedSeconds": 0.5
+      },
+      "range": {
+        "contentRange": "bytes 34158685-100708709/115835985",
+        "etag": "\"1af3426b23da8d89f18f9cb40981830d\"",
+        "lastModified": "Fri, 14 Aug 2026 18:23:39 GMT",
+        "bytes": 66550025,
+        "sha256": "b6dc8bc8c80fd9be4e3ad25a2d633977b4bb19fb863dd573cf93ca281258f29a",
+        "elapsedSeconds": 2.7
+      },
+      "dataFile": "APOLLO17_CONF.pds-rows.bin",
+      "classValues": "Original PDS values, not stretched browse TIFF values.",
+      "labelFile": "APOLLO17_CONF.LBL"
+    }
+  ]
+}

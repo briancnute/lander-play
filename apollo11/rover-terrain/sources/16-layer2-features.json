@@ -1,0 +1,65 @@
+{
+ "displayFieldName": "Name",
+ "fieldAliases": {
+  "OBJECTID": "OBJECTID",
+  "Id": "Id",
+  "Name": "Name"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon2000_Equidistant_Cylindrical_C0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeInteger",
+   "alias": "Id"
+  },
+  {
+   "name": "Name",
+   "type": "esriFieldTypeString",
+   "alias": "Name",
+   "length": 50
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID": 8,
+    "Id": 0,
+    "Name": "South Ray Crater"
+   },
+   "geometry": {
+    "x": 467389.54995827872,
+    "y": -277586.1207012253
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 9,
+    "Id": 1,
+    "Name": "North Ray Crater"
+   },
+   "geometry": {
+    "x": 469510.90370827582,
+    "y": -267366.24067088257
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 10,
+    "Id": 2,
+    "Name": "Kiva"
+   },
+   "geometry": {
+    "x": 468507.94073817716,
+    "y": -268108.85165684752
+   }
+  }
+ ]
+}

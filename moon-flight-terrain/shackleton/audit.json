@@ -1,0 +1,111 @@
+{
+  "sourceHashes": {
+    "NAC_DTM_ESALL_SR12.TIF": "52d35898a61991bb13bd463156bd95a8c01be6806247247e891752f56fbb425c",
+    "NAC_DTM_ESALL_SR12_CONF.IMG": "fa312cd5ddc2c8322d5ac7e73968a84f89d3aa72da17358fe47f513efe15e8f0",
+    "NAC_DTM_ESALL_SR12_README.TXT": "c4a6072c67449ba98e3188c12b87fcf752e479f1c936baa42e3ce2edd1d9e90d",
+    "LOLA_Site04_README.TXT": "e985a2337c9de1cd665b0ddad8b7f1fac88d65c96d1e47d1b975a91c8e53e7bd",
+    "NAC_DTM_ESALL_SR12.LBL": "2852e4bc1bdbf7ee568cae6bc0a0869f51679cb2ed29e252aa6cacdc28bedb49",
+    "Site04_final_adj_5mpp_surf.tif": "38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758",
+    "Site04_final_adj_5mpp_toterr.tif": "416c4baa3b64def0182bb3379a1a9228482efd8ce32a39309ea8de5d0330fbe6",
+    "Site04_final_adj_5mpp_ldec.tif": "fcc8c2219ae2368d5b2a1f6aec05fcf96cf725f3035ac8d80efc312a4ff29227"
+  },
+  "contextWindowHash": "9a4c73cb6958b8ddeda5c27ea61b54a30d2f1068cb9698ebc19e041d42666907",
+  "fineNodes": 1002001,
+  "fineNoData": 0,
+  "artificialFillNodes": 0,
+  "scale": 1,
+  "originalConfidenceHistogram": {
+    "0": 520525,
+    "1": 1417451,
+    "2": 611,
+    "4": 130067,
+    "5": 255,
+    "6": 341,
+    "12": 1,
+    "14": 4180749
+  },
+  "confidenceHistogram": {
+    "0": 244836,
+    "1": 121230,
+    "2": 203,
+    "4": 17251,
+    "5": 85,
+    "6": 291,
+    "14": 618105
+  },
+  "provenanceHistogram": {
+    "1": 383896,
+    "2": 566684,
+    "3": 51421
+  },
+  "provenanceMeaning": {
+    "1": "LOLA5m",
+    "2": "trusted NAC2m stereo",
+    "3": "32m transition between measured sources"
+  },
+  "nacTrustedOverlapDifferenceM": {
+    "count": 618105,
+    "min": -11.65675147107936,
+    "max": 15.723476101492452,
+    "mean": 0.8251107868029847,
+    "p50": 0.7862338568795622,
+    "p95": 2.3048885164227606
+  },
+  "fineHeightM": {
+    "count": 1002001,
+    "min": 236.89167711690104,
+    "max": 1739.3047648190932,
+    "mean": 1347.352672060463,
+    "p50": 1415.9868149145293,
+    "p95": 1694.0077901669968
+  },
+  "fineSlopeDeg": {
+    "count": 1002001,
+    "min": 0.01932606616959493,
+    "max": 62.024478701681765,
+    "mean": 21.66863233680231,
+    "p50": 19.734593762237992,
+    "p95": 35.07846065938064
+  },
+  "lolaHeightUncertaintyM": {
+    "count": 1002001,
+    "min": 0.08789068045246941,
+    "max": 4.446356667129088,
+    "mean": 0.4338005221813172,
+    "p50": 0.3873279724280434,
+    "p95": 0.8242279727649826
+  },
+  "lolaNoLaserShotsInBilinearSupportFraction": 0.7168695440423712,
+  "anchor": {
+    "nacHeightM": 1738.0306302216986,
+    "lolaHeightM": 1737.4346531100757,
+    "localSlopeDeg": 3.156422624128418,
+    "surrounding32mSlopeDeg": {
+      "count": 81,
+      "min": 0.6828846482438389,
+      "max": 5.687879370892367,
+      "mean": 3.3544615941345195,
+      "p50": 3.4544007212783163,
+      "p95": 5.190607394333374
+    },
+    "surrounding32mQuality": {
+      "14": 81
+    }
+  },
+  "contextHeightM": {
+    "count": 251001,
+    "min": -2865.780661045485,
+    "max": 1957.6124250305402,
+    "mean": 65.62136601988445,
+    "p50": 125.43511702347162,
+    "p95": 1401.7869919094614
+  },
+  "contextNoData": 0,
+  "notes": [
+    "No source heights flattened, globally offset, compressed or artificially gap-filled.",
+    "NAC only contributes where all four bilinear source contributors are documented confidence14.",
+    "Other pixels use measured/interpolated NASA LOLA5m; the32m blend is a declared source seam, not an invented landform.",
+    "LOLA surface is itself substantially interpolated between laser spots. Grid spacing is not positional accuracy.",
+    "Regional80m LOD remains independent; renderer should avoid z-fighting at fine overlap."
+  ]
+}

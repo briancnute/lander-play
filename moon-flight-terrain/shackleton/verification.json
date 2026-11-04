@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "projectionSamples": 1024,
+  "gdalProjectionDifferenceM": {
+    "max": 1.0494198712991564e-06,
+    "p95": 6.29379908247366e-08
+  },
+  "originalPixelResamplingDifferenceM": 8.294591680169106e-10,
+  "files": [
+    {
+      "grid": "grid",
+      "nodes": 1002001,
+      "finite": 1002001,
+      "bytes": 4008004,
+      "sha256": "151bae7c0a4f9662ddba08be4e095ffe299192241615d03b5210729986b016c1"
+    },
+    {
+      "grid": "context",
+      "nodes": 251001,
+      "finite": 251001,
+      "bytes": 1004004,
+      "sha256": "aeed69d1e99105a0c5b8ce4f7a420c3eb6e2e0602d5f7534ffd3b248da9bf6de"
+    }
+  ],
+  "notes": [
+    "GDAL AEQD-to-polar transformation is independent of the builder spherical formula.",
+    "No gameplay, GPU, pad-fit or physical-device performance claim."
+  ]
+}

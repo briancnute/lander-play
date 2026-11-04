@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apollo rover regions · source coverage</title>
+<style>
+:root{color-scheme:dark;font:16px system-ui;background:#111719;color:#e7e8df}body{max-width:1100px;margin:auto;padding:20px}header{display:flex;gap:20px;align-items:center;flex-wrap:wrap}h1{font-size:24px;margin:0}a{color:#edc17e}button,select{font:inherit;background:#263035;color:inherit;border:1px solid #64716f;border-radius:6px;padding:8px 12px}button{cursor:pointer}nav,.layers{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:16px 0}canvas{display:block;width:100%;height:min(70vh,750px);background:#182023;touch-action:none;border:1px solid #53615d}p{line-height:1.5}.note{color:#aebbb6;font-size:14px}#readout{min-height:24px}#status{color:#edc17e}label{white-space:nowrap}footer{margin-top:18px}
+</style>
+<header><h1>Apollo · full mission coverage</h1><select id="mission" aria-label="Mission"><option>15</option><option>16</option><option>17</option></select><a id="play" href="../?region=15&activity=free-ride">Explore region ↗</a></header>
+<p id="status">Loading source terrain…</p>
+<div class="layers"><label><input id="routes" type="checkbox" checked> Recorded routes</label><label><input id="stations" type="checkbox" checked> Source stations</label><label><input id="boundary" type="checkbox" checked> Playable boundary</label><button id="fit">Fit</button></div>
+<canvas id="map" aria-label="Measured terrain with mission routes, stations and playable boundary"></canvas>
+<div id="readout" class="note">Drag to pan · Scroll or pinch to zoom</div>
+<p class="note">North is up. The gold rectangle is the playable region, including room around the mission routes. White lines preserve separate source components; they do not claim every tire impression or individual footstep. Fine scenery and photo poses remain interpreted. Transport is optional; the expedition still requires four photo stories and a return.</p>
+<nav><a id="geography">Source geography JSON</a><a id="manifest">Terrain manifest</a><a id="audit">Terrain audit</a><a id="source" target="_blank" rel="noopener">Primary mapping source ↗</a><a href="../footprints/index.html">Original six-mission atlas</a></nav>
+<footer class="note">This review uses the same packed elevation field as riding and rendering. Distant mountain context is listed in the terrain manifest. Grid spacing describes sampling, not survey accuracy; read the retained confidence/source audits before interpreting small landforms.</footer>
+<script type="module" src="./review.js"></script></html>

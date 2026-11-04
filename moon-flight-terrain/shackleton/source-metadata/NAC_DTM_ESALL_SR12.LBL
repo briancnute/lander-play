@@ -1,0 +1,76 @@
+PDS_VERSION_ID                  = PDS3
+RECORD_TYPE                     = FIXED_LENGTH
+RECORD_BYTES                    = 10000
+FILE_RECORDS                    = 2500
+DATA_SET_ID                     = "LRO-L-LROC-5-RDR-V1.0"
+DATA_SET_NAME                   = "LRO MOON LROC 5 RDR V1.0"
+VOLUME_ID                       = "LROLRC_2001"
+PRODUCER_INSTITUTE_NAME         = "ARIZONA STATE UNIVERSITY"
+PRODUCER_ID                     = LRO_LROC_TEAM
+PRODUCER_FULL_NAME              = "FRANK SCHOLTEN, PH.D"
+PRODUCT_ID                      = "NAC_DTM_ESALL_SR12"
+PRODUCT_VERSION_ID              = "v1.2"
+PRODUCT_TYPE                    = RDR
+INSTRUMENT_HOST_NAME            = "LUNAR RECONNAISSANCE ORBITER"
+INSTRUMENT_HOST_ID              = "LRO"
+INSTRUMENT_NAME                 = "LUNAR RECONNAISSANCE ORBITER CAMERA"
+INSTRUMENT_ID                   = "LROC"
+TARGET_NAME                     = "MOON"
+MISSION_PHASE_NAME              = "SCIENCE MISSION"
+RATIONALE_DESC                  = "Funding of DTM generation by the ESA Lunar
+  Lander project for the characterization of potential landing sites."
+SOFTWARE_NAME                   = "Custom VICAR-based Stereo-Photogrammetry
+                                  Software from DLR"
+START_TIME                      = 2010-09-23T02:08:25
+STOP_TIME                       = 2010-10-10T14:28:55
+SPACECRAFT_CLOCK_START_COUNT    = "N/A"
+SPACECRAFT_CLOCK_STOP_COUNT     = "N/A"
+PRODUCT_CREATION_TIME           = 2020-10-13T23:49:33
+^IMAGE                          = ("NAC_DTM_ESALL_SR12.TIF", 20675 <BYTES>)
+
+OBJECT                          = IMAGE_MAP_PROJECTION
+  ^DATA_SET_MAP_PROJECTION      = "DSMAP.CAT"
+  MAP_PROJECTION_TYPE           = "POLARSTEREOGRAPHIC"
+  PROJECTION_LATITUDE_TYPE      = PLANETOCENTRIC
+  A_AXIS_RADIUS                 = 1737.4 <KM>
+  B_AXIS_RADIUS                 = 1737.4 <KM>
+  C_AXIS_RADIUS                 = 1737.4 <KM>
+  COORDINATE_SYSTEM_NAME        = PLANETOCENTRIC
+  POSITIVE_LONGITUDE_DIRECTION  = EAST
+  KEYWORD_LATITUDE_TYPE         = PLANETOCENTRIC
+  CENTER_LATITUDE               = -90
+  CENTER_LONGITUDE              = 0 <DEG>
+  LINE_FIRST_PIXEL              = 1
+  LINE_LAST_PIXEL               = 2500
+  SAMPLE_FIRST_PIXEL            = 1
+  SAMPLE_LAST_PIXEL             = 2500
+  MAP_PROJECTION_ROTATION       = 0.0 <DEG>
+  MAP_RESOLUTION                = 15161.675212075 <PIX/DEG>
+  MAP_SCALE                     = 2.0 <METERS/PIXEL>
+  MAXIMUM_LATITUDE              = -89.6333237 <DEG>
+  MINIMUM_LATITUDE              = -89.8396931 <DEG>
+  EASTERNMOST_LONGITUDE         = 226.6153129 <DEG>
+  WESTERNMOST_LONGITUDE         = 180.8193685 <DEG>
+  LINE_PROJECTION_OFFSET        = -2430.0
+  SAMPLE_PROJECTION_OFFSET      = 2570.0
+END_OBJECT                      = IMAGE_MAP_PROJECTION
+
+OBJECT                          = IMAGE
+  DESCRIPTION                   = "Shackleton Crater Rim Potential Landing
+    Site for ESA Lunar Lander high-resolution NAC digital terrain model in
+    GeoTIFF format. DEM is IEEE floating point GeoTIFF, 32 bits/sample, 1
+    samples/pixel in single image plane configuration. Height [m] equals DN.
+    Vertical reference: Height above the sphere/ellipsoid (as defined by map
+    axis). The NoDATA value is -3.40282266e+038 with a missing constant of
+    -1e+32. For more info, see [OBERSTETAL2010]."
+  INTERCHANGE_FORMAT            = BINARY
+  LINES                         = 2500
+  LINE_SAMPLES                  = 2500
+  SAMPLE_TYPE                   = PC_REAL
+  SAMPLE_BITS                   = 32
+  BAND_STORAGE_TYPE             = SAMPLE_INTERLEAVED
+  BANDS                         = 1
+  FILTER_NAME                   = "N/A"
+END_OBJECT                      = IMAGE
+
+END

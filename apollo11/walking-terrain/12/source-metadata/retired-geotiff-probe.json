@@ -1,0 +1,35 @@
+{
+  "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO12/NAC_DTM_APOLLO12.TIF",
+  "transform": [
+    2.0000000000006,
+    0.0,
+    4737648.0000014,
+    0.0,
+    -2.0000000000006,
+    -89822.000000027,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "pdsTransform": [
+    2.0000000000006,
+    0,
+    4737650.000001421,
+    0,
+    -2.0000000000006,
+    -89824.00000002695,
+    0,
+    0,
+    1
+  ],
+  "header": {
+    "contentRange": "bytes 0-262143/13506631",
+    "etag": "\"e274bb7b230479c96c909b7e906055f3\"",
+    "lastModified": "Fri, 14 Aug 2026 18:35:48 GMT",
+    "bytes": 262144,
+    "sha256": "1ca56e997f30912919c58e2026f444fa01edf4349c976b6f19a6143f66219d66",
+    "elapsedSeconds": 0.5
+  },
+  "usedForRuntime": false,
+  "note": "Original PDS IMG and associated confidence/orthophoto labels agree; original GeoTIFF starts 2 m west and 2 m north of that frame."
+}

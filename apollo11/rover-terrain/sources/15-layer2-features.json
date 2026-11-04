@@ -1,0 +1,197 @@
+{
+ "displayFieldName": "Name",
+ "fieldAliases": {
+  "OBJECTID": "OBJECTID",
+  "Id": "Id",
+  "Name": "Name"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon_Equirectangular_Apollo15_CLat0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeInteger",
+   "alias": "Id"
+  },
+  {
+   "name": "Name",
+   "type": "esriFieldTypeString",
+   "alias": "Name",
+   "length": 50
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID": 1,
+    "Id": 0,
+    "Name": "Bridge"
+   },
+   "geometry": {
+    "x": 106528.93800000008,
+    "y": 789523.35770000005
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 2,
+    "Id": 0,
+    "Name": "Elbow"
+   },
+   "geometry": {
+    "x": 109085.84839999955,
+    "y": 789294.08410000009
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3,
+    "Id": 0,
+    "Name": "Dune"
+   },
+   "geometry": {
+    "x": 111077.55599999987,
+    "y": 789541.30880000023
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 4,
+    "Id": 0,
+    "Name": "South Cluster"
+   },
+   "geometry": {
+    "x": 112556.65880000032,
+    "y": 789379.89300000016
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 5,
+    "Id": 0,
+    "Name": "Last"
+   },
+   "geometry": {
+    "x": 110229.18819999974,
+    "y": 792261.64979999978
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 6,
+    "Id": 0,
+    "Name": "Index"
+   },
+   "geometry": {
+    "x": 110880.9282999998,
+    "y": 791570.20539999986
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 7,
+    "Id": 0,
+    "Name": "Earthlight"
+   },
+   "geometry": {
+    "x": 110675.28280000016,
+    "y": 790287.39580000006
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 8,
+    "Id": 0,
+    "Name": "Rhysling"
+   },
+   "geometry": {
+    "x": 109867.94099999964,
+    "y": 790625.29270000011
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 9,
+    "Id": 0,
+    "Name": "Apennine Front"
+   },
+   "geometry": {
+    "x": 110022.45270000026,
+    "y": 787769.5307
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 10,
+    "Id": 0,
+    "Name": "Terrace"
+   },
+   "geometry": {
+    "x": 108140.06830000039,
+    "y": 792138.54790000012
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 11,
+    "Id": 0,
+    "Name": "Spur"
+   },
+   "geometry": {
+    "x": 111188.57749999966,
+    "y": 787869.33250000002
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 12,
+    "Id": 0,
+    "Name": "Crescent"
+   },
+   "geometry": {
+    "x": 111814.12710000016,
+    "y": 789991.09579999978
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 26,
+    "Id": 0,
+    "Name": "St George"
+   },
+   "geometry": {
+    "x": 107676.52369999979,
+    "y": 787530.37179999985
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 27,
+    "Id": 0,
+    "Name": "Rima Hadley"
+   },
+   "geometry": {
+    "x": 106492.66550000012,
+    "y": 793491.31389999995
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 28,
+    "Id": 0,
+    "Name": "Palus Putredinis"
+   },
+   "geometry": {
+    "x": 105492.97759999987,
+    "y": 791048.17010000022
+   }
+  }
+ ]
+}

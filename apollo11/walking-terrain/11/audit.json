@@ -1,0 +1,261 @@
+{
+  "mission": 11,
+  "nodes": 82497,
+  "validNodes": 82497,
+  "noData": 0,
+  "artificialFillNodes": 0,
+  "trustedNodes": 70004,
+  "lowOrUnknownConfidenceNodes": 12493,
+  "confidenceContributors": {
+    "3": 21688,
+    "10": 302,
+    "11": 2820,
+    "12": 18990,
+    "13": 96241,
+    "14": 189947
+  },
+  "outputConfidence": {
+    "3": 12493,
+    "10": 169,
+    "11": 1368,
+    "12": 7940,
+    "13": 28169,
+    "14": 32358
+  },
+  "playable": {
+    "nodes": 10101,
+    "noData": 0,
+    "lowOrUnknownConfidenceNodes": 1542,
+    "minHeightM": -4.763736724853516,
+    "maxHeightM": 2.770209312438965,
+    "slope95Degrees": 5.09291410446167,
+    "maxSlopeDegrees": 26.6898250579834
+  },
+  "orthophoto": {
+    "validNodes": 82497,
+    "invalidNodes": 0,
+    "playableInvalidNodes": 0,
+    "displayBlack": 80.09782314965061,
+    "displayWhite": 167.8565386115631
+  },
+  "routes": [
+    {
+      "id": "eva-1-cdr",
+      "name": "EVA 1 \u00b7 Armstrong",
+      "samples": 1017,
+      "valid": 1017,
+      "outsidePlayable": 0,
+      "lowConfidence": 796,
+      "confidence": {
+        "3": 796,
+        "10": 6,
+        "12": 32,
+        "13": 58,
+        "14": 125
+      },
+      "slope95Degrees": 6.696276288634493,
+      "maxSlopeDegrees": 15.437814829645884
+    },
+    {
+      "id": "eva-1-lmp",
+      "name": "EVA 1 \u00b7 Aldrin",
+      "samples": 660,
+      "valid": 660,
+      "outsidePlayable": 0,
+      "lowConfidence": 427,
+      "confidence": {
+        "3": 427,
+        "10": 5,
+        "12": 44,
+        "13": 85,
+        "14": 99
+      },
+      "slope95Degrees": 9.97219457198125,
+      "maxSlopeDegrees": 16.394263132171055
+    }
+  ],
+  "sourceCameraAnchors": [
+    {
+      "name": "LM",
+      "east": 0.0,
+      "north": 0.0,
+      "heightM": 0.0,
+      "slopeDegrees": 9.202220973105975,
+      "confidence": 3,
+      "trusted": false
+    },
+    {
+      "name": "AS11-40-5868",
+      "east": -5.16,
+      "north": -5.07,
+      "heightM": -0.19078037229724032,
+      "slopeDegrees": 2.278292104933342,
+      "confidence": 3,
+      "trusted": false
+    },
+    {
+      "name": "AS11-40-5875",
+      "east": -8.82,
+      "north": 14.47,
+      "heightM": -0.46377230334906017,
+      "slopeDegrees": 5.7818052222563185,
+      "confidence": 3,
+      "trusted": false
+    },
+    {
+      "name": "AS11-40-5951",
+      "east": -1.0,
+      "north": -32.93,
+      "heightM": -0.9673345062039971,
+      "slopeDegrees": 2.177897378579251,
+      "confidence": 3,
+      "trusted": false
+    },
+    {
+      "name": "AS11-40-5961",
+      "east": 59.48,
+      "north": -7.94,
+      "heightM": -1.1336635435739026,
+      "slopeDegrees": 3.0575837219070676,
+      "confidence": 14,
+      "trusted": true
+    }
+  ],
+  "sourceRanges": {
+    "height": {
+      "product": "NAC_DTM_APOLLO11_E008N0234",
+      "kind": "height",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO11/NAC_DTM_APOLLO11_E008N0234.IMG",
+      "sourceWidth": 2111,
+      "sourceHeight": 13978,
+      "firstRow": 8395,
+      "rowCount": 264,
+      "dtype": "<f4",
+      "transform": [
+        2.0000000000006,
+        0,
+        -4748754.000001425,
+        0,
+        -2.0000000000006,
+        37496.00000001125,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",1.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO11_E008N0234.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/118038676",
+        "etag": "\"0c04fb36927462d1e18f1a6c888f183a\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:54 GMT",
+        "bytes": 16384,
+        "sha256": "9c69685995e7beeb6b94c3685300b4ce6c971e137387bc0438aef248b35b8516",
+        "elapsedSeconds": 0.7
+      },
+      "range": {
+        "contentRange": "bytes 70895824-73125039/118038676",
+        "etag": "\"0c04fb36927462d1e18f1a6c888f183a\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:54 GMT",
+        "bytes": 2229216,
+        "sha256": "34c07f9a0be7244b54a6260120fb70e6d166bc3d3b54e1dd971edea8a51475c2",
+        "elapsedSeconds": 0.7
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO11_E008N0234.LBL"
+    },
+    "confidence": {
+      "product": "NAC_DTM_APOLLO11_CONF",
+      "kind": "confidence",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO11/NAC_DTM_APOLLO11_CONF.IMG",
+      "sourceWidth": 2111,
+      "sourceHeight": 13978,
+      "firstRow": 8395,
+      "rowCount": 264,
+      "dtype": "uint8",
+      "transform": [
+        2.0000000000006,
+        0,
+        -4748754.000001425,
+        0,
+        -2.0000000000006,
+        37496.00000001125,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",1.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO11_CONF.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/29513891",
+        "etag": "\"7d1e6c375d7d4903585b54faa87444ba\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:56 GMT",
+        "bytes": 16384,
+        "sha256": "9b6ec6c1b92ccc8647957ffd46ec57d78ed45201de4d02c3d3a867831f2b4dcc",
+        "elapsedSeconds": 0.4
+      },
+      "range": {
+        "contentRange": "bytes 17728178-18285481/29513891",
+        "etag": "\"7d1e6c375d7d4903585b54faa87444ba\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:56 GMT",
+        "bytes": 557304,
+        "sha256": "7c86bbf7ffeabfa752b95735b894ce1340ec738f4f0c3b9857900a0f946e0b3c",
+        "elapsedSeconds": 0.6
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO11_CONF.LBL"
+    },
+    "ortho": {
+      "product": "NAC_DTM_APOLLO11_M150361817_2M",
+      "kind": "ortho",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/APOLLO11/NAC_DTM_APOLLO11_M150361817_2M.IMG",
+      "sourceWidth": 2111,
+      "sourceHeight": 13978,
+      "firstRow": 8395,
+      "rowCount": 264,
+      "dtype": "<i2",
+      "transform": [
+        2.0000000000006,
+        0,
+        -4748754.000001425,
+        0,
+        -2.0000000000006,
+        37496.00000001125,
+        0,
+        0,
+        1
+      ],
+      "crs": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",1.0],UNIT[\"Meter\",1.0]]",
+      "file": "NAC_DTM_APOLLO11_M150361817_2M.pds-rows.bin",
+      "header": {
+        "contentRange": "bytes 0-16383/59023560",
+        "etag": "\"8360045111d9edeaed07f1720efd9e75\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:57 GMT",
+        "bytes": 16384,
+        "sha256": "271edd89b6c47998c8080ee1f5ee4e7672ee6bc38e54d5a2fa122c6ec7cc03bb",
+        "elapsedSeconds": 0.5
+      },
+      "range": {
+        "contentRange": "bytes 35452134-36566741/59023560",
+        "etag": "\"8360045111d9edeaed07f1720efd9e75\"",
+        "lastModified": "Fri, 14 Aug 2026 18:26:57 GMT",
+        "bytes": 1114608,
+        "sha256": "cca3ab228df9f442c61840b43800fcab12b086a383b63ec0ac5b3e5b1af28602",
+        "elapsedSeconds": 0.7
+      },
+      "sourceFormat": "original-pds-img",
+      "labelFile": "NAC_DTM_APOLLO11_M150361817_2M.LBL"
+    }
+  },
+  "footprintSha256": "fe7c5a2f227c1511701a6fb4f5bdecf3e206c92ed0f6ee8e507a457ddefb4d63",
+  "confidenceMeaning": {
+    "0": "NoData",
+    "1": "shadow",
+    "2": "saturated",
+    "3": "suspicious",
+    "4": "interpolated/extrapolated",
+    "10-14": "successful correlation",
+    "15": "manual edit",
+    "other": "undocumented; untrusted"
+  },
+  "confidenceRule": "All four bilinear contributors must be classes10\u201315. Unknown codes propagate as untrusted."
+}

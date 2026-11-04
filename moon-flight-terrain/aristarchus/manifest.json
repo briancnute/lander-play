@@ -1,0 +1,455 @@
+{
+  "schemaVersion": 1,
+  "id": "aristarchus",
+  "site": "aristarchus",
+  "name": "Aristarchus West Terraces",
+  "anchor": {
+    "latDeg": 23.83425610595356,
+    "lonDeg": 312.08285779438097,
+    "heightM": -1830.25390625
+  },
+  "grid": {
+    "width": 69,
+    "height": 69,
+    "spacingM": 3,
+    "westM": -102,
+    "northM": 102,
+    "file": "pocket.f32"
+  },
+  "context": {
+    "width": 751,
+    "height": 751,
+    "spacingM": 12,
+    "westM": -8100,
+    "northM": 4500,
+    "file": "heights.f32"
+  },
+  "view": {
+    "lookAzimuthDeg": 270,
+    "sunAzimuthDeg": 100,
+    "sunElevationDeg": 25
+  },
+  "sources": [
+    {
+      "file": "NAC_DTM_ARISTARCH10.TIF",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10.TIF",
+      "sha256": "cca39532e712f8ea184e16676392fadf28995e6dd3184158e4fc8112ca1c354d",
+      "bytes": 193328135
+    },
+    {
+      "file": "NAC_DTM_ARISTARCH10_CONF.IMG",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_CONF.IMG",
+      "sha256": "87bf768dba6ad1e2c0fee9e1466f8b5f64ce74aac7683c5a815481f8e8e5717c",
+      "bytes": 48318312
+    },
+    {
+      "file": "NAC_DTM_ARISTARCH10_M1121550615_3M.TIF",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_M1121550615_3M.TIF",
+      "sha256": "638ba6a2d2241342d54c3be58efbf00a53b3a76e4ae24579a156ec4a05a190f9",
+      "bytes": 48399435
+    },
+    {
+      "file": "NAC_DTM_ARISTARCH10_README.TXT",
+      "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_README.TXT",
+      "sha256": "fa4af41630c952ab47333ad23594b9811d724e4db7f7c82bfef2a7605b792dac",
+      "bytes": 8706
+    }
+  ],
+  "heights": {
+    "url": "heights.f32",
+    "sha256": "2be26b53de27918041754602da678bd07684115d2786a7fc1e65962af824f55a",
+    "bytes": 2256004
+  },
+  "confidence": {
+    "url": "heights-confidence.u8",
+    "sha256": "5c1906f28ec11b6d852cb39917670aa6604116955d766ee2bf22876685772fe0",
+    "bytes": 564001
+  },
+  "orthophoto": {
+    "url": "orthophoto.png",
+    "sha256": "60a6d5d0a3cfca255fd3bf23cf40e5e703fe81fdad2ca1097dce8a7fec47c17e",
+    "bytes": 1651427,
+    "width": 1501,
+    "height": 1501,
+    "spacingM": 6,
+    "boundsM": {
+      "west": -8100,
+      "east": 900,
+      "south": -4500,
+      "north": 4500
+    },
+    "note": "Source browse orthophoto is an 8-bit display stretch with illumination/shadows baked in; not a calibrated albedo map. Bounds are pixel-centre aligned like terrain."
+  },
+  "layers": [
+    {
+      "name": "heights",
+      "grid": {
+        "width": 751,
+        "height": 751,
+        "spacingM": 12,
+        "westM": -8100,
+        "northM": 4500,
+        "file": "heights.f32"
+      },
+      "heights": {
+        "url": "heights.f32",
+        "sha256": "2be26b53de27918041754602da678bd07684115d2786a7fc1e65962af824f55a",
+        "bytes": 2256004
+      },
+      "confidence": {
+        "url": "heights-confidence.u8",
+        "sha256": "5c1906f28ec11b6d852cb39917670aa6604116955d766ee2bf22876685772fe0",
+        "bytes": 564001
+      },
+      "heightStatsM": {
+        "min": -2597.322509765625,
+        "max": 495.1542663574219,
+        "median": -780.7176513671875,
+        "p95": 426.57958984375
+      },
+      "reliefM": 3092.476806640625,
+      "slopeStatsDeg": {
+        "min": 0.021511949598789215,
+        "max": 65.83642578125,
+        "median": 18.825532913208008,
+        "p95": 33.553627014160156
+      },
+      "confidenceRawHistogram": {
+        "5": 3,
+        "6": 25110,
+        "8": 1333,
+        "10": 16,
+        "11": 273,
+        "13": 17,
+        "15": 3534,
+        "18": 15,
+        "32": 5,
+        "42": 1,
+        "44": 3,
+        "48": 3,
+        "49": 1,
+        "50": 74,
+        "51": 89,
+        "52": 128,
+        "53": 164,
+        "54": 211,
+        "55": 229,
+        "56": 295,
+        "57": 348,
+        "58": 383,
+        "59": 461,
+        "60": 480,
+        "61": 565,
+        "62": 658,
+        "63": 797,
+        "64": 855,
+        "65": 1003,
+        "66": 1127,
+        "67": 1204,
+        "68": 1446,
+        "69": 1628,
+        "70": 1878,
+        "71": 2074,
+        "72": 2472,
+        "73": 2724,
+        "74": 3144,
+        "75": 3510,
+        "76": 4002,
+        "77": 4557,
+        "78": 4981,
+        "79": 5879,
+        "80": 6621,
+        "81": 7516,
+        "82": 8438,
+        "83": 9659,
+        "84": 10999,
+        "85": 12544,
+        "86": 14190,
+        "87": 16357,
+        "88": 18702,
+        "89": 21388,
+        "90": 24381,
+        "91": 28081,
+        "92": 32387,
+        "93": 37209,
+        "94": 42052,
+        "95": 47109,
+        "96": 51140,
+        "97": 50656,
+        "98": 37982,
+        "99": 8910
+      },
+      "noDataCount": 0,
+      "orthophoto": {
+        "url": "orthophoto.png",
+        "sha256": "60a6d5d0a3cfca255fd3bf23cf40e5e703fe81fdad2ca1097dce8a7fec47c17e",
+        "bytes": 1651427,
+        "width": 1501,
+        "height": 1501,
+        "spacingM": 6,
+        "boundsM": {
+          "west": -8100,
+          "east": 900,
+          "south": -4500,
+          "north": 4500
+        },
+        "note": "Source browse orthophoto is an 8-bit display stretch with illumination/shadows baked in; not a calibrated albedo map. Bounds are pixel-centre aligned like terrain."
+      }
+    },
+    {
+      "name": "pocket",
+      "grid": {
+        "width": 69,
+        "height": 69,
+        "spacingM": 3,
+        "westM": -102,
+        "northM": 102,
+        "file": "pocket.f32"
+      },
+      "heights": {
+        "url": "pocket.f32",
+        "sha256": "3b169a8d3d7dc3a39d292fa90c6f752f425a09de825e9f5c35c337207f43b4e4",
+        "bytes": 19044
+      },
+      "confidence": {
+        "url": "pocket-confidence.u8",
+        "sha256": "6d7a91f57f951913c785736d612fd87c5ed09d809b82d3a64324cc5293b08697",
+        "bytes": 4761
+      },
+      "heightStatsM": {
+        "min": -1834.88330078125,
+        "max": -1820.2767333984375,
+        "median": -1829.9539794921875,
+        "p95": -1827.6898193359375
+      },
+      "reliefM": 14.6065673828125,
+      "slopeStatsDeg": {
+        "min": 0.030397359281778336,
+        "max": 28.995067596435547,
+        "median": 2.712151527404785,
+        "p95": 8.333365440368652
+      },
+      "confidenceRawHistogram": {
+        "6": 41,
+        "8": 13,
+        "11": 2,
+        "15": 2,
+        "55": 1,
+        "57": 3,
+        "59": 3,
+        "60": 1,
+        "61": 1,
+        "62": 6,
+        "63": 2,
+        "64": 3,
+        "65": 4,
+        "66": 19,
+        "67": 3,
+        "68": 13,
+        "69": 9,
+        "70": 21,
+        "71": 15,
+        "72": 13,
+        "73": 26,
+        "74": 31,
+        "75": 13,
+        "76": 40,
+        "77": 47,
+        "78": 62,
+        "79": 54,
+        "80": 69,
+        "81": 68,
+        "82": 64,
+        "83": 84,
+        "84": 114,
+        "85": 116,
+        "86": 178,
+        "87": 151,
+        "88": 172,
+        "89": 229,
+        "90": 217,
+        "91": 303,
+        "92": 316,
+        "93": 393,
+        "94": 487,
+        "95": 422,
+        "96": 392,
+        "97": 349,
+        "98": 162,
+        "99": 27
+      },
+      "noDataCount": 0
+    }
+  ],
+  "coordinates": {
+    "units": "metres",
+    "heightDatum": "Elevation above a 1737400 m lunar reference sphere",
+    "radiusM": 1737400.0,
+    "axes": "x=east, y=height, z=south (-north)",
+    "rasterOrder": "rows north-to-south; columns west-to-east",
+    "encoding": "float32-le",
+    "sourceProjectionWkt": "PROJCS[\"Equirectangular Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",24],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "sourceTransform": [
+      2.999999999999,
+      0.0,
+      3649550.9999988,
+      0.0,
+      -2.999999999999,
+      735230.99999975
+    ],
+    "sourceAnchorPixelZeroBased": {
+      "row": 4165,
+      "col": 3125
+    },
+    "sourceAnchorProjectedM": {
+      "x": 3658927.4999987967,
+      "y": 722734.4999997542
+    },
+    "sourceEastingPerLocalEast": 0.9987178846498579,
+    "localFrame": "Equirectangular metres anchored at selected latitude; source coordinate x = sourceAnchorX + localEast*cos(24deg)/cos(anchorLat), y = sourceAnchorY + localNorth"
+  },
+  "camera": {
+    "lookAzimuthDeg": 270,
+    "lookElevationDeg": 12,
+    "positionLocalM": {
+      "east": 650,
+      "north": -300,
+      "heightAboveAnchor": 260
+    },
+    "targetLocalM": {
+      "east": -2800,
+      "north": 0,
+      "heightAboveAnchor": 950
+    },
+    "note": "Proposed east-of-terrace camera looking west into the real wall. Camera position is not an historical photo pose."
+  },
+  "lighting": {
+    "azimuthDeg": 100,
+    "elevationDeg": 25,
+    "kind": "plausible illustrative morning light, not ephemeris-bound",
+    "note": "Orthophoto already contains acquisition shading; avoid interpreting it as pure albedo or claiming exact source-photo relighting."
+  },
+  "flightPocket": {
+    "boundsM": {
+      "west": -102,
+      "east": 102,
+      "south": -102,
+      "north": 102
+    },
+    "recommendedFlightHeadingDeg": 0,
+    "heightStatsM": {
+      "min": -1834.88330078125,
+      "max": -1820.2767333984375,
+      "median": -1829.9539794921875,
+      "p95": -1827.6898193359375
+    },
+    "slopeStatsDeg": {
+      "min": 0.030397359281778336,
+      "max": 28.995067596435547,
+      "median": 2.712151527404785,
+      "p95": 8.333365440368652
+    },
+    "reliefM": 14.6065673828125,
+    "rawConfidenceHistogram": {
+      "6": 41,
+      "8": 13,
+      "11": 2,
+      "15": 2,
+      "55": 1,
+      "57": 3,
+      "59": 3,
+      "60": 1,
+      "61": 1,
+      "62": 6,
+      "63": 2,
+      "64": 3,
+      "65": 4,
+      "66": 19,
+      "67": 3,
+      "68": 13,
+      "69": 9,
+      "70": 21,
+      "71": 15,
+      "72": 13,
+      "73": 26,
+      "74": 31,
+      "75": 13,
+      "76": 40,
+      "77": 47,
+      "78": 62,
+      "79": 54,
+      "80": 69,
+      "81": 68,
+      "82": 64,
+      "83": 84,
+      "84": 114,
+      "85": 116,
+      "86": 178,
+      "87": 151,
+      "88": 172,
+      "89": 229,
+      "90": 217,
+      "91": 303,
+      "92": 316,
+      "93": 393,
+      "94": 487,
+      "95": 422,
+      "96": 392,
+      "97": 349,
+      "98": 162,
+      "99": 27
+    },
+    "confidenceClassification": "unresolved source codebook mismatch",
+    "note": "Geographic flight-pocket candidate, not a landing hazard certification. Ground remains unmodified."
+  },
+  "accuracy": {
+    "sourceSpacingM": 3,
+    "relativeLinearErrorM": 1.8,
+    "lolaRmsM": 2.59,
+    "lolaTracks": 21,
+    "terrainHorizontalScale": 1,
+    "terrainVerticalScale": 1,
+    "gapFillCount": 0,
+    "flattenedVertices": 0,
+    "confidenceNote": "The current canonical confidence IMG contains values outside the product README table (0\u20134 and 10\u201315). Preserve raw bytes; do not interpret these as percentages or claim a high-confidence fraction. This mismatch remains unresolved. Finite elevation support and observed relief/slope are independently checked."
+  },
+  "provenance": {
+    "credit": "NASA/GSFC/Arizona State University",
+    "sourcePage": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_ARISTARCH10",
+    "extractedOn": "2026-11-04",
+    "sources": [
+      {
+        "file": "NAC_DTM_ARISTARCH10.TIF",
+        "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10.TIF",
+        "sha256": "cca39532e712f8ea184e16676392fadf28995e6dd3184158e4fc8112ca1c354d",
+        "bytes": 193328135
+      },
+      {
+        "file": "NAC_DTM_ARISTARCH10_CONF.IMG",
+        "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_CONF.IMG",
+        "sha256": "87bf768dba6ad1e2c0fee9e1466f8b5f64ce74aac7683c5a815481f8e8e5717c",
+        "bytes": 48318312
+      },
+      {
+        "file": "NAC_DTM_ARISTARCH10_M1121550615_3M.TIF",
+        "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/EXTRAS/BROWSE/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_M1121550615_3M.TIF",
+        "sha256": "638ba6a2d2241342d54c3be58efbf00a53b3a76e4ae24579a156ec4a05a190f9",
+        "bytes": 48399435
+      },
+      {
+        "file": "NAC_DTM_ARISTARCH10_README.TXT",
+        "url": "https://pds.mcp.nasa.gov/data/store/img/lunar_reconnaissance_orbiter/pds4/lroc/lro-l-lroc-5-rdr/LROLRC_2001/DATA/SDP/NAC_DTM/ARISTARCH10/NAC_DTM_ARISTARCH10_README.TXT",
+        "sha256": "fa4af41630c952ab47333ad23594b9811d724e4db7f7c82bfef2a7605b792dac",
+        "bytes": 8706
+      }
+    ],
+    "method": "Bilinear resampling of finite source height support in a local east/north metre frame; nearest raw quality; source-datum heights retained; no terrain correction, fill, flattening or exaggeration."
+  },
+  "limitations": [
+    "Raster quality classification is unresolved; do not claim surveyed landing safety.",
+    "3 m source spacing does not imply centimetre or sub-metre accuracy.",
+    "Selected 204 m ground pocket is separate from the 9 km scenic context.",
+    "Texture is orbital grayscale with source-acquisition shadows.",
+    "Flight pads, pickup locations and flight controls remain gameplay additions."
+  ]
+}

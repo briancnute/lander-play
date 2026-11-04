@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "layer": "heights",
+      "samples": 256,
+      "maxHeightDifferenceM": 0.0001220703125,
+      "shape": [
+        751,
+        751
+      ]
+    },
+    {
+      "layer": "pocket",
+      "samples": 256,
+      "maxHeightDifferenceM": 0.0001220703125,
+      "shape": [
+        69,
+        69
+      ]
+    }
+  ],
+  "method": "Independent GDAL lunar geographic-to-source projection, direct 4-corner source reads and scalar bilinear interpolation; output hash/shape/finiteness and texture dimensions.",
+  "limitations": [
+    "Confidence classification unresolved; this verifies extraction integrity, not source quality certification."
+  ]
+}

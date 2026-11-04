@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "mission": 15,
+      "canonicalSha256": "a42a68eaab0b65b19e2610a7e6a836db15744f08767f31f689eb26a7ffbbf3ee",
+      "contextSha256": "ed7fa60e6331483049708c4e9d768db91541b486dbbf282edd857b641a94a55c",
+      "geographySha256": "2c3bd5fd308cc819eaa60ea121dc3dd94537114e14be445d4a4126a145de119f",
+      "sourceVertexCount": 4172,
+      "sourcePathCount": 62,
+      "sourcePathsPreserved": true,
+      "allRouteStationAndSampleControlsInside": true,
+      "canonicalNoData": 0,
+      "contextNoData": 0,
+      "sourceByteComparisons": 1024,
+      "independentProjection": "GDAL transform from retained source WKT to NAC projection",
+      "maxHeightErrorM": 0.00012134468397562159,
+      "independentSLDEMCornerChecks": [
+        {
+          "east": -8192,
+          "north": 32768,
+          "errorM": 0.0
+        },
+        {
+          "east": 24576,
+          "north": -16384,
+          "errorM": 0.0
+        }
+      ]
+    },
+    {
+      "mission": 16,
+      "canonicalSha256": "309b8323aa2a787aff40c8c77bf57b29763818eed2c3393dd923c4408bca8f05",
+      "contextSha256": "07cad9f907affd93c9ff7503a46a8adfb264b158b8ee868f933d306e919c7199",
+      "geographySha256": "30c095fc80197545c20e86775a8b0b19346c5b07c6f3c2e4a0f250a1dad05bfc",
+      "sourceVertexCount": 7597,
+      "sourcePathCount": 116,
+      "sourcePathsPreserved": true,
+      "allRouteStationAndSampleControlsInside": true,
+      "canonicalNoData": 0,
+      "contextNoData": 0,
+      "sourceByteComparisons": 1024,
+      "independentProjection": "GDAL transform from retained source WKT to NAC projection",
+      "maxHeightErrorM": 2.517114404554377e-05,
+      "independentSLDEMCornerChecks": [
+        {
+          "east": -8192,
+          "north": 8192,
+          "errorM": 0.0
+        },
+        {
+          "east": 8192,
+          "north": -8192,
+          "errorM": 0.0
+        }
+      ]
+    }
+  ]
+}

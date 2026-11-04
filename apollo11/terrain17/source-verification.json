@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "fineBytes": 12593154,
+  "contextBytes": 197890,
+  "sharedNodes": 24897,
+  "independentTransformMaximumErrorM": 9.313225746154785e-10,
+  "originalRouteVerticesWithinField": 1127,
+  "sourceRangeHashesVerified": true,
+  "samplingVersion": 2
+}

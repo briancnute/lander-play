@@ -1,0 +1,109 @@
+{
+  "anchor": {
+    "latDeg": 23.83425610595356,
+    "lonDeg": 312.08285779438097,
+    "heightM": -1830.25390625
+  },
+  "context": {
+    "grid": {
+      "width": 751,
+      "height": 751,
+      "spacingM": 12,
+      "westM": -8100,
+      "northM": 4500,
+      "file": "heights.f32"
+    },
+    "heightStatsM": {
+      "min": -2597.322509765625,
+      "max": 495.1542663574219,
+      "median": -780.7176513671875,
+      "p95": 426.57958984375
+    },
+    "reliefM": 3092.476806640625,
+    "noDataCount": 0
+  },
+  "pocket": {
+    "boundsM": {
+      "west": -102,
+      "east": 102,
+      "south": -102,
+      "north": 102
+    },
+    "recommendedFlightHeadingDeg": 0,
+    "heightStatsM": {
+      "min": -1834.88330078125,
+      "max": -1820.2767333984375,
+      "median": -1829.9539794921875,
+      "p95": -1827.6898193359375
+    },
+    "slopeStatsDeg": {
+      "min": 0.030397359281778336,
+      "max": 28.995067596435547,
+      "median": 2.712151527404785,
+      "p95": 8.333365440368652
+    },
+    "reliefM": 14.6065673828125,
+    "rawConfidenceHistogram": {
+      "6": 41,
+      "8": 13,
+      "11": 2,
+      "15": 2,
+      "55": 1,
+      "57": 3,
+      "59": 3,
+      "60": 1,
+      "61": 1,
+      "62": 6,
+      "63": 2,
+      "64": 3,
+      "65": 4,
+      "66": 19,
+      "67": 3,
+      "68": 13,
+      "69": 9,
+      "70": 21,
+      "71": 15,
+      "72": 13,
+      "73": 26,
+      "74": 31,
+      "75": 13,
+      "76": 40,
+      "77": 47,
+      "78": 62,
+      "79": 54,
+      "80": 69,
+      "81": 68,
+      "82": 64,
+      "83": 84,
+      "84": 114,
+      "85": 116,
+      "86": 178,
+      "87": 151,
+      "88": 172,
+      "89": 229,
+      "90": 217,
+      "91": 303,
+      "92": 316,
+      "93": 393,
+      "94": 487,
+      "95": 422,
+      "96": 392,
+      "97": 349,
+      "98": 162,
+      "99": 27
+    },
+    "confidenceClassification": "unresolved source codebook mismatch",
+    "note": "Geographic flight-pocket candidate, not a landing hazard certification. Ground remains unmodified."
+  },
+  "sourceShape": [
+    11121,
+    4344
+  ],
+  "confidenceNote": "The current canonical confidence IMG contains values outside the product README table (0\u20134 and 10\u201315). Preserve raw bytes; do not interpret these as percentages or claim a high-confidence fraction. This mismatch remains unresolved. Finite elevation support and observed relief/slope are independently checked.",
+  "checks": [
+    "All bilinear source-support samples finite and non-NoData.",
+    "Source rasters have matching shapes and geotransforms.",
+    "No smoothing, clipping, filling, flattening or scale change.",
+    "Metadata and output hashes retained."
+  ]
+}

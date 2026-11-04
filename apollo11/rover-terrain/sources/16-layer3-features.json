@@ -1,0 +1,153 @@
+{
+ "displayFieldName": "Name",
+ "fieldAliases": {
+  "OBJECTID": "OBJECTID",
+  "Id": "Id",
+  "Name": "Name"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkt": "PROJCS[\"Moon2000_Equidistant_Cylindrical_C0\",GEOGCS[\"GCS_Moon_2000\",DATUM[\"D_Moon_2000\",SPHEROID[\"Moon_2000_IAU_IAG\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Plate_Carree\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"central_meridian\",0.0],UNIT[\"Meter\",1.0]]"
+ },
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "Id",
+   "type": "esriFieldTypeInteger",
+   "alias": "Id"
+  },
+  {
+   "name": "Name",
+   "type": "esriFieldTypeString",
+   "alias": "Name",
+   "length": 50
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID": 1,
+    "Id": 0,
+    "Name": "Flag Crater"
+   },
+   "geometry": {
+    "x": 468392.94340253028,
+    "y": -272078.46058068087
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 2,
+    "Id": 0,
+    "Name": "Plum Crater"
+   },
+   "geometry": {
+    "x": 468544.51087495091,
+    "y": -272193.31759693474
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3,
+    "Id": 0,
+    "Name": "Buster Crater"
+   },
+   "geometry": {
+    "x": 469187.25881785102,
+    "y": -272074.20562781498
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 4,
+    "Id": 0,
+    "Name": "Spook Crater"
+   },
+   "geometry": {
+    "x": 469250.76742544316,
+    "y": -272285.89258312085
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 5,
+    "Id": 0,
+    "Name": "Boulder"
+   },
+   "geometry": {
+    "x": 469949.47589836171,
+    "y": -272137.87993906927
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 6,
+    "Id": 0,
+    "Name": "House Rock"
+   },
+   "geometry": {
+    "x": 470017.65854922059,
+    "y": -267599.55974191532
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 7,
+    "Id": 0,
+    "Name": "E-W Split"
+   },
+   "geometry": {
+    "x": 470020.28170213051,
+    "y": -267614.27854435908
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 8,
+    "Id": 0,
+    "Name": "ALSEP Area"
+   },
+   "geometry": {
+    "x": 469955.31270026392,
+    "y": -272163.15186854673
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 9,
+    "Id": 0,
+    "Name": "South Ray Crater"
+   },
+   "geometry": {
+    "x": 467389.54995827872,
+    "y": -277586.1207012253
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 10,
+    "Id": 1,
+    "Name": "North Ray Crater"
+   },
+   "geometry": {
+    "x": 469510.90370827582,
+    "y": -267366.24067088257
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 11,
+    "Id": 2,
+    "Name": "Kiva"
+   },
+   "geometry": {
+    "x": 468507.94073817716,
+    "y": -268108.85165684752
+   }
+  }
+ ]
+}

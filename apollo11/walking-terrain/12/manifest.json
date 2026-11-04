@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "mission": 12,
+  "axes": {
+    "x": "east",
+    "z": "negative north",
+    "y": "elevation relative to LM"
+  },
+  "bounds": {
+    "west": -768,
+    "east": 512,
+    "north": 512,
+    "south": -512
+  },
+  "width": 641,
+  "height": 513,
+  "gridStepM": 2,
+  "encoding": "float32-le",
+  "heightScaleM": 1,
+  "heightOffsetM": 0,
+  "url": "heights.f32",
+  "playableBounds": {
+    "west": -500,
+    "east": 250,
+    "north": 300,
+    "south": -350
+  },
+  "tileSizeM": 128,
+  "sourceHeightAtLmM": -1422.0071107996068,
+  "heightFile": "heights.f32",
+  "dtype": "Float32 little-endian",
+  "rowOrder": "north-to-south",
+  "columnOrder": "west-to-east",
+  "minHeightM": -24.765085220336914,
+  "maxHeightM": 6.786435127258301,
+  "lmSourceHeightM": -1422.0071107996068,
+  "heightDatum": "Source heights above 1,737,400 m sphere, minus measured LM height",
+  "sha256": "91485b2b3d464d9a659d6b2c976dbf1c54882e4223137056203cf94345c686fb",
+  "bytes": 1315332,
+  "confidenceFile": "confidence.u8",
+  "confidenceSha256": "3dd3b556f7bb94c8330f31c3078f15857080e82485c8fc0d1cc01e355b748543",
+  "orthophoto": {
+    "file": "orthophoto.png",
+    "sha256": "281bf6401021d73cf33cf148ac1ec8952993b57b911590bccf4304b4f2aea890",
+    "grid": "same as height grid",
+    "use": "Registration review; retains orbital lighting, not mission albedo"
+  },
+  "frame": {
+    "origin": "LM",
+    "axes": "east-north",
+    "units": "m",
+    "landing": {
+      "lat": -3.01282115,
+      "lon": -23.42191354
+    },
+    "projectedOrigin": [
+      4741465.2536619175,
+      -91358.83139541921
+    ],
+    "projectionWkt": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",-3.0],UNIT[\"Meter\",1.0]]",
+    "note": "Origin is the LM descent-stage point in this mission\u2019s published mapping archive. Coordinates are source projected metres minus that origin (east/north), rounded to 1 cm for storage, not claims of centimetre accuracy. This frame has not replaced existing game coordinates."
+  },
+  "sourceProjection": {
+    "origin": "LM",
+    "axes": "east-north",
+    "units": "m",
+    "landing": {
+      "lat": -3.01282115,
+      "lon": -23.42191354
+    },
+    "projectedOrigin": [
+      4741465.2536619175,
+      -91358.83139541921
+    ],
+    "projectionWkt": "PROJCS[\"Equirectangular_Moon\",GEOGCS[\"GCS_Moon\",DATUM[\"D_Moon\",SPHEROID[\"Moon_localRadius\",1737400.0,0.0]],PRIMEM[\"Reference_Meridian\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equidistant_Cylindrical\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",180.0],PARAMETER[\"Standard_Parallel_1\",-3.0],UNIT[\"Meter\",1.0]]",
+    "note": "Origin is the LM descent-stage point in this mission\u2019s published mapping archive. Coordinates are source projected metres minus that origin (east/north), rounded to 1 cm for storage, not claims of centimetre accuracy. This frame has not replaced existing game coordinates."
+  },
+  "sourceProduct": "NAC_DTM_APOLLO12",
+  "sourcePage": "https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_DTM_APOLLO12",
+  "auditFile": "audit.json",
+  "geometryScale": 1,
+  "accuracy": "Measured 2 m orbital stereo terrain; not centimetre accuracy or exact photo microrelief."
+}

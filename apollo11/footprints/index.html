@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apollo · mission footprints</title>
+<link rel="stylesheet" href="./review.css">
+<header><a href="/?go=moon-visual">← Moon Visual</a><span>LOCAL RESEARCH REVIEW · 3 NOV 2026</span></header>
+<main>
+  <h1>Mapping six Apollo regions.</h1>
+  <p class="intro">A planning atlas of the completed surface traverses. The outlined areas are proposed playgrounds in real metres. Existing compact worlds are retained; Apollo 17 now also has a full-size terrain prototype.</p>
+  <p><a class="play" href="/apollo11/?region=17&amp;terrain=full&amp;activity=free-ride">Ride the Apollo 17 terrain preview ↗</a> · <a href="/apollo11/terrain17/source-audit.png">Terrain source audit</a></p>
+  <div class="toolbar"><label><input id="same-scale" type="checkbox"> Compare at the same scale</label><label><input id="source-visible" type="checkbox" checked> Source overlay where registered</label></div>
+  <nav id="missions" aria-label="Choose an Apollo footprint"></nav>
+  <section id="detail" hidden>
+    <div class="title-row"><div><p class="kicker">SELECTED REGION</p><h2 id="title"></h2></div><a class="play" id="play">Ride current build ↗</a></div>
+    <div id="metrics"></div>
+    <div class="toolbar"><label>Terrain footprint <select id="terrain-overlay"></select></label><label><input id="station-labels" type="checkbox"> All station labels</label></div>
+    <div class="map-layout"><div><div id="large-map"></div><div id="legend"></div><p class="small">North ↑ · metres east / north of the lunar module. Dashed gold: proposed boundary. Colored lines: mapped travel corridors. Gold squares: photo subjects. White crosses: published camera positions where available; camera direction remains to be matched. Blue: selected terrain product's outer footprint.</p></div><aside><h3>What this map establishes</h3><p id="registration"></p><p id="boundary-note"></p><h3>Before terrain construction</h3><ul id="gaps"></ul></aside></div>
+    <details open><summary>Terrain evidence</summary><div id="terrain"></div><p class="small">A product bounding box is not proof of valid elevation pixels. Apollo 17 now has a separate measured-terrain audit linked above; the other regions still require raster and confidence-mask checks.</p></details>
+    <h3>Four photograph-led encounters</h3><p class="small">Candidate source records for the next art pass. The research notes below do not appear in the game.</p><div id="photos"></div>
+    <details><summary>Registration, stations & sources</summary><p><a id="source-map">Open the original historical traverse map</a></p><div id="stations"></div><div id="sources"></div><a id="raw">Download geographic source record (JSON)</a></details>
+  </section>
+  <p id="status" role="status">Loading source records…</p>
+</main>
+<script type="module" src="./review.js"></script>
+</html>

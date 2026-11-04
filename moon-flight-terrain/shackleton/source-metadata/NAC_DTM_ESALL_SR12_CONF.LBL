@@ -1,0 +1,107 @@
+PDS_VERSION_ID            = PDS3
+
+/* The source image data definition. */
+RECORD_TYPE   = FIXED_LENGTH
+RECORD_BYTES  = 2500
+FILE_RECORDS  = 2503
+LABEL_RECORDS = 3
+^IMAGE        = 4
+
+/* Identification Information  */
+DATA_SET_ID               = "LRO-L-LROC-5-RDR-V1.0"
+DATA_SET_NAME             = "LRO MOON LROC 5 RDR V1.0"
+VOLUME_ID                 = "LROLRC_2001"
+PRODUCER_INSTITUTION_NAME = "GERMAN AEROSPACE CENTER (DLR)"
+PRODUCER_ID               = LRO_LROC_TEAM
+PRODUCER_FULL_NAME        = "FRANK SCHOLTEN, PH.D"
+PRODUCT_ID                = NAC_DTM_ESALL_SR12_CONF
+PRODUCT_VERSION_ID        = "v1.2"
+PRODUCT_TYPE              = RDR
+INSTRUMENT_HOST_NAME      = "LUNAR RECONNAISSANCE ORBITER"
+INSTRUMENT_HOST_ID        = LRO
+INSTRUMENT_NAME           = "LUNAR RECONNAISSANCE ORBITER CAMERA"
+INSTRUMENT_ID             = LROC
+TARGET_NAME               = MOON
+MISSION_PHASE_NAME        = "SCIENCE MISSION"
+RATIONALE_DESC            = "Funding of DTM generation by the ESA Lunar Lander
+                            project for the characterization of potential
+                            landing sites."
+SOFTWARE_NAME             = "Custom VICAR-based Stereo-Photogrammetry Software
+                            from DLR"
+
+/* Time Parameters */
+START_TIME                   = 2010-09-23T09:08:25
+STOP_TIME                    = 2010-10-10T21:28:55
+SPACECRAFT_CLOCK_START_COUNT = "N/A"
+SPACECRAFT_CLOCK_STOP_COUNT  = "N/A"
+PRODUCT_CREATION_TIME        = 2020-10-13T23:49:02
+
+/* NOTE:                                                                   */
+/* This raster image is composed of a set of pixels that represent finite  */
+/* areas, and not discrete points.  The center of the upper left pixel is  */
+/* defined as line and sample (1.0,1.0). The                               */
+/* [LINE,SAMPLE]_PROJECTION_OFFSET elements are the pixel offset from line */
+/* and sample (1.0,1.0) to the map projection origin (defined by the       */
+/* CENTER_LATITUDE and CENTER_LONGITUDE elements).  These offset values    */
+/* are positive when the map projection origin is to the right or below    */
+/* the center of the upper left pixel. This definition was adopted in      */
+/* November 2011 by the LROC team.                                         */
+
+OBJECT = IMAGE_MAP_PROJECTION
+    ^DATA_SET_MAP_PROJECTION     = "DSMAP.CAT"
+    MAP_PROJECTION_TYPE          = "POLAR STEREOGRAPHIC"
+    PROJECTION_LATITUDE_TYPE     = PLANETOCENTRIC
+    A_AXIS_RADIUS                = 1737.4 <KM>
+    B_AXIS_RADIUS                = 1737.4 <KM>
+    C_AXIS_RADIUS                = 1737.4 <KM>
+    COORDINATE_SYSTEM_NAME       = PLANETOCENTRIC
+    POSITIVE_LONGITUDE_DIRECTION = EAST
+    KEYWORD_LATITUDE_TYPE        = PLANETOCENTRIC
+    /* NOTE:  CENTER_LATITUDE and CENTER_LONGITUDE describe the location   */
+    /* of the center of projection, which is not necessarily equal to the  */
+    /* location of the center point of the image.                          */
+    CENTER_LATITUDE              = -90.0 <DEG>
+    CENTER_LONGITUDE             = 0.0 <DEG>
+    LINE_FIRST_PIXEL             = 1
+    LINE_LAST_PIXEL              = 2500
+    SAMPLE_FIRST_PIXEL           = 1
+    SAMPLE_LAST_PIXEL            = 2500
+    MAP_PROJECTION_ROTATION      = 0.0 <DEG>
+    MAP_RESOLUTION               = 15161.675212075 <PIX/DEG>
+    MAP_SCALE                    = 2.0 <METERS/PIXEL>
+    MAXIMUM_LATITUDE             = -89.633368180522 <DEG>
+    MINIMUM_LATITUDE             = -89.839659180074 <DEG>
+    EASTERNMOST_LONGITUDE        = 226.60386277115 <DEG>
+    WESTERNMOST_LONGITUDE        = 180.82526253252 <DEG>
+    LINE_PROJECTION_OFFSET       = -2430.0 <PIXEL>
+    SAMPLE_PROJECTION_OFFSET     = 2570.0 <PIXEL>
+END_OBJECT = IMAGE_MAP_PROJECTION
+
+OBJECT = IMAGE
+    DESCRIPTION                = "Shackleton Crater Rim Potential Landing Site
+                                 for ESA Lunar Lander DTM confidence map. For
+                                 more information see: [OBERSTETAL2010].
+                                 Look-up table: Value  Description of used
+                                 confidence values 0          NoDATA, outside
+                                 boundary (e.g. out of stereo pair overlap) 1 
+                                         Shadowed 4          Interpolated /
+                                 Extrapolated (e.g. from neighbor pixels 14   
+                                      Based upon image matching results"
+    LINES                      = 2500
+    LINE_SAMPLES               = 2500
+    SAMPLE_TYPE                = MSB_UNSIGNED_INTEGER
+    SAMPLE_BITS                = 8
+    SAMPLE_BIT_MASK            = 2#11111111#
+    SCALING_FACTOR             = 1.0
+    OFFSET                     = 0.0
+    CORE_NULL                  = 0
+    CORE_LOW_REPR_SATURATION   = 0
+    CORE_LOW_INSTR_SATURATION  = 0
+    CORE_HIGH_REPR_SATURATION  = 255
+    CORE_HIGH_INSTR_SATURATION = 255
+    BAND_STORAGE_TYPE          = BAND_SEQUENTIAL
+    BANDS                      = 1
+    FILTER_NAME                = "N/A"
+END_OBJECT = IMAGE
+
+END
