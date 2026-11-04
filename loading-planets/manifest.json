@@ -1,10 +1,11 @@
 {
-  "sourceHash": "734bb1f285a039654d27afdd0d97de6fd970cd890fb174150e55cf6bf448dd3a",
+  "sourceHash": "af608e6b93c90ebe07149000184ede62c90769bd92809ab7e05e7be4001e55c5",
   "sources": [
     "src/render/mercuryTex.ts",
     "src/render/moonTex.ts",
     "src/render/marsTex.ts",
     "src/render/venusTex.ts",
+    "src/render/jupiterTex.ts",
     "src/render/globe.ts"
   ],
   "settings": {
