@@ -1,0 +1,1 @@
+export function triangle(out,a,b,c,color,normal){if(!normal){const u=b.map((n,i)=>n-a[i]),v=c.map((n,i)=>n-a[i]);normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const l=Math.hypot(...normal)||1;normal=normal.map(n=>n/l);}for(const p of [a,b,c])out.push(...p,...normal,...color);}
