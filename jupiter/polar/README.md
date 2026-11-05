@@ -4,7 +4,9 @@ November 4, 2026: `polar-clearing-v3.jpg` places the collector in an imagined op
 
 Created with the built-in image-generation tool using the approved Red Spot asset as a rendering-quality reference. JPEG quality .95, original 1536 × 1024 dimensions. [Exact prompt](../../../docs/reference/jupiter-polar-depth/asset-prompt.md), [provenance and hash](../../../docs/reference/jupiter-polar-depth/assets.json), [research and implementation](../../../docs/JUPITER_POLAR_DEPTH.md).
 
-The shared Jupiter atmosphere renderer anchors the artwork in world space, combines it with low-resolution local clouds and uses the existing flight camera for collection and return zoom. Selected-date lighting is retained; local wisps follow the pause-aware simulation clock. The v1/v2 files below remain archived.
+The shared Jupiter atmosphere renderer anchors the artwork in world space, combines it with low-resolution local clouds and uses the existing flight camera for collection and return zoom. Elliptical flow now animates the painted cyclone swirls at different rates, and cloud bands and nearby wisps move independently. The storm centers and overall opening remain fixed.
+
+Selected-date lighting is retained. All weather shares a pause-aware active-level clock, so clouds move while waiting on the platform without starting the collector's score timer. Pause, hidden tabs, results and countdowns freeze it; retries reset it. The motion is accelerated illustrative weather, not measured local winds or a dated weather forecast, and adds no wind force. See [weather animation](../../../docs/JUPITER_ACTIVE_WEATHER.md). The v1/v2 files below remain archived.
 
 ---
 

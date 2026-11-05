@@ -1,6 +1,14 @@
-# Current artwork: lower cloud-top view, v2
+# Current artwork: animated Red Spot clearing, v3
 
-November 4, 2026: the producer requested a closer viewpoint while preserving the original style. The runtime now uses the three `*-v2.jpg` compositions in this directory. They show a local cloud horizon and partial storm banks, without the orbital limb or a complete top-down storm pattern. The v1 assets and provenance below are retained as history.
+The runtime uses `grs-clearing-v3.jpg`, the approved 1536 × 1024 illustrated opening among rust-colored cloud banks and a deeper cream cloud deck. Local shader flow now moves its cloud detail along the banks and through small eddies, with faster nearby volumetric wisps. The clearing, art plane, lighting and shared flight camera stay fixed. The introductory photograph has been removed from the launch sequence.
+
+Motion uses accelerated illustrative weather, not measured winds or a forecast for the selected date. It advances only while the level is active, freezes on pause/hidden/results, and resets on retry. No wind force is added to the craft. See [art provenance](../../../docs/JUPITER_RED_SPOT_ARRIVAL.md) and [weather animation](../../../docs/JUPITER_ACTIVE_WEATHER.md).
+
+---
+
+# Historical artwork: lower cloud-top view, v2
+
+November 4, 2026: the producer requested a closer viewpoint while preserving the original style. That revision used the three `*-v2.jpg` compositions in this directory. They show a local cloud horizon and partial storm banks, without the orbital limb or a complete top-down storm pattern. The v1 assets and provenance below are retained as history.
 
 Created with the built-in image-generation tool from the original artwork as a style reference; these are authored illustrations, not spacecraft photographs. Portrait and wide views are separately composed. JPEG encoding uses quality 0.93 at original dimensions. See [all prompts](../../../docs/reference/jupiter-redesign/scenery/asset-prompts.md), [asset manifest](../../../docs/reference/jupiter-redesign/scenery/assets.json) and [science/design notes](../../../docs/JUPITER_REDESIGN.md). Selected-date lighting and existing camera-crop behavior are retained; cloud evolution itself is not animated.
 
