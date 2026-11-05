@@ -1,0 +1,1 @@
+var e={name:`Nāhuku Lava Tube`,lat:19.41359,lon:-155.238811,source:`https://www.nps.gov/havo/planyourvisit/parking.htm`,description:`Three authored caves inspired by Kīlauea lava tubes.`};export{e as t};

@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Astra · Lava Tube · Site 3</title>  
+  <script type="module" crossorigin src="../../assets/earthCaveSite3-CDR1zkuK.js"></script>
+  <link rel="modulepreload" crossorigin href="../../assets/browserInput-BBHdG_eQ.js">
+  <link rel="modulepreload" crossorigin href="../../assets/tuning-7l_0oP-o.js">
+  <link rel="modulepreload" crossorigin href="../../assets/explorationMoment-CNFyRlf8.js">
+  <link rel="modulepreload" crossorigin href="../../assets/displayPreferences-CHsmsYHS.js">
+  <link rel="modulepreload" crossorigin href="../../assets/earthUnderwater-DGUZt5-p.js">
+  <link rel="modulepreload" crossorigin href="../../assets/storm-D-d3jd6q.js">
+  <link rel="modulepreload" crossorigin href="../../assets/sim-1MHVpBx9.js">
+  <link rel="modulepreload" crossorigin href="../../assets/moonFlightSites-DQ1qUTpj.js">
+  <link rel="modulepreload" crossorigin href="../../assets/jupiterActivityContract-BBHM7ob4.js">
+  <link rel="modulepreload" crossorigin href="../../assets/worlds-CHQWJ-9E.js">
+  <link rel="modulepreload" crossorigin href="../../assets/flightTuning-Dpk0CmXQ.js">
+  <link rel="modulepreload" crossorigin href="../../assets/modernFlightSetup-B_FXf-ch.js">
+  <link rel="modulepreload" crossorigin href="../../assets/three.module-CWFLg5dr.js">
+  <link rel="modulepreload" crossorigin href="../../assets/FlightSetup-D_AXVWas.js">
+  <link rel="modulepreload" crossorigin href="../../assets/playLighting-CAs8A-U2.js">
+  <link rel="modulepreload" crossorigin href="../../assets/ExplorationTime-LLfwOENH.js">
+  <link rel="modulepreload" crossorigin href="../../assets/collectorLevels-Bn6lNu6j.js">
+  <link rel="modulepreload" crossorigin href="../../assets/mercurySensors-uLZYgi2b.js">
+  <link rel="modulepreload" crossorigin href="../../assets/moonGolfCourse-CKiYQSwL.js">
+  <link rel="modulepreload" crossorigin href="../../assets/lunarCourse-BA9F72FH.js">
+  <link rel="modulepreload" crossorigin href="../../assets/flightV21-i0I3ozJd.js">
+  <link rel="modulepreload" crossorigin href="../../assets/contact-BPsutAPs.js">
+  <link rel="modulepreload" crossorigin href="../../assets/survey-BIFcqfnJ.js">
+  <link rel="modulepreload" crossorigin href="../../assets/primaryScoring-Cs58Tqg5.js">
+  <link rel="modulepreload" crossorigin href="../../assets/pressure-BkfKn09t.js">
+  <link rel="modulepreload" crossorigin href="../../assets/calorisFlight-BGckQo4p.js">
+  <link rel="modulepreload" crossorigin href="../../assets/craft-CnKj54qh.js">
+  <link rel="modulepreload" crossorigin href="../../assets/art-D6iOfYpr.js">
+  <link rel="modulepreload" crossorigin href="../../assets/inputMode-DxvcqGRx.js">
+  <link rel="modulepreload" crossorigin href="../../assets/textures-DiC4ik_k.js">
+  <link rel="modulepreload" crossorigin href="../../assets/globe-DEKaNev3.js">
+  <link rel="modulepreload" crossorigin href="../../assets/visualSky-BvGB1jcF.js">
+  <link rel="modulepreload" crossorigin href="../../assets/earthCaveLocation-Amk2g-jM.js">
+  <link rel="modulepreload" crossorigin href="../../assets/surfaceSolar-Bl5iif42.js">
+  <link rel="modulepreload" crossorigin href="../../assets/observationMoment-CPAerCN7.js">
+  <link rel="modulepreload" crossorigin href="../../assets/lighting-CKdj6hqe.js">
+  <link rel="modulepreload" crossorigin href="../../assets/masteryScoring-Cik9PEfg.js">
+  <link rel="modulepreload" crossorigin href="../../assets/scoreMedal-BLK93NVu.js">
+  <link rel="modulepreload" crossorigin href="../../assets/recordsTable-BZK-M3yz.js">
+  <link rel="modulepreload" crossorigin href="../../assets/runtime-DUHXQK_b.js">
+  <link rel="modulepreload" crossorigin href="../../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../../assets/layout-BtGo4oLW.js">
+  <link rel="stylesheet" crossorigin href="../../assets/recordsTable-oD2ZcByr.css">
+  <link rel="stylesheet" crossorigin href="../../assets/runtime-BjsVkGJo.css">
+</head><body>
+<canvas aria-label="Side scrolling lava tube flight"></canvas>
+<header><a href="/visual/?world=earth" aria-label="Back to Earth">EARTH</a><button id="pause" aria-label="Pause">Ⅱ</button></header>
+<div class="telemetry"><span id="hud"></span><span id="fuel-display">FUEL <b id="fuel-text">100%</b></span><span id="stars" aria-label="Stars collected">★ 0</span></div>
+<div id="countdown" role="status" aria-live="polite"></div>
+<div id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" hidden></div>
+<div id="rotate-prompt" role="status" aria-live="polite" hidden><span>ROTATE PHONE</span></div>
+<nav aria-label="Flight controls"><button data-control="left" aria-label="Rotate left" title="A / Left arrow">◀</button><button data-control="thrust" aria-label="Thrust" title="Space">▲</button><button data-control="inverse" aria-label="Reverse thrust" title="Shift">▼</button><button data-control="right" aria-label="Rotate right" title="D / Right arrow">▶</button></nav></body></html>
