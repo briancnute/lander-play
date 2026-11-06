@@ -87,3 +87,11 @@ $('#adjust-button').onclick=()=>{adjusting=!adjusting;if(!adjusting)renderShelf(
 renderCategories();renderShelf();updatePreview();updateMeta();
 if(storageIssue)say(storageIssue);else if(legacyImported)say('Your earlier prototype fleet is here, adapted to this kit.');else say('Pick a cabin. See what happens.');
 try{const recovered=JSON.parse(localStorage.getItem(DRAFT_KEY));if(recovered?.craft?.id&&typeof recovered.baseline==='string'){JSON.parse(recovered.baseline);openDialog('<span class="eyebrow">WELCOME BACK</span><h2>Your workbench is waiting.</h2><p>There’s a design in progress. Carry on where you left off?</p><div class="dialog-actions"><button id="resume-draft" class="primary">Resume building</button><button id="discard-draft">Discard draft</button></div>');$('#resume-draft').onclick=()=>{craft=normalize(recovered.craft);baseline=JSON.stringify(normalize(JSON.parse(recovered.baseline)));selectedSticker=-1;renderShelf();updatePreview();updateMeta();closeDialog();say('Right where you left it.')};$('#discard-draft').onclick=()=>{clearDraft();closeDialog()}}}catch{say('Could not recover the draft. Saved craft are still available.')}
+
+// Embedded editing keeps the originating Astra screen and its navigation state alive.
+const embeddedWorkshop=new URLSearchParams(location.search).get('embedded')==='1'&&parent!==window;
+function returnToCraftCaller(){guard(()=>parent.postMessage({type:'astra-workshop-exit'},location.origin));}
+if(embeddedWorkshop){
+ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='astra-workshop-request-exit')returnToCraftCaller();});
+ document.addEventListener('click',e=>{const target=e.target.closest('#astra-return,[aria-label="Close My Craft"]');if(target){e.preventDefault();e.stopImmediatePropagation();returnToCraftCaller();}},true);
+}
