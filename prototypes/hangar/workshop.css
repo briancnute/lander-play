@@ -37,3 +37,23 @@ body{grid-template-rows:auto minmax(0,1fr)}
 @media(max-width:760px){.topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:6px 8px;gap:6px}.editor-actions{grid-column:1/-1;grid-row:2}.topbar #save-close-button{grid-column:2;grid-row:1}.topbar button{font-size:11px;padding:8px 10px}.stage-top{top:12px}.drawing{top:60px}}
 @media(max-width:760px){.topbar{position:relative}.topbar #fleet-button{position:absolute;left:8px;top:6px}}
 .editor-status.is-error{position:fixed;top:80px;left:16px;right:16px;z-index:10;width:auto;height:auto;clip-path:none;padding:12px;background:#582a30;color:white;border:1px solid #d97a83;border-radius:6px}
+
+/* Compact editing toolbar, with familiar curved history icons. */
+body .topbar{display:flex;align-items:center;padding:6px 10px;gap:8px}
+body .editor-actions{display:flex;gap:3px;padding:0;overflow:visible}
+body .topbar button{min-height:32px;padding:5px 8px;font-size:11px;border-radius:4px}
+body .topbar #fleet-button{position:static;display:block}
+body .toolbar-divider{height:20px;margin:0 4px}
+body .topbar .history-icon{width:30px;padding:5px;border-color:transparent;background:transparent}
+.history-icon svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body .topbar .history-icon:hover:enabled{background:#35444c}
+.stage-bottom{align-items:center;bottom:12px;left:16px;right:16px}
+#surprise-button{display:flex;align-items:center;gap:6px;min-height:34px;padding:6px 9px;border-radius:4px;font-size:11px;background:#17262ee6;color:#d4dfdf;margin-left:auto}
+#surprise-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+#surprise-button svg path{stroke-width:3}
+dialog:has(#rename-form){width:min(340px,calc(100vw - 32px));padding:16px}
+dialog:has(#rename-form) h2{font-size:19px;margin:0 0 12px}
+#rename-form input{margin:0;min-height:38px;padding:8px 10px}
+#rename-form .dialog-actions{margin-top:12px;gap:8px}
+#rename-form button{min-height:34px;padding:6px 14px}
+@media(max-width:480px){body .topbar{padding:6px;gap:4px}body .topbar button{font-size:10px;padding:5px 6px}body .topbar .history-icon{width:26px;padding:4px}body .editor-actions{gap:2px}body .toolbar-divider{margin:0 2px}body #save-close-button{font-size:9px}.stage-bottom{left:12px;right:12px}}
