@@ -1,0 +1,25 @@
+{
+  "sourceHash": "38b3421856c09119f7040a374cfea70c05d315764f3e7bd55aa93590c967693b",
+  "sources": [
+    "src/render/mercuryTex.ts",
+    "src/render/moonTex.ts",
+    "src/render/marsTex.ts",
+    "src/render/venusTex.ts",
+    "src/render/jupiterTex.ts",
+    "src/render/globe.ts"
+  ],
+  "settings": {
+    "frames": 36,
+    "size": 128,
+    "radius": 60,
+    "quality": 0.65,
+    "seconds": 3
+  },
+  "assets": {
+    "earth": "loading-planets/earth-d1171f7777a5.webp",
+    "mercury": "loading-planets/mercury-96129024c665.webp",
+    "moon": "loading-planets/moon-b5759e2d8a38.webp",
+    "mars": "loading-planets/mars-a8a50f64d8a2.webp",
+    "venus": "loading-planets/venus-455fea83d00e.webp"
+  }
+}

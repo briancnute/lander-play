@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ASTRA · Titan — Methane Coast Expedition</title>  
+  <script type="module" crossorigin src="../assets/saturnContext-VSwZ-2ko.js"></script>
+  <script type="module" crossorigin src="../assets/visualSaturnMoons-cyOJsP3R.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterMoonCatalog-BYeiUrOX.js"></script>
+  <script type="module" crossorigin src="../assets/sim-DtFkePHA.js"></script>
+  <script type="module" crossorigin src="../assets/ExplorationTime-B633_KkJ.js"></script>
+  <script type="module" crossorigin src="../assets/modernFlightSetup-BwSdB27j.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterMoonProgress-8VxiCK2a.js"></script>
+  <script type="module" crossorigin src="../assets/craft-CT6KZRqB.js"></script>
+  <script type="module" crossorigin src="../assets/rolldown-runtime-BJX4KsWX.js"></script>
+  <script type="module" crossorigin src="../assets/titanRecords-BUECckzb.js"></script>
+  <script type="module" crossorigin src="../assets/main-NXJhj5pY.js"></script>
+  <link rel="stylesheet" crossorigin href="../assets/jupiterMoonProgress-2g3Df9LH.css">
+  <link rel="stylesheet" crossorigin href="../assets/specialRunRecords-6iPDj5kO.css">
+  <link rel="stylesheet" crossorigin href="../assets/main-CcxNsFx-.css">
+</head><body>
+<main id="selector" hidden><a class="wordmark" href="../?go=jupiter-visual">ASTRA <span>JUPITER'S MOONS</span></a><p class="eyebrow">GALILEAN MOONS</p><h1>Worlds of their own.</h1><p class="intro">Four extraordinary moons. Choose a world to explore.</p><div id="moon-list"></div><a id="caller-link" href="../?go=jupiter-visual">Back to Jupiter</a></main>
+<section id="flight" hidden aria-label="Moon expedition"><canvas id="world" tabindex="0" aria-label="Expedition view"></canvas>
+<header><div><p class="eyebrow" id="world-label"></p><h1 id="mission-title"></h1></div><nav><button id="help" aria-label="Instructions">?</button><button id="pause">Pause</button><button id="exit">Back to moons</button></nav></header>
+<div id="hud"><span id="objective"></span><span id="health"></span><span id="clock"></span></div><p id="notice" aria-live="polite"></p><div id="target-cue" hidden></div>
+<div id="controls"><button data-control="left" id="left">↶<small>LEFT</small></button><button data-control="right" id="right">↷<small>RIGHT</small></button><span></span><button data-control="special" id="special">BOOST<small>SHIFT</small></button><button data-control="main" id="main">MAIN<small>SPACE</small></button></div>
+<dialog id="panel"><p class="eyebrow" id="panel-kicker"></p><h2 id="panel-title"></h2><p id="panel-copy"></p><p class="science" id="science"></p><div class="actions"><button id="continue" class="primary">Launch</button><button id="retry">Restart</button><button id="leave">Back to moons</button></div></dialog>
+</section></body></html>
