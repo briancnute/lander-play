@@ -10,26 +10,34 @@
  Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
 })();
 </script>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ASTRA · Titan — Methane Coast Expedition</title>  
-  <script type="module" crossorigin src="../assets/saturnContext-VSwZ-2ko.js"></script>
-  <script type="module" crossorigin src="../assets/visualSaturnMoons-cyOJsP3R.js"></script>
-  <script type="module" crossorigin src="../assets/jupiterMoonCatalog-BYeiUrOX.js"></script>
-  <script type="module" crossorigin src="../assets/sim-DtFkePHA.js"></script>
-  <script type="module" crossorigin src="../assets/ExplorationTime-B633_KkJ.js"></script>
-  <script type="module" crossorigin src="../assets/modernFlightSetup-BwSdB27j.js"></script>
-  <script type="module" crossorigin src="../assets/jupiterMoonProgress-8VxiCK2a.js"></script>
-  <script type="module" crossorigin src="../assets/craft-CT6KZRqB.js"></script>
-  <script type="module" crossorigin src="../assets/rolldown-runtime-BJX4KsWX.js"></script>
-  <script type="module" crossorigin src="../assets/titanRecords-BUECckzb.js"></script>
-  <script type="module" crossorigin src="../assets/main-NXJhj5pY.js"></script>
-  <link rel="stylesheet" crossorigin href="../assets/jupiterMoonProgress-2g3Df9LH.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#55391f"><title>ASTRA · Titan — Through the Haze</title>  
+  <script type="module" crossorigin src="../assets/titan-CLaKgzWC.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-CaBW7vut.js">
+  <link rel="modulepreload" crossorigin href="../assets/observationMoment-JROwI2Ap.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlight-ViP1d_oi.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-Cni1q64D.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-CcU4p7vo.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusAscent-Bt_4sL7a.js">
+  <link rel="modulepreload" crossorigin href="../assets/audio-C6AvYuZ2.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-DQy0QAIh.js">
+  <link rel="modulepreload" crossorigin href="../assets/saturnFeedback-EolNzxsT.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-3kKH2Va-.js">
+  <link rel="modulepreload" crossorigin href="../assets/collectorLevels-ZgHZ-4Hn.js">
+  <link rel="modulepreload" crossorigin href="../assets/pressure-DudkbBjp.js">
+  <link rel="modulepreload" crossorigin href="../assets/jupiterIoTraverse-CsD6qK37.js">
+  <link rel="modulepreload" crossorigin href="../assets/surface-CjRjquEm.js">
+  <link rel="modulepreload" crossorigin href="../assets/emojiCraft-DxW4NU1r.js">
+  <link rel="modulepreload" crossorigin href="../assets/surveySample-9i1-OEA8.js">
+  <link rel="modulepreload" crossorigin href="../assets/ancientGuidance-CDWq2_xN.js">
+  <link rel="modulepreload" crossorigin href="../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../assets/titanRecords-DBiKj_CS.js">
+  <link rel="stylesheet" crossorigin href="../assets/jupiterIoTraverse-2g3Df9LH.css">
   <link rel="stylesheet" crossorigin href="../assets/specialRunRecords-6iPDj5kO.css">
-  <link rel="stylesheet" crossorigin href="../assets/main-CcxNsFx-.css">
+  <link rel="stylesheet" crossorigin href="../assets/titan-BNmShlCb.css">
 </head><body>
-<main id="selector" hidden><a class="wordmark" href="../?go=jupiter-visual">ASTRA <span>JUPITER'S MOONS</span></a><p class="eyebrow">GALILEAN MOONS</p><h1>Worlds of their own.</h1><p class="intro">Four extraordinary moons. Choose a world to explore.</p><div id="moon-list"></div><a id="caller-link" href="../?go=jupiter-visual">Back to Jupiter</a></main>
-<section id="flight" hidden aria-label="Moon expedition"><canvas id="world" tabindex="0" aria-label="Expedition view"></canvas>
-<header><div><p class="eyebrow" id="world-label"></p><h1 id="mission-title"></h1></div><nav><button id="help" aria-label="Instructions">?</button><button id="pause">Pause</button><button id="exit">Back to moons</button></nav></header>
-<div id="hud"><span id="objective"></span><span id="health"></span><span id="clock"></span></div><p id="notice" aria-live="polite"></p><div id="target-cue" hidden></div>
-<div id="controls"><button data-control="left" id="left">↶<small>LEFT</small></button><button data-control="right" id="right">↷<small>RIGHT</small></button><span></span><button data-control="special" id="special">BOOST<small>SHIFT</small></button><button data-control="main" id="main">MAIN<small>SPACE</small></button></div>
-<dialog id="panel"><p class="eyebrow" id="panel-kicker"></p><h2 id="panel-title"></h2><p id="panel-copy"></p><p class="science" id="science"></p><div class="actions"><button id="continue" class="primary">Launch</button><button id="retry">Restart</button><button id="leave">Back to moons</button></div></dialog>
+<section id="flight" aria-label="Titan lander flight"><canvas id="world" tabindex="0" aria-label="Titan: rotate with arrows or A/D, thrust with Space, boost with Shift. Collect seven samples and land."></canvas>
+<header><div><p class="eyebrow">SATURN / TITAN / METHANE COAST</p><h1>Through the Haze</h1></div><nav><button id="help" aria-label="Instructions">?</button><button id="pause">Pause</button><button id="exit">Back to moons</button></nav></header>
+<div id="hud"><span id="objective">0 / 7 · COLLECT SAMPLES</span><span id="health">Fuel 100%</span><span id="clock">0.0 s</span></div><p id="notice" role="status"></p><div id="target-cue" hidden></div><p id="velocity"></p>
+<div id="controls"><button data-control="left" id="left">↶<small>TURN LEFT</small></button><button data-control="right" id="right">↷<small>TURN RIGHT</small></button><span></span><button data-control="special" id="special">BOOST<small>SHIFT</small></button><button data-control="main" id="main">THRUST<small>SPACE</small></button></div>
+<dialog id="panel"><p class="eyebrow">TITAN / LANDER FLIGHT</p><h2 id="panel-title">Through the Haze</h2><p id="panel-copy"></p><p class="controls-note">← → / A D turn · Space thrusts · release to coast</p><p id="best"></p><p id="context"></p><p id="result-saved" role="status" hidden></p><div class="actions"><button id="continue" class="primary">Launch</button><button id="resume-saved" hidden>Resume saved flight</button><button id="retry" hidden>Restart</button><button id="records">Records</button><button id="sound" aria-pressed="true">Sound on</button><button id="leave">Back to moons</button></div><details><summary>Flight guide & Titan</summary><p>Tilt the lander, then thrust along its heading. Let go of thrust to descend; tilt the other way and burn to brake. Seven samples can be collected in any order. One is high in the haze, and one lies beyond the landing shore.</p><p>Shift boosts during collection: start with one charge and earn one after every three samples. After the seventh sample, boost switches off. Space fires medium landing thrust immediately. After two seconds and releasing Shift, hold Shift for low thrust. Release both to coast. Touch controls work the same way; hold turn and thrust together.</p><p>Land upright on the far-shore pad, below 5 m/s vertically and 4 m/s sideways. Keep your landing feet above the methane sea. Clouds obscure the view but do no damage.</p><p>This is an authored Ligeia-inspired coast. Titan’s orange haze, hydrocarbon seas and icy bedrock inspire the scenery. The spacecraft, route, samples and weather are fictional; flight handling deliberately matches Ancient Venus’s Through the Veil, rather than simulating Titan’s gravity. Lighting uses the selected date or chosen lighting study.</p><a href="https://science.nasa.gov/saturn/moons/titan/facts/" target="_blank" rel="noopener">NASA · Titan facts</a></details></dialog>
 </section></body></html>

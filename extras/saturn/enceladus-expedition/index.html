@@ -10,26 +10,29 @@
  Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
 })();
 </script>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ASTRA · Enceladus — Tiger Stripe Expedition</title>  
-  <script type="module" crossorigin src="../assets/saturnContext-VSwZ-2ko.js"></script>
-  <script type="module" crossorigin src="../assets/visualSaturnMoons-cyOJsP3R.js"></script>
-  <script type="module" crossorigin src="../assets/jupiterMoonCatalog-BYeiUrOX.js"></script>
-  <script type="module" crossorigin src="../assets/sim-DtFkePHA.js"></script>
-  <script type="module" crossorigin src="../assets/ExplorationTime-B633_KkJ.js"></script>
-  <script type="module" crossorigin src="../assets/modernFlightSetup-BwSdB27j.js"></script>
-  <script type="module" crossorigin src="../assets/jupiterMoonProgress-8VxiCK2a.js"></script>
-  <script type="module" crossorigin src="../assets/craft-CT6KZRqB.js"></script>
-  <script type="module" crossorigin src="../assets/rolldown-runtime-BJX4KsWX.js"></script>
-  <script type="module" crossorigin src="../assets/titanRecords-BUECckzb.js"></script>
-  <script type="module" crossorigin src="../assets/main-NXJhj5pY.js"></script>
-  <link rel="stylesheet" crossorigin href="../assets/jupiterMoonProgress-2g3Df9LH.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#09131f"><title>ASTRA · Enceladus — Geyser Photographer</title>  
+  <script type="module" crossorigin src="../assets/enceladus-C1URO4DZ.js"></script>
+  <link rel="modulepreload" crossorigin href="../assets/browserInput-CaBW7vut.js">
+  <link rel="modulepreload" crossorigin href="../assets/observationMoment-JROwI2Ap.js">
+  <link rel="modulepreload" crossorigin href="../assets/three.module-DQy0QAIh.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlight-ViP1d_oi.js">
+  <link rel="modulepreload" crossorigin href="../assets/sim-Cni1q64D.js">
+  <link rel="modulepreload" crossorigin href="../assets/ExplorationTime-3kKH2Va-.js">
+  <link rel="modulepreload" crossorigin href="../assets/modernFlightSetup-CcU4p7vo.js">
+  <link rel="modulepreload" crossorigin href="../assets/jupiterIoTraverse-CsD6qK37.js">
+  <link rel="modulepreload" crossorigin href="../assets/emojiCraft-DxW4NU1r.js">
+  <link rel="modulepreload" crossorigin href="../assets/audio-C6AvYuZ2.js">
+  <link rel="modulepreload" crossorigin href="../assets/rolldown-runtime-BJX4KsWX.js">
+  <link rel="modulepreload" crossorigin href="../assets/venusAscent-Bt_4sL7a.js">
+  <link rel="modulepreload" crossorigin href="../assets/titanRecords-DBiKj_CS.js">
+  <link rel="stylesheet" crossorigin href="../assets/jupiterIoTraverse-2g3Df9LH.css">
   <link rel="stylesheet" crossorigin href="../assets/specialRunRecords-6iPDj5kO.css">
-  <link rel="stylesheet" crossorigin href="../assets/main-CcxNsFx-.css">
+  <link rel="stylesheet" crossorigin href="../assets/enceladus-C_qPB-pn.css">
 </head><body>
-<main id="selector" hidden><a class="wordmark" href="../?go=jupiter-visual">ASTRA <span>JUPITER'S MOONS</span></a><p class="eyebrow">GALILEAN MOONS</p><h1>Worlds of their own.</h1><p class="intro">Four extraordinary moons. Choose a world to explore.</p><div id="moon-list"></div><a id="caller-link" href="../?go=jupiter-visual">Back to Jupiter</a></main>
-<section id="flight" hidden aria-label="Moon expedition"><canvas id="world" tabindex="0" aria-label="Expedition view"></canvas>
-<header><div><p class="eyebrow" id="world-label"></p><h1 id="mission-title"></h1></div><nav><button id="help" aria-label="Instructions">?</button><button id="pause">Pause</button><button id="exit">Back to moons</button></nav></header>
-<div id="hud"><span id="objective"></span><span id="health"></span><span id="clock"></span></div><p id="notice" aria-live="polite"></p><div id="target-cue" hidden></div>
-<div id="controls"><button data-control="left" id="left">↶<small>LEFT</small></button><button data-control="right" id="right">↷<small>RIGHT</small></button><span></span><button data-control="special" id="special">BOOST<small>SHIFT</small></button><button data-control="main" id="main">MAIN<small>SPACE</small></button></div>
-<dialog id="panel"><p class="eyebrow" id="panel-kicker"></p><h2 id="panel-title"></h2><p id="panel-copy"></p><p class="science" id="science"></p><div class="actions"><button id="continue" class="primary">Launch</button><button id="retry">Restart</button><button id="leave">Back to moons</button></div></dialog>
+<section id="flight" aria-label="Enceladus photography flight"><canvas id="world" tabindex="0" aria-label="Rotate with arrows or A/D, thrust with Space, take a photograph with Shift. Photograph four erupting geysers, then land."></canvas>
+<header><div><p class="eyebrow">SATURN / ENCELADUS / SOUTH POLAR ICE</p><h1>Geyser Photographer</h1></div><nav><button id="help" aria-label="Instructions">?</button><button id="pause">Pause</button><button id="exit">Back to moons</button></nav></header>
+<div id="hud"><span id="objective">0 / 4 · PHOTOGRAPHS</span><span id="health">Hull 100% · Fuel 100%</span><span id="clock">0.0 s</span></div><p id="notice" role="status"></p><div id="target-cue" hidden></div><p id="velocity"></p>
+<div id="filmstrip" aria-label="Geyser photographs"><span id="frame-0">1</span><span id="frame-1">2</span><span id="frame-2">3</span><span id="frame-3">4</span></div>
+<div id="controls"><button data-control="left" id="left">↶<small>TURN LEFT</small></button><button data-control="right" id="right">↷<small>TURN RIGHT</small></button><span></span><button data-control="special" id="special">PHOTO<small>SHIFT</small></button><button data-control="main" id="main">THRUST<small>SPACE</small></button></div>
+<dialog id="panel"><p class="eyebrow">ENCELADUS / PHOTOGRAPHIC SURVEY</p><h2 id="panel-title">Geyser Photographer</h2><p id="panel-copy"></p><p class="controls-note">← → / A D turn · Space thrusts · Shift takes a photo</p><p id="best"></p><p id="context"></p><p id="result-saved" role="status" hidden></p><div id="album" hidden></div><div class="actions"><button id="continue" class="primary">Launch</button><button id="resume-saved" hidden>Resume saved flight</button><button id="retry" hidden>Restart</button><button id="records">Records</button><button id="sound" aria-pressed="true">Sound on</button><button id="leave">Back to moons</button></div><details><summary>Flight guide & Enceladus</summary><p>Tilt your collector ship, then thrust along its heading. Release to coast; turn the other way and thrust to brake. You can turn and thrust together on a touchscreen.</p><p>Fly close to each geyser, before or after passing it. When the PHOTO button says IN FRAME, press Shift or tap PHOTO. The camera aims at the geyser automatically. Release and press again for another shot: holding the shutter never takes a delayed picture. A quiet geyser cannot be photographed.</p><p>The bright ice jets damage your hull. Photograph from beside them; cross during a lull or fly over the plume. There are no drawn danger boundaries. Missed one? Turn around and try again.</p><p>Pass all four geysers and collect all four photographs, then land on the ground platform beyond the last. Touch down upright, below 5 m/s down and 4 m/s across. Shift remains your camera throughout the flight.</p><p>An authored south-polar ice route inspired by Enceladus. The spacecraft, photography windows and eruption cycles are fictional. Flight acceleration is tuned for collector-style play. Selected-date lighting uses the existing local Sun model; eruption timing is gameplay, not a forecast.</p></details></dialog>
 </section></body></html>
