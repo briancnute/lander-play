@@ -1,0 +1,22 @@
+[
+  {
+    "file": "public/saturn/moons/maps/titan.jpg",
+    "url": "https://space.jpl.nasa.gov/tmaps/pix/sat6fss1.jpg",
+    "credit": "JPL/Caltech; David Seal. Fictitious haze concept with Voyager-derived colors.",
+    "bytes": 6597,
+    "sha256": "112c05c54cc32156b7f3410abe743240db5fd937a73dfcd92852056f784658d6"
+  },
+  {
+    "file": "public/saturn/moons/maps/enceladus.jpg",
+    "url": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia14/pia14937/PIA14937.jpg?crop=faces%2Cfocalpoint&fit=clip&h=807&w=1536",
+    "credit": "NASA/JPL-Caltech/Space Science Institute. Cassini PIA14937, December 2011 mosaic.",
+    "bytes": 320701,
+    "sha256": "f274f4bf9f876d58ef92243df25053c6c998e54e9707c2e0e3093e5c7edfa0f9",
+    "sampleBounds": [
+      35,
+      30,
+      1476,
+      736
+    ]
+  }
+]

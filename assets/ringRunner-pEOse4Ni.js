@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";var e=new URL(`../ring-surfer/`,location.href);e.search=location.search,e.hash=location.hash,document.getElementById(`successor`).href=e.href,location.replace(e.href);

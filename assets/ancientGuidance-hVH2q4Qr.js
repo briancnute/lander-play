@@ -1,0 +1,1 @@
+function e(e,t,n,r=0){if(!e.length)return{target:null,locked:null};if(e.some(e=>e.visible))return{target:(r>=4?e.find(e=>e.high&&!e.visible):void 0)?.index??null,locked:null};let i=e.find(e=>e.index===n)??e.reduce((e,n)=>Math.hypot(e.x-t.x,e.y-t.y)<=Math.hypot(n.x-t.x,n.y-t.y)?e:n);return{target:i.index,locked:i.index}}export{e as t};
