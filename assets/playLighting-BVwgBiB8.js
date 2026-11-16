@@ -1,0 +1,1 @@
+var e=[`selected`,`day`,`dusk`,`night`],t=t=>e.includes(t)?t:`selected`,n=`day`;function r(){try{return t(localStorage.getItem(`astra.play.lighting.v1`)??`day`)}catch{return n}}function i(e){n=t(e);try{localStorage.setItem(`astra.play.lighting.v1`,t(e))}catch{}}var a=e=>({selected:`Selected date`,day:`Day`,dusk:`Dusk`,night:`Night`})[e];export{i as a,r as i,t as n,a as r,e as t};

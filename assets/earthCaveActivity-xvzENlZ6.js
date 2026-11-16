@@ -1,0 +1,1 @@
+var e={home:`earth/lava-tube`,destination:`earth-cave`,activity:`cave`,path:`earth-cave/`,preview:`play2/game/earth_lava-tube.png`};function t(t){let n=new URL(e.path,t);return n.searchParams.set(`embedded`,`1`),n}export{t as n,e as t};
