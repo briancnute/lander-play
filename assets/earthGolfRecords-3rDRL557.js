@@ -1,0 +1,1 @@
+import{h as e}from"./visual-D5SVyOiI.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
