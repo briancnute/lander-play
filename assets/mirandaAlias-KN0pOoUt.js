@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";var e=new URL(`../../miranda-cliff-run/`,location.href);e.search=location.search,e.hash=location.hash,location.replace(e.href);

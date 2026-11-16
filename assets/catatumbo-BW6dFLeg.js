@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";import{n as e}from"./main-iup-8zOF.js";e(`catatumbo-v1`);

@@ -1,0 +1,1 @@
+var e=``+new URL(`dark-spot-cloud-level-DkAbFh8C.png`,import.meta.url).href,t=``+new URL(`scooter-cloud-shelves-CY4hQbxS.png`,import.meta.url).href;export{e as n,t};

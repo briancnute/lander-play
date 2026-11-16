@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en"><head>
+  <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
+(()=>{
+ let context;
+ try{if(parent!==window)context=parent.__astraDevicePreviewSession||parent.__astraReviewSession;}catch{}
+ if(!context)return;
+ window.__astraReviewSession=context;
+ function storage(data){const methods={getItem:k=>Object.prototype.hasOwnProperty.call(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{data[String(k)]=String(v);},removeItem:k=>{delete data[String(k)];},clear:()=>{for(const k of Object.keys(data))delete data[k];},key:i=>Object.keys(data)[i]??null};return new Proxy(methods,{get:(o,k)=>k==='length'?Object.keys(data).length:k in o?o[k]:data[k],set:(_,k,v)=>{data[k]=String(v);return true;},deleteProperty:(_,k)=>{delete data[k];return true;},ownKeys:()=>Object.keys(data),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true})});}
+ Object.defineProperty(window,'localStorage',{value:storage(context.local)});
+ Object.defineProperty(window,'sessionStorage',{value:storage(context.session)});
+})();
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#062e38"><title>URANUS · Sideways Station · Astra</title>  
+  <script type="module" crossorigin src="../assets/browserInput-BBHdG_eQ.js"></script>
+  <script type="module" crossorigin src="../assets/explorationMoment-CNFyRlf8.js"></script>
+  <script type="module" crossorigin src="../assets/preload-helper-DYl5dUZ5.js"></script>
+  <script type="module" crossorigin src="../assets/workshopFlight-mNwdKZoV.js"></script>
+  <script type="module" crossorigin src="../assets/moonFlightSites-CMv6d5Vd.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterActivityContract-BBHM7ob4.js"></script>
+  <script type="module" crossorigin src="../assets/flightV21-zD-Y_IUj.js"></script>
+  <script type="module" crossorigin src="../assets/displayPreferences-CHsmsYHS.js"></script>
+  <script type="module" crossorigin src="../assets/earthUnderwater-DGUZt5-p.js"></script>
+  <script type="module" crossorigin src="../assets/craftAppearance-DsifwKBm.js"></script>
+  <script type="module" crossorigin src="../assets/flightEquipment-DMPBg5-S.js"></script>
+  <script type="module" crossorigin src="../assets/tuning-7l_0oP-o.js"></script>
+  <script type="module" crossorigin src="../assets/worlds-DBQet6nM.js"></script>
+  <script type="module" crossorigin src="../assets/flightTuning-Dx_MhLTp.js"></script>
+  <script type="module" crossorigin src="../assets/masteryScoring-DiD9xdpP.js"></script>
+  <script type="module" crossorigin src="../assets/storm-D-d3jd6q.js"></script>
+  <script type="module" crossorigin src="../assets/sim-1MHVpBx9.js"></script>
+  <script type="module" crossorigin src="../assets/FlightSetup-DEk0efHI.js"></script>
+  <script type="module" crossorigin src="../assets/playLighting-CAs8A-U2.js"></script>
+  <script type="module" crossorigin src="../assets/ExplorationTime-LLfwOENH.js"></script>
+  <script type="module" crossorigin src="../assets/neptuneActivityContract-COsFLScY.js"></script>
+  <script type="module" crossorigin src="../assets/saturnActivityContract-DdcaBFt7.js"></script>
+  <script type="module" crossorigin src="../assets/essentialStorage-B7P2TWtx.js"></script>
+  <script type="module" crossorigin src="../assets/golfCourseRound-DRIZzqqS.js"></script>
+  <script type="module" crossorigin src="../assets/modernFlightSetup-BDmm6ewb.js"></script>
+  <script type="module" crossorigin src="../assets/sharedFlightSetup-MUM98myw.js"></script>
+  <script type="module" crossorigin src="../assets/rolldown-runtime-BJX4KsWX.js"></script>
+  <script type="module" crossorigin src="../assets/mercurySensors-uLZYgi2b.js"></script>
+  <script type="module" crossorigin src="../assets/saturnContext-DXR9gBUC.js"></script>
+  <script type="module" crossorigin src="../assets/visualSaturnMoons-BafdpOfP.js"></script>
+  <script type="module" crossorigin src="../assets/saturnRings-9v7A43dm.js"></script>
+  <script type="module" crossorigin src="../assets/textures-DiC4ik_k.js"></script>
+  <script type="module" crossorigin src="../assets/globe-BD-xX-hH.js"></script>
+  <script type="module" crossorigin src="../assets/visualSky-BJi0-Atf.js"></script>
+  <script type="module" crossorigin src="../assets/mercuryDusk-CvYb0K7A.js"></script>
+  <script type="module" crossorigin src="../assets/venusSite-BXwaaNPl.js"></script>
+  <script type="module" crossorigin src="../assets/venusAscent-D89ZElly.js"></script>
+  <script type="module" crossorigin src="../assets/earthCaveActivity-DNj6InHB.js"></script>
+  <script type="module" crossorigin src="../assets/pitchPuttHoles-Czd8w4Vp.js"></script>
+  <script type="module" crossorigin src="../assets/activityHomes-CoB3cDEk.js"></script>
+  <script type="module" crossorigin src="../assets/scoreMedal-CmwYFGEq.js"></script>
+  <script type="module" crossorigin src="../assets/recordsTable-oY2VuiEg.js"></script>
+  <script type="module" crossorigin src="../assets/flightEquipment-R934SJyX.js"></script>
+  <script type="module" crossorigin src="../assets/primaryScoring-CXU_ok8u.js"></script>
+  <script type="module" crossorigin src="../assets/collectorLevels-BzuCV2L6.js"></script>
+  <script type="module" crossorigin src="../assets/spine-DyfP_qGK.js"></script>
+  <script type="module" crossorigin src="../assets/SaveManager-5PfOd2Hc.js"></script>
+  <script type="module" crossorigin src="../assets/three.module-7OqfJnON.js"></script>
+  <script type="module" crossorigin src="../assets/emojiCraft-DM1w6Zy6.js"></script>
+  <script type="module" crossorigin src="../assets/craft-i_XYkEc0.js"></script>
+  <script type="module" crossorigin src="../assets/surfaceSolar-Xi6hab7K.js"></script>
+  <script type="module" crossorigin src="../assets/siteLighting-KyxZsk-y.js"></script>
+  <script type="module" crossorigin src="../assets/observationMoment-CPAerCN7.js"></script>
+  <script type="module" crossorigin src="../assets/game-starts-QqQvrHY9.js"></script>
+  <script type="module" crossorigin src="../assets/moonGolfRoster-hbXc_Sh8.js"></script>
+  <script type="module" crossorigin src="../assets/flightRecordSites-DGodVcQ1.js"></script>
+  <script type="module" crossorigin src="../assets/activityStats-yraIsLSj.js"></script>
+  <script type="module" crossorigin src="../assets/popupFrame-B59ymCBC.js"></script>
+  <script type="module" crossorigin src="../assets/activityChoices-CVlM0MSv.js"></script>
+  <script type="module" crossorigin src="../assets/terminatorRecords-6-UQfVRs.js"></script>
+  <script type="module" crossorigin src="../assets/v2PlayRoster-AGHyA2gp.js"></script>
+  <script type="module" crossorigin src="../assets/slalom-catalog-B1XTcAdv.js"></script>
+  <script type="module" crossorigin src="../assets/moonActivityRecords-CcJ4sguk.js"></script>
+  <script type="module" crossorigin src="../assets/moonGolfCourseRecords-CczZaal4.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterIoTraverse-CxVRk3dG.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterMoonProgress-C4mU5hBc.js"></script>
+  <script type="module" crossorigin src="../assets/recordsExplorer-SMfU83Av.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterBackdrop-DCKe35SI.js"></script>
+  <script type="module" crossorigin src="../assets/contact-BPsutAPs.js"></script>
+  <script type="module" crossorigin src="../assets/jupiterFlight-D-5UCwGE.js"></script>
+  <script type="module" crossorigin src="../assets/main-ByFzjfn_.js"></script>
+  <link rel="stylesheet" crossorigin href="../assets/recordsTable-2g3Df9LH.css">
+  <link rel="stylesheet" crossorigin href="../assets/flightEquipment-ZLFrsO0E.css">
+  <link rel="stylesheet" crossorigin href="../assets/activityStats-CbK-7wA6.css">
+  <link rel="stylesheet" crossorigin href="../assets/popupFrame-BTzRwQa6.css">
+  <link rel="stylesheet" crossorigin href="../assets/activityChoices-D8RO-Vhz.css">
+  <link rel="stylesheet" crossorigin href="../assets/terminatorRecords-DqRT52Yq.css">
+  <link rel="stylesheet" crossorigin href="../assets/recordsExplorer-Nh7zwXw5.css">
+  <link rel="stylesheet" crossorigin href="../assets/main-B6JG7wRj.css">
+</head>
+<body><main id="flight" aria-label="Uranus flight with sideways gravity and upright instruments">
+ <div id="rolled-view">
+ <canvas id="scene" aria-label="Lander approaching the suspended Uranus research station"></canvas>
+ </div>
+ <div id="flight-ui">
+ <header><a href="../?go=uranus-visual" id="exit">← ASTRA</a><span>URANUS <i>/</i> <span id="mission-name">SIDEWAYS STATION</span></span><button id="pause" aria-label="Pause flight">Ⅱ</button></header>
+ <section id="telemetry" aria-label="Flight instruments"><div><small>ALTITUDE</small><strong id="altitude">70<span>m</span></strong></div><div><small>DESCENT</small><strong id="descent">2.0<span>m/s</span></strong></div><div><small>FUEL</small><strong id="fuel">100<span>%</span></strong></div></section>
+ <div id="heading"><span id="attitude">0°</span><span id="drift">DRIFT 1.8 m/s</span></div>
+ <div id="station-label">01 <b>SIDEWAYS STATION</b><span>POWERED ATMOSPHERIC PLATFORM</span></div>
+ <div id="guidance" role="status">Turn your head. Find your down.</div>
+ <div id="pickup-toast" hidden role="status"></div>
+ <footer><div class="turns"><button data-control="left" aria-label="Turn left">↶<small>A / ←</small></button><button data-control="right" aria-label="Turn right">↷<small>D / →</small></button></div><div class="engines"><button data-control="low">LOW<small>SHIFT</small></button><button data-control="med">THRUST<small>SPACE · MED</small></button></div></footer>
+ <section id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title"><div class="panel-card"><p class="eyebrow">ASTRA / URANUS</p><h1 id="panel-title">A different <br>kind of down.</h1><p id="panel-copy">Land on the illuminated deck. Turn with A / D or ← / →. Space fires MED; Shift fires LOW.</p><p id="panel-detail">The flight scene is turned 90°. Gravity points left on your screen; instruments and menus stay upright.</p><button id="primary" disabled>BEGIN DESCENT <span>→</span></button><button id="retry" hidden>RETRY APPROACH</button><div id="equipment"></div><button id="records">RECORDS</button><a id="panel-back" href="../?go=uranus-visual">BACK TO URANUS</a><p id="panel-note">Fictional station and stabilized flight. Uranus has no solid surface.</p></div></section>
+ <div id="countdown" hidden aria-live="polite"></div>
+ </div>
+</main></body></html>

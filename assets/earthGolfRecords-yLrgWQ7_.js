@@ -1,0 +1,1 @@
+import{S as e}from"./missions-BAR-F8BI.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
