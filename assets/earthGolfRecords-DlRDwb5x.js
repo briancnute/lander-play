@@ -1,0 +1,1 @@
+import{t as e}from"./specialRunRecords-Cp2mfJ-0.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
