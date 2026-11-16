@@ -17,12 +17,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>ASTRA · Neptune · Gale</title>
   <script type="module" crossorigin src="../assets/browserInput-BBHdG_eQ.js"></script>
-  <script type="module" crossorigin src="../assets/neptuneGaleCourses-CEN73Fxt.js"></script>
+  <script type="module" crossorigin src="../assets/neptuneGaleCourses-BN-s1D3_.js"></script>
   <script type="module" crossorigin src="../assets/essentialStorage-B7P2TWtx.js"></script>
   <script type="module" crossorigin src="../assets/SpecialRunBook-CkLsT1Qb.js"></script>
   <script type="module" crossorigin src="../assets/neptuneGaleDiscoveries-Rr-AIO_e.js"></script>
-  <script type="module" crossorigin src="../assets/main-DJujX-08.js"></script>
-  <link rel="stylesheet" crossorigin href="../assets/main-BNOmtU0M.css">
+  <script type="module" crossorigin src="../assets/main-DklE7gFn.js"></script>
+  <link rel="stylesheet" crossorigin href="../assets/main-D04jO1EF.css">
 </head>
 <body>
 <div id="stage"><canvas id="c"></canvas></div>
@@ -34,7 +34,7 @@
  <div class="row">PRESSURE <span id="pressure">—</span></div><div class="row">VERTICAL <span id="vertical">—</span></div>
  <div class="row spd">SPEED <span id="spd">0</span> km/h</div><div class="row">SURVEY DEPTH <span id="depth">—</span></div>
  <div class="row rain">RAIN <span id="gem">0/8</span> · SAMPLES <span id="smp">0/3</span></div>
- <div id="shieldState" class="row">RELEASE TO SHIELD</div><div class="bar"><div id="chargefill"></div></div>
+ <div id="shieldState" class="row">HOLD SHIFT / SHIELD</div>
 </div>
 <div id="surveyMetrics" aria-label="Current survey"><small data-course-name></small><span>TIME <b id="surveyTime">0:00.00</b></span><span>THRUST <b id="surveyThrust">0.00 engine s</b></span></div>
 <div id="layerCue" class="hidden"><span id="layerTexture"></span><b id="layerFeel"></b><span id="layerApproach"></span><div class="layer-track"><i id="layerProgress"></i></div></div>
@@ -45,7 +45,7 @@
 <div id="controls"><div><button class="ctl" data-control="left" aria-label="Thrust left">←<small>LEFT</small></button><button class="ctl" data-control="right" aria-label="Thrust right">→<small>RIGHT</small></button></div><div><button class="ctl" data-control="shield" aria-label="Hold wind shield">⬡<small>SHIELD</small></button><button class="ctl" data-control="up" aria-label="Thrust up">↑<small>SPACE</small></button></div></div>
 <div id="ret" class="hidden">↩ DOCK ON THE LANDER</div>
 <div id="edge" class="hidden"></div>
-<div id="kbd">← → move · SPACE up · SHIFT shield · ESC pause<br>Release for 0.5 s → wind shield. Gravity keeps pulling.</div>
+<div id="kbd">← → move · SPACE up · SHIFT shield · ESC pause<br>Hold SHIFT to shield. Release it to lower shields.</div>
 <div class="overlay" id="startOv"><div class="panel">
   <h1>GALE</h1>
   <div class="tag">NEPTUNE · DRONE SURVEY OF A WORLD MADE OF WIND</div>
@@ -53,7 +53,7 @@
   <div class="start-actions"><button class="btn" id="startBtn">LIFT OFF</button><button class="btn secondary" data-sound aria-pressed="true">SOUND: ON</button></div>
   <p>Lift your drone off the lander and ride the layers of Neptune's sky — the fastest winds anywhere.</p>
   <div class="how"><b>← / →</b> thrust sideways · <b>SPACE</b> thrust up · <b>SHIFT</b> hold wind shield.<br>
-  Hold <b>SHIFT / SHIELD</b> for immediate protection, even while thrusting. Release all controls for <b>half a second</b> for an automatic shield until your next input. Shielding brakes sideways drift; <b>you still fall</b>.<br>
+  Hold <b>SHIFT / SHIELD</b> for protection, even while thrusting. Release it to lower shields. Shielding brakes sideways drift; <b>you still fall</b>.<br>
   Cross five cloud layers, catch <b>8 rain crystals</b>, dock at <b>3 sample stations</b>, then return to <b>HOME</b>. Follow the mini-map. Gust warnings give you time to shield.</div>
   <details><summary>About this flight</summary><p>A drone survey through Neptune’s atmosphere. Constant gravity: 11.15 m/s². Depth, pressure, wind speeds and stations are compressed or authored for play. The diamond-shaped rain is a fictional collectible, not a claim of diamonds falling through Neptune’s visible clouds. The lower boundary is still atmosphere. Layer textures and synthesized wind sounds are artistic cues; watch the layer panel for approaching pressure changes. Sound can be muted here or in Pause.</p></details>
   <p class="course-record-label"><span data-course-name></span> · PERSONAL BESTS</p><div class="personal-bests" aria-label="Personal bests"><span>FASTEST SURVEY <b data-best-time>—</b></span><span>LEAST THRUST <b data-best-thrust>—</b></span></div>
@@ -94,7 +94,7 @@
   <button class="btn" id="restartBtn">TRY AGAIN</button><button class="btn secondary" data-choose-course>CHOOSE COURSE</button>
 <button class="btn secondary" data-gale-exit>BACK TO NEPTUNE</button></div></div>
 
-<div class="overlay hidden" id="pauseOv"><div class="panel"><h1>PAUSED</h1><p>Hold Shift / Shield for wind protection while flying, or release all controls for 0.5 seconds for an automatic shield. Space climbs; release it to descend. Shielding slows sideways drift. Gravity stays on.</p><p class="course-record-label"><span data-course-name></span> · PERSONAL BESTS</p><div class="personal-bests" aria-label="Personal bests"><span>FASTEST SURVEY <b data-best-time>—</b></span><span>LEAST THRUST <b data-best-thrust>—</b></span></div><p class="record-note">Both counters are paused. Only a completed survey earns records.</p><details class="sample-journal"><summary id="journalCount">SAMPLES ABOARD · 0 / 3</summary><div id="journalSamples"></div></details><button class="btn" id="resumeBtn">RESUME</button><button class="btn secondary" id="retryBtn">RESTART SURVEY</button><button class="btn secondary" data-choose-course>CHOOSE COURSE</button><button class="btn secondary" data-sound aria-pressed="true">SOUND: ON</button><button class="btn secondary" data-gale-exit>BACK TO NEPTUNE</button></div></div>
+<div class="overlay hidden" id="pauseOv"><div class="panel"><h1>PAUSED</h1><p>Hold Shift / Shield for wind protection while flying. Release it to lower shields. Space climbs; release it to descend. Shielding slows sideways drift. Gravity stays on.</p><p class="course-record-label"><span data-course-name></span> · PERSONAL BESTS</p><div class="personal-bests" aria-label="Personal bests"><span>FASTEST SURVEY <b data-best-time>—</b></span><span>LEAST THRUST <b data-best-thrust>—</b></span></div><p class="record-note">Both counters are paused. Only a completed survey earns records.</p><details class="sample-journal"><summary id="journalCount">SAMPLES ABOARD · 0 / 3</summary><div id="journalSamples"></div></details><button class="btn" id="resumeBtn">RESUME</button><button class="btn secondary" id="retryBtn">RESTART SURVEY</button><button class="btn secondary" data-choose-course>CHOOSE COURSE</button><button class="btn secondary" data-sound aria-pressed="true">SOUND: ON</button><button class="btn secondary" data-gale-exit>BACK TO NEPTUNE</button></div></div>
 <div class="overlay hidden" id="reportOv"><div class="panel report-panel">
  <div class="tag">NEPTUNE · GALE · DATA RETURNED HOME</div><h1 id="reportTitle" tabindex="-1">YOUR SURVEY</h1><p id="reportCourse" class="course-record-label"></p><p id="reportSummary"></p>
  <div class="report-measures"><span>DEEPEST PRESSURE<b id="reportPressure"></b></span><span>DEEPEST SURVEY POINT<b id="reportDepth"></b></span><span>STRONGEST WIND<b id="reportWind"></b></span><span>ACTIVE FLIGHT<b id="reportTime"></b></span><span>THRUST USED<b id="reportThrust"></b></span></div>
