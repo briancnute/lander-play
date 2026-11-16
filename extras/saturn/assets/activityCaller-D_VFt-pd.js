@@ -1,0 +1,1 @@
+var e=e=>`← BACK TO ${e.label.toUpperCase()}`;function t(e){let t=typeof document>`u`?null:document.activeElement,n=!1;return()=>{n||(n=!0,e.restore(),t?.isConnected&&t.getClientRects().length&&t.focus({preventScroll:!0}))}}export{e as n,t};

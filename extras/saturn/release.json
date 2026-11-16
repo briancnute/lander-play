@@ -1,0 +1,12 @@
+{
+  "release": "saturn-fluidity-2026-11-14",
+  "features": [
+    "Ring Surfer II: steady rear camera, forgiving hops and buffered input, smooth surges, optimized frame work",
+    "Titan: Through the Haze lander flight",
+    "Enceladus: Geyser Photographer",
+    "Hexagon Overlook, South Polar Vortex, shared moon browser and persistent moon collection",
+    "Classic retired; historical scores, ghosts and named moons retained"
+  ],
+  "ringRevision": "orbital-rush-v5",
+  "artifactManifestSha256": "e0af4059b67c46e98b28cb4d6428b3fbb43a82d8d79f788c0c5c93be1b9ccd35"
+}

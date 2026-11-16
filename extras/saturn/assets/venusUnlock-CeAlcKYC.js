@@ -1,0 +1,1 @@
+import{Bt as e,a as t,c as n,x as r}from"./modernFlight-tVLAFKkp.js";function i(){return e(new n(localStorage).load(),localStorage).unlocked}function a(e){let i=t(r(`venus`,new n(localStorage).load(),localStorage));return i.addEventListener(`close`,e,{once:!0}),{destroy:()=>i.close()}}export{i as n,a as t};
