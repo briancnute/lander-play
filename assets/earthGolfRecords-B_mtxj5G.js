@@ -1,0 +1,1 @@
+import{V as e}from"./missions-BxiktmuW.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
