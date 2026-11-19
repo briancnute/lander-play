@@ -1,0 +1,5 @@
+/* Steering overlays follow input capability, including narrow desktop windows. */
+.mercury-dusk .md-controls [data-steer]{display:none}
+@media(hover:none) and (pointer:coarse){
+ .mercury-dusk .md-controls [data-steer]{display:block}
+}
