@@ -1,0 +1,1 @@
+import{t as e}from"./apollo-play-20261119-specialRunRecords-CXVEAL3g.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
