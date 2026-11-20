@@ -1,0 +1,16 @@
+{
+  "source": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0.tif",
+  "credit": "NASA/JPL-Caltech/MSSS; USGS CTX orthomosaic",
+  "accessed": "2026-09-20",
+  "crs": "PROJCS[\"Equirectangular Mars 2000 Sphere IAU\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere_IAU\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "bounds": {
+    "eastMin": -12000,
+    "eastMax": 4000,
+    "northMin": -5000,
+    "northMax": 5000
+  },
+  "width": 2000,
+  "height": 1250,
+  "processing": "Bilinear resampling; grayscale 1st-99th percentile contrast stretch",
+  "sha256": "a0f38b9affea006ee4d5438d957118b32a8af74b91ea2bdcf4c53592cf03de6a"
+}
