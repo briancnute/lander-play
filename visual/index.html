@@ -98,6 +98,15 @@
 <link rel="stylesheet" crossorigin href="../assets/missions-BZ-5HOcT.css">
 <link rel="stylesheet" crossorigin href="../assets/visual-DavtIowr.css">
 
+<style id="now-pill-release">
+/* Return to now belongs beside rewind; the pill keeps a full-height hit area. */
+body #time-dock #time-reset{position:relative;isolation:isolate;flex:none;width:auto;min-width:44px;height:44px;min-height:44px;margin-right:8px;padding:0 10px;font:12px system-ui;color:#9cd4b3;background:transparent;border:0;border-radius:20px}
+#time-dock #time-reset::before{content:"";position:absolute;inset:8px 0;z-index:-1;border:1px solid #364b58;border-radius:20px;background:#17332a;pointer-events:none}
+#time-dock #time-reset:hover::before{background:#214738;border-color:#719984}
+#time-dock #time-reset:focus-visible{outline:2px solid #9cd4b3;outline-offset:1px}
+@media(max-width:600px){body #time-dock #time-reset{min-width:36px;margin-right:4px;padding-inline:6px;font-size:11px}}
+@media(max-width:360px){body #time-dock #time-reset{min-width:30px;margin-right:3px;padding-inline:4px;font-size:10px}}
+</style>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solar system exploration</title><script>if(new URLSearchParams(location.search).has("embedded"))document.documentElement.dataset.embedded="true";</script>
 <header>
   <script>// Installed synchronously before entry modules. Ordinary game documents are untouched.
@@ -113,4 +122,4 @@
 </script>
 <strong>ASTRA</strong><nav aria-label="Main views"><button class="active" id="visualtab" aria-current="page">VISUAL</button><button id="gridtab">PLAY</button></nav><div><button id="encytab" aria-label="Encyclopedia">▤</button></div></header><div class="world"><div class="crumb"></div></div>
 <div class="layout"><section class="space"><canvas aria-label="Interactive planet. Drag to rotate and tilt; pinch or scroll to zoom."></canvas><button id="prevworld" aria-label="Previous world">‹</button><button id="nextworld" aria-label="Next world">›</button><div id="solar-follow-tools" aria-label="Solar camera" hidden><div class="solar-modes" role="group" aria-label="Camera mode"><button data-solar-mode="orbit" aria-label="Orbit" title="Orbit: rotate and zoom around the selected orbit" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="4"/><circle cx="16" cy="8.5" r="1.5"/></svg></button><span class="solar-mode-separator" aria-hidden="true"></span><button data-solar-mode="follow" aria-label="Follow planet" title="Follow planet: drag around the sphere to change your view" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M5 6.5c4 2 10 2 14 0M5 17.5c4-2 10-2 14 0"/></svg></button></div></div><div class="visual-tools"></div><div class="toast" hidden></div></section></div>
-<footer id="carousel-shell"><div id="worldrail"></div></footer><div id="observation-time" aria-label="Time bar"><div id="time-dock" aria-label="Time-lapse transport"><div class="time-group" role="group" aria-label="Playback"><button id="time-back" aria-label="Rewind time lapse"></button><button id="time-forward" aria-label="Play time lapse"></button></div><div id="time-rate"><select id="time-interval" aria-label="Time-lapse speed"></select></div></div><div id="visual-status"><button id="time-reset" hidden>Now</button><span id="playback-status" role="status"></span><div id="date"><button id="date-chip" aria-label="Edit date and time"></button></div></div></div></html>
+<footer id="carousel-shell"><div id="worldrail"></div></footer><div id="observation-time" aria-label="Time bar"><div id="time-dock" aria-label="Time-lapse transport"><div class="time-group" role="group" aria-label="Playback"><button id="time-reset" aria-label="Return to current time" title="Return to current time" hidden>Now</button><button id="time-back" aria-label="Rewind time lapse"></button><button id="time-forward" aria-label="Play time lapse"></button></div><div id="time-rate"><select id="time-interval" aria-label="Time-lapse speed"></select></div></div><div id="visual-status"><span id="playback-status" role="status"></span><div id="date"><button id="date-chip" aria-label="Edit date and time"></button></div></div></div></html>
