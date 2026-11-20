@@ -1,0 +1,49 @@
+{
+  "sourceProducts": [
+    "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+    "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Mars/MSR_TRN_HiRISE_soc_003_USGS_release_aug2024/MSR_TRN_HiRISE_soc_003_USGS_release_aug2024_mosaics.zip",
+    "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/ScienceInvestigationMaps_JPL/M20_JezeroCrater_CTXDEM_20m.tif"
+  ],
+  "frame": {
+    "centerLongitude": 77.405,
+    "centerLatitude": 18.461,
+    "sphereRadiusMetres": 3396190,
+    "eastScaleCorrection": 0.9485394179278648,
+    "elevationDatum": "MOLA topography / DeltaGeoid, as supplied by USGS"
+  },
+  "built": "2026-11-20",
+  "crop": {
+    "eastMin": -11600,
+    "eastMax": 4200,
+    "northMin": -3400,
+    "northMax": 3300,
+    "step": 5,
+    "columns": 3161,
+    "rows": 1341
+  },
+  "encoding": {
+    "type": "uint16-le",
+    "offset": -3000.0,
+    "scale": 0.025,
+    "maximumErrorMetres": 0.0125
+  },
+  "sha256": "d887c42c30de2db02d874f9cc2d6970a7daba20364b4de0933910873aff6d88c",
+  "sourceMaskSha256": "1cb3d9f873d4d94ba0f7604285e58ed84ba0fd5e466046d954baf41855730281",
+  "sourceCodes": {
+    "1": "20 m CTX overview",
+    "2": "1 m original HiRISE sampled at 5 m",
+    "3": "1 m MSR HiRISE sampled at 5 m",
+    "4": "120 m survey-edge blend"
+  },
+  "playableSampleCounts": {
+    "1": 0,
+    "2": 1847422,
+    "3": 1663563,
+    "4": 55865
+  },
+  "playableSamples": 3566850,
+  "playableWithoutHiRISE": 0,
+  "playableCtxBlendSamples": 0,
+  "minimumHeight": -2621.47509765625,
+  "maximumHeight": -1641.731201171875
+}
