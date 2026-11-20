@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";import{n as e}from"./moon-golf-main-menu-6d12ad039c41.js";e();
