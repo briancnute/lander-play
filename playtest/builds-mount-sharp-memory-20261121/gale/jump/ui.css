@@ -1,0 +1,80 @@
+#ski-jump{position:fixed;inset:0;pointer-events:none;z-index:7;color:#f1ead9;font:12px system-ui,sans-serif}
+#ski-jump[hidden],#ski-jump [hidden]{display:none!important}
+.jump-rail{--icon-size:48px;position:absolute;left:50%;top:72px;transform:translateX(-50%);width:min(560px,66vw);height:94px;overflow:hidden;background:linear-gradient(90deg,#16252040,transparent);border-radius:5px}
+.jump-target,.rail-note,.rail-burst{position:absolute;top:87px;width:var(--icon-size);height:var(--icon-size)}
+.jump-target,.rail-burst{transform:translate(-50%,-50%)}
+.target-column{position:absolute;width:var(--icon-size);height:70px;top:calc(var(--icon-size)/2 - 35px);border-inline:1px solid #ffe9b7;background:#f7db9a18}
+.rail-note svg,.rail-burst svg{display:block;width:var(--icon-size);height:var(--icon-size)}
+.input-icon{fill:#a1ccb4;overflow:visible}.input-icon text{font:bold 12px system-ui,sans-serif;fill:#fff7e9;stroke:none}
+.input-icon.thrust-button circle{fill:#b59447}.input-icon.secondary-button circle{fill:#bc534e}
+.rail-burst svg{fill:none;stroke:currentColor;stroke-width:1.5}.rail-burst .input-icon circle{fill:none;stroke:currentColor}.rail-burst .input-icon text{fill:currentColor}
+.rail-burst b{position:absolute;top:calc(var(--icon-size) + 4px);left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:.5px;font-weight:500}
+.rail-missed .input-icon,.rail-missed .input-icon circle{fill:#b7514b;stroke:#e88c80}
+.jump-hit-label{position:absolute;top:77px;transform:translateX(-50%);font-size:9px;color:#edc88b;white-space:nowrap}
+.jump-cue{position:absolute;left:22%;top:67%;width:120px;height:120px;transform:translate(-50%,-50%);text-align:center}
+.jump-cue>svg{position:absolute;inset:0;width:120px;height:120px;fill:none}
+.jump-cue .jump-band{stroke:#efe0be;opacity:.27}.jump-center{stroke:#75d19d;stroke-width:1.5}.jump-ring{stroke:#fff4dc;stroke-width:1.5}
+.jump-symbol{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:35px;height:35px}.jump-symbol svg{width:100%;height:100%}
+.jump-cue small{position:absolute;top:-12px;left:0;right:0;font-size:10px;letter-spacing:1px}.jump-cue b{position:absolute;top:120px;left:-20px;right:-20px;font-size:11px;font-weight:500}
+.jump-move{position:absolute;top:80px;left:50%;transform:translateX(-50%);letter-spacing:.7px;font-size:13px;text-shadow:0 1px 3px #24180f}
+body.timed-jump #brake{background:#bc534eb0;border-color:#d38b86}body.timed-jump [data-control=drive]{background:#b5944780;border-color:#d0b574}
+@media(max-height:500px){.jump-rail{--icon-size:40px;top:48px;height:86px;width:54vw}.jump-move{top:62px}.jump-cue{top:63%;transform:translate(-50%,-50%) scale(.86)}}
+
+.jump-cue[data-kind=LAND]{left:78%}
+.jump-result{position:absolute;left:22%;top:67%;transform:translate(-50%,-50%) scale(var(--pop-scale,1));text-align:center;color:#f1e5cb;filter:drop-shadow(0 2px 8px #25150cc0);white-space:nowrap}
+.jump-result[data-kind=TRICK]{left:50%;top:112px}.jump-result[data-kind=LANDING]{left:78%}
+.jump-result small{display:block;font-size:10px;letter-spacing:2px;margin-bottom:5px}
+.jump-result strong{font-size:clamp(28px,4vw,46px);font-weight:850;letter-spacing:1px;text-shadow:0 0 18px currentColor}
+.jump-result[data-grade=Perfect]{color:#ffe7a0}.jump-result[data-grade=Great]{color:#9cefff}.jump-result[data-grade=Good]{color:#a9efbd}
+@media(max-height:500px){.jump-result{top:63%}.jump-result[data-kind=TRICK]{top:87px}.jump-result strong{font-size:30px}}
+
+/* One shared baseline for the three events and their result/name cards. */
+#ski-jump{--cue-row:82%}
+#ski-jump .jump-cue,#ski-jump .jump-result,#ski-jump .jump-move{top:var(--cue-row)}
+#ski-jump .jump-rail{top:calc(var(--cue-row) - 87px)}
+#ski-jump .jump-move{transform:translate(-50%,-50%);font-size:clamp(17px,2.2vw,26px);font-weight:750;letter-spacing:1px;color:#fff0cb;text-shadow:0 2px 8px #24180f,0 0 15px #e9c78080;text-align:center;max-width:58vw}
+@media(max-height:500px){#ski-jump{--cue-row:calc(100% - 94px)}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:25%}}
+
+/* Spacious timing HUD; transform-only note motion keeps the rail inexpensive. */
+#mini-button[hidden]{display:none!important}
+#ski-jump{--cue-row:calc(100% - 148px)}
+#ski-jump .jump-rail{--icon-size:56px;--target-offset:64px;width:min(920px,96vw);height:160px;background:linear-gradient(90deg,#10241ed9,#10241e80 65%,#10241e30) 0 48px/100% calc(100% - 48px) no-repeat;overflow:hidden;contain:layout paint}
+.rail-note,.rail-burst{will-change:transform;backface-visibility:hidden}
+.rail-note .hit-mark,.rail-note>b{display:none}
+.target-column{height:82px;top:calc(var(--icon-size)/2 - 41px);border-inline:2px solid #ffe9b7;background:#f7db9a26}
+.jump-hit-label{top:135px;font-size:11px;font-weight:750}
+#ski-jump .jump-cue{width:168px;height:168px;transform:translate(-50%,-50%)}
+#ski-jump .jump-cue>svg{width:100%;height:100%}
+#ski-jump .jump-symbol{width:50px;height:50px}
+.jump-ring{stroke-width:3}.jump-center{stroke-width:3}.jump-cue small{font-size:13px;font-weight:800;top:-18px}
+.rail-burst .input-icon{fill:currentColor;stroke:#14251f;stroke-width:1.5;filter:drop-shadow(0 0 6px currentColor)}
+.rail-burst .input-icon circle{fill:currentColor;stroke:#14251f}.rail-burst .input-icon text{fill:#13251d}
+.rail-burst::before{content:'';position:absolute;inset:-7px;border:3px solid currentColor;border-radius:50%;opacity:.85}
+.hit-mark{position:absolute;right:-11px;top:-14px;background:#11231e;border:2px solid currentColor;border-radius:50%;width:25px;height:25px;text-align:center;line-height:23px;font-size:19px;font-weight:900}
+.rail-burst>b{top:calc(var(--icon-size) + 10px);font-size:12px;letter-spacing:.5px;font-weight:900;color:currentColor;text-shadow:0 1px 3px #000}
+.rail-missed .hit-mark{display:block;color:#ff6868}
+.jump-result[data-grade=Perfect]{color:#ffe16a}.jump-result[data-grade=Great]{color:#57d9ff}.jump-result[data-grade=Good]{color:#73efad}.jump-result[data-grade=Basic]{color:#ffba69}
+.jump-result strong::before{content:'●';display:inline-block;margin-right:.25em}.jump-result[data-grade=Perfect] strong::before{content:'★'}.jump-result[data-grade=Great] strong::before{content:'◆'}.jump-result[data-grade=Good] strong::before{content:'✓'}
+.jump-rail[data-feedback=stamp] .rail-burst::before{border-radius:8px;inset:-6px;background:currentColor;opacity:.95}
+.jump-rail[data-feedback=stamp] .rail-burst .input-icon{position:relative;filter:none;fill:#14251f;stroke:none;opacity:.3}
+.jump-rail[data-feedback=stamp] .rail-burst .input-icon circle{fill:#14251f;stroke:none}
+.jump-rail[data-feedback=stamp] .rail-burst .hit-mark{inset:0;border:0;background:transparent;color:#13251d;border-radius:0;width:100%;height:100%;font-size:38px;line-height:var(--icon-size)}
+.jump-rail[data-feedback=stamp] .rail-burst>b{background:#10241e;padding:3px 7px;border-radius:4px}
+@media(max-height:500px){#ski-jump{--cue-row:calc(100% - 148px)}#ski-jump .jump-rail{--icon-size:48px;height:154px}#ski-jump .jump-cue{width:140px;height:140px}#ski-jump .jump-symbol{width:44px;height:44px}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:22%}}
+@media(max-width:500px){#ski-jump .jump-rail{--icon-size:44px;--target-offset:52px}#ski-jump .jump-cue{width:144px;height:144px}#ski-jump .jump-cue[data-kind=TAKEOFF],#ski-jump .jump-result[data-kind=TAKEOFF]{left:24%}#ski-jump .jump-cue[data-kind=LAND],#ski-jump .jump-result[data-kind=LANDING]{left:76%}.rail-burst>b{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.rail-burst .input-icon{filter:none}}
+
+@media(max-height:500px){body.jump-hud-space #scene{bottom:144px}body.jump-hud-space{background:#302d26}}
+
+/* Leave headroom for A’s centered grade badge without moving the input baseline. */
+.jump-rail:not([data-feedback=stamp]) .rail-burst .hit-mark{box-sizing:border-box;left:50%;right:auto;top:calc(var(--icon-size)/2 - 72px);transform:translateX(-50%)}
+
+/* Compact shared approach/landing strip for the short-finish prototype. */
+#ski-jump.rhythm-finish .jump-rail{--icon-size:36px;--target-offset:56px;width:min(720px,76vw);height:100px;top:auto;bottom:105px;background:linear-gradient(90deg,#10241eaa,#10241e30);border-radius:12px}
+.rhythm-finish .jump-target,.rhythm-finish .rail-note,.rhythm-finish .rail-burst{top:43px}
+.rhythm-finish .target-column{height:48px;top:calc(var(--icon-size)/2 - 24px)}
+.rhythm-finish .jump-hit-label{top:76px;font-size:9px}
+.rhythm-finish .rail-burst::before{inset:-3px;border-width:2px}
+.rhythm-finish .rail-burst .hit-mark{display:none}
+@media(max-height:500px){#ski-jump.rhythm-finish .jump-rail{bottom:22px;width:66vw}body.jump-hud-space:has(.rhythm-finish) #scene{bottom:0}}
+body.rhythm-preview.timed-jump [data-control=left],body.rhythm-preview.timed-jump [data-control=right]{visibility:hidden}

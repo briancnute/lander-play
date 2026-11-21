@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "retrieved": "2026-09-25",
+  "frame": {
+    "longitude": 137.441633,
+    "latitude": -4.589467,
+    "radius": 3396190,
+    "eastCosine": 0.9967936050246112
+  },
+  "crop": {
+    "eastMin": -7500,
+    "eastMax": 2500,
+    "northMin": -16000,
+    "northMax": 2000,
+    "step": 20,
+    "columns": 501,
+    "rows": 901
+  },
+  "context": {
+    "bounds": [
+      -15000,
+      12000,
+      -29000,
+      8000
+    ],
+    "columns": 270,
+    "rows": 370,
+    "stepMetres": 100,
+    "sampling": "Nearest native pixel at each output cell centre; 100 m overview",
+    "validFraction": 0.975995995995996,
+    "minimum": -4625.34716796875,
+    "maximum": -577.223876953125,
+    "sha256": "7991bfd6485e2044039012fb8692a2d9c33a0240ed7d12ce9b42867afc8d5ee7",
+    "source": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Mars/MSL/MSL_Gale_DEM_Mosaic_1m_v3.tif",
+    "frame": {
+      "longitude": 137.441633,
+      "latitude": -4.589467,
+      "radius": 3396190,
+      "eastCosine": 0.9967936050246112
+    },
+    "credit": "USGS Astrogeology / NASA / JPL-Caltech / ESA / DLR / University of Arizona; merged HRSC, CTX and HiRISE elevations tied to MOLA"
+  },
+  "bounds": [
+    -7000,
+    2000,
+    -15500,
+    1500
+  ],
+  "scale": 0.6666666666666666,
+  "unitsPerGameMetre": 4,
+  "heightOffset": -4500,
+  "source": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Mars/MSL/MSL_Gale_DEM_Mosaic_1m_v3.tif",
+  "sourceProduct": "USGS MSL Gale merged DEM mosaic 1m v3; mixed HRSC/CTX/HiRISE source resolutions, MOLA reference",
+  "sampling": "20 m nearest native samples; rendered/contact triangles agree. No invented relief.",
+  "compression": "Uniform two-thirds scale in all three dimensions for first prototype. Preserves aspect and slope; no selective warp.",
+  "routeSourceSha256": "3e65df06245f798effe66c1f2e1a6957be1f10922f3736d9c7a1968bcb8cdc2e",
+  "sha256": {
+    "elevations.f32": "14df93ebf483d3a194705c70f0b9f81a1dd970b92058b2584fc2b2c359287766",
+    "context.f32": "7991bfd6485e2044039012fb8692a2d9c33a0240ed7d12ce9b42867afc8d5ee7",
+    "route.json": "64c7234e77a357c6d3f7d9b568bbfd8655d7f36e6242db32c38503cec6f760a7"
+  }
+}
