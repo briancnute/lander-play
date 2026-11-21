@@ -89,6 +89,19 @@ float lampVisibility(vec3 target){
  }
  return visibility/weightSum;
 }
+// Shared soil color keeps dust-covered details and tread edges on the same surface.
+vec3 martianSoil(vec3 p,vec3 normal){
+  float slope=1.-normalize(normal).z;
+  float exposed=smoothstep(.018,.13,slope);
+  float variation=texture2D(grit,p.xy*.0015).r;
+  float layers=sin(p.z*.18+sin(p.x*.007)*.8+variation*1.7);
+  float seam=smoothstep(-.2,.9,layers);
+  vec3 rock=mix(vec3(.57,.425,.32),vec3(.43,.325,.255),seam*.32);
+  rock+=vec3(.065,.05,.032)*(variation-.5);
+  vec3 sand=vec3(.68,.465,.315)+vec3(.055,.04,.028)*(variation-.5);
+  float ripples=sin(p.x*.38+sin(p.y*.025)*2.)*.007;
+  return mix(sand+vec3(ripples),rock,exposed);
+}
 void main(){
  if(kind<1.5&&backdropPass<.5&&skiPatchPass>.5&&vWorld.x>skiPatchBounds.x&&vWorld.x<skiPatchBounds.z&&vWorld.y>skiPatchBounds.y&&vWorld.y<skiPatchBounds.w)discard;
  float dustFog=dust(vWorld);vec3 dustColor=mix(vec3(.10,.075,.07),vec3(.64,.425,.27),daylight);
@@ -101,22 +114,17 @@ void main(){
  if(kind<.5){float broad=sin(vWorld.x*.0018+sin(vWorld.y*.002))*sin(vWorld.y*.0013);base+=vec3(.035,.027,.019)*broad;grain=(texture2D(grit,vWorld.xy*.005).r-.5)*.018;}
  // Optional Jezero surface art; the original study retains its approved materials.
  if(kind<.5&&areaMaterial>.5&&snowEnvironment<.5){
-  float slope=1.-normalize(vNormal).z;
-  float exposed=smoothstep(.018,.13,slope);
-  float variation=texture2D(grit,vWorld.xy*.0015).r;
-  float layers=sin(vWorld.z*.18+sin(vWorld.x*.007)*.8+variation*1.7);
-  float seam=smoothstep(-.2,.9,layers);
-  vec3 rock=mix(vec3(.57,.425,.32),vec3(.43,.325,.255),seam*.32);
-  rock+=vec3(.065,.05,.032)*(variation-.5);
-  vec3 sand=vec3(.68,.465,.315)+vec3(.055,.04,.028)*(variation-.5);
-  float ripples=sin(vWorld.x*.38+sin(vWorld.y*.025)*2.)*.007;
-  base=mix(sand+vec3(ripples),rock,exposed);
+  base=martianSoil(vWorld,vNormal);
  }
+ // Gale's photo rocks share the surrounding dust and metre-scale soil grain.
+ // Only exploration creates material 1.3 (rock) and 1.45 (historical tread).
+ if(kind>1.28&&kind<1.4){float coarse=texture2D(grit,vWorld.xy*.012).r;float strata=sin(vWorld.z*.31+coarse*2.);base+=vec3(.060,.039,.026)*(coarse-.5)+vec3(.018,.012,.008)*strata;base=mix(base,martianSoil(vWorld,vNormal),.26+.16*coarse);}
+ if(kind>1.4&&kind<1.5){base=martianSoil(vWorld,vNormal)*vColor;grain=(texture2D(grit,vWorld.xy*.005).r-.5)*.018;}
  // Metre-scale stone/soil contrast provides stationary motion references.
  // A 128-texel tile at .003 repeats every 125 m: each texel is ~0.98 m
  // in Gale's 8/3 units per metre. Mip filtering prevents distant shimmer.
  // This is surface color only, never a bump, guide stripe, or moving noise.
- if((skiGroundDetail>.5||roverGroundUnits>0.)&&kind<.5&&backdropPass<.5){
+ if((skiGroundDetail>.5||roverGroundUnits>0.)&&(kind<.5||(kind>1.28&&kind<1.5))&&backdropPass<.5){
   // Rover patches stay ~1 m wide, with ~25 cm chips, at both Mars map scales.
   float detailScale=roverGroundUnits>0.?1./(128.*roverGroundUnits):.003;
   float stones=texture2D(grit,vWorld.xy*detailScale).r;
@@ -125,9 +133,8 @@ void main(){
   base*=1.+(stones-.5)*.24-flecks*.24;
   grain+=(chips-.5)*.045;
  }
- // Gale basalt skin (material 1.25): warm stone grain with shallow natural strata.
- // Other material IDs retain their existing colors and lighting.
- if(kind>1.1&&kind<1.4){float coarse=texture2D(grit,vWorld.xy*.012).r,fine=texture2D(grit,vWorld.xy*.19).r;float strata=sin(vWorld.z*.31+coarse*2.);base+=vec3(.060,.039,.026)*(coarse-.5)+vec3(.018,.012,.008)*strata;grain=(fine-.5)*.028;}
+ // Retain the existing ski basalt material independently of exploration dust.
+ if(kind>1.1&&kind<1.28){float coarse=texture2D(grit,vWorld.xy*.012).r,fine=texture2D(grit,vWorld.xy*.19).r;float strata=sin(vWorld.z*.31+coarse*2.);base+=vec3(.060,.039,.026)*(coarse-.5)+vec3(.018,.012,.008)*strata;grain=(fine-.5)*.028;}
  // Everest changes materials only, on exactly the same rendered/contact triangles.
  if(snowEnvironment>.5&&kind<.5&&backdropPass<.5){
   float exposure=smoothstep(.12,.42,1.-normalize(vNormal).z);
@@ -184,7 +191,7 @@ void main(){
 }`;
 function program(gl,vs,fs){const shader=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};const p=gl.createProgram();gl.attachShader(p,shader(gl.VERTEX_SHADER,vs));gl.attachShader(p,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));return p;}
 export class GPURenderer{
- constructor(canvas,area=null){this.area=area;this.defaultPickups=boostPickups;this.defaultSamples=samples;this.ground=area?.ground??ground;this.canvas=canvas;const gl=this.gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:true,powerPreference:'low-power'});if(!gl)throw Error(area?'This browser could not start 3D graphics. Try reloading or another browser.':'WebGL is unavailable. Current rendering remains available.');const derivatives=gl.getExtension('OES_standard_derivatives');this.program=program(gl,vertex,(derivatives?'#extension GL_OES_standard_derivatives : enable\n#define ACTUAL_SURFACE_NORMAL\n':'')+fragment);this.locations={};for(const name of ['roverGroundUnits','skiGroundDetail','snowEnvironment','dustBoundary','dustCurtain','dustSweep','skiPatchBounds','skiPatchPass','bladeFold','stuntRoll','stuntPitch','terrainFogDistance','backdropHazeFloor','roadMask','roadBounds','roadEnabled','wideDepth','backdropPass','airFill','softSurfaceLighting','shadowEnabled','areaMaterial','airborne','residualDust','lampSlope','lampOrigin','lampHeights','localDust','weather','roverLamp','roverPart','stormTime','wheel','camera','projection','actor','pitch','sun','haze','daylight','kind','slope','grit','trackInfo'])this.locations[name]=gl.getUniformLocation(this.program,name);this.attributes=['position','normal','color'].map(n=>gl.getAttribLocation(this.program,n));const mesh=area?.mesh??terrain();this.height=area?.ground??mesh.height;this.terrainInfo={vertices:mesh.vertices.length/9,triangles:mesh.indices.length/3,xs:mesh.xs,ys:mesh.ys};this.land=this.upload(mesh.vertices,area?.visualIndices??mesh.indices);this.land.bounds=boundsOfMesh(mesh.vertices);this.road=area?.raceSurface?raceSurface(gl,area.course.route,area.raceSurface.halfWidth):null;this.backdrop=area?.backdrop?this.upload(area.backdrop.vertices,area.backdrop.indices):null;this.details=(area?.details??[]).map(m=>({...this.upload(m.vertices,m.indices),bounds:boundsOfMesh(m.vertices)}));const scenery=area?.scenery??outcrops();this.rocks=this.upload(scenery);this.water=area?.water?this.upload(area.water):null;this.headlightShadow=new HeadlightShadow(gl);this.drivingModels=new Map();this.rover=this.upload(drivingBody('sojourner'));this.wheel=this.upload(drivingWheel('sojourner'));this.drivingModels.set('sojourner',{body:this.rover,wheel:this.wheel,markers:this.upload(runningLights('sojourner')),tails:this.upload(tailLights('sojourner'))});this.brakes=this.upload(brakeLights());this.headlights=this.upload(headLights());this.sky=this.upload(new Float32Array([-1,-1,0,0,0,1,0,0,0, 1,-1,0,0,0,1,0,0,0, -1,1,0,0,0,1,0,0,0, 1,-1,0,0,0,1,0,0,0, 1,1,0,0,0,1,0,0,0, -1,1,0,0,0,1,0,0,0]));this.cell=this.upload(cell());this.shadow=this.upload(shadow());this.kitPods=this.upload(boosterPods());this.kitJets=Object.fromEntries(['forward','reverse','left','right','lift','down'].map(id=>[id,this.upload(jet(id))]));this.calls=0;this.tracks=new WheelTracks(this.height,2048,area?.recordedTreadProfile);this.trackMesh=this.upload(this.tracks.vertices);gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferData(gl.ARRAY_BUFFER,this.tracks.vertices.byteLength,gl.DYNAMIC_DRAW);
+ constructor(canvas,area=null){this.area=area;this.defaultPickups=boostPickups;this.defaultSamples=samples;this.ground=area?.ground??ground;this.canvas=canvas;const gl=this.gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:true,powerPreference:'low-power'});if(!gl)throw Error(area?'This browser could not start 3D graphics. Try reloading or another browser.':'WebGL is unavailable. Current rendering remains available.');const derivatives=gl.getExtension('OES_standard_derivatives');this.program=program(gl,vertex,(derivatives?'#extension GL_OES_standard_derivatives : enable\n#define ACTUAL_SURFACE_NORMAL\n':'')+fragment);this.locations={};for(const name of ['roverGroundUnits','skiGroundDetail','snowEnvironment','dustBoundary','dustCurtain','dustSweep','skiPatchBounds','skiPatchPass','bladeFold','stuntRoll','stuntPitch','terrainFogDistance','backdropHazeFloor','roadMask','roadBounds','roadEnabled','wideDepth','backdropPass','airFill','softSurfaceLighting','shadowEnabled','areaMaterial','airborne','residualDust','lampSlope','lampOrigin','lampHeights','localDust','weather','roverLamp','roverPart','stormTime','wheel','camera','projection','actor','pitch','sun','haze','daylight','kind','slope','grit','trackInfo'])this.locations[name]=gl.getUniformLocation(this.program,name);this.attributes=['position','normal','color'].map(n=>gl.getAttribLocation(this.program,n));const mesh=area?.mesh??terrain();this.height=area?.ground??mesh.height;this.terrainInfo={vertices:mesh.vertices.length/9,triangles:mesh.indices.length/3,xs:mesh.xs,ys:mesh.ys};this.land=this.upload(mesh.vertices,area?.visualIndices??mesh.indices);this.land.bounds=boundsOfMesh(mesh.vertices);this.road=area?.raceSurface?raceSurface(gl,area.course.route,area.raceSurface.halfWidth):null;this.backdrop=area?.backdrop?this.upload(area.backdrop.vertices,area.backdrop.indices):null;this.details=(area?.details??[]).map(m=>({...this.upload(m.vertices,m.indices),bounds:boundsOfMesh(m.vertices),drawRange:m.drawRange,material:m.material??0}));const scenery=area?.scenery??outcrops();this.rocks=this.upload(scenery);this.water=area?.water?this.upload(area.water):null;this.headlightShadow=new HeadlightShadow(gl);this.drivingModels=new Map();this.rover=this.upload(drivingBody('sojourner'));this.wheel=this.upload(drivingWheel('sojourner'));this.drivingModels.set('sojourner',{body:this.rover,wheel:this.wheel,markers:this.upload(runningLights('sojourner')),tails:this.upload(tailLights('sojourner'))});this.brakes=this.upload(brakeLights());this.headlights=this.upload(headLights());this.sky=this.upload(new Float32Array([-1,-1,0,0,0,1,0,0,0, 1,-1,0,0,0,1,0,0,0, -1,1,0,0,0,1,0,0,0, 1,-1,0,0,0,1,0,0,0, 1,1,0,0,0,1,0,0,0, -1,1,0,0,0,1,0,0,0]));this.cell=this.upload(cell());this.shadow=this.upload(shadow());this.kitPods=this.upload(boosterPods());this.kitJets=Object.fromEntries(['forward','reverse','left','right','lift','down'].map(id=>[id,this.upload(jet(id))]));this.calls=0;this.tracks=new WheelTracks(this.height,2048,area?.recordedTreadProfile);this.trackMesh=this.upload(this.tracks.vertices);gl.bindBuffer(gl.ARRAY_BUFFER,this.trackMesh.b);gl.bufferData(gl.ARRAY_BUFFER,this.tracks.vertices.byteLength,gl.DYNAMIC_DRAW);
  const bytes=new Uint8Array(128*128);let seed=7421;for(let i=0;i<bytes.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;bytes[i]=seed>>>24;}this.texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.LUMINANCE,128,128,0,gl.LUMINANCE,gl.UNSIGNED_BYTE,bytes);gl.generateMipmap(gl.TEXTURE_2D);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);}
  upload(vertices,indices){const gl=this.gl,b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);let index=null;if(indices){index=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,index);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);}return {b,index,count:indices?.length??vertices.length/9};}
  mesh(m,actor=[0,0,0,100],kind=1){const gl=this.gl;gl.uniform4fv(this.locations.actor,actor);gl.uniform1f(this.locations.kind,kind);gl.bindBuffer(gl.ARRAY_BUFFER,m.b);for(let i=0;i<3;i++){gl.enableVertexAttribArray(this.attributes[i]);gl.vertexAttribPointer(this.attributes[i],3,gl.FLOAT,false,36,i*12);}if(m.index){gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,m.index);gl.drawElements(gl.TRIANGLES,m.count,gl.UNSIGNED_SHORT,0);}else gl.drawArrays(gl.TRIANGLES,0,m.count);this.calls++;}
@@ -220,7 +227,8 @@ export class GPURenderer{
  if(this.backdrop&&(!curtain?.complete||curtain?.worldPlane)){gl.uniform1f(this.locations.backdropPass,1);this.mesh(this.backdrop,[0,0,0,100],0);gl.uniform1f(this.locations.backdropPass,0);}
  const road=s.skiBlades?this.skiRoad:this.relayRoad??(s.mode==='free'&&this.expeditionRouteActive?this.expeditionRoad:s.mode==='trial'?this.road:null);gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,road?.texture??this.texture);gl.uniform1i(this.locations.roadMask,2);gl.uniform4fv(this.locations.roadBounds,road?.bounds??[0,0,1,1]);gl.uniform1f(this.locations.roadEnabled,road?(road.style??1):0);gl.activeTexture(gl.TEXTURE0);
  const patch=this.skiPatch;gl.uniform4fv(this.locations.skiPatchBounds,patch?.bounds??[0,0,0,0]);gl.uniform1f(this.locations.skiPatchPass,patch?1:0);
- if(!s.helicopter||inFlightRange(this.land.bounds,terrainState))this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)if(!s.helicopter||inFlightRange(m.bounds,terrainState))this.mesh(m,[0,0,0,100],0);
+ if(!s.helicopter||inFlightRange(this.land.bounds,terrainState))this.mesh(this.land,[0,0,0,100],0);for(const m of this.details)if(m.drawRange?inFlightRange(m.bounds,{...terrainState,terrainRange:m.drawRange}):!s.helicopter||inFlightRange(m.bounds,terrainState))this.mesh(m,[0,0,0,100],m.material);
+ gl.uniform1f(this.locations.kind,0);
  this.worldTerrain?.draw(this.photoView?.free?{...terrainState,x:cam.x,y:cam.y}:terrainState);
  gl.uniform1f(this.locations.skiPatchPass,0);patch?.terrain.draw(s);
  gl.uniform1f(this.locations.roadEnabled,0);gl.uniform1f(this.locations.skiPatchPass,patch?1:0);if(!s.helicopter)this.mesh(this.rocks);gl.uniform1f(this.locations.skiPatchPass,0);

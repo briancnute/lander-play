@@ -1,25 +1,19 @@
 {
   "version": 1,
-  "description": "Photographs from the stop or a labeled nearby regional reference. Selected rectangular details show readable terrain; source pixels are unchanged. No scenery replicas are generated from these cards.",
+  "description": "Mission photographs or explicitly labeled regional references. Reviewed rectangular crops remove mosaic gaps and distracting hardware; original files and source links are retained. Provenance: docs/reference/mars-photo-audit-2026-11-20/provenance.json and docs/reference/mars-scene-rebuild-2026-11-20/photo-provenance.json. Additional source replacements: docs/reference/gale-photo-navigation-2026-11-20/photo-provenance.json.",
   "sites": {
     "jezero": {
       "delta-front": {
-        "image": "../jezero/assets/kodiak-sol415.jpg",
-        "source": "https://mastcamz.asu.edu/galleries/sol-0415-kodiak-long-baseline-stereo-part1-01-mastcam-z-mosaic/",
-        "download": null,
-        "caption": "Sol 415 · Kodiak viewed from the delta approach. Natural-color mosaic.",
-        "alt": "Layered Kodiak cliff and sloping shoulder",
+        "image": "./assets/tour/reviewed/jezero-delta-front.png",
+        "source": "https://www.jpl.nasa.gov/images/pia24802-perseverance-captures-image-of-kodiak/",
+        "download": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA24802.jpg",
+        "caption": "18 April 2021 · Kodiak. Enhanced-color Mastcam-Z image; cropped to the butte. Regional reference from an earlier viewpoint.",
+        "alt": "Kodiak’s layered rock faces and talus slopes, cropped from the NASA Mastcam-Z image",
         "credit": "NASA/JPL-Caltech/ASU/MSSS",
-        "width": 1734,
-        "height": 316,
-        "view": [
-          0.61,
-          0.25,
-          0.2,
-          0.42
-        ],
+        "width": 2550,
+        "height": 1000,
         "detail": "Look at the horizontal layers in Kodiak’s cliff face.",
-        "sha256": "a76d202cb5addbd38f3945bfcf1da977e7cd680b3d2bd51219167332b07b5fec"
+        "sha256": "25157940356762609c727cb354a7d7a40f98c9b754f63e5a3bc152d441d10147"
       },
       "seitah": {
         "image": "../jezero/assets/seitah-sols181-182.jpg",
@@ -62,40 +56,28 @@
         "sha256": "5caea9e188743d48b519a51fa256fcaf0d4a34e15c865737a157a7447db45b38"
       },
       "bright-angel": {
-        "image": "./assets/tour/jezero-bright-angel.jpg",
+        "image": "./assets/tour/reviewed/jezero-bright-angel.png",
         "source": "https://science.nasa.gov/resource/perseverance-captures-bright-angel-in-360-degrees/",
         "download": "https://science.nasa.gov/wp-content/uploads/2024/07/pia26369-perseverance-views-a-360-degree-4000wide.jpg",
-        "caption": "Sol 1178 · Bright Angel, near the sol-1182 stop. Enhanced color.",
+        "caption": "Sol 1178 · Bright Angel, near the sol-1182 stop. Enhanced color. Cropped detail.",
         "alt": "Light-toned fractured bedrock beside darker sand",
         "credit": "NASA/JPL-Caltech/ASU/MSSS",
-        "width": 4000,
-        "height": 978,
-        "view": [
-          0.23,
-          0.04,
-          0.36,
-          0.63
-        ],
+        "width": 1440,
+        "height": 616,
         "detail": "Look at the cracked pale bedrock beside the darker sandy ground.",
-        "sha256": "86786d73f73a680877cc7277c29c1bc650a03d0f173bb6cff9906ce642f33886"
+        "sha256": "f69cd5c4f2bb2baf265c9ee0251d27e25614460f0d38fc23b5225979c19ca407"
       },
       "margin": {
-        "image": "./assets/tour/jezero-margin.jpg",
+        "image": "./assets/tour/reviewed/jezero-margin.png",
         "source": "https://science.nasa.gov/photojournal/perseverances-view-of-turquoise-bay/",
         "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia26/pia26815/PIA26815.jpg?w=3200&fit=clip",
-        "caption": "Sols 933–944 · Turquoise Bay in the Margin Unit, near the sol-950 stop. Natural color.",
+        "caption": "Sols 933–944 · Turquoise Bay in the Margin Unit, near the sol-950 stop. Natural color. Cropped detail.",
         "alt": "Broad pale rock exposures and low margin ridges",
         "credit": "NASA/JPL-Caltech/MSSS",
-        "width": 3200,
-        "height": 665,
-        "view": [
-          0.25,
-          0.13,
-          0.4,
-          0.68
-        ],
+        "width": 1280,
+        "height": 453,
         "detail": "Look at the pale rock shelves and the sand between them.",
-        "sha256": "2633b2bc12d09159b35efbce6f1ef560e9746104cda9e2bcb49a570f1a0a63a2"
+        "sha256": "c6b6c0d28f50cf74937ac93a6e29082beba60a108cfa1c50547f7d8daa73d31a"
       },
       "neretva": {
         "image": "../jezero/assets/neretva-sol1155.jpg",
@@ -155,87 +137,64 @@
     },
     "gale": {
       "landing": {
-        "image": "./assets/tour/gale-landing.jpg",
-        "source": "https://science.nasa.gov/resource/gale-crater-vista-in-glorious-color/",
-        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/detail_files/4/4372_pia16029_Malin-34_MCAML_360_mosaic_autolevels-full2.jpg?w=3200&fit=clip",
-        "caption": "Sol 3 · Bradbury landing-site panorama. Brightened Mastcam thumbnail mosaic.",
-        "alt": "Gravelly landing plain, dark dunes and distant Mount Sharp",
+        "image": "./assets/tour/reviewed/gale-bradbury-mount-sharp.jpg",
+        "source": "https://science.nasa.gov/resource/the-promised-land/",
+        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/downloadable_items/3/6/36174_pia16068_Grotzinger-5promisedland.jpg?w=3294&fit=clip",
+        "caption": "8–9 August 2012 · View from Bradbury Landing toward lower Mount Sharp. NASA’s cropped Mastcam mosaic, white-balanced to Earth-like lighting; original 2 km scale retained.",
+        "alt": "Distant layered foothills of Mount Sharp beyond dark dunes, viewed from Curiosity’s landing site",
         "credit": "NASA/JPL-Caltech/MSSS",
-        "width": 3200,
-        "height": 659,
-        "view": [
-          0.4,
-          0.015,
-          0.43,
-          0.64
-        ],
-        "detail": "Look across the gravelly landing plain toward the distant slopes.",
-        "sha256": "96cc6e9c91d65b06de5fb84adabf98809be83bc4db82e71431fc96b29fa119ea"
+        "width": 3294,
+        "height": 1567,
+        "detail": "Look beyond the dark dunes to Mount Sharp’s distant layers. The 2 km scale shows how far this landscape extends.",
+        "sha256": "09e7552c125d778226433cdab7922d8c0a16a85452ba1b6bc76db7d7a5a9a2ef"
       },
       "plains": {
-        "image": "./assets/tour/gale-plains.jpg",
-        "source": "https://mars.nasa.gov/raw_images/122651/",
-        "download": "https://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00504/opgs/edr/ncam/NRB_442248064EDR_F0250154NCAM00276M_.JPG",
-        "caption": "Sol 504 · Right Navcam at rover reference 25 / 154. Monochrome.",
-        "alt": "Rocky plains and distant hills beyond Curiosity’s deck",
+        "image": "./assets/tour/reviewed/gale-traverse-cooperstown.jpg",
+        "source": "https://www.jpl.nasa.gov/images/pia17580-curiositys-view-of-cooperstown-outcrop-on-route-to-mount-sharp/",
+        "download": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA17580.jpg",
+        "caption": "Sol 437 · 28 October 2013 · Rocky plains approaching Cooperstown. Monochrome, two-frame Navcam view. Earlier regional reference for this sol-504 stop.",
+        "alt": "Open rocky plain with the low Cooperstown outcrop below the distant crater horizon",
         "credit": "NASA/JPL-Caltech",
-        "width": 1024,
-        "height": 1024,
-        "view": [
-          0.32,
-          0.015,
-          0.67,
-          0.35
-        ],
-        "detail": "Look at the low rocky hills beyond the open plain.",
-        "sha256": "04b3fd9603933f5fd99fd273801c420297042e50e97b4d76e003d1d6f6fc10a4"
+        "width": 1323,
+        "height": 456,
+        "detail": "Compare the scattered rocks and shallow outcrop with the open plain. This earlier view shows the same traverse region, rather than this stop’s exact viewpoint.",
+        "sha256": "31cd97100efbb22cd200d04a7f6acf0d34d22c6839eea3520327fd9000242007"
       },
       "yellowknife": {
-        "image": "./assets/tour/gale-yellowknife.png",
+        "image": "./assets/tour/reviewed/gale-yellowknife.png",
         "source": "https://science.nasa.gov/resource/sol-0125-left-navigation-camera-cylindrical-perspective-2/",
         "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/22937_N_L000_0125_EDR005CYPTU_1398_DRIVEM2.png?w=3200&fit=clip",
-        "caption": "Sol 125 · Navcam at rover reference 5 / 1398. Monochrome panorama.",
+        "caption": "Sol 125 · Navcam at rover reference 5 / 1398. Monochrome panorama. Cropped detail.",
         "alt": "Flat fractured rock and scattered stones at Yellowknife Bay",
         "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 872,
-        "view": [
-          0.53,
-          0.13,
-          0.36,
-          0.6
-        ],
+        "width": 1152,
+        "height": 524,
         "detail": "Look at the flat rock broken into slabs by dark cracks.",
-        "sha256": "59c01e88c232d80ddc8b2166b7b477708fe9e9fda192c4fa35ca49305fe10952"
+        "sha256": "14c677ddc2fcf5ae474420a14e13905a588e8fa14f6ee2531b8245065375774a"
       },
       "foothills": {
-        "image": "./assets/tour/gale-foothills.png",
+        "image": "./assets/tour/reviewed/gale-foothills.png",
         "source": "https://science.nasa.gov/resource/sol-0997-left-navigation-camera-cylindrical-perspective/",
         "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/23667_N_L000_0997_EDR048CYPTS_1570_DRIVEM1.png?w=3200&fit=clip",
-        "caption": "Sol 997 · Navcam at rover reference 48 / 1570. Monochrome panorama.",
+        "caption": "Sol 997 · Navcam at rover reference 48 / 1570. Monochrome panorama. Cropped detail.",
         "alt": "Layered foothills and rocky foreground",
         "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 1319,
-        "view": [
-          0.32,
-          0.41,
-          0.34,
-          0.46
-        ],
+        "width": 1088,
+        "height": 488,
         "detail": "Look at the large broken slabs scattered across the slope.",
-        "sha256": "0dc7394fd92a48f2fb2949f4688ee6e97f3c5afc6470557912d51f8a9f1a1085"
+        "sha256": "53ffc8b9c0279ab646c0052a8bbf3cf5ae2a12c8f9260873ec3bea2ebcd4965c"
       },
       "transition": {
-        "image": "./assets/tour/gale-transition.jpg",
-        "source": "https://science.nasa.gov/blog/sols-3074-3075-forecasting-high-chance-of-clouds-at-mont-mercou/",
-        "download": "https://assets.science.nasa.gov/content/dam/science/psd/mars/news_items/main_images/8900_blog-2021-03-29-768.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
-        "caption": "Sol 3072 · Mont Mercou and twilight clouds. Monochrome Navcam.",
-        "alt": "Layered Mont Mercou outcrop beneath twilight clouds",
+        "image": "./assets/tour/reviewed/gale-transition.png",
+        "source": "https://science.nasa.gov/blog/sols-3076-3077-dancing-around-mont-mercou/",
+        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/news_items/main_images/8902_blog-2021-03-31-768.jpg?w=768&h=575&fit=clip",
+        "caption": "Sol 3074 · Mont Mercou in daylight, near the sol-3072 stop. Left Navcam.",
+        "alt": "Layered Mont Mercou cliff with fractures and ledges visible in daylight",
         "credit": "NASA/JPL-Caltech",
         "width": 768,
-        "height": 768,
-        "sha256": "e611ae25b8cacce595a3c9965ec83360e5f62ca6f5cf1a805b70ffea7cdf505e"
+        "height": 575,
+        "sha256": "3d24a2401c53aad3b28e7f38d5ac20541efe152c84c5b58c157d3cacefef7e16",
+        "detail": "Look at the cliff’s thin beds and larger vertical fractures."
       },
       "glen": {
         "image": "./assets/tour/gale-glen.jpg",
@@ -249,40 +208,28 @@
         "sha256": "87f0b24c19a8cb5c1dc63dc313e00b180c1e19567ed39b02dd2ad2b529464a19"
       },
       "murray": {
-        "image": "./assets/tour/gale-murray.png",
-        "source": "https://science.nasa.gov/resource/sol-1500-left-navigation-camera-cylindrical-perspective/",
-        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/24166_N_L000_1500_EDR058CYPTSB2394_DRIVEM1.png?w=3200&fit=clip",
-        "caption": "Sol 1500 · Navcam at rover reference 58 / 2394. Monochrome panorama.",
-        "alt": "Eroded sedimentary slopes and broken slabs",
-        "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 928,
-        "view": [
-          0.3,
-          0.29,
-          0.34,
-          0.4
-        ],
-        "detail": "Look at the broad flat slabs and the loose rock between them.",
-        "sha256": "7877f741406902e1913bfdac598ee664e98fbc90d9c5223718ab5d4a3e50c276"
+        "image": "./assets/tour/reviewed/gale-murray-buttes.jpg",
+        "source": "https://www.jpl.nasa.gov/images/pia21042-farewell-to-murray-buttes-image-2/",
+        "download": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA21042.jpg",
+        "caption": "Sol 1454 · Murray Buttes. Mastcam regional reference from an earlier viewpoint than the sol-1500 stop.",
+        "alt": "Angular layered outcrops above loose sandy talus at Murray Buttes",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "width": 1344,
+        "height": 1200,
+        "detail": "Follow the broken ledges above the sandy slopes.",
+        "sha256": "7d89f205e485130988fe11dc266fc864e59c557f3e7c664fd90c77d208c1b905"
       },
       "ridge": {
-        "image": "./assets/tour/gale-ridge.png",
+        "image": "./assets/tour/reviewed/gale-ridge.png",
         "source": "https://science.nasa.gov/resource/sol-1999-left-navigation-camera-cylindrical-perspective/",
         "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/4/24413_N_L000_1999XILT068CYPTSB2626_DRIVEM1.png?w=3200&fit=clip",
-        "caption": "Sols 1999–2000 · Navcam at rover reference 68 / 2626. Monochrome panorama.",
+        "caption": "Sols 1999–2000 · Navcam at rover reference 68 / 2626. Monochrome panorama. Cropped detail.",
         "alt": "Low ridge, fractured rock and distant mountain slopes",
         "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 1114,
-        "view": [
-          0.36,
-          0.32,
-          0.35,
-          0.43
-        ],
+        "width": 1120,
+        "height": 480,
         "detail": "Look at the pale fractured rock exposed through darker soil.",
-        "sha256": "2df8f9944b026493465c2fa782faf1c8fb02485aaf844f7de2a1ba7e6f4519ad"
+        "sha256": "e83569085ba2f160ed0e7fde9a90bdfc2f5ce6e1f02ecd2e115774788bfc7bd9"
       },
       "higher": {
         "image": "./assets/tour/gale-higher.jpg",
@@ -290,6 +237,7 @@
         "download": "https://assets.science.nasa.gov/content/dam/science/missions/msl/2025/curiosity-rover-updates/april/https___mars.nasa.gov_msl-raw-images_proj_msl_redops_ods_surface_sol_04500_opgs_edr_ncam_NLB_796989817EDR_S1142472NCAM00286M_.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
         "caption": "Sol 4500 · Devil’s Gate ridge and the base of Texoli butte. Monochrome Navcam.",
         "alt": "Small ridgeline on the right and Texoli butte on the left",
+        "detail": "Look for the layered slope on the left and the broken ridge on the right.",
         "credit": "NASA/JPL-Caltech",
         "width": 1024,
         "height": 512,
@@ -301,46 +249,35 @@
         "download": "https://assets.science.nasa.gov/content/dam/science/missions/msl/2026/curiosity-rover-updates/september/https___mars.nasa.gov_msl-raw-images_msss_05016_mhli_5016MH0001930001804259R00_DXXX.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
         "caption": "Sol 5016 · Salar de Vacas bedrock close-up, near the sol-5021 endpoint. MAHLI focus merge.",
         "alt": "Small disc-shaped mineral features in brushed bedrock",
+        "detail": "Photo: disc-shaped features just 3–4 mm across. Zoom in to inspect them.",
         "credit": "NASA/JPL-Caltech/MSSS",
         "width": 1280,
         "height": 956,
         "sha256": "43aff4eb4056165f6fb9054c660328d56e4e515fecc36b187a0506c53f23a648"
       },
       "gediz": {
-        "image": "./assets/tour/gale-gediz.png",
-        "source": "https://science.nasa.gov/resource/sol-3972-right-navigation-camera-cylindrical-projection/",
-        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/7/27728_N_R000_3972_EDR105CYLASB0400_AUTOLM1.png?w=3200&fit=clip",
-        "caption": "Sol 3972 · Navcam at rover reference 105 / 400. Monochrome panorama.",
-        "alt": "Rocky mountain workspace and surrounding slopes",
-        "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 710,
-        "view": [
-          0.4,
-          0.1,
-          0.36,
-          0.58
-        ],
-        "detail": "Look at the jumbled slabs and sandy gaps on the mountain slope.",
-        "sha256": "dddd00016d455f5557fc0358287578e8023d267e1e5f88c2ee00d75917d5a3f2"
+        "image": "./assets/tour/reviewed/gale-gediz-ridge.png",
+        "source": "https://science.nasa.gov/resource/curiosity-views-gediz-vallis-ridge/",
+        "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/7/27696_PIA26019-DeepZoom.jpg?w=5000&fit=clip",
+        "caption": "19 August 2023 · Gediz Vallis Ridge. Cropped Mastcam panorama; Earth-like color balance. Regional reference from an earlier viewpoint than the sol-3972 stop.",
+        "alt": "Jumbled dark blocks on the low crest and apron of Gediz Vallis Ridge",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "width": 1030,
+        "height": 735,
+        "detail": "Compare the loose dark blocks with the finer material between them.",
+        "sha256": "8f9514d383b73064877a91ef5c100a1d7bd3db244d713ab16f5b73fadddc74ec"
       },
       "sulfates": {
-        "image": "./assets/tour/gale-sulfates.png",
+        "image": "./assets/tour/reviewed/gale-sulfates.png",
         "source": "https://science.nasa.gov/resource/sol-3506-right-navigation-camera-cylindrical-projection/",
         "download": "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/mars/resources/deepzooms/2/6/26815_N_R000_3506_EDR095CYLASB3020_AUTOLM1.png?w=3200&fit=clip",
-        "caption": "Sol 3506 · Navcam at rover reference 95 / 3020. Monochrome panorama.",
+        "caption": "Sol 3506 · Navcam at rover reference 95 / 3020. Monochrome panorama. Cropped detail.",
         "alt": "Sandy pockets and broken rock on sulfate-bearing slopes",
         "credit": "NASA/JPL-Caltech",
-        "width": 3200,
-        "height": 907,
-        "view": [
-          0.38,
-          0.085,
-          0.38,
-          0.62
-        ],
+        "width": 1216,
+        "height": 562,
         "detail": "Look at the eroded ridgeline and the broken rock below it.",
-        "sha256": "0895fcfd23a98c4c88f6624ad2f57a0f0e6e6ee72e7591008efd020da31e19c8"
+        "sha256": "1ef11fbfff0aba626d628e9c48f6ce3c8c555b249eb880ecb8b3601c486a0a0a"
       }
     }
   }

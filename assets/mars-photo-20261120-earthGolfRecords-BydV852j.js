@@ -1,0 +1,1 @@
+import{t as e}from"./mars-photo-20261120-specialRunRecords-CXVEAL3g.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
