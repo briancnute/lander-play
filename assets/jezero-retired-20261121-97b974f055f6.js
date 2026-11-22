@@ -1,0 +1,1 @@
+import{t as e}from"./jezero-retired-20261121-15ad05db00a8.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
