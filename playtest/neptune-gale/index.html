@@ -22,7 +22,7 @@
   <script type="module" crossorigin src="../../assets/essentialStorage-B7P2TWtx.js"></script>
   <script type="module" crossorigin src="../../assets/SpecialRunBook-CkLsT1Qb.js"></script>
   <script type="module" crossorigin src="../../assets/neptuneGaleDiscoveries-Rr-AIO_e.js"></script>
-  <script type="module" crossorigin src="../../assets/main-DYUlv5k1.js"></script>
+  <script type="module" crossorigin src="../../assets/mobile-20261124-9a4f6cad02d3.js"></script>
   <link rel="stylesheet" crossorigin href="../../assets/main-DmU8HzY9.css">
 </head>
 <body>
@@ -45,7 +45,7 @@
 <div class="overlay" id="startOv"><div class="panel">
   <header><h1>Gale</h1><span>Neptune</span></header>
   <div class="menu-body">
-  <div class="course-picker"><label for="courseSelect">Survey</label><select id="courseSelect"></select><p id="courseDescription"></p></div>
+  <p id="courseDescription"></p>
   <p class="mission-goal">Collect 8 rain crystals and 3 samples, then return HOME.</p>
   <details class="controls-help"><summary>Controls</summary><dl><div><dt>Steer</dt><dd><kbd class="keys">← →</kbd><span class="touch-icon">← →</span></dd></div><div><dt>Climb</dt><dd><kbd class="keys">Space</kbd><span class="touch-icon">↑</span></dd></div><div><dt>Shield</dt><dd><kbd class="keys">Shift</kbd><span class="touch-icon">⬡</span> hold</dd></div></dl><p class="record-note">Release thrust to descend. Shield slows sideways drift; gravity stays on.</p></details>
   <details><summary>Map</summary><canvas id="courseMap" width="360" height="200" role="img" aria-label="Selected course: HOME, three sample stations and two rain fields"></canvas><p class="record-note">Gold: samples · pale: HOME · blue: rain fields. Samples can be collected in any order.</p></details>
@@ -62,7 +62,7 @@
   <p class="course-record-label"><span data-course-name></span> · PERSONAL BESTS</p><div class="personal-bests" aria-label="Personal bests"><span>FASTEST SURVEY <b data-best-time>—</b></span><span>LEAST THRUST <b data-best-thrust>—</b></span></div><p id="recordSave" class="record-note" role="status"></p>
   <div class="qline"><b>Q:</b> A whole planet of wind and no ground to stand on. Imagine the weather report. I love it.</div>
   <button class="btn" id="missionReportBtn">MISSION REPORT</button>
-  <button class="btn secondary" id="againBtn">REPLAY COURSE</button><button class="btn secondary" data-choose-course>CHOOSE COURSE</button>
+  <button class="btn secondary" id="againBtn">PLAY AGAIN</button>
 <button class="btn secondary" data-gale-exit>BACK TO NEPTUNE</button></div></div>
 
 <div class="overlay hidden" id="factOv"><div class="panel">
@@ -82,7 +82,7 @@
   <h1>LOST TO THE GALE</h1>
   <div class="tag">SWEPT PAST THE EDGE OF THE MAP</div>
   <p>The drone left the survey zone and the wind took it. Time to send another.</p>
-  <button class="btn" id="restartBtn">TRY AGAIN</button><button class="btn secondary" data-choose-course>CHOOSE COURSE</button>
+  <button class="btn" id="restartBtn">TRY AGAIN</button>
 <button class="btn secondary" data-gale-exit>BACK TO NEPTUNE</button></div></div>
 
 <div class="overlay hidden" id="pauseOv"><div class="panel"><header><h1>Gale</h1><span data-course-name></span></header><div class="menu-body">
@@ -90,7 +90,7 @@
 <details><summary>Flight readings</summary><dl class="telemetry"><div><dt>Layer</dt><dd id="layer"></dd></div><div><dt>Pressure</dt><dd id="pressure"></dd></div><div><dt>Vertical</dt><dd id="vertical"></dd></div><div><dt>Speed</dt><dd><span id="spd"></span> km/h</dd></div><div><dt>Survey depth</dt><dd id="depth"></dd></div></dl><p id="rhythm" class="record-note"></p><p id="layerApproach" class="record-note"></p></details>
 <details class="sample-journal"><summary id="journalCount">Samples · 0 / 3</summary><div id="journalSamples"></div></details>
 <details><summary>Records</summary><div class="personal-bests" aria-label="Personal bests"><span>Fastest survey <b data-best-time>—</b></span><span>Least thrust <b data-best-thrust>—</b></span></div><p class="record-note">Counters pause here. Complete the survey to earn records.</p></details>
-<details><summary>Course</summary><p class="record-note">Restart this flight or choose another fixed-weather survey.</p><button class="btn secondary" id="retryBtn">Restart</button><button class="btn secondary" data-choose-course>Choose course</button></details>
+<details><summary>Restart survey</summary><p class="record-note">Start the survey again with the same weather.</p><button class="btn secondary" id="retryBtn">Restart</button></details>
 </div><footer class="menu-actions"><button class="btn" id="resumeBtn">Resume</button><button class="btn secondary" data-sound aria-pressed="true">Sound on</button><button class="btn secondary exit" data-gale-exit>Exit</button></footer></div></div>
 <div class="overlay hidden" id="reportOv"><div class="panel report-panel">
  <div class="tag">NEPTUNE · GALE · DATA RETURNED HOME</div><h1 id="reportTitle" tabindex="-1">YOUR SURVEY</h1><p id="reportCourse" class="course-record-label"></p><p id="reportSummary"></p>

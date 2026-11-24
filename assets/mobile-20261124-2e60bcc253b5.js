@@ -1,0 +1,1 @@
+import{t as e}from"./mobile-20261124-d717eefcda02.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
