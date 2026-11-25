@@ -1,0 +1,1 @@
+import{t as e}from"./jezero-name-20261125-7c0fc1c0fc7c.js";function t(){return e(`surface:earth-golf`,`Earth · Pitch n Putt`,[],`Earth Golf`)}export{t as openEarthGolfRecords};
