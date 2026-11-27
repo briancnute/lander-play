@@ -1,0 +1,1 @@
+import"./browserInput-BBHdG_eQ.js";import{n as e}from"./europa-records-20261125-f54c18447f67.js";e(`catatumbo-v1`);
